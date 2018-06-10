@@ -26,23 +26,14 @@ export default {
     return {
       client: new(mqttClient),
       buffer: [],
-      server: {},
-      //_soundFrame: {},
-      subscribeList: [],
       pageTopic: "getlarge" + this.$route.path + "main",
-      //newConnStatus: "d",
     }
   },
   
   created() {
     //console.log("APP", this)
-    //console.log("children", this.connStatus)
-
     this.client.openStream();
     this.client.addSubscribe(this.$route.path, "mysensors/GW4-out/99/#");
-
-
-
   },
    
   beforeDestroy() {
@@ -55,20 +46,10 @@ export default {
   },
 
   computed: {
-    newConnStatus : function () {
-      return this.connStatus = newConnStatus ;
-    },
+
   },
 
   methods: {
-    serverSelected: function () {
-      EventBus.$emit('serverSelected', this.server);
-    },
-
-    getSubscriptions: function() {
-      console.log("subscriptions", this.subscribeList)
-      return this.subscribeList;
-    },
 
   },
 }
@@ -112,9 +93,6 @@ export default {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  #menu2 {
-    text-align: left;
-  }
 
 
 </style>

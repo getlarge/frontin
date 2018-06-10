@@ -34,7 +34,7 @@
 import config from '@/config.json'
 import { axisBottom } from "d3-axis"
 import { easeLinear } from "d3-ease"
-import { scaleLinear } from "d3-scale"
+import { scaleLinear, scaleTime } from "d3-scale"
 import { append, attr, event, select, selectAll, style } from "d3-selection"
 import { line, curveCardinal, curveNatural } from "d3-shape"
 import { active, transition } from "d3-transition"
@@ -56,7 +56,7 @@ export default {
 			streamFrequency: 50,
 			messageIndex: 0,
 			displayedValues: [],
-			width : 1900,
+			width : 1500,
 			height : 800,
 			dvColors: {
 					v1: "#cb503a",
@@ -69,6 +69,7 @@ export default {
 			axisX: [] ,
 			path: [] ,
 			x: scaleLinear().domain([0, 1000]).range([0, 1000]),
+			//x: scaleTime().domain([0, 1000]).range([0, 1000]),
 			y: scaleLinear().domain([0, 500]).range([500, 0])
 		}
   	},
@@ -121,17 +122,15 @@ export default {
 		    var lineChart = select("#line-chart")
 			    .attr("width", this.width + 50)
 			    .attr("height", this.height + 50)
-		    var y = scaleLinear().domain([0, 500]).range([500, 0]);
-		    this.line1 = line()
-						    .x( d => x(d.x))
-						    .y( d => y(d.y));
-		    this.smoothLine = line().curve(curveCardinal)
+		    // this.line1 = line()
+						//     .x( d => this.x(d.x))
+						//     .y( d => this.y(d.y));
+		    this.smoothLine = line().curve(curveNatural)
 							    .x( d => this.x(d.x))
 							    .y( d => this.y(d.y));
 		    this.xAxis = axisBottom().scale(this.x);
 		    this.axisX = lineChart.append('g').attr("class", "x axis")
 		    			 .attr('transform', `translate(${this.width/10}, ${this.height*0.9})`)
-					     //.attr("transform", "translate(100, 500)")
 					     .call(this.xAxis);						    
 	    	this.path = lineChart.append("path");
 		},
@@ -148,7 +147,7 @@ export default {
 			    .attr("class", "smoothline")
 			    .attr("d", this.smoothLine);
 
-		    // // Shift the chart left
+		    // Shift the chart left
 		    this.x.domain([globalX - (max - step), globalX]);
 		    this.axisX.transition()
 			     .duration(duration)

@@ -47,12 +47,12 @@ export default {
       list-style: decimal
     }
 
-    a {
+/*    a {
       color: blue;
       display: block;
       text-decoration: none;
       text-align: left;
-    }
+    }*/
 
     a:hover {
       text-decoration: underline;;

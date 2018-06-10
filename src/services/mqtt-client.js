@@ -1,8 +1,10 @@
 import mqtt from 'mqtt'
 import moment from 'moment'
 import config from '@/config.json'
-var AsyncClient = require("async-mqtt").AsyncClient;
 import { EventBus } from '@/main';
+//import { AsyncClient } from "async-mqtt"
+
+var AsyncClient = require("async-mqtt").AsyncClient;
 
 var options = {
   	clientId: config.options.clientId + "_" + Math.random().toString(16).substr(2, 8),
@@ -15,18 +17,27 @@ export default class mqttClient {
   constructor() {
     //super();
     this.client; 
-    this._init();
-    //this.asyncClient = new AsyncClient(this.client);
+    this._initClient();
+    this.asyncClient;
     this.buffer = [];
     this.frame = {};
     this.subscribeList = [];
   }
 
-  _init() {
+  _initClient() {
     this.client = mqtt.connect(config.wsClientURL, options);
+    this.asyncClient = new AsyncClient(this.client);
     EventBus.$on('get-buffer', () => {
       this.getBuffer()
     });
+    EventBus.$on('send-message', (topic, message) => {
+      this.sendAsyncMessage(topic, message)
+    });
+
+  }
+
+  _initAsyncClient() {
+    this.asyncClient = new AsyncClient(this.client);
   }
 
   openStream() {
@@ -82,41 +93,41 @@ export default class mqttClient {
 
   close() {
     this.client.end();
+    return this.asyncClient.end();
   }
 
   setStatus(status) {
     EventBus.$emit("got-status", status);
   }
 
-  sendMessage(topic, message) {
-      this.client.publish(topic, message, {
-        retain: false,
-        qos: 0
+  sendAsyncMessage(topic, message) {
+    this.asyncClient.publish(topic, message, { retain: false, qos: 0 })
+      .then(function(){
+        console.log("send message :", message, "to", topic )
+        return this.asyncClient.end();
     });
   }
 
-  // sendAsyncMessage(topic, message) {
-  //   this.asyncClient.publish(topic, message).then(function(){
-  //       console.log("send message :", message, "to", topic )
-  //     return this.asyncClient.end();
-  //   });
-  // }
-
   addSubscribe(path, topic) {
-    this.client.subscribe(topic);
-    console.log("subscribed to :", topic );
-    //this.client.subscribe(path);
-    //console.log("subscribed to :", path );
+    this.asyncClient.subscribe(topic).then(function(){
+      console.log("subscribed to :", topic)
+    });
+
     var pathList = path + "/" + topic;
     this.subscribeList.push(pathList);
     if (this.subscribeList.length == 100 ) {
       this.subscribeList.pop();
     }
+    //this.client.subscribe(path);
+    //console.log("subscribed to :", path );
+    
   }
 
   removeSubscribe(path, topic) {
-    this.client.unsubscribe(topic);
-    console.log("unsubscribed from :", topic );
+    this.asyncClient.subscribe(topic).then(function(){
+      console.log("unsubscribed from :", topic)
+    });
+
     //this.client.unsubscribe(path);
     //console.log("unsubscribed from :", path );
     var pathList = path + "/" + topic;

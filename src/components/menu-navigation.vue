@@ -1,37 +1,34 @@
 <template>
   <div id="top-nav">
 
-    <b-navbar toggleable="md" type="dark" variant="info">
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-      <b-navbar-brand href="/"><img id="logo" src="@/assets/logo.png"></img>Getlarge</b-navbar-brand>
-
-      <b-collapse is-nav id="nav_collapse">
-        <b-navbar-nav>
-          <b-nav-item href="#">
-            <router-link v-if="prev" :to="prev.path" class="nav-link prev"> < {{ prev.title }} </router-link>
-          </b-nav-item>
-          <b-nav-item >
-            <router-link v-if="next" :to="next.path" class="nav-link next"> {{ next.title }} > </router-link>
-          </b-nav-item>
-          <b-nav-item href="#" class="nav-link" disabled>Status: {{connStatus}}</b-nav-item>
-        </b-navbar-nav>
-
-        <b-navbar-nav class="ml-auto">
-          <b-nav-form>
-            <b-button id="playButton" v-on:click="getBuffer" class="btn btn-outline-success my-1 my-sm-0" type="button">Subs</b-button>
-          </b-nav-form>
-          <b-nav-item-dropdown text="Lang" right>
-            <b-dropdown-item href="#">EN</b-dropdown-item>
-            <b-dropdown-item href="#">ES</b-dropdown-item>
-            <b-dropdown-item href="#">RU</b-dropdown-item>
-            <b-dropdown-item href="#">FA</b-dropdown-item>
-          </b-nav-item-dropdown>
-        </b-navbar-nav>
-
-      </b-collapse>
-    </b-navbar>
-
-    <h1><a v-bind:href="sourceHref ">{{ $route.name }}<span class="sr-only">(current)</span></a></h1>
+      <b-navbar toggleable="sm" type="dark" variant="info">
+        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+        <b-navbar-brand href="/"><b-img id="logo" src="@/assets/logo.png" fluid alt="Logo"/></img>Getlarge</b-navbar-brand>
+        <b-collapse is-nav id="nav_collapse">
+          <b-nav vertical pills class="w-25">
+          <b-navbar-nav  col lg="8">
+            <b-nav-item-dropdown class="nav-link" text="Menu" left>
+              <b-dropdown-item v-for="item in items" :key="item.path">
+                <router-link :to="item.path">{{ item.name }}</router-link>
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+            <b-nav-item href="#">
+              <router-link v-if="prev" :to="prev.path" class="nav-link prev"> < {{ prev.title }} </router-link>
+            </b-nav-item>
+            <b-nav-item active><a :href="sourceHref" target="_blank" class="nav-link">{{ $route.name }}</a></b-nav-item>
+            <b-nav-item >
+              <router-link v-if="next" :to="next.path" class="nav-link next"> {{ next.title }} > </router-link>
+            </b-nav-item>
+          </b-navbar-nav>
+          </b-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-form>
+              <b-button id="playButton" v-on:click="getBuffer" class="btn btn-outline-success my-2 my-sm-0" type="button">Subs</b-button>
+            </b-nav-form>
+            <b-nav-item class="nav-link" disabled>Status: {{connStatus}}</b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
 
   </div>
 </template>
@@ -42,21 +39,13 @@ import config from '@/config.json'
 import { routes } from '@/router/menu'
 import { EventBus } from '@/main';
 
-// var AsyncClient = require("async-mqtt").AsyncClient;
-// var asyncClient = new AsyncClient(client);
-
-
 export default {
   props: {
-    //client,
-    // mqttStatus: {
-    //   type: String,
-    //   required: true
-    // },
   }, 
   
   data() {
     return {
+      items: routes,
       connStatus: null,
       pageTopic: "getlarge" + this.$route.path + "main",
     }
@@ -64,9 +53,8 @@ export default {
   
   created() {
   // console.log("parent", this.$parent)
-  //console.log("component", components);
     EventBus.$on('got-status', status => {
-      console.log(`mqtt is ${status}`)
+      console.log(`mqtt status : ${status}`)
       return this.connStatus = status
     });
 
@@ -80,7 +68,6 @@ export default {
   },
 
   beforeDestroy() {
-    //this.client.end();
   },
 
   watch: {
@@ -124,7 +111,7 @@ export default {
     },
 
     getBuffer: function() {
-      EventBus.$emit('get-buffer', this.buffer);
+      EventBus.$emit('get-buffer');
     },
 
     // getStatus: function() {
@@ -154,6 +141,15 @@ export default {
     text-decoration: underline;
   }*/
 
+  #holder {
+    margin: auto;
+    position: relative;
+    /*border-top: 1px dashed gray;*/
+    border-bottom: 1px dashed gray;
+    padding-top: 0px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
 
   #links {
     display: block;
@@ -182,13 +178,8 @@ export default {
     width: 45px;
   }
 
-  #holder {
-    margin: auto;
-    position: relative;
-    /*border-top: 1px dashed gray;*/
-    border-bottom: 1px dashed gray;
-    padding-top: 0px;
-    margin-top: 0px;
-    margin-bottom: 10px;
+  .page-title {
+    text-align: center;
   }
+
 </style>
