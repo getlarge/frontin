@@ -1,0 +1,12 @@
+{
+  "homeLink": "/",
+  "gitLink": "https://framagit.org/getlarge/frontin/",
+  "d3ComponentsPath": "tree/dev/src/d3-components",
+  "wsClientURL": "mqtt://localhost:4000",
+  "options": {
+  	"clientId": "frontin",
+  	"username": "",
+  	"password": ""
+  },
+  "inTopic": "logs/#"
+}

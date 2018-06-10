@@ -1,0 +1,185 @@
+{
+"id": "base",
+"group": 1,
+"img": "img/ed2.jpg",
+"mini": "img/ed_mini.png",
+"size": 60,
+"note": "E2",
+"title": "the man",            
+"subtitle": "himself",
+"text": "Innovation, philosophy, team work, web ",           
+"children": [
+  {
+    "id": "category1",
+    "group": 2,
+    "link": "#",
+    "mini": "img/computerScience1_mini.png",
+    "size": 45,
+    "note":  "C3",
+    "title": "Computer science",            
+    "subtitle": "Hello World!",
+    "text": "Nerd stuff, maker science, do it yourself terminology...",
+    "children": [
+    {
+        "id": "article1-1", 
+        "group": 3,
+        "link": "https://exostic/toto",
+        "img": "img/chatBot.png",
+        "mini": "img/chatBot_mini.png",
+        "size": 30,
+        "note": "C4",
+        "title": "Chatbot",            
+        "subtitle": "Too lazy to answer questions ?",
+        "tags": "language, chat"            
+    },
+    {
+        "id": "article1-2",
+        "group": 3, 
+        "link": "https://aloes.io",
+        "img": "img/logo-aloes-v3.png",
+        "mini": "img/logo-aloes-v3.png",
+        "size": 30,
+        "note": "C4",
+        "title": "Aloes",            
+        "subtitle": "Dataviz speaks louder than data",
+        "tags": "realtime, dataviz, IoT"            
+    },
+    {
+        "id": "article1-3",
+        "group": 3,
+        "link": "#",
+        "img": "img/proto5.jpg",
+        "mini": "img/proto5_mini.png",
+        "size": 30,
+        "note": "C4",
+        "title": "IoT",            
+        "subtitle": "Urban farming",
+        "tags": "protocol, transport, iot"                        
+    },
+    {
+        "id": "article1-4",
+        "group": 3,
+        "link": "#",
+        "img": "img/proto8.jpg",
+        "mini": "img/proto8_mini.png",
+        "size": 30,
+        "note": "C4",
+        "title": "PCB",            
+        "subtitle": "When you don't find waht you need, just build it ...",
+        "tags": "protocol, transport, iot"                       
+    }
+  ]
+  },
+  {
+   "id": "category2",
+    "group": 2,
+    "link": "#",
+    "mini": "img/visuals_mini.png",
+    "size": 45,
+    "note":  "D3",
+    "title": "arts",            
+    "subtitle": "navigate though the mind",
+    "text": "... or something like this.", 
+    "children": [
+    {
+        "id": "article2-1", 
+        "group": 3,
+        "link": "#",
+        "img": "img/visuals8.jpg",
+        "mini": "img/visuals8_mini.png",
+        "size": 30,
+        "note": "D4",
+        "title": "strange lights",            
+        "subtitle": "... and strange lights",
+        "tags": "language, chat"            
+    },
+    {
+        "id": "article2-2",
+        "group": 3, 
+        "link": "#",
+        "img": "img/silhouette2_1.jpg",
+        "mini": "img/silhouette2_1_mini.png",
+        "size": 30,
+        "note": "D4",
+        "title": "//.//.",            
+        "subtitle": "What's happening ?",
+        "tags": "??, //.//"            
+    },
+    {
+        "id": "article2-3",
+        "group": 3,
+        "link": "#",
+        "img": "img/visuals6.jpg",
+        "mini": "img/torture3_mini.png",
+        "size": 30,
+        "note": "D4",
+        "title": "Random polymer",            
+        "subtitle": "playing with matter",
+        "tags": "random, resin, water, leaves"                        
+    }
+  ]
+  },
+  {
+   "id": "category3",
+    "group": 2,
+    "link": "#",
+    "mini": "img/frog1_mini.png",
+    "size": 45,
+    "note":  "E3" ,
+    "title": "Botanic",            
+    "subtitle": "Plants through life",
+    "subtitle1": "...and death",
+    "text": "listening to old ladies talk about life",
+    "children": [
+    {
+        "id": "article3-1", 
+        "group": 3,
+        "link": "#",
+        "img": "img/mv_5.jpg",
+        "mini": "img/mv_5_mini.png",
+        "size": 30,
+        "note": "E4",
+        "title": "domestica",            
+        "subtitle": "... aux mains d'argents",
+        "tags": "landscape, flowall"            
+    },
+    {
+        "id": "article3-2",
+        "group": 3, 
+        "link": "#",
+        "img": "img/species3.jpg",
+        "mini": "img/species3_mini.png",
+        "size": 30,
+        "note": "E4",
+        "title": "panacea",            
+        "subtitle": "plant's dreaming",
+        "tags": "daydream, dataviz, "            
+    },
+    {
+        "id": "article3-3",
+        "group": 3,
+        "link": "#",
+        "img": "img/visuals9.jpg",
+        "mini": "img/visuals9_mini.png",
+        "size": 30,
+        "note": "E4",
+        "title": "experiments",            
+        "subtitle": "got bored...",
+        "tags": "hydroponic, urban farm, mfc"                        
+    },
+    {
+        "id": "article3-4",
+        "group": 3,
+        "link": "#",
+        "img": "img/torture1.gif",
+        "mini": "img/torture1_mini.png",
+        "size": 30,
+        "note": "E4",
+        "title": "nightmares",            
+        "subtitle": "euh...",
+        "tags": "torture, whatsaplant"                        
+    }
+  ]
+  }
+ ]
+}

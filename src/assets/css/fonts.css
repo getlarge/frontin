@@ -1,0 +1,28 @@
+:root {
+  --getlarge-bluegrey: #2B3A42;
+  --getlarge-green: #679A13;
+  --getlarge-blue : #13679A;
+  --getlarge-orange : #F0982B;
+  --getlarge-red: #F24711;
+  --getlarge-yellow: #fecf10;
+  --getlarge-grey: #d6d6d6;
+  --getlarge-black: transparent;
+}
+
+@font-face { /* SourceCode Regular - latin */
+  font-family: 'SourceCode';
+  font-style: normal;
+  font-weight: 400;
+  src: url("@/assets/fonts/SourceCodePro/SourceCodePro-Regular.eot");
+  src: local('SourceCode Regular'), local('SourceCode-Regular'), url('@/assets/fonts/SourceCodePro/SourceCodePro-Regular.eot?#iefix') format('embedded-opentype'), url('@/assets/fonts/SourceCodePro/SourceCodePro-Regular.woff2') format('woff2'), url($font_path + 'SourceCodePro/SourceCodePro-Regular.woff') format('woff'), url($font_path + 'SourceCodePro/SourceCodePro-Regular.ttf') format('truetype');
+}
+
+
+@font-face { /* SourceCode Bold - latin */
+  font-family: 'SourceCode';
+  font-style: normal;
+  font-weight: 700;
+  src: url("@/assets/fonts/SourceCodePro/SourceCodePro-Bold.eot");
+  src: local('SourceCode Bold'), local('SourceCode-Bold'), url('@/assets/fonts/SourceCodePro/SourceCodePro-Bold.eot?#iefix') format('embedded-opentype'), url('@/assets/fonts/SourceCodePro/SourceCodePro-Bold.woff2') format('woff2'), url($font_path + 'SourceCodePro/SourceCodePro-Bold.woff') format('woff'), url($font_path + 'SourceCodePro/SourceCodePro-Bold.ttf') format('truetype');
+}
+
