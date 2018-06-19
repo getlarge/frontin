@@ -7,7 +7,7 @@
         <p >
           Retrospective of previous and present projects. For more information visit the website or contact me.
         </p>
-        <b-btn variant="primary" href="#/portfolios">Enter</b-btn>
+        <b-btn variant="primary" href="#/portfolio">Enter</b-btn>
         <b-btn variant="success" href="#">Contact</b-btn>
       </b-jumbotron>
     </div>

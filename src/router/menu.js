@@ -42,12 +42,10 @@ export const routes = [
     component: loadView('projects-timeline')
   },
   {
-    name: 'Portfolios',
+    name: 'Portfolio',
     title: 'Portfolio',
-    path: '/portfolios',
-    alias: '/portfolios/*',
-    folder: true,
-    component: loadView('portfolios/index')
+    path: '/portfolio',
+    component: loadView('portfolio')
   },
   {
     name: 'Circle Frames',

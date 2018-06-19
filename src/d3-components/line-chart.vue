@@ -16,10 +16,6 @@
 	import { active, transition } from "d3-transition"
 	import { EventBus } from '@/main'
 
-	var globalX = 0;
-	var duration = 500;
-	var max = 500;
-	var step = 20;
 
 
 //// Save data + add zoom to navigate
