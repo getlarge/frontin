@@ -7,11 +7,16 @@ import VueResource from 'vue-resource'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import fontawesome from '@fortawesome/fontawesome'
+import brands from '@fortawesome/fontawesome-free-brands'
+import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner'
 
 Vue.use(VueResource)
 Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false
+
+fontawesome.library.add(brands, faSpinner)
 
 export const EventBus = new Vue();
 

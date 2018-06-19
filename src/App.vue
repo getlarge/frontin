@@ -8,54 +8,54 @@
 
 <script>
 
-import config from '@/config.json'
-import mqttClient  from '@/services/mqtt-client'
-import topNav from '@/components/menu-navigation'
-import bottomNav from '@/components/footer-navigation'
-import { EventBus } from '@/main';
+  import config from '@/config.json'
+  import mqttClient  from '@/services/mqtt-client'
+  import topNav from '@/components/menu-navigation'
+  import bottomNav from '@/components/footer-navigation'
+  import { EventBus } from '@/main';
 
-export default {
-  // props: [
-  //   client,
-  //   'server'
-  // ], 
-  name: "App",
-  components: { 
-    topNav,
-    bottomNav 
-  },
+  export default {
+    // props: [
+    //   client,
+    //   'server'
+    // ], 
+    name: "App",
+    components: { 
+      topNav,
+      bottomNav
+    },
 
-  data() {
-    return {
-      client: new(mqttClient),
-      buffer: [],
-      pageTopic: "getlarge" + this.$route.path + "main",
-    }
-  },
-  
-  created() {
-    //console.log("APP", this)
-    this.client.openStream();
-    this.client.addSubscribe(this.$route.path, "mysensors/GW4-out/99/#");
-  },
-   
-  beforeDestroy() {
-    this.client.close();
-    EventBus.$off();
-  },
+    data() {
+      return {
+        client: new(mqttClient),
+        buffer: [],
+        pageTopic: "getlarge" + this.$route.path + "main",
+      }
+    },
+    
+    created() {
+      //console.log("APP", this)
+      this.client.openStream();
+      this.client.addSubscribe(this.$route.path, "mysensors/GW4-out/99/#");
+    },
+     
+    beforeDestroy() {
+      this.client.close();
+      EventBus.$off();
+    },
 
-  watch: {
+    watch: {
 
-  },
+    },
 
-  computed: {
+    computed: {
 
-  },
+    },
 
-  methods: {
+    methods: {
 
-  },
-}
+    },
+  }
 
 </script>
 
@@ -85,6 +85,8 @@ export default {
 </style>
 
 <style scoped>
+
+  @import 'font-awesome/css/font-awesome.css'
   @import url("@/assets/css/main.css")
 
   h1 { 
@@ -111,7 +113,7 @@ export default {
 
   #app {
     font-family: 'SourceCode-Rg'; 
-    font-size: 14px;  
+    font-size: 16px;  
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

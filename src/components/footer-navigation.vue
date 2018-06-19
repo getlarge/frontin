@@ -3,10 +3,14 @@
     <hr class="my-4">
     <b-container class="bv-example-row">
       <b-row align-h="center">
-          <b-col sm="4" style="text-align: left"><router-link v-if="prev" :to="prev.path" > < {{ prev.title }} </router-link></b-col>
-          <b-col sm="4" style="text-align: center"><a :href="sourceHref" target="_blank">{{ $route.name }}</a></b-col>
-          <b-col sm="4" style="text-align: right"><router-link v-if="next" :to="next.path" > {{ next.title }} > </router-link></b-col>
+          <b-col sm="3" md="4" lg="4" lg-offset="1" class="prev"><router-link v-if="prev" :to="prev.path" > < {{ prev.title }} </router-link></b-col>
+          <b-col sm="4" md="4" lg="4" class="source"><a :href="sourceHref" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" /> {{ $route.name }}</a></b-col>
+          <b-col sm="3" md="4" lg="4" class="next"><router-link v-if="next" :to="next.path" > {{ next.title }} > </router-link></b-col>
       </b-row>
+      <b-row align-h="center">
+          <b-col sm="1" lg="1"><b-button id="playButton" @click="getBuffer" class="btn btn-outline-success my-1 my-sm-0" type="button">Subs</b-button></b-col>
+      </b-row>
+
     </b-container>
 
   </div>
@@ -14,6 +18,7 @@
 
 <script>
 
+  import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
   import config from '@/config.json'
   import { routes } from '@/router/menu'
   import { EventBus } from '@/main';
@@ -21,7 +26,10 @@
   export default {
     props: {
     }, 
-    
+    components: { 
+      FontAwesomeIcon
+    },
+
     data() {
       return {
         items: routes,
@@ -73,6 +81,10 @@
 
     methods: {
       
+      getBuffer: function() {
+        EventBus.$emit('get-buffer');
+      },
+
       findIndex: function() {
         var me = this.$route.name;
         return routes.findIndex(r => r.name === me);
@@ -97,6 +109,7 @@
   }*/
 
   #bottom-nav {
+    font-size: 14px; 
     margin: auto;
     position: relative;
     /*border-top: 1px dashed gray;*/
@@ -112,17 +125,14 @@
   }
 
   .prev {
-    left: 0px;
     text-align: left;
   }
 
   .source {
-    left:100px;
     text-align: center;
   }
 
   .next {
-    right: 0px;
     text-align: right;
   }
 

@@ -5,7 +5,7 @@
         <h2>Edouard Maleix</h2>
         <hr class="my-4">
         <p >
-          Small retrospective of previous and present projects For more information visit the website or contact me directly
+          Retrospective of previous and present projects. For more information visit the website or contact me.
         </p>
         <b-btn variant="primary" href="#/portfolios">Enter</b-btn>
         <b-btn variant="success" href="#">Contact</b-btn>
@@ -15,20 +15,16 @@
 
 <script>
 
-/// remplacer la liste par bouton  ENTER -> arrivée sur portfolio component
+  import { routes } from '@/router/menu'
 
-import { routes } from '@/router/menu'
-
-export default {
-    data() {
-      return {
-        items: routes,
-      }
+  export default {
+      data() {
+        return {
+          items: routes,
+        }
+    }
   }
-}
-
   
-
 </script>
 
 <style scoped>

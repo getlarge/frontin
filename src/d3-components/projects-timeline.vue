@@ -234,10 +234,10 @@
 			    }
 
 			    var k,
-			    	l = 1e3,
-					d = 100,
+			    	l = 1e3, // viewbox width
+					d = 120, // flag height
 					s = 20,
-					f = 100,
+					f = 120, // stack height
 					m = f + d,
 					p = m + s,
 					v = 1.4,

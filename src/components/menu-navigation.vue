@@ -1,6 +1,6 @@
 <template>
   <div id="top-nav">
-      <b-navbar toggleable="sm" type="light" variant="light" fixed="top">
+      <b-navbar toggleable="sm" type="light" variant="light" sticky>
         <b-navbar-brand href="/"><b-img id="logo" src="@/assets/logo.png" fluid alt="Logo"/></img> Getlarge</b-navbar-brand>
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
         <b-collapse is-nav id="nav_collapse">
@@ -14,7 +14,9 @@
           </b-navbar-nav>
           </b-nav>
           <b-navbar-nav class="ml-auto">
-            <b-button id="playButton" @click="getBuffer" class="btn btn-outline-success my-1 my-sm-0" type="button">Subs</b-button>
+            <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" /></b-nav-item>
+            <b-nav-item href="https://twitter.com/e_maleix" target="_blank"><font-awesome-icon :icon="['fab', 'twitter']" size="lg" /></b-nav-item>
+            <b-nav-item href="https://framagit.org/getlarge" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg"/></b-nav-item>
             <b-nav-text class="nav-link" disabled>{{connStatus}}</b-nav-text>
           </b-navbar-nav>
         </b-collapse>
@@ -23,7 +25,7 @@
 </template>
 
 <script>
-
+  import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
   import config from '@/config.json'
   import { routes } from '@/router/menu'
   import { EventBus } from '@/main';
@@ -31,7 +33,10 @@
   export default {
     props: {
     }, 
-    
+    components: { 
+      FontAwesomeIcon
+    },
+
     data() {
       return {
         items: routes,
@@ -68,8 +73,6 @@
 
     methods: {
       subs : event => {
-        //this.getBuffer();
-        //return client.send("yolo", "yolo");
         if (event) {
           alert(event.target.tagName)
         }      
@@ -78,10 +81,6 @@
       getBuffer: function() {
         EventBus.$emit('get-buffer');
       },
-
-      // getStatus: function() {
-      //   this.currentStatus = this.mqttStatus;
-      // },
 
       findIndex: function() {
         var me = this.$route.name;

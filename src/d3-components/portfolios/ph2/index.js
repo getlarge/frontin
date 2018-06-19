@@ -73,8 +73,6 @@ export default class PH2 {
   _init() {
     console.log('nodes', this.nodes);
 
-    //var socket = new socketClient();
-
     this.simulation = forceSimulation()
       .force("index-collide", forceCollide(d => d.data.size + 5).iterations(16))
       .force("index-x", forceX().strength(0.04))
@@ -147,9 +145,8 @@ export default class PH2 {
       .nodes(this.nodes)
       .on("tick", ticked);
 
-   
-
   };
+
   nodeTransform(d) {
     var maxNodeSize = 50
     d.x = Math.max(maxNodeSize, Math.min(w - (d.data.size || 16), d.x));
@@ -161,8 +158,6 @@ export default class PH2 {
     // if (d.data.note) {
     //   synth.synthQuick(d.data.note)
     // }
-
-    //socket.sendMessage('yo', 'test');
 
     var overlay = select(".vis-overlay"),
       overlayInner = select(".vis-overlay > .vis-inner"),

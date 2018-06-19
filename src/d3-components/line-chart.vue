@@ -2,25 +2,6 @@
 <template>
 	<div id="line-chart">
 		<svg></svg>
-
-		 <div class="container-fluid">
-            <div class="row text-center">
-                <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-				        <div class="panel-footer">
-				            <p v-if="displayedValues.length > 0">
-				                <small>
-				                    <span v-bind:style="{ color: dvColors.v1}">{{displayedValues[0]}} </span>
-				                </small>
-				            </p>
-				        </div>
-					</div>
-					<div class="col-xs-6 col-xs-offset-3 col-md-6 col-md-offset-3 col-lg-8 col-lg-offset-2">
-					    <input v-model="renderEveryNth" type="range" min="1" max="9" value="5">
-					    <p>Render after <strong>{{renderEveryNth}}</strong> message(s)</p>
-					</div>
-		  		</div>
-            </div>
-		</div>
 	</div>
 </template>
 
@@ -48,18 +29,13 @@
 		    return {
 		    	pageTopic: "getlarge" + this.$route.path,
 		    	subscribeList: [],
-				renderEveryNth: 5,
-				updateInterval: 20,
-				streamFrequency: 50,
-				messageIndex: 0,
+				globalX: 0, 
+				duration: 500,	
+				max: 500,
+				step: 20,
 				displayedValues: [],
 				width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
 				height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
-				dvColors: {
-					v1: "#cb503a",
-					v2: "#72c039",
-					v3: "#65b9ac"
-				},
 				line1: [],
 				smoothLine: [] ,
 				lineArea: [] ,
@@ -113,11 +89,11 @@
 
 				//this.x = scaleTime().domain([0, 1000]).range([0, 1000]);
 		    	this.x = scaleLinear().domain([0, this.width-200]).range([0, this.width-200]);
-				this.y = scaleLinear().domain([0, this.height-200]).range([this.height-200, 0]);
+				this.y = scaleLinear().domain([0, this.height-400]).range([this.height-400, 0]);
 			    // var lineChart = select("#line-chart")
 			    var lineChart = select("#line-chart > svg")
 				    .attr("width", this.width)
-				    .attr("height", this.height);
+				    .attr("height", this.height -200);
 			    this.line1 = line()
 							    .x( d => this.x(d.x))
 							    .y( d => this.y(d.y));
@@ -132,7 +108,7 @@
 						    .curve(curveCardinal);
 			    this.xAxis = axisBottom().scale(this.x);
 			    this.axisX = lineChart.append('g').attr("class", "x axis")
-			    			 .attr('transform', `translate(${this.width/20}, ${this.height*0.8})`)
+			    			 .attr('transform', `translate(${this.width/20}, ${this.height-400})`)
 						     .call(this.xAxis);						    
 		    	this.path = lineChart.append("path");
 		    	this.areaPath = lineChart.append("path");
@@ -142,13 +118,13 @@
 			tick(dataSet) {
 			//tick() {
 			    var point = {
-				    x: globalX,
+				    x: this.globalX,
 				    //x: dataSet.x / 100000,
 				    y: dataSet.y 
 			    };
 			    this.displayedValues.push(point);
 			    //console.log("dataSet reworked", this.displayedValues);
-			    globalX += step;
+			    this.globalX += this.step;
 			    this.path.datum(this.displayedValues)
 				    .attr("class", "smoothline")
 				    .attr("d", this.smoothline);
@@ -157,22 +133,22 @@
 			    .attr('d', this.lineArea);
 
 			    //this.x.domain([dataSet.x - step, dataSet.x]);
-			    this.x.domain([globalX - (max - step), globalX]);
+			    this.x.domain([this.globalX - (this.max - this.step), this.globalX]);
 			    this.axisX.transition()
-				     .duration(duration)
+				     .duration(this.duration)
 				     .ease(easeLinear,2)
 				     .call(this.xAxis);
 			    this.path.attr('transform', null)
 				    .transition()
-				    .duration(duration)
+				    .duration(this.duration)
 				    .ease(easeLinear,2)
-				    .attr('transform', 'translate(' + this.x(globalX - max) + ')');
+				    .attr('transform', 'translate(' + this.x(this.globalX - this.max) + ')');
 				  //  .attr("transform", "translate(" + this.x(dataSet.x) + ")")
 			    this.areaPath.attr('transform', null)
 				    .transition()
-				    .duration(duration)
+				    .duration(this.duration)
 				    .ease(easeLinear,2)
-				    .attr('transform', 'translate(' + this.x(globalX - max) + ')');
+				    .attr('transform', 'translate(' + this.x(this.globalX - this.max) + ')');
 				    //.on("end", this.tick)
 			    if (this.displayedValues.length > 50) this.displayedValues.shift();
 		    },
