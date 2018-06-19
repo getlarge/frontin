@@ -1,18 +1,21 @@
 <template>
-
     <div class="hello">
-      <ul>
-        <li v-for="item in items">
-          <router-link :to="item.path">{{ item.name }}</router-link>
-        </li>
-      </ul>
-
+      <b-jumbotron bg-variant="info" text-variant="white" >
+        <h5>work by</h5>
+        <h2>Edouard Maleix</h2>
+        <hr class="my-4">
+        <p >
+          Small retrospective of previous and present projects For more information visit the website or contact me directly
+        </p>
+        <b-btn variant="primary" href="#/portfolios">Enter</b-btn>
+        <b-btn variant="success" href="#">Contact</b-btn>
+      </b-jumbotron>
     </div>
-
 </template>
 
 <script>
 
+/// remplacer la liste par bouton  ENTER -> arrivée sur portfolio component
 
 import { routes } from '@/router/menu'
 
@@ -58,8 +61,14 @@ export default {
       text-decoration: underline;;
     }
 
-    #logo {
-      height:50px;
-      width: 50px;
+    .hello {
+      position: relative;
+      width: 80%;
+      height: 60%;
+      text-align: center;
+      overflow: hidden;
+      margin-top: 10%;
+      margin-left: 10%;
+
     }
 </style>

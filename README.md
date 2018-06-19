@@ -108,3 +108,8 @@ Please contribute using [Gitflow](https://www.atlassian.com/git/tutorials/compar
 ## TODO
 
 + add ESLint
++ what plants talk about ? :
+	+ add a second line on the line chart, tooltips on the graph, 
+	+ piece of text (intentions ) - show several situations ( leaves getting burned, cut, hugged, )
+	+ live streaming of plants getting recorded
+	+ 

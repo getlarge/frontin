@@ -86,14 +86,23 @@ export default {
 </script>
 
 <style scoped>
-#holder {
-  position: relative;
-  height: 300px;
-  width: 500px;
-  margin: auto;
-}
-.mapHolder {
-  position: absolute;
-  margin: auto;
-}
+  #project-timeline {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      vertical-align: middle;
+      overflow: hidden;
+      margin-top: 10%;
+  }
+
+  #holder {
+    position: relative;
+    height: 500px;
+    width: 100%;
+    margin-top: 10%;
+  }
+  .mapHolder {
+    position: relative;
+    margin: auto;
+  }
 </style>

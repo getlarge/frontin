@@ -13,7 +13,6 @@ import { active, transition } from "d3-transition"
 import { event, select, selectAll, style } from "d3-selection"
 import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale"
 import { schemeCategory10 } from "d3-scale-chromatic"
-//import socketClient from '@/services/socket-client'
 
 // TODO: do it d3-way so I can use selection.call()
 
@@ -180,7 +179,7 @@ export default class PH2 {
     overlay.style("display", "block");
     // .style("top", (n.y - 50).toString() + "px")
     // .style("left", (n.x-50).toString() + "px");
-    removeOpenClass();
+    this.removeOpenClass(d.data);
     select(this).classed("vis-open", true);
     //update();
   };

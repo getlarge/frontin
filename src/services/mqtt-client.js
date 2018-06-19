@@ -1,10 +1,9 @@
 import mqtt from 'mqtt'
+import { AsyncClient } from "async-mqtt"
 import moment from 'moment'
 import config from '@/config.json'
 import { EventBus } from '@/main';
-//import { AsyncClient } from "async-mqtt"
-
-var AsyncClient = require("async-mqtt").AsyncClient;
+//var AsyncClient = require("async-mqtt").AsyncClient;
 
 var options = {
   	clientId: config.options.clientId + "_" + Math.random().toString(16).substr(2, 8),
@@ -12,10 +11,8 @@ var options = {
   	password: new Buffer(config.options.password)
 };
 
-
 export default class mqttClient {
   constructor() {
-    //super();
     this.client; 
     this._initClient();
     this.asyncClient;
@@ -33,7 +30,6 @@ export default class mqttClient {
     EventBus.$on('send-message', (topic, message) => {
       this.sendAsyncMessage(topic, message)
     });
-
   }
 
   _initAsyncClient() {
@@ -54,35 +50,34 @@ export default class mqttClient {
     })
 
     this.client.on("message", (topic, payload) => {
-      // var newPayload = topic + "//" + payload.toString();       
-      // console.log("received :", newPayload);         
+      var newPayload = topic + ">" + payload.toString();       
+      EventBus.$emit("got-incoming-message", newPayload);     
       var topicSplit = topic.split("/");
       if (topicSplit[6] == "37" ) {
-        this.formatIncomingMessage("json", payload, "got-sound-frame");
+        this.formatIncomingMessage("json", newPayload, "got-sound-frame");
       }
-
       if (topicSplit[6] == "38" ) {
-        this.formatIncomingMessage("json", payload, "got-volt-frame");
+        this.formatIncomingMessage("json", newPayload, "got-volt-frame");
       }
-
     })
   }
 
-  formatIncomingMessage(type, payload, event) {
+  formatIncomingMessage(type, message, event) {
+    var messageSplit = message.split(">");
     if (type = "json") {
-      var payloadSplit = payload.toString().split('/');
+      var payloadSplit = messageSplit[1].toString().split('/');
+      /// formater le timestamp en format prêt à afficher sur D3
       // var day = moment(Number(payloadSplit[1]));
-      // console.log("day", day)
+      // console.log("date", day)
       var x = Number(payloadSplit[1]);
       var y = Number(payloadSplit[0]);
-      //var topicSplit = topic.split('/');
-      //var sensorType = topicSplit[6];
+      var topicSplit = messageSplit[1].split('/');
+      var sensorType = topicSplit[6];
       var formatedPayload = {
         x: x,
         y: y,
-        //type: sensorType
+        type: sensorType
       }; 
-      //console.log(event.toString())
       EventBus.$emit(event.toString(), formatedPayload);
       this.buffer.push(formatedPayload);
     }
@@ -117,19 +112,13 @@ export default class mqttClient {
     this.subscribeList.push(pathList);
     if (this.subscribeList.length == 100 ) {
       this.subscribeList.pop();
-    }
-    //this.client.subscribe(path);
-    //console.log("subscribed to :", path );
-    
+    }    
   }
 
   removeSubscribe(path, topic) {
     this.asyncClient.subscribe(topic).then(function(){
       console.log("unsubscribed from :", topic)
     });
-
-    //this.client.unsubscribe(path);
-    //console.log("unsubscribed from :", path );
     var pathList = path + "/" + topic;
     console.log("index subscribe list :", this.subscribeList.indexOf(pathList));
   }

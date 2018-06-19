@@ -1,23 +1,10 @@
 import config from '@/config.json'
 
-
 function loadView(view) {
   return () => import(/* webpackChunkName: "d3-components-[request]" */ `@/d3-components/${view}.vue`)
 }
 
 export const routes = [
-  {
-    name: 'Circle: size controller',
-    title: 'Circle',
-    path: '/size-controller',
-    component: loadView('size-controller')
-  },
-  {
-    name: 'Bars: styles',
-    title: 'Bars',
-    path: '/bars-styles',
-    component: loadView('bars-styles')
-  },
   {
     name: 'Pie chart: local component & props',
     title: 'Pie Chart',
@@ -46,6 +33,13 @@ export const routes = [
     path: '/line-chart',
     alias: '/line-chart/*',
     component: loadView('line-chart')
+  },
+  {
+    name: 'Projects Timeline',
+    title: 'Projects Timeline',
+    path: '/projects-timeline',
+    alias: '/projects-timeline/*',
+    component: loadView('projects-timeline')
   },
   {
     name: 'Portfolios',
