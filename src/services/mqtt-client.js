@@ -105,7 +105,7 @@ export default class mqttClient {
 
   addSubscribe(path, topic) {
     this.asyncClient.subscribe(topic).then(function(){
-      console.log("subscribed to :", topic)
+      //console.log("subscribed to :", topic)
     });
 
     var pathList = path + "/" + topic;
@@ -117,7 +117,7 @@ export default class mqttClient {
 
   removeSubscribe(path, topic) {
     this.asyncClient.subscribe(topic).then(function(){
-      console.log("unsubscribed from :", topic)
+      //console.log("unsubscribed from :", topic)
     });
     var pathList = path + "/" + topic;
     console.log("index subscribe list :", this.subscribeList.indexOf(pathList));

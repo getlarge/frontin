@@ -1,11 +1,18 @@
 <template>
     <div id="vis">
-        <div class="controls">
-            <div>
-                <label>Adjust width</label>
-                <input type="range" v-model="settings.width" min="0" max="100" />
-            </div>
-        </div>
+        <mq-layout class="controls-laptop" mq="laptop">
+            <label>Adjust width</label>
+            <input type="range" v-model="settings.width" min="0" max="100" />
+         </mq-layout>
+        <mq-layout class="controls-tablet" mq="tablet">
+            <label>Adjust width</label>
+            <input type="range" v-model="settings.width" min="0" max="100" />
+        </mq-layout>
+        <mq-layout class="controls-mobile" mq="mobile">
+            <label class="controls-mobile">Adjust width</label>
+            <input type="range" v-model="settings.width" min="0" max="100" />
+        </mq-layout>
+
         <div class="svg-container" :style="{width: settings.width + '%'}">
             <svg id="svg" pointer-events="all" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet">
                 <g :id="links"></g>
@@ -51,16 +58,24 @@
             };
 	  	},
 
+        created() {
+            EventBus.$on("got-width-setting", width => {
+              console.log("width", width)
+              //return this.tick(soundFrame);
+              //return this.insertDatapoints(soundFrame, "soundFrame"); /// get the dataset + event to identify which line to update
+
+            });
+
+        },
+
 		mounted() {
             var that = this;
             const DATA_PATH = 'static/data/getlarge.json';
             //const DATA_PATH = 'static/data/animate-force.json';
             json(DATA_PATH).then(graph => {
-                //that.graph = graph;
                 var root = hierarchy(graph);
                 var nodes = root.descendants();
                 var links = root.links(nodes)
-
                 var defs = select("#svg").insert("svg:defs")
                     .data(["end"])
                     .enter().append("svg:path")
@@ -82,9 +97,8 @@
                     .force("center", forceCenter(that.settings.svgWigth / 2, that.settings.svgHeight / 2))
                     .force("collisionForce", forceCollide(5).strength(50).iterations(5))
                     .alphaTarget(0.4)
-                    .force("x", forceX(function(d, i) { return d.x * 2; }))
-                    .force("y", forceY(function(d, i) { return d.y * 2; }))
-
+                    .force("x", forceX((d, i) => d.x * 2))
+                    .force("y", forceY((d, i) => d.y * 2))
                 
             });
         },
@@ -221,28 +235,10 @@
         height: 100%;
     }
 
-    .controls {
-        position: fixed;
-        top: 100px;
-        right: 60px;
-        background: #f8f8f8;
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: column;
-    }
-
     .svg-container {
         display: table;
         border: 1px solid #f8f8f8;
         box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
-    }
-
-    .controls>*+* {
-        margin-top: 1rem;
-    }
-
-    label {
-        display: block;
     }
 
     .links line {
@@ -259,5 +255,69 @@
       display: none;
       font-size: 14px;
     }
+
+
+</style>
+
+<style scoped>
+    
+        .controls-mobile label { 
+            font-size: 10px;
+            display: block;
+        }
+        .controls-laptop label{ 
+            font-size: 14px;
+            display: block;
+        }
+        .controls-tablet label{ 
+            font-size: 12px;
+            display: block;
+        }
+
+        .controls-mobile>*+* { 
+            position: fixed;
+            width: 50px;
+            margin-top: 1rem;
+        }
+        .controls-tablet>*+*{ 
+            position: fixed;
+            width: 80px;
+            margin-top: 1rem;
+        }
+        .controls-laptop>*+*{ 
+            position: fixed;
+            width: 100px;
+            margin-top: 1rem;
+        }
+        .controls-mobile { 
+            position: fixed;
+            border-radius: 5px;
+            top: 400px;
+            right: 50px;
+            background: #f8f8f8;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column; 
+        }
+        .controls-tablet { 
+            position: fixed;
+            border-radius: 5px;
+            top: 150px;
+            right: 40px;
+            background: #f8f8f8;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column; 
+        }
+        .controls-laptop { 
+            position: fixed;
+            border-radius: 5px;
+            top: 100px;
+            right: 60px;
+            background: #f8f8f8;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column; 
+        }
 
 </style>

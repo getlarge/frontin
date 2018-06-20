@@ -84,8 +84,8 @@
 		    initLine() {
 
 				//this.x = scaleTime().domain([0, 1000]).range([0, 1000]);
-		    	this.x = scaleLinear().domain([0, this.width-200]).range([0, this.width-200]);
-				this.y = scaleLinear().domain([0, this.height-400]).range([this.height-400, 0]);
+		    	this.x = scaleLinear().domain([0, this.width*0.8]).range([0, this.width*0.8]);
+				this.y = scaleLinear().domain([0, this.height*0.6]).range([this.height*0.6, 0]);
 			    // var lineChart = select("#line-chart")
 			    var lineChart = select("#line-chart > svg")
 				    .attr("width", this.width)
@@ -104,7 +104,7 @@
 						    .curve(curveCardinal);
 			    this.xAxis = axisBottom().scale(this.x);
 			    this.axisX = lineChart.append('g').attr("class", "x axis")
-			    			 .attr('transform', `translate(${this.width/20}, ${this.height-400})`)
+			    			 .attr('transform', `translate(${this.width/20}, ${this.height*0.6})`)
 						     .call(this.xAxis);						    
 		    	this.path = lineChart.append("path");
 		    	this.areaPath = lineChart.append("path");

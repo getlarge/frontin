@@ -59,7 +59,8 @@
 
 </script>
 
- <style lang="scss">
+
+<style>
   @font-face { /* SourceCode Regular - latin */
     font-family: 'SourceCode-Rg';
     font-style: normal;
@@ -81,15 +82,11 @@
       url('./assets/fonts/SourceCodePro/SourceCodePro-Bold.woff') format('woff'), 
       url('./assets/fonts/SourceCodePro/SourceCodePro-Bold.ttf') format('truetype');
   }
-
-</style>
-
-<style scoped>
-
   @import 'font-awesome/css/font-awesome.css'
   @import url("@/assets/css/main.css")
 
   h1 { 
+    font-family: 'SourceCode-Bd'; 
     font-size: 20px; 
     margin: 10px 0; 
     text-transform: uppercase; 
@@ -117,7 +114,5 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
-
 
 </style>

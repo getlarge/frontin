@@ -9,6 +9,7 @@
       </b-row>
       <b-row align-h="center">
           <b-col sm="1" lg="1"><b-button id="playButton" @click="getBuffer" class="btn btn-outline-success my-1 my-sm-0" type="button">Subs</b-button></b-col>
+
       </b-row>
 
     </b-container>
@@ -77,6 +78,8 @@
         // `this` points to the vm instance
         return "/" + this.$route.name
       },
+            /// on change         EventBus.$emit("got-width-setting", this.settings.width)
+
     },
 
     methods: {
