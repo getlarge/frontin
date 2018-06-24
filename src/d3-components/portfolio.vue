@@ -40,7 +40,9 @@
 	import { interval, now, timeout, timer } from "d3-timer";
 	import { active, transition } from "d3-transition";
 	import { zoom } from "d3-zoom";
-	import { EventBus } from '@/main'
+    import { EventBus } from '@/main'
+
+    import ToneSynth from '@/tone-components/synth'
 
 
 	export default {
@@ -48,13 +50,15 @@
 		    return {
                 graph: null,
                 simulation: null,
+                //color : scaleOrdinal.range(["#A07A19", "#AC30C0", "#EB9A72", "#BA86F5", "#EA22A8"]);
                 color: scaleOrdinal(schemeCategory10),
                 settings: {
                     strokeColor: "#29B5FF",
                     width: 100,
                     svgWigth: 960,
                     svgHeight: 600
-                }
+                },
+            synth: new(ToneSynth),
             };
 	  	},
 
@@ -106,7 +110,6 @@
         updated() {
             var that = this;
             //console.log(that.nodes)
-
             that.simulation.nodes(that.graph.nodes).on('tick', that.ticked);
         },
 
@@ -117,7 +120,6 @@
                     return select("#svg").append("g")
                         .attr("class", "nodes")
                         .selectAll("circle")
-                        //.data(that.graph.nodes)
                         .data(that.graph.nodes, d => d.data.id )
                         .enter().append("circle")
                         .attr("r", d => d.data.size || 4.5 )
@@ -129,15 +131,22 @@
                                 if (!event.active) that.simulation.alphaTarget(0.3).restart();
                                 d.fx = d.x;
                                 d.fy = d.y;
+                                that.synth.synthAttack(d.data.notes); //ex delay : '+0.05'
+
                             })
                             .on("drag", function dragged(d) {
                                 d.fx = event.x;
                                 d.fy = event.y;
+                                EventBus.$emit('send-message', "getlarge/nodes-position", d.fx + "-" + d.fy)
+                                that.synth.synthModulo(event.x, event.y)
+
                             })
                             .on("end", function dragended(d) {
                                 if (!event.active) that.simulation.alphaTarget(0);
                                 d.fx = null;
                                 d.fy = null;
+                                that.synth.synthRelease()
+
                             })) 
                         // node.append("image")
                        
@@ -151,9 +160,10 @@
                         .attr("class", "links")
                         .selectAll("path.link")
                         .data(that.graph.links, (d) => d.target.id )
-                        .enter().insert("svg:path")
+                        .enter().insert("path")
                         .style("stroke-width", (d) => (d.target.data.size / d.target.data.group * 1.3).toString() + "px")
-                        .style("stroke", "#eee");
+                        .style("stroke", "#eee")
+                        .style("fill", "none");
                 }
             },
 
@@ -246,6 +256,10 @@
         stroke-opacity: 0.6;
     }
 
+    .links path {
+        stroke: #FFF;
+        stroke-opacity: 0;
+    }
     .nodes circle {
         stroke: #fff;
         stroke-width: 1.5px;
@@ -253,7 +267,7 @@
 
     .texts text {
       display: none;
-      font-size: 14px;
+      font-size: 12px;
     }
 
 

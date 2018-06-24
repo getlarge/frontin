@@ -6,28 +6,6 @@ function loadView(view) {
 
 export const routes = [
   {
-    name: 'Pie chart: local component & props',
-    title: 'Pie Chart',
-    path: '/pie-chart-local-component',
-    folder: true,
-    component: loadView('pie-chart-local-component/index')
-  },
-  {
-    name: 'Basic map: html tooltip & events',
-    title: 'Basic Map',
-    path: '/basic-map-tooltip',
-    folder: true,
-    component: loadView('basic-map-tooltip/index')
-  },
-  {
-    name: 'Bubbles: nested routes',
-    title: 'Bubbles',
-    path: '/bubbles-nested-routes',
-    alias: '/bubbles-nested-routes/*',
-    folder: true,
-    component: loadView('bubbles-nested-routes/index')
-  },
-  {
     name: 'Line Charts',
     title: 'Line Charts',
     path: '/line-chart',
@@ -48,11 +26,18 @@ export const routes = [
     component: loadView('portfolio')
   },
   {
-    name: 'Circle Frames',
-    title: 'Circle frames',
-    path: '/circle-frames',
-    alias: '/circle-frames/*',
-    component: loadView('circle-frames')
+    name: 'Tidy Tree',
+    title: 'Tidy tree',
+    path: '/tidy-tree',
+    alias: '/tidy-tree/*',
+    component: loadView('tidy-tree')
+  },
+  {
+    name: 'hierarchical edge bundling',
+    title: 'hierarchical edge bundling',
+    path: '/hierarchical-edge-bundling',
+    alias: '/hierarchical-edge-bundling/*',
+    component: loadView('hierarchical-edge-bundling/index')
   }
 ].map(r => {
   var res = r;

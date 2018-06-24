@@ -7,13 +7,10 @@
 - [Setup](#setup)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
 
 ## Features
 ### Client
 + real-time data visualization with a multi-series line chart
-+ dynamic slider which controls the chart render frequency (renders chart after N message(s))
-	+ this is useful for optimization purposes, especially in high-frequency real-time streams, where you 	can	lower the chart render calls in order to lessen the CPU load. 
 
 
 ## Setup
@@ -101,15 +98,27 @@ npm test
 * [Bootstrap](https://github.com/twbs/bootstrap) - HTML, CSS, and JavaScript framework for developing responsive, mobile first projects on the web.
 
 
-## Contributing
-
-Please contribute using [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow). Create a feature branch, add commits, and [open a pull request].
-
 ## TODO
 
-+ add ESLint
-+ what plants talk about ? :
-	+ add a second line on the line chart, tooltips on the graph, 
-	+ piece of text (intentions ) - show several situations ( leaves getting burned, cut, hugged, )
-	+ live streaming of plants getting recorded
-	+ 
++ ergonomy :
+	+ add tutorial on portfolio, synchronized with chat ?
+
++ create text contents :
+	+ modals describing each articles on the portfolio
+	+ modals describing each projects on the timeline
+
++ styling :
+	+ define color's scheme - 4 colors + nuances ( ? ) --> coherence between logo/navigation/portfolio/timeline
+	+ try new fonts ( cocogothic ?) 
+	+ portofolio links appearance ?
+	+ tweak D3js force simulation parameters
+
++ animations :
+	+ MQTT tree --> display IoT devices network--> 
+		+ radial modelisation 
+		+ style interpolation based on incoming message properties 
+	+ what plants talk about ? :
+		+ add a second line on the line chart ( sounds voltage and conductivity ), tooltips on the graph, 
+		+ piece of text (intentions ) - show several situations ( leaves getting burned, cut, hugged, )
+		+ live streaming of plants getting recorded 
+

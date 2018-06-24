@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'Aloes-Rg';
+  src: url('Aloes-Rg.woff2') format('woff2'),
+       url('Aloes-Rg.woff') format('woff'),
+       url('Aloes-Rg.eot') format('embedded-opentype'),
+       url('Aloes-Rg.otf') format('opentype'),
+       url('Aloes-Rg.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Aloes-Bd';
+  src: url('Aloes-Bd.woff2') format('woff2'),
+       url('Aloes-Bd.woff') format('woff'),
+       url('Aloes-Bd.eot') format('embedded-opentype'),
+       url('Aloes-Bd.otf') format('opentype'),
+       url('Aloes-Bd.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+

@@ -2,8 +2,10 @@ import mqtt from 'mqtt'
 import { AsyncClient } from "async-mqtt"
 import moment from 'moment'
 import config from '@/config.json'
-import { EventBus } from '@/main';
-//var AsyncClient = require("async-mqtt").AsyncClient;
+import { EventBus } from '@/main'
+
+import ToneSynth from '@/tone-components/synth'
+
 
 var options = {
   	clientId: config.options.clientId + "_" + Math.random().toString(16).substr(2, 8),
@@ -19,6 +21,9 @@ export default class mqttClient {
     this.buffer = [];
     this.frame = {};
     this.subscribeList = [];
+    this.ready = false;
+    this.synth = new(ToneSynth);
+
   }
 
   _initClient() {
@@ -28,7 +33,8 @@ export default class mqttClient {
       this.getBuffer()
     });
     EventBus.$on('send-message', (topic, message) => {
-      this.sendAsyncMessage(topic, message)
+      //this.sendAsyncMessage(topic, message)
+      this.sendMessage(topic, message)
     });
   }
 
@@ -38,6 +44,9 @@ export default class mqttClient {
 
   openStream() {
     this.client.on("connect", () => {
+      this.ready = true;
+      this.sub('#');
+      //this.synth.synthQuick("C4")
       this.setStatus("Connected");
     })
         
@@ -50,8 +59,8 @@ export default class mqttClient {
     })
 
     this.client.on("message", (topic, payload) => {
+      EventBus.$emit("got-incoming-message", topic, payload);     
       var newPayload = topic + ">" + payload.toString();       
-      EventBus.$emit("got-incoming-message", newPayload);     
       var topicSplit = topic.split("/");
       if (topicSplit[6] == "37" ) {
         this.formatIncomingMessage("json", newPayload, "got-sound-frame");
@@ -103,6 +112,15 @@ export default class mqttClient {
     });
   }
 
+  sendMessage(topic, message) {
+    this.client.publish(topic, message, { retain: false, qos: 0 });
+  }
+
+  sub(topic) {
+    this.client.subscribe(topic);
+      //console.log("subscribed to :", topic)   
+  }
+  
   addSubscribe(path, topic) {
     this.asyncClient.subscribe(topic).then(function(){
       //console.log("subscribed to :", topic)
@@ -116,7 +134,7 @@ export default class mqttClient {
   }
 
   removeSubscribe(path, topic) {
-    this.asyncClient.subscribe(topic).then(function(){
+    this.asyncClient.unsubscribe(topic).then(function(){
       //console.log("unsubscribed from :", topic)
     });
     var pathList = path + "/" + topic;
