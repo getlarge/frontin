@@ -38,7 +38,6 @@
       //console.log("APP", this)
       this.chat._initClient();
       this.client.openStream();
-      this.client.addSubscribe(this.$route.path, "mysensors/GW4-out/99/#");
       this.client.addSubscribe(this.$route.path, "getlarge/#")
       this.client.sendMessage("logs", "Getlarge : frontin connected")
     },

@@ -45,6 +45,7 @@
 	  	},
 
 	  	created() {
+	  		EventBus.$emit("sub", "mysensors/GW4-out/99/#");
 	  		EventBus.$on("got-sound-frame", soundFrame => {
 		      console.log("soundFrame", soundFrame)
 		      return this.tick(soundFrame);

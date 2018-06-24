@@ -117,15 +117,16 @@
 
 <script>
 import {tree} from 'vued3tree'
-import data from '@/data/discogs'
+//import data from '@/data/discogs'
+import data from '@/data/mqtt'
 import { EventBus } from '@/main'
 
 Object.assign(data, {
   type: 'tree',
   layoutType: 'circular',
-  duration: 750,
+  duration: 450,
   Marginx: 30,
-  Marginy: 30,
+  Marginy: -10,
   radius: 5,
   nodeText: 'text',
   currentNode: null,
@@ -156,7 +157,7 @@ export default {
 
   mounted() {
     console.log("mounted tree", data.Graph.tree)
-    console.log(this);
+    //console.log(this);
   },
 
   updated() {
@@ -171,7 +172,7 @@ export default {
   watch: {
     data (current, old) {
         console.log("watch updated tree", data.Graph.tree)
-        console.log(this);
+        //console.log(this);
     },
   },
 
@@ -218,9 +219,8 @@ export default {
 
     addNode(topic, body) {
       var self = this;
-       //self.show = false;
-      console.log("tree", data.Graph.tree)
-      console.log("componenent", this.$refs['tree'])
+      //console.log("tree", data.Graph.tree)
+      //console.log("componenent", this.$refs['tree'])
       var parts = topic.split("/");
       if (data.Graph.tree.children[0]===undefined){
         newnode = {"text": parts.shift(), "children":[]};

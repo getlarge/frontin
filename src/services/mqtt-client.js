@@ -1,36 +1,48 @@
 import mqtt from 'mqtt'
+import levelStore from 'mqtt-level-store'
 import { AsyncClient } from "async-mqtt"
 import moment from 'moment'
 import config from '@/config.json'
 import { EventBus } from '@/main'
 
-import ToneSynth from '@/tone-components/synth'
-
-
-var options = {
-  	clientId: config.options.clientId + "_" + Math.random().toString(16).substr(2, 8),
-  	username: config.options.username,
-  	password: new Buffer(config.options.password)
-};
+// var options = {
+//   	clientId: config.options.clientId + "_" + Math.random().toString(16).substr(2, 8),
+//   	username: config.options.username,
+//   	password: new Buffer(config.options.password),
+//     incomingStore: manager.incoming,
+//     outgoingStore: manager.outgoing
+// };
 
 export default class mqttClient {
   constructor() {
+    this.options = {
+      clientId: config.options.clientId + "_" + Math.random().toString(16).substr(2, 8),
+      username: config.options.username,
+      password: new Buffer(config.options.password),
+      incomingStore: null,
+      outgoingStore: null
+    };
     this.client; 
+    this.manager = levelStore('static/db'); 
     this._initClient();
     this.asyncClient;
     this.buffer = [];
     this.frame = {};
     this.subscribeList = [];
     this.ready = false;
-    this.synth = new(ToneSynth);
-
   }
 
   _initClient() {
-    this.client = mqtt.connect(config.wsClientURL, options);
+    this.options.incomingStore = this.manager.incoming;
+    this.options.outgoingStore = this.manager.outgoing;
+    this.client = mqtt.connect(config.wsClientURL, this.options);
     this.asyncClient = new AsyncClient(this.client);
+
     EventBus.$on('get-buffer', () => {
       this.getBuffer()
+    });
+    EventBus.$on('sub', (topic) => {
+      this.sub(topic)
     });
     EventBus.$on('send-message', (topic, message) => {
       //this.sendAsyncMessage(topic, message)
@@ -46,7 +58,6 @@ export default class mqttClient {
     this.client.on("connect", () => {
       this.ready = true;
       this.sub('#');
-      //this.synth.synthQuick("C4")
       this.setStatus("Connected");
     })
         
@@ -59,7 +70,11 @@ export default class mqttClient {
     })
 
     this.client.on("message", (topic, payload) => {
-      EventBus.$emit("got-incoming-message", topic, payload);     
+      EventBus.$emit("got-incoming-message", topic, payload); 
+      // this.client.publish('hello', 'world', {qos: 1}, function () {
+      //     console.log('published')
+      //     //this.client.end()
+      //   })      
       var newPayload = topic + ">" + payload.toString();       
       var topicSplit = topic.split("/");
       if (topicSplit[6] == "37" ) {
@@ -117,7 +132,7 @@ export default class mqttClient {
   }
 
   sub(topic) {
-    this.client.subscribe(topic);
+    this.client.subscribe(topic, {qos:1});
       //console.log("subscribed to :", topic)   
   }
   
