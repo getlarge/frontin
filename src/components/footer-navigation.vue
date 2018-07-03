@@ -85,7 +85,7 @@
     methods: {
       
       getBuffer: function() {
-        EventBus.$emit('get-buffer');
+        EventBus.$emit("get-store", "findMatching", "mysensors/GW4-out/99/#");
       },
 
       findIndex: function() {

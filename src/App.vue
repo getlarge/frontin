@@ -28,9 +28,10 @@
 
     data() {
       return {
+        appName: config.inTopic,
         client: new(mqttClient),
         chat: new(liveRocketChat),
-        pageTopic: "getlarge" + this.$route.path + "main",
+        pageTopic: config.inTopic + this.$route.path + "main",
       }
     },
     
@@ -38,8 +39,8 @@
       //console.log("APP", this)
       this.chat._initClient();
       this.client.openStream();
-      this.client.addSubscribe(this.$route.path, "getlarge/#")
-      this.client.sendMessage("logs", "Getlarge : frontin connected")
+      this.client.sub(this.appName + "/#")
+      this.client.sendMessage( this.appName + "/logs", "Getlarge : frontin connected")
     },
      
     beforeDestroy() {

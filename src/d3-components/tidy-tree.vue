@@ -109,7 +109,8 @@
           </b-col>
 
           <b-col sm="9" md="9" lg="9" class="panel panel-default">
-            <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/>          </b-col>
+            <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/>          
+          </b-col>
       </b-row>
 
     </b-container>
@@ -137,7 +138,6 @@ Object.assign(data, {
 })
 
 export default {
-  name: 'tidy-tree',
   data () {
     //return initialState()
     return data
@@ -146,7 +146,7 @@ export default {
     tree
   },
  created() {
-    EventBus.$on("got-incoming-message", (topic, payload) => {
+    EventBus.$on("mqtt-rx", (topic, payload) => {
       // var split = message.split('>')
       // var topic = split[0];
       // var payload = split[1];
@@ -166,7 +166,7 @@ export default {
   },
   
   beforeDestroy() {
-    EventBus.$off("got-incoming-message");
+    EventBus.$off("mqtt-rx");
   },
 
   watch: {

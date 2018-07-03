@@ -26,11 +26,25 @@ export const routes = [
     component: loadView('portfolio')
   },
   {
-    name: 'Tidy Tree',
-    title: 'Tidy tree',
+    name: 'MQTT Tree',
+    title: 'MQTT tree',
     path: '/tidy-tree',
     alias: '/tidy-tree/*',
     component: loadView('tidy-tree')
+  },
+  {
+    name: 'Tree',
+    title: 'Tree',
+    path: '/tree',
+    alias: '/tree/*',
+    component: loadView('tree')
+  },
+  {
+    name: 'Audio Slider',
+    title: 'Audio Slider',
+    path: '/audio-slider',
+    alias: '/audio-slider/*',
+    component: loadView('audio-slider')
   },
   {
     name: 'hierarchical edge bundling',

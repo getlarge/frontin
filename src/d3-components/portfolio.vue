@@ -58,7 +58,7 @@
                     svgWigth: 960,
                     svgHeight: 600
                 },
-            synth: new(ToneSynth),
+                synth: new(ToneSynth),
             };
 	  	},
 
@@ -113,6 +113,10 @@
             that.simulation.nodes(that.graph.nodes).on('tick', that.ticked);
         },
 
+        beforeDestroy() {
+            EventBus.$off("got-width-setting");
+        },
+
         computed: {
             nodes () {
                 var that = this;
@@ -137,7 +141,7 @@
                             .on("drag", function dragged(d) {
                                 d.fx = event.x;
                                 d.fy = event.y;
-                                EventBus.$emit('send-message', "getlarge/nodes-position", d.fx + "-" + d.fy)
+                                EventBus.$emit('mqtt-tx', "getlarge/nodes-position", d.fx + "-" + d.fy)
                                 that.synth.synthModulo(event.x, event.y)
 
                             })

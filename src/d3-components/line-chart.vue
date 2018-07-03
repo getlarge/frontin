@@ -45,12 +45,14 @@
 	  	},
 
 	  	created() {
-	  		EventBus.$emit("sub", "mysensors/GW4-out/99/#");
+	  		EventBus.$emit("mqtt-sub", "mysensors/GW4-out/99/#");
+	  		EventBus.$on("mqtt-rx", (topic, payload) => {
+	  			return this.selectMessage(topic, payload);
+	  		}),
 	  		EventBus.$on("got-sound-frame", soundFrame => {
-		      console.log("soundFrame", soundFrame)
+		      //console.log("soundFrame", soundFrame)
 		      return this.tick(soundFrame);
-		      //return this.insertDatapoints(soundFrame, "soundFrame"); /// get the dataset + event to identify which line to update
-
+		      //return this.insertDatapoints(soundFrame, "soundFrame"); /// get the dataset + event to identify which group to update
 	    	});
 	  		EventBus.$on("got-volt-frame", voltFrame => {
 		      //console.log("voltFrame", voltFrame)
@@ -68,6 +70,7 @@
 
 		beforeDestroy() {
 			EventBus.$off("got-sound-frame");
+			EventBus.$off("mqtt-rx");
 			EventBus.$off("got-volt-frame");
 		},
 
@@ -83,7 +86,6 @@
 
 		methods: {
 		    initLine() {
-
 				//this.x = scaleTime().domain([0, 1000]).range([0, 1000]);
 		    	this.x = scaleLinear().domain([0, this.width*0.8]).range([0, this.width*0.8]);
 				this.y = scaleLinear().domain([0, this.height*0.6]).range([this.height*0.6, 0]);
@@ -112,8 +114,39 @@
 
 			},
 
+			selectMessage(topic, payload) {
+				//var newPayload = topic + ">" + payload.toString();       
+				var topicSplit = topic.split("/");
+				if (topicSplit[3] == "99" ) {
+					var obj = JSON.parse(payload.toString());
+					if ( obj.subType == "37") {
+						this.formatIncomingMessage("json", obj, "got-sound-frame");
+					};
+					if ( obj.subType == "38") {
+						this.formatIncomingMessage("json", obj, "got-volt-frame");
+					}
+				}
+			},
+
+			formatIncomingMessage(type, message, event) {
+			    //console.log(type, message, event)
+			    if (type = "json") {
+					/// formater le timestamp en format prêt à afficher sur D3
+					// var day = moment(Number(payloadSplit[1]));
+					// console.log("date", day)
+					var x = Number(message.time);
+					var y = Number(message.data);
+					var formatedPayload = {
+						x: x,
+						y: y,
+						type: message.subType
+					}; 
+					EventBus.$emit(event.toString(), formatedPayload);
+					//this.buffer.push(formatedPayload);
+			    }
+			},
+
 			tick(dataSet) {
-			//tick() {
 			    var point = {
 				    x: this.globalX,
 				    //x: dataSet.x / 100000,
@@ -187,7 +220,7 @@
 	}
 	path.line {
 /*		fill: none;
-*/		stroke: #f1c40f;
+*/		stroke: #17a2b8;
 		stroke-width: 3px;
 	}
 	path.smoothLine {
@@ -196,7 +229,7 @@
 		stroke-width: 3px;
 	}
 	path.area {
-		fill: #13679A;
+		fill: #17a2b8;
 		opacity: 0.5;
 	}
 	.circle {

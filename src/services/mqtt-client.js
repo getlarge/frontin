@@ -4,14 +4,8 @@ import { AsyncClient } from "async-mqtt"
 import moment from 'moment'
 import config from '@/config.json'
 import { EventBus } from '@/main'
-
-// var options = {
-//   	clientId: config.options.clientId + "_" + Math.random().toString(16).substr(2, 8),
-//   	username: config.options.username,
-//   	password: new Buffer(config.options.password),
-//     incomingStore: manager.incoming,
-//     outgoingStore: manager.outgoing
-// };
+var MQTTStore = require("mqtt-store");
+ 
 
 export default class mqttClient {
   constructor() {
@@ -23,6 +17,7 @@ export default class mqttClient {
       outgoingStore: null
     };
     this.client; 
+    this.store = new MQTTStore();
     this.manager = levelStore('static/db'); 
     this._initClient();
     this.asyncClient;
@@ -38,13 +33,13 @@ export default class mqttClient {
     this.client = mqtt.connect(config.wsClientURL, this.options);
     this.asyncClient = new AsyncClient(this.client);
 
-    EventBus.$on('get-buffer', () => {
-      this.getBuffer()
+    EventBus.$on('get-store', () => {
+      this.getStore()
     });
-    EventBus.$on('sub', (topic) => {
+    EventBus.$on('mqtt-sub', (topic) => {
       this.sub(topic)
     });
-    EventBus.$on('send-message', (topic, message) => {
+    EventBus.$on('mqtt-tx', (topic, message) => {
       //this.sendAsyncMessage(topic, message)
       this.sendMessage(topic, message)
     });
@@ -70,44 +65,14 @@ export default class mqttClient {
     })
 
     this.client.on("message", (topic, payload) => {
-      EventBus.$emit("got-incoming-message", topic, payload); 
+      this.store.put(topic, payload);
+      EventBus.$emit("mqtt-rx", topic, payload); 
       // this.client.publish('hello', 'world', {qos: 1}, function () {
       //     console.log('published')
       //     //this.client.end()
-      //   })      
-      var newPayload = topic + ">" + payload.toString();       
-      var topicSplit = topic.split("/");
-      if (topicSplit[6] == "37" ) {
-        this.formatIncomingMessage("json", newPayload, "got-sound-frame");
-      }
-      if (topicSplit[6] == "38" ) {
-        this.formatIncomingMessage("json", newPayload, "got-volt-frame");
-      }
+      //   })  
+      //this.buffer.push(formatedPayload);
     })
-  }
-
-  formatIncomingMessage(type, message, event) {
-    var messageSplit = message.split(">");
-    if (type = "json") {
-      var payloadSplit = messageSplit[1].toString().split('/');
-      /// formater le timestamp en format prêt à afficher sur D3
-      // var day = moment(Number(payloadSplit[1]));
-      // console.log("date", day)
-      var x = Number(payloadSplit[1]);
-      var y = Number(payloadSplit[0]);
-      var topicSplit = messageSplit[1].split('/');
-      var sensorType = topicSplit[6];
-      var formatedPayload = {
-        x: x,
-        y: y,
-        type: sensorType
-      }; 
-      EventBus.$emit(event.toString(), formatedPayload);
-      this.buffer.push(formatedPayload);
-    }
-    if (this.buffer.length == 100 ) {
-      this.buffer.pop();
-    }
   }
 
   close() {
@@ -120,7 +85,7 @@ export default class mqttClient {
   }
 
   sendAsyncMessage(topic, message) {
-    this.asyncClient.publish(topic, message, { retain: false, qos: 0 })
+    this.asyncClient.publish(topic, message, { retain: false, qos: 1 })
       .then(function(){
         console.log("send message :", message, "to", topic )
         return this.asyncClient.end();
@@ -128,16 +93,16 @@ export default class mqttClient {
   }
 
   sendMessage(topic, message) {
-    this.client.publish(topic, message, { retain: false, qos: 0 });
+    this.client.publish(topic, message, { retain: false, qos: 1 });
   }
 
   sub(topic) {
-    this.client.subscribe(topic, {qos:1});
+    this.client.subscribe(topic, { retain: false, qos:1});
       //console.log("subscribed to :", topic)   
   }
   
   addSubscribe(path, topic) {
-    this.asyncClient.subscribe(topic).then(function(){
+    this.asyncClient.subscribe(topic, { retain: false, qos: 1 }).then(function(){
       //console.log("subscribed to :", topic)
     });
 
@@ -156,8 +121,18 @@ export default class mqttClient {
     console.log("index subscribe list :", this.subscribeList.indexOf(pathList));
   }
 
-  getBuffer() {
-    EventBus.$emit("got-buffer", this.buffer);
+  getStore(methods, topic) {
+    var buffer;
+    if (methods == "get") {
+      return console.log(this.store.get(topic));
+    }
+    if (methods == "findMatching") {
+      return console.log(this.store.findMatching(topic));
+    }
+    if (methods == "findPatterns") {
+    return console.log(this.store.findPatterns(topic));
+    }
+    //EventBus.$emit("got-store", buffer);
   }
 
   getSubscriptions() {

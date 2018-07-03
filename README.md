@@ -26,31 +26,7 @@ Once installed in your machine, you can simply run the commands listed in the st
 
 To get started with this project, follow the 3-step installation, described here.
 
-### 1. broka-billy *broker* 
-
-Navigate inside the root folder and run:
-
-```
-npm install
-npm start
-```
-this will install the dependencies and start the Mosca broker locally on port 1883.
-
-If the server-app and broker-app are already running in separate terminals, you can see the data stream inside the terminal. 
-
-
-### 2. bareback *server*  
-
-Navigate inside the root folder and run:
-
-```
-npm install
-npm start
-```
-this will install the dependencies and start the express server locally on port 3000.
-
-
-### 3. frontin *client*
+### 1. frontin *client*
 
 *Before running the client, be sure you have already completed steps 1 and 2, and have both Moquette and mqtt-realtime-chart-server running in separate terminal windows.*
 
@@ -109,13 +85,11 @@ npm test
 
 + styling :
 	+ define color's scheme - 4 colors + nuances ( ? ) --> coherence between logo/navigation/portfolio/timeline
-	+ try new fonts ( cocogothic ?) 
 	+ portofolio links appearance ?
 	+ tweak D3js force simulation parameters
 
 + animations :
 	+ MQTT tree --> display IoT devices network--> 
-		+ radial modelisation 
 		+ style interpolation based on incoming message properties 
 	+ what plants talk about ? :
 		+ add a second line on the line chart ( sounds voltage and conductivity ), tooltips on the graph, 

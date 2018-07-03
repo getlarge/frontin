@@ -52,7 +52,7 @@
         return this.connStatus = status
       });
 
-      EventBus.$on('got-buffer', buffer => {
+      EventBus.$on('got-store', buffer => {
         console.log('mqtt buffer :', buffer)
       });
     },
@@ -79,7 +79,7 @@
       },
 
       getBuffer: function() {
-        EventBus.$emit('get-buffer');
+        EventBus.$emit('get-store');
       },
 
       findIndex: function() {
