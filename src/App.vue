@@ -106,6 +106,16 @@
       url('./assets/fonts/SourceCodePro/SourceCodePro-Bold.woff') format('woff'), 
       url('./assets/fonts/SourceCodePro/SourceCodePro-Bold.ttf') format('truetype');
   }
+  @font-face { /* Market Deco - latin */
+    font-family: 'MarketDeco';
+    font-weight: normal;
+    font-style: normal;
+    src: url('./assets/fonts/MarketDeco/MarketDeco.woff2') format('woff2'),
+         url('./assets/fonts/MarketDeco/MarketDeco.woff') format('woff'),
+         url('./assets/fonts/MarketDeco/MarketDeco.eot') format('embedded-opentype'),
+         url('./assets/fonts/MarketDeco/MarketDeco.ttf') format('truetype');
+  }
+
   @import 'font-awesome/css/font-awesome.css'
   @import url("@/assets/css/main.css")
 

@@ -1,7 +1,7 @@
 <template>
   <div id="top-nav">
       <b-navbar toggleable="sm" type="light" variant="light" sticky>
-        <b-navbar-brand href="/"><b-img id="logo" src="static/img/logo.png" fluid alt="Logo"/></img> Getlarge</b-navbar-brand>
+        <b-navbar-brand href="/"><b-img id="logo" src="static/img/logo.png" fluid alt="Logo"/> Getlarge</b-navbar-brand>
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
         <b-collapse is-nav id="nav_collapse">
           <b-nav class="w-50">

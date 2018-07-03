@@ -40,11 +40,11 @@ export const routes = [
     component: loadView('tree')
   },
   {
-    name: 'Audio Slider',
-    title: 'Audio Slider',
-    path: '/audio-slider',
-    alias: '/audio-slider/*',
-    component: loadView('audio-slider')
+    name: 'Hipster ambience',
+    title: 'Hipster ambience',
+    path: '/hipster-ambience',
+    alias: '/hipster-ambience/*',
+    component: loadView('hipster-ambience/index')
   },
   {
     name: 'hierarchical edge bundling',

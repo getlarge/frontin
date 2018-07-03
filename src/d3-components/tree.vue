@@ -1,31 +1,17 @@
 <template id="tree-holder">
-  <b-container id="tree":style="{width: settings.width + '%'}" fluid class="bv-example-row">
+  	<b-container id="tree":style="{width: settings.width + '%'}" fluid class="bv-example-row">
       <b-row align-h="center">
-          <b-col sm="3" md="3" lg="3" >
-			<audio-slider
-			  v-for="state in asComponent1"
-			  v-bind:key="state.id"
-			  v-bind:state="state"
-			></audio-slider>
-			<audio-slider
-			  v-for="states in asComponent2"
-			  v-bind:key="states.id"
-			  v-bind:state="states"
-			></audio-slider>
-			<b-button id="regenerate"  class="btn btn-outline-success my-1 my-sm-0" type="button">Regenerate</b-button>
+				
+				<b-col id="tree" sm="10" md="10" lg="10" class="panel panel-default">
+	        <svg id="branches" pointer-events="all" viewBox="0 0 900 450" preserveAspectRatio="xMinYMin meet"> 
+		        <g :id="line"></g>
+		    	</svg>
+					<svg id="roots" pointer-events="all" viewBox="0 0 900 200" preserveAspectRatio="xMinYMin meet">
+				  </svg>
+			    <b-button id="regenerate" @click="regenerate" type="button">Regenerate</b-button>
 
-		</b-col>
-
-		<b-col id="tree" sm="9" md="9" lg="9" class="panel panel-default">
-            <svg id="branches" pointer-events="all" viewBox="0 0 900 450" preserveAspectRatio="xMinYMin meet"> 
-            <g :id="line"></g>
-        	</svg>
-			<svg id="roots" pointer-events="all" viewBox="0 0 900 200" preserveAspectRatio="xMinYMin meet">
-	        </svg>
-		</b-col>
-      
+				</b-col>
       </b-row>
-
     </b-container>
 
 </template>
@@ -41,10 +27,8 @@
 	import { area, line, curveCardinal, curveNatural, curveCatmullRom } from "d3-shape"
 	import { active, transition } from "d3-transition"
 	import { EventBus } from '@/main'
-    import ToneSynth from '@/tone-components/synth'
-
-	import audioSlider from '@/d3-components/audio-slider'
-
+  import ToneSynth from '@/tone-components/synth'
+	//import audioSlider from '@/d3-components/hipster-ambience/audio-slider'
 
 	export default {
 
@@ -60,41 +44,15 @@
 				seed2: {i: 0, x: 450, y: -20, a: 179, l:25, d:0}, // a = angle, l = length, d = depth
 				maxDepth2 : 9,
 				settings: {
-                    strokeColor: "#29B5FF",
-                    width: 100,
-                    svgWidth: 900,
-                    svgHeight: 600,
-                },
-                simulation: null,
-                asComponent1 : [
-		          {
-		            id: 1,
-		            name: 'Rain',
-		            audioFile: new Audio('static/sounds/rain.mp3'),
-		            volume: 0.5,
-		            iconFile: './static/icons/rain-white.svg',
-		            isPlaying: false,
-		            width: 200,
-		            height: 200,
-		            margin: { right: 50, left: 50 },
-		          },
-		        ],
-		         asComponent2 : [
-		          {
-		            id: 2,
-		            name: 'Forrets',
-		            audioFile: new Audio('static/sounds/forrest.mp3'),
-		            volume: 0.5,
-		            iconFile: './static/icons/forrest-white.svg',
-		            isPlaying: false,
-		            width: 200,
-		            height: 200,
-		            margin: { right: 50, left: 50 },
-		          }
-		        ],
-                synth: new(ToneSynth),    			
-                line1: {},
-                lineData: [
+            strokeColor: "#29B5FF",
+            width: 100,
+            svgWidth: 900,
+            svgHeight: 600,
+        },
+        simulation: null,
+        synth: new(ToneSynth),    			
+        line1: {},
+        lineData: [
 				  {date: new Date(2007, 3, 24), value: 93.24},
 				  {date: new Date(2007, 3, 25), value: 95.35},
 				  {date: new Date(2007, 3, 26), value: 98.84},
@@ -106,18 +64,13 @@
 	  	},
 
 		components: {
-		  audioSlider,
+		  //audioSlider,
 		},
-	  	created() {
-	  		EventBus.$on("got-volt-frame", voltFrame => {
-		      //console.log("voltFrame", voltFrame)
-		      //return this.tick(voltFrame);
-	    	});
+	  created() {
 	    	//this.create();
+	  },
 
-	  	},
-
-	  	mounted() {
+	  mounted() {
 	  		// this.simulation = forceSimulation(this.branches)
      //                .alphaDecay(0.005)
      //                .alpha(0.2)
@@ -129,28 +82,25 @@
 		    console.log(this.seed);
 		},
 
-	  	updated() {
+	  updated() {
 		    this.update();
 		},
 
 		computed: {
-		    line() {
-                var that = this;
-                //console.log(that)
-                if (this.lineData) {
-                    return select("#branches").append("g")
-                        .attr("class", "line")
+	    line() {
+        var that = this;
+        //console.log(that)
+        if (this.lineData) {
+          return select("#branches").append("g")
+        		.attr("class", "line")
 						.datum(this.lineData)
-				    	.attr("d", this.line1)
-				    	.enter().insert("path")
-                        .style("stroke-width", (d) => (d.target.data.size / d.target.data.group * 1.3).toString() + "px")
-                        .style("stroke", "#eee")
-                        .style("fill", "none");
-                }
-            },
-
-
-
+			    	.attr("d", this.line1)
+			    	.enter().insert("path")
+              .style("stroke-width", (d) => (d.target.data.size / d.target.data.group * 1.3).toString() + "px")
+              .style("stroke", "#eee")
+              .style("fill", "none");
+          }
+      	},
 		},
 
 		methods: {
@@ -163,17 +113,14 @@
 
 			},
 			lineScape(b) {
-
 			    line()
 				    .x(function(d) { return x(d.date); })
 				    .y(function(d) { return y(d.value); })
 				    .curve(curveCatmullRom.alpha(0.5));
 				  		
-	
 			},			
 			// Tree creation functions
 			branch(b) {
-
 				var self = this;
 				var end = this.endPt(b), daR, newB;
 				this.branches.push(b);
@@ -251,11 +198,6 @@
 			stroke(d) {return d.l/20 },
 			rootStroke(d) {return d.l/9 },
 			strokeWidth(d) {return d.l/10*(this.maxDepth-d.d)/10 },
-			//return (d.x-600/2 / d.y-600 /2)/1000*10;
-
-			//opacity(d) {return (100* ((this.svgHeight - d.y)));},
-			//stroke(d) {return 100000* ((1/d.x/2) * (1/d.y /2));},
-			//stroke(d) {return  ( this.endPt(d).y * d.y  /4000).toString() + 'px';},
 			highlightParents(d) {
 				var colour = event.type === 'mouseover' ? '#17a2b8' : interpolateHcl(rgb("#2e9621"),rgb('#443016'));
 				var depth = d.d;
@@ -310,15 +252,15 @@
 			},
 
 			branchesTransform(d) {
-                //console.log(d.data.size);
-                // x = d.x;
-                // y = d.y;
-                var stroke1 = (this.endPt(d).y * d.y  /3500).toString() + 'px';
-                var stroke2 = (this.endPt(d).y * d.y  /4000).toString() + 'px';
+          //console.log(d.data.size);
+          // x = d.x;
+          // y = d.y;
+          var stroke1 = (this.endPt(d).y * d.y  /3500).toString() + 'px';
+          var stroke2 = (this.endPt(d).y * d.y  /4000).toString() + 'px';
 				// var x2 = this.endPt(d).x ;
 				// var y2 = this.endPt(d).y;
-                return "translate(" + stroke1 + "," + stroke2 + ")";
-            },
+          return "translate(" + stroke1 + "," + stroke2 + ")";
+      },
 
 			updateBranches() {
 				return select('#branches')
@@ -345,7 +287,7 @@
 					.enter()
 					.append('line')
 					.attr('class', "roots")
-			        .style("stroke-width", this.rootStroke)
+			    .style("stroke-width", this.rootStroke)
 					.attr('opacity', this.rootOpacity)
 					.style("stroke", "#dddddd")
 					.attr('x1', this.Rx1)
