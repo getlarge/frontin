@@ -24,8 +24,8 @@ Links:
 <script>
 
 import * as _ from 'lodash'
-import menu from '@/d3-components/bubbles-nested-routes/menu'
-import bubbles from '@/d3-components/bubbles-nested-routes/bubbles'
+import menu from '@/components/bubbles-nested-routes/menu'
+import bubbles from '@/components/bubbles-nested-routes/bubbles'
 
 
 const MY_URL_PREFIX = 'bubbles-nested-routes';

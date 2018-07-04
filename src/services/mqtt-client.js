@@ -30,7 +30,7 @@ export default class mqttClient {
   _initClient() {
     this.options.incomingStore = this.manager.incoming;
     this.options.outgoingStore = this.manager.outgoing;
-    this.client = mqtt.connect(config.wsClientURL, this.options);
+    this.client = mqtt.connect(config.wsServerURL, this.options);
     this.asyncClient = new AsyncClient(this.client);
 
     EventBus.$on('get-store', () => {

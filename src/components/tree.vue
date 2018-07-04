@@ -6,7 +6,7 @@
 	        <svg id="branches" pointer-events="all" viewBox="0 0 900 450" preserveAspectRatio="xMinYMin meet"> 
 		        <g :id="line"></g>
 		    	</svg>
-					<svg id="roots" pointer-events="all" viewBox="0 0 900 200" preserveAspectRatio="xMinYMin meet">
+					<!-- <svg id="roots" pointer-events="all" viewBox="0 0 900 200" preserveAspectRatio="xMinYMin meet"> -->
 				  </svg>
 			    <b-button id="regenerate" @click="regenerate" type="button">Regenerate</b-button>
 
@@ -79,7 +79,7 @@
      //                .force("y", forceY((d, i) => d.y * 2));
 
 		    this.initTree();
-		    console.log(this.seed);
+		    //console.log(this.seed);
 		},
 
 	  updated() {
@@ -215,12 +215,12 @@
 				}	
 			},
 			create() {
-				this.createRoots();
+				//this.createRoots();
 				this.createBranches();
 			},
 
 			update() {
-				this.updateRoots();
+				//this.updateRoots();
 				this.updateBranches();
 			},
 
@@ -270,8 +270,8 @@
 					// .attr('y1', this.y1)
      //            	.attr("transform", this.branchesTransform);
 				     .transition()
-				        .duration(250)
-    					.ease(easeLinear)
+				        .duration(3500)
+    					//.ease(easeLinear)
 				        .style("stroke-width", this.stroke)
 						.attr('opacity', this.opacity)
 						.attr('x1', this.x1)

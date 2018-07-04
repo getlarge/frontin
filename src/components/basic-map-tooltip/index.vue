@@ -29,8 +29,8 @@ Data:
 
 import * as _ from 'lodash'
 
-import map from '@/d3-components/basic-map-tooltip/map'
-import tooltip from '@/d3-components/basic-map-tooltip/tooltip'
+import map from '@/components/basic-map-tooltip/map'
+import tooltip from '@/components/basic-map-tooltip/tooltip'
 
 const STATES_DATA_PATH = 'static/data/states-data.csv';
 

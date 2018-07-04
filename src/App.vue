@@ -11,8 +11,8 @@
   import config from '@/config.json'
   import mqttClient  from '@/services/mqtt-client'
   import liveRocketChat  from '@/services/live-rocketchat'
-  import topNav from '@/components/menu-navigation'
-  import bottomNav from '@/components/footer-navigation'
+  import topNav from '@/containers/menu-navigation'
+  import bottomNav from '@/containers/footer-navigation'
   import { EventBus } from '@/main';
 
   export default {
@@ -32,9 +32,22 @@
         client: new(mqttClient),
         chat: new(liveRocketChat),
         pageTopic: config.inTopic + this.$route.path + "main",
+        showLocale: false,
+        showNav: false,
       }
     },
-    
+    // beforeCreate() {
+    //   if (this.$route.params.locale && this.$route.params.locale !== this.$i18n.locale) {
+    //     this.$i18n.locale = this.$route.params.locale
+    //   }
+    // },
+
+    // beforeUpdate() {
+    //   if (this.$route.params.locale && this.$route.params.locale !== this.$i18n.locale) {
+    //     this.$i18n.locale = this.$route.params.locale
+    //   }
+    // },
+
     created() {
       //console.log("APP", this)
       this.chat._initClient();
@@ -53,7 +66,10 @@
     },
 
     computed: {
-
+      // locale() {
+      //   let i18n = this.$i18n
+      //   return i18n.messages[i18n.locale].locale
+      // },
     },
 
     methods: {

@@ -22,6 +22,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/vue-fontawesome": "0.0.23",
     "async-mqtt": "^1.0.1",
+    "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
     "bootstrap-vue": "^2.0.0-rc.11",
     "circular-json": "^0.5.4",
@@ -62,11 +63,14 @@
     "vue": "^2.5.2",
     "vue-audio": "0.0.11",
     "vue-howler": "^0.7.0",
+    "vue-i18n": "^8.0.0",
     "vue-mq": "^0.2.1",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vue-slider-component": "^2.7.2",
-    "vued3tree": "^3.5.0"
+    "vue-upload-component": "^2.8.9",
+    "vued3tree": "^3.5.0",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -114,11 +118,13 @@
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
+    "webpack-body-parser": "^1.11.110",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.16.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "webpack-node-externals": "^1.7.2"
   },
   "engines": {
     "node": ">= 6.0.0",

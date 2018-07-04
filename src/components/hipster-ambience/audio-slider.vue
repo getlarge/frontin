@@ -1,29 +1,19 @@
 <template>
-
   <div id="audio-slider" ref="audioSlider">
     <button class="player" @click="togglePlayback"  >
-      <b-img class="iconic" :src="icon" fluid /></button>
+      <b-img class="iconic" :src="icon" fluid />
+    </button>
     <vue-slider ref="slider1" v-model="value" v-bind="options"></vue-slider>
   </div>
-
 </template>
 
 <script>
-  import { min, max, range, sum } from "d3-array"
-  import { hsl, rgb } from "d3-color"
-  import { easeLinear } from "d3-ease"
-  import { format } from "d3-format"
-  import { interpolateHcl } from "d3-interpolate"
-  import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale"
-  import { append, attr, event, select, selectAll, style } from "d3-selection"
-  import { timer } from "d3-timer"
-  import { active, transition } from "d3-transition"
-  import { EventBus } from "@/main"
+  import { select, selectAll } from "d3-selection"
   import vueSlider from "vue-slider-component"
   import VueHowler from 'vue-howler'
+  import { EventBus } from "@/main"
 
   //import image from "@/../static/icons/rain.png"
-
 
   export default {
     props: ["icon", "id", "colors"], 
@@ -35,10 +25,6 @@
         isPlaying : false,
         //id : 0,
         value: 0.5,
-        colorSet: {
-          color1: "#01c669",
-          color2: "#48725e",
-        },
         options: {
           eventType: 'auto',
           width: 'auto',
@@ -67,17 +53,15 @@
       }
     },
     components: {
-      vueSlider
+      vueSlider,
     },
 
     created() {
-
+     
     },
 
     mounted() {
-      
       this.initialize();
-
       this.$on('play', function (msg) {
         this.isPlaying = true;
         this.toggleBG();
@@ -86,16 +70,19 @@
         this.isPlaying = false;
         this.toggleBG();
       })
+
+       EventBus.$on('file-uploader', function (event, msg) {
+        if ( event == "add") {
+          return console.log(this)
+          //this.$props.icon = "http://localhost:3000/images/3"
+        }
+      })
     },
 
     updated() {
       //console.log("props", this.$props);
       this.setVolume(this.value);
       EventBus.$emit("audio-slider-value",this.$props.key, this.value);
-      //this.color = interpolateHcl(rgb(this.$props.colorSet.color1),rgb(this.$props.colorSet.color2));
-
-      // select(this.$el)
-      //   .style("background-color", this.color(this.value))
     },
 
 
@@ -105,9 +92,6 @@
 
     watch: {
 
-      icon(icon) {
-        this._reinitialize()
-      }
     },
 
     computed: {
@@ -116,22 +100,16 @@
 
     methods: {
       initialize() {
-        //this.color = interpolateHcl(rgb(this.colorSet.color1),rgb(this.colorSet.color1));
-        //this.color = interpolateHcl(rgb(this.$props.colorSet.color1),rgb(this.$props.colorSet.color2));
         this.setVolume(this.value);
-
         select(this.$el)
-          //.attr("id", "id-"+this.defaultState[0].id)
           .attr("ref", "audio-slider-"+this.$props.id)
-          //.style("background-color", this.color(this.value))
           .style("opacity", "0.4" )
         //console.log(this)
       },
 
       toggleBG() {
         select(this.$el)
-        //.style("background-color", this.color(this.value))
-        .style("opacity", this.isPlaying ? "0.8" : "0.4");
+          .style("opacity", this.isPlaying ? "0.8" : "0.4");
       },
 
 
@@ -141,8 +119,8 @@
 
 <style sass>
  
-
   .vue-slider-component .vue-slider {
+    
     background-color: #FFF;
   }
   .vue-slider-component .vue-slider-process {
@@ -181,6 +159,5 @@
     padding-top: 10%;
     padding-bottom: 10%;
   }
-
 
 </style>

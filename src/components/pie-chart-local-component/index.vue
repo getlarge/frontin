@@ -23,7 +23,7 @@ Data:
 <script>
 
 import * as _ from 'lodash'
-import pie from '@/d3-components/pie-chart-local-component/pie'
+import pie from '@/components/pie-chart-local-component/pie'
 
 const NAMES = [
   { name: 'Sarah', value: 2502 },

@@ -14,6 +14,11 @@
           </b-navbar-nav>
           </b-nav>
           <b-navbar-nav class="ml-auto">
+           <!--  <b-nav-item-dropdown :class="{'nav-link': true, show: showLocale}" @click.prevent="onLocale(true)" @focus="onLocale(true)" @blur="onLocale(false)" :text="{{$t('header.locale')}}" right>
+              <b-dropdown-item class="dropdown-menu"  v-for="(value, name) in locale" :key="name">
+                <router-link class="dropdown-item" :to="'/' + name + ($route.params.locale ? $route.fullPath.substr($route.params.locale.length + 1) : $route.fullPath)">{{value}}</router-link>
+              </b-dropdown-item>
+            </b-nav-item-dropdown> --> 
             <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" /></b-nav-item>
             <b-nav-item href="https://twitter.com/e_maleix" target="_blank"><font-awesome-icon :icon="['fab', 'twitter']" size="lg" /></b-nav-item>
             <b-nav-item href="https://framagit.org/getlarge" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg"/></b-nav-item>
@@ -72,6 +77,16 @@
     },
 
     methods: {
+      // onLocale(show) {
+      //   if (show) {
+      //     this.showLocale = show
+      //   } else {
+      //     setTimeout(() => {
+      //       this.showLocale = show
+      //     }, 128)
+      //   }
+      // },
+
       subs : event => {
         if (event) {
           alert(event.target.tagName)
@@ -91,21 +106,6 @@
 </script>
 
 <style scoped>
-
-/*  a {
-    display: block;
-    position: absolute;
-    width: 100px;
-    text-decoration: none;
-    font-weight: bold;
-    color: blue;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }*/
-
-
 
   #holder {
     position: relative;
@@ -150,6 +150,5 @@
     text-align: center;
   }
 
-  
 
 </style>

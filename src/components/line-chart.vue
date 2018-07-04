@@ -213,7 +213,15 @@
 </script>
 
 
-<style>
+<style scoped>
+
+	h1 { 
+		font-family: 'MarketDeco'; 
+		font-size: 20px; 
+		margin: 10px 0; 
+		text-transform: uppercase; 
+	}
+
 	g.axis {
 		fill: #d6d6d6;
 		font-size: 12px;

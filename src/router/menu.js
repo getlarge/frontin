@@ -1,8 +1,9 @@
 import config from '@/config.json'
 
 function loadView(view) {
-  return () => import(/* webpackChunkName: "d3-components-[request]" */ `@/d3-components/${view}.vue`)
+  return () => import(/* webpackChunkName: "components-[request]" */ `@/components/${view}.vue`)
 }
+
 
 export const routes = [
   {
@@ -45,18 +46,18 @@ export const routes = [
     path: '/hipster-ambience',
     alias: '/hipster-ambience/*',
     component: loadView('hipster-ambience/index')
-  },
+  },  
   {
-    name: 'hierarchical edge bundling',
-    title: 'hierarchical edge bundling',
-    path: '/hierarchical-edge-bundling',
-    alias: '/hierarchical-edge-bundling/*',
-    component: loadView('hierarchical-edge-bundling/index')
-  }
+    name: 'Cam viewer',
+    title: 'Cam viewer',
+    path: '/cam-viewer',
+    alias: '/cam-viewer/*',
+    component: loadView('cam-viewer')
+  },
 ].map(r => {
   var res = r;
   res.source = config.gitLink +
-               config.d3ComponentsPath +
+               config.ComponentsPath +
                r.path +
                (r.folder ? '' : '.vue')
   return res;
