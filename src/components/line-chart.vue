@@ -226,6 +226,11 @@
 		fill: #d6d6d6;
 		font-size: 12px;
 	}
+	line, path {
+/*		fill: none;
+*/		stroke: #17a2b8;
+		stroke-width: 3px;
+	}
 	path.line {
 /*		fill: none;
 */		stroke: #17a2b8;

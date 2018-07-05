@@ -61,22 +61,34 @@
     },
 
     mounted() {
-      this.initialize();
-      this.$on('play', function (msg) {
-        this.isPlaying = true;
-        this.toggleBG();
-      })
-      this.$on('pause', function (msg) {
-        this.isPlaying = false;
-        this.toggleBG();
-      })
+      if ( this.icon != null ) {
+          this.initialize();
 
-       EventBus.$on('file-uploader', function (event, msg) {
-        if ( event == "add") {
-          return console.log(this)
-          //this.$props.icon = "http://localhost:3000/images/3"
-        }
-      })
+          this.$on('play', function (msg) {
+            this.isPlaying = true;
+            this.toggleBG();
+          })
+          this.$on('pause', function (msg) {
+            this.isPlaying = false;
+            this.toggleBG();
+          })
+
+        EventBus.$on('file-uploader', function (event, msg) {
+          if ( event == "add") {
+            return console.log(this)
+            //this.$props.icon = "http://localhost:3000/images/3"
+          }
+        })
+        return;
+      }
+      else {
+        select(this.$el)
+          .style("opacity", "0" )
+        console.log("this", this)
+        return ;
+
+      }
+
     },
 
     updated() {
@@ -117,10 +129,9 @@
   }
 </script>
 
-<style sass>
+<style lang="scss">
  
   .vue-slider-component .vue-slider {
-    
     background-color: #FFF;
   }
   .vue-slider-component .vue-slider-process {
@@ -150,14 +161,13 @@
     padding-bottom: 10%;
   }
 
-  .player :after {
+  .player :hover {
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: transparent;
     border: none;
-    padding-top: 10%;
-    padding-bottom: 10%;
+    cursor: pointer; 
   }
 
 </style>
