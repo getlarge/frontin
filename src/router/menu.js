@@ -52,7 +52,7 @@ export const routes = [
     title: 'Cam viewer',
     path: '/cam-viewer',
     alias: '/cam-viewer/*',
-    component: loadView('cam-viewer')
+    component: loadView('utils/cam-viewer')
   },
 ].map(r => {
   var res = r;

@@ -42,12 +42,13 @@
 	            <draggable  :list="as3" tag="div" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
 	                <audio-slider  v-for="(element, index) in as3" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true"  ></audio-slider>
 	           	</draggable>
-	           	<button class="del-button" @click="delBuffer">Delete <font-awesome-icon :icon="['fas', 'trash']" size="3x" /> </button>
 	           
            </div>
            <div v-else>
            	<p>Empty selection</p>
            </div>
+           	<button class="del-button" @click="delBuffer">Delete <font-awesome-icon :icon="['fas', 'trash']" size="3x" /> </button>
+
 		</b-col>
 
       </b-row>

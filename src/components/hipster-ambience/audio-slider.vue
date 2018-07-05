@@ -132,14 +132,14 @@
 <style lang="scss">
  
   .vue-slider-component .vue-slider {
-    background-color: #FFF;
   }
+
   .vue-slider-component .vue-slider-process {
     background-color: #FFF;
   }
 
-  #icon:hover {
-    filter: url(#pictureFilter);
+  .vue-slider-sr-only {
+    background-color: #FFF;
   }
 
   .iconic {

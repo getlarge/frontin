@@ -213,7 +213,7 @@
 </script>
 
 
-<style scoped>
+<style lang="scss">
 
 	h1 { 
 		font-family: 'MarketDeco'; 
@@ -226,23 +226,20 @@
 		fill: #d6d6d6;
 		font-size: 12px;
 	}
-	line, path {
-/*		fill: none;
-*/		stroke: #17a2b8;
-		stroke-width: 3px;
-	}
+
 	path.line {
-/*		fill: none;
-*/		stroke: #17a2b8;
+		fill: none;
+		stroke: #17a2b8;
 		stroke-width: 3px;
 	}
 	path.smoothLine {
-/*		fill: none;
-*/		stroke: #f1c40f;
+		fill: none;
+		stroke: #f1c40f;
 		stroke-width: 3px;
 	}
 	path.area {
 		fill: #17a2b8;
+		stroke: #17a2b8;
 		opacity: 0.5;
 	}
 	.circle {
