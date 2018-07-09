@@ -4,7 +4,7 @@
        
       <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
         <div class="dropbox">
-          <input type="file" multiple :name="`${mimetype}s`" :disabled="isSaving" @change="filesChange(mimetype, $event.target.name, $event.target.files,); fileCount = $event.target.files.length" :accept="`${mimetype}/*`" class="input-file">
+          <input type="file" multiple :name="`${mimetype}s`" :disabled="isSaving" @change="filesChange(mimetype, $event.target.name, $event.target.files); fileCount = $event.target.files.length" :accept="`${mimetype}/*`" class="input-file">
             <p v-if="isInitial">
               <font-awesome-icon :icon="['fas', 'plus']" size="2x" />
               {{ mimetype }} file(s) here to begin
