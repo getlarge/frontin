@@ -35,6 +35,11 @@
             }
         },        
         
+        beforeDestroy() {
+            var track = this.video.srcObject.getTracks()[0];  // if only one media track
+            track.stop();
+        },
+
         methods: {
             capture() {
                 this.canvas = this.$refs.canvas;

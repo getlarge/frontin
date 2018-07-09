@@ -2,13 +2,13 @@
   <div id="bottom-nav">
     <hr class="my-4">
     <b-container class="bv-example-row">
-      <b-row align-h="center">
+      <b-row class="links" align-h="center">
           <b-col sm="3" md="4" lg="4" lg-offset="1" class="prev"><router-link v-if="prev" :to="prev.path" > < {{ prev.title }} </router-link></b-col>
           <b-col sm="4" md="4" lg="4" class="source"><a :href="sourceHref" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" /> {{ $route.name }}</a></b-col>
           <b-col sm="3" md="4" lg="4" class="next"><router-link v-if="next" :to="next.path" > {{ next.title }} > </router-link></b-col>
       </b-row>
       <b-row align-h="center">
-          <b-col sm="1" lg="1"><b-button id="playButton" @click="getBuffer" class="btn btn-outline-success my-1 my-sm-0" type="button">Subs</b-button></b-col>
+         <!--  <b-col sm="1" lg="1"><b-button id="playButton" @click="getBuffer" class="btn btn-outline-success my-1 my-sm-0" type="button">Subs</b-button></b-col> -->
 
       </b-row>
 
@@ -98,33 +98,24 @@
 
 <style scoped>
 
-/*  a {
-    display: block;
-    position: absolute;
-    width: 100px;
-    text-decoration: none;
-    font-weight: bold;
-    color: blue;
-  }
 
-  a:hover {
-    text-decoration: underline;
-  }*/
 
   #bottom-nav {
     font-size: 14px; 
-    margin: auto;
     position: relative;
+
     /*border-top: 1px dashed gray;*/
-    padding-top: 0px;
-    margin-top: 2%;
+    margin-top: 0%;
+    margin-bottom: 5%;
   }
 
-  #links {
-    display: block;
-    width: 300px;
-    height: 40px;
-    position: relative;
+  a {
+    color: #686868;
+  }
+
+  a:hover{
+    color: #33b277;
+    text-decoration: none;
   }
 
   .prev {

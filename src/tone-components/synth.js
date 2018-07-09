@@ -30,7 +30,7 @@ export default class ToneSynth {
 					"octaves": 4
 				}
 			}).toMaster()
-		this.synth.volume.value = -15
+		this.synth.volume.value = -20
 	}
 
 	synthAttack(notes) { //ex delay : '+0.05'

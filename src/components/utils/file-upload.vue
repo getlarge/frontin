@@ -85,7 +85,7 @@
 
     updated() {
      if ( this.currentStatus === STATUS_FAILED) {
-          console.log(this.uploadError);
+          console.log("error", this.uploadError);
       }
     },
 

@@ -86,14 +86,6 @@ export default {
 </script>
 
 <style scoped>
-  #project-timeline {
-      display: inline-block;
-      position: relative;
-      width: 100%;
-      vertical-align: middle;
-      overflow: hidden;
-      margin-top: 10%;
-  }
 
   #holder {
     position: relative;

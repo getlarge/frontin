@@ -10,16 +10,11 @@
 
   import config from '@/config.json'
   import mqttClient  from '@/services/mqtt-client'
-  import liveRocketChat  from '@/services/live-rocketchat'
   import topNav from '@/containers/menu-navigation'
   import bottomNav from '@/containers/footer-navigation'
   import { EventBus } from '@/main';
 
   export default {
-    // props: [
-    //   client,
-    //   'server'
-    // ], 
     name: "App",
     components: { 
       topNav,
@@ -30,7 +25,6 @@
       return {
         appName: config.inTopic,
         client: new(mqttClient),
-        chat: new(liveRocketChat),
         pageTopic: config.inTopic + this.$route.path + "main",
         showLocale: false,
         showNav: false,
@@ -49,8 +43,6 @@
     // },
 
     created() {
-      //console.log("APP", this)
-      this.chat._initClient();
       this.client.openStream();
       this.client.sub(this.appName + "/#")
       this.client.sendMessage( this.appName + "/logs", "Getlarge : frontin connected")

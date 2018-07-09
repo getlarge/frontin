@@ -1,5 +1,7 @@
 <template>
   <b-container id="tidy-tree" fluid class="bv-example-row">
+          <h1>Network tree</h1>
+
       <b-row align-h="center">
           <b-col sm="3" md="3" lg="3" >
               <div class="panel-heading">Props</div>
@@ -96,12 +98,12 @@
               </div>
             </div>
 
-              <div class="panel-heading">Events</div>
+<!--               <div class="panel-heading">Events</div>
               <div class="panel-body log">
                 <div v-for="(event,index) in events" :key="index">
                   <p><b>Name:</b> {{event.eventName}} <b>Data:</b>{{event.data.text}}</p>
                 </div>
-              </div>
+              </div> -->
           </b-col>
 
           <b-col sm="9" md="9" lg="9" class="panel panel-default">
@@ -292,10 +294,11 @@
 </script>
 
 <style scoped>
+
   #tidy-tree {
     text-align: center;
     color: #2c3e50;
-    margin-top: 20px;
+    margin-top: 3%;
   }
 
   .tree {
@@ -310,6 +313,18 @@
 
   .linktree {
     stroke: url(#gradient);
+  }
+
+  .form-group {
+    text-align: left;
+  }
+
+  .form-control:hover {
+    color: #33b277;
+  }
+
+  input.form-control {
+    width: 100%;
   }
 
   .log  {

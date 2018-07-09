@@ -1,6 +1,6 @@
 <template>
     <div id="vis">
-        <mq-layout class="controls-laptop" mq="laptop">
+       <!--  <mq-layout class="controls-laptop" mq="laptop">
             <label>Adjust width</label>
             <input type="range" v-model="settings.width" min="0" max="100" />
          </mq-layout>
@@ -12,12 +12,12 @@
             <label class="controls-mobile">Adjust width</label>
             <input type="range" v-model="settings.width" min="0" max="100" />
         </mq-layout>
-
+ -->
         <div class="svg-container" :style="{width: settings.width + '%'}">
-            <svg id="svg" pointer-events="all" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet">
+            <svg id="svg" pointer-events="all" viewBox="0 0 960 500" preserveAspectRatio="xMinYMin meet">
                 <g :id="links"></g>
-                <g :id="images"></g>
                 <g :id="nodes"></g>
+                <g :id="images"></g>
                 <g :id="texts"></g>
             </svg>
         </div>
@@ -56,7 +56,7 @@
                     strokeColor: "#29B5FF",
                     width: 100,
                     svgWigth: 960,
-                    svgHeight: 600
+                    svgHeight: 500
                 },
                 synth: new(ToneSynth),
             };
@@ -96,13 +96,13 @@
                 that.simulation = forceSimulation(that.graph.nodes)
                     .alphaDecay(0.005)
                     .alpha(0.2)
-                    .force("link", forceLink(that.graph.links).id((d, i) => d.id ).distance((d, i) => d.source.data.size / d.source.data.group * 3.5).strength((l, i) => 1 ).iterations(2))
-                    .force("charge", forceManyBody(that.graph.nodes).strength(-300).distanceMax(350).distanceMin(100))
+                    .force("link", forceLink(that.graph.links).id((d, i) => d.id ).distance((d, i) => d.source.data.size / d.source.data.group * 3.2).strength((l, i) => 1 ).iterations(2))
+                    .force("charge", forceManyBody(that.graph.nodes).strength(-300))
                     .force("center", forceCenter(that.settings.svgWigth / 2, that.settings.svgHeight / 2))
-                    .force("collisionForce", forceCollide(5).strength(50).iterations(5))
-                    .alphaTarget(0.4)
-                    .force("x", forceX((d, i) => d.x * 2))
-                    .force("y", forceY((d, i) => d.y * 2))
+                    .force("collisionForce", forceCollide(5).strength(-250).iterations(1))
+                     .alphaTarget(0.4)
+                     // .force("x", forceX((d, i) => d.x ))
+                     // .force("y", forceY((d, i) => d.y ))
                 
             });
         },
@@ -127,31 +127,12 @@
                         .data(that.graph.nodes, d => d.data.id )
                         .enter().append("circle")
                         .attr("r", d => d.data.size || 4.5 )
-                        .style("fill", d => this.color(d.data.group))
-                        .style("opacity", "0")
+                        //.style("fill", d => this.color(d.data.group))
+                        .style("fill", "#33b277")
+                        .style("opacity", d => d.data.group > 2 ? "0" : "0.8")
+                        //.style("opacity", "0")
                         //.on("click", this.onClickNode)
-                        .call(drag()
-                            .on("start", function dragstarted(d) {
-                                if (!event.active) that.simulation.alphaTarget(0.3).restart();
-                                d.fx = d.x;
-                                d.fy = d.y;
-                                that.synth.synthAttack(d.data.notes); //ex delay : '+0.05'
 
-                            })
-                            .on("drag", function dragged(d) {
-                                d.fx = event.x;
-                                d.fy = event.y;
-                                EventBus.$emit('mqtt-tx', "getlarge/nodes-position", d.fx + "-" + d.fy)
-                                that.synth.synthModulo(event.x, event.y)
-
-                            })
-                            .on("end", function dragended(d) {
-                                if (!event.active) that.simulation.alphaTarget(0);
-                                d.fx = null;
-                                d.fy = null;
-                                that.synth.synthRelease()
-
-                            })) 
                         // node.append("image")
                        
                 }
@@ -181,9 +162,10 @@
                         //.data(that.graph.nodes)
                         .data(that.graph.nodes, d => d.data.id )
                         .enter().append("text")
-                        .attr("x", 20)
-                        .attr("y", (d) => 25 + d.data.size)
+                        .attr("x", 10)
+                        .attr("y", (d) => 15 + d.data.size)
                         .attr("fill", "#000")
+                        .attr("opacity", "0")
                         .text((d) => d.data.title );
                 }
             },
@@ -203,6 +185,27 @@
                         .attr("y", (d) => -1 * d.data.size)
                         .attr("height", (d) => 2 * d.data.size)
                         .attr("width", (d) => 2 * d.data.size)
+                        .call(drag()
+                            .on("start", function dragstarted(d) {
+                                if (!event.active) that.simulation.alphaTarget(0.3).restart();
+                                d.fx = d.x;
+                                d.fy = d.y;
+                                that.synth.synthAttack(d.data.notes); //ex delay : '+0.05'
+
+                            })
+                            .on("drag", function dragged(d) {
+                                d.fx = event.x;
+                                d.fy = event.y;
+                                EventBus.$emit('mqtt-tx', "getlarge/nodes-position", d.fx + "-" + d.fy)
+                                that.synth.synthModulo(event.x, event.y)
+
+                            })
+                            .on("end", function dragended(d) {
+                                if (!event.active) that.simulation.alphaTarget(0);
+                                d.fx = null;
+                                d.fy = null;
+                                that.synth.synthRelease()
+                        })) 
                 }
             },
 

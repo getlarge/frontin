@@ -7,18 +7,18 @@ function loadView(view) {
 
 export const routes = [
   {
-    name: 'Line Charts',
-    title: 'Line Charts',
-    path: '/line-chart',
-    alias: '/line-chart/*',
-    component: loadView('line-chart')
+    name: 'Plants Print',
+    title: 'Plants Digital Print',
+    path: '/plants-print',
+    alias: '/plants-print/*',
+    component: loadView('plants-print/index')
   },
   {
     name: 'Projects Timeline',
     title: 'Projects Timeline',
     path: '/projects-timeline',
     alias: '/projects-timeline/*',
-    component: loadView('projects-timeline')
+    component: loadView('projects-timeline/index')
   },
   {
     name: 'Portfolio',
@@ -27,18 +27,18 @@ export const routes = [
     component: loadView('portfolio')
   },
   {
-    name: 'MQTT Tree',
-    title: 'MQTT tree',
+    name: 'Network Tree',
+    title: 'Realtime Network Mapping',
     path: '/tidy-tree',
     alias: '/tidy-tree/*',
     component: loadView('tidy-tree')
   },
   {
-    name: 'Tree',
-    title: 'Tree',
-    path: '/tree',
-    alias: '/tree/*',
-    component: loadView('tree')
+    name: 'Dichotomy',
+    title: 'Regular dichotomy',
+    path: '/dichotomy',
+    alias: '/dichotomy/*',
+    component: loadView('dichotomy')
   },
   {
     name: 'Hipster ambience',

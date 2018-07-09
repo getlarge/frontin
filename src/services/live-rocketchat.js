@@ -24,7 +24,7 @@ export default class liveRocketChat {
         this.setCustomField('fieldName1', 'Any value you want to store');
         this.setCustomField('fieldName2', 'A value set just once', false); // you can pass false as the third parameter to not overwrite an already set value
         this.setTheme({
-            color: '#17a2b8', // widget title background color
+            color: '#33b277', // widget title background color
             fontColor: '#FFF' // widget title font color
         });
         this.onChatMaximized(function() {

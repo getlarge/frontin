@@ -121,6 +121,15 @@
     position: relative;
   }
 
+  a {
+    color: #686868;
+  }
+
+  a:hover{
+    color: #33b277;
+    text-decoration: none;
+  }
+
   .prev {
     left: 0px;
     text-align: left;
