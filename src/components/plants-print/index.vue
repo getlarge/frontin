@@ -3,9 +3,9 @@
   <b-container id="plant-life" fluid class="bv-example-row">
     <b-row align-h="center">
       <b-col sm="4" md="4" lg="4" >
-            <h1>PLANT'S DIGITAL PRINT </h1>
+        <h1 class="">PLANT'S DIGITAL PRINT </h1>
 
-        <b-img class="iconic" :src="icon" fluid />
+        <b-img class="specimen" :src="icon" fluid />
         <p> Measuring conductivity signals from 2 specimens ( X & Y ), compared in real time. 
         </br> The aim of this experiment is to map plant's sensitivity and finally create an id card based on its vital print. 
         </p>
@@ -187,7 +187,7 @@
     color: #686868; 
   }
 
-  .iconic {
+  .specimen {
     max-height: 60%;
   }
   

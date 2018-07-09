@@ -11,13 +11,13 @@
           </p>
           <b-row align-h="center">
             <b-col sm="3" md="3" lg="3" >
-              <b-btn class="player" href="#/portfolio"  >
-                <b-img class="iconic" src="static/icons/enter-white.png" fluid />
+              <b-btn class="doors" href="#/portfolio"  >
+                <b-img class="signs" :src="icon1" fluid />
               </b-btn>
             </b-col>
             <b-col sm="3" md="3" lg="3" >
-              <b-btn class="player"  @click="chat._initClient()"  >
-                <b-img class="iconic" src="static/icons/send-white.png" fluid />
+              <b-btn class="doors"  @click="chat._initClient()"  >
+                <b-img class="signs" :src="icon2" fluid />
               </b-btn>
             </b-col>
 
@@ -36,6 +36,8 @@
       data() {
         return {
           items: routes,
+          icon1: "static/icons/enter-white.png",
+          icon2: "static/icons/send-white.png",
           chat: new(liveRocketChat),
         }
     }
@@ -95,7 +97,7 @@
     margin-left: 10%;
   }
 
-  .iconic {
+  .signs {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -104,7 +106,7 @@
     opacity: 1 !important;
   }
 
-  .iconic:hover {
+  .signs:hover {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,7 +114,7 @@
     height: 50%;
   }
 
-  .player {
+  .doors {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -123,7 +125,7 @@
     padding-bottom: 10%;
   }
 
-  .player:hover {
+  .doors:hover {
     display: flex;
     align-items: center;
     justify-content: center;
