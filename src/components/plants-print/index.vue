@@ -1,12 +1,11 @@
 <template>
 
   <b-container id="plant-life" fluid class="bv-example-row">
+    <h1 >Plants digital print </h1>
     <b-row align-h="center">
       <b-col sm="4" md="4" lg="4" >
-        <h1 class="">PLANT'S DIGITAL PRINT </h1>
-
         <b-img class="specimen" :src="icon" fluid />
-        <p> Measuring conductivity signals from 2 specimens ( X & Y ), compared in real time. 
+        <p> Measuring conductivity signals from 2 specimens living in my  garden ( represented as X & Y ), compared in real time. 
         </br> The aim of this experiment is to map plant's sensitivity and finally create an id card based on its vital print. 
         </p>
         <small># In Progress</small>
@@ -182,12 +181,13 @@
 <style lang="scss">
 
   #plant-life {
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 3%;
     color: #686868; 
   }
 
   .specimen {
+    margin-top: 3%;
+    margin-bottom: 3%;
     max-height: 60%;
   }
   
@@ -203,7 +203,7 @@
 
   line {
     stroke: #cecece; 
-    stroke-width: 1.5px;
+    stroke-width: 1px;
   }
 
   p {
@@ -211,11 +211,14 @@
     text-align: justify;
   }
 
-  h1 { 
-    font-family: 'MarketDeco'; 
+  h1 {
+    font-family: 'Aloes-Bd';
+    font-size: 24px; 
+    text-transform: uppercase; 
     text-align: left;
-    font-size: 20px; 
-    margin: 10px 0; 
+    margin-left: 2%; 
+    color: #686868; 
+
   }
 
 

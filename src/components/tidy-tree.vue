@@ -1,10 +1,19 @@
 <template>
   <b-container id="tidy-tree" fluid class="bv-example-row">
-          <h1>Network tree</h1>
+
+      <b-row >        
+         <b-col class="infos" sm="12" md="5" lg="4">
+        <h1>Network topology</h1>
+        </b-col>
+        <b-col class="infos" sm="12" md="6" lg="5">
+          <p>" Logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol."
+          </p>
+        </b-col>
+      </b-row>
 
       <b-row align-h="center">
           <b-col sm="3" md="3" lg="3" >
-              <div class="panel-heading">Props</div>
+              <div class="panel-heading"></div>
 
               <div class="panel-body">
                   <div class="form-horizontal">
@@ -293,11 +302,11 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss">
 
   #tidy-tree {
     text-align: center;
-    color: #2c3e50;
+    color: #686868;
     margin-top: 3%;
   }
 
@@ -327,7 +336,16 @@
     width: 100%;
   }
 
+  h1 {
+    font-family: 'Aloes-Bd';
+    font-size: 24px;  
+    text-transform: uppercase; 
+    text-align: center;
+    color: #686868; 
+  }
+
   .log  {
+
     height: 500px;
     overflow-x: auto;
     overflow-y: auto;

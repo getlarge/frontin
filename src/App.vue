@@ -129,14 +129,15 @@
 
   h1 { 
     font-family: 'Aloes-Bd'; 
-    font-size: 20px; 
-    margin: 10px 0; 
+    font-size: 18px; 
     text-transform: uppercase; 
   }
+
   h2, h3 { 
     font-size: 18px; 
     margin: 5px 0; 
   }
+
   h4 {
     font: 400 120px/500px ;
     text-align: center;
@@ -145,6 +146,7 @@
     margin: 0;
     position: absolute;
   }
+  
   h6 {
     margin-top: 20px;
   }

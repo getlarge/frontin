@@ -52,14 +52,14 @@
 		</b-col>
 
       </b-row>
-		<div class="status">
+		<!-- <div class="status">
             <p v-if="canDrag!=null"  :class="canDrag? 'ok' : 'ko'">
                 can Drag: {{canDrag}} future index {{futureIndex}}
             </p>
             <small v-else>
                 No drag operation
             </small>
-        </div>
+        </div> -->
 
     </b-container>
 
@@ -284,7 +284,7 @@
 	
 </script>
 
-<style scoped>
+<style lang="scss">
 
 	#audio-slider-holder {
 		text-align: center;
@@ -354,4 +354,12 @@
 		padding-top: 5%;
 	}
 
+
+	h1 {
+    	font-family: 'Aloes-Bd';
+    	font-size: 28px; 
+    	text-transform: uppercase;
+    	text-align: center; 
+		color: white;
+	}
 </style>

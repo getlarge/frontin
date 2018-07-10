@@ -1,8 +1,26 @@
 
 <template>
-	<div id="project-timeline">
-		<svg></svg>
-	</div>
+	<b-container id="project-timeline" fluid class="bv-example-row">
+    <h1 >Projects timeline </h1>
+    <b-row align-h="center">
+		<b-col sm="4" md="4" lg="4" >
+		<tooltip
+		v-if="currentProject"
+		:title="currentProject.name"
+		:description="currentProject.description"
+		:tags="currentProject.tags"
+		:img="currentProject.img"
+		/>
+		</b-col>
+	</b-row>
+	<b-row align-h="center">
+		<b-col id="timeline" sm="12" md="12" lg="12" >
+			<svg></svg>
+
+		</b-col>
+    </b-row>
+  </b-container>
+
 </template>
 
 <script>
@@ -10,13 +28,16 @@
 	import config from '@/config.json'
 	import { min, max, range, sum } from "d3-array"
 	import { axisBottom } from "d3-axis"
+	import { rgb } from "d3-color"
 	import { easeLinear, easeQuadInOut } from "d3-ease"
+	import { interpolate, interpolateHcl, interpolateHclLong } from "d3-interpolate"
 	import { scaleLinear, scalePow, scaleOrdinal, scaleTime } from "d3-scale"
 	import { schemeCategory10, schemePaired } from "d3-scale-chromatic"
 	import { event, select, selectAll, style } from "d3-selection"
 	import { area, stack, stackOrderNone, stackOffsetNone } from "d3-shape"
 	import { timeFormat } from "d3-time-format"
 	import { active, transition } from "d3-transition"
+	import tooltip from "./tooltip"
 	import moment from 'moment'
 	import { EventBus } from '@/main'
 
@@ -27,133 +48,191 @@
 		    	pageTopic: "getlarge" + this.$route.path,
 				width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
 				height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+				currentProject: undefined,
+				projectData: undefined,
 				projects : [{
 			            "name": "web app development",
-			            "link": "/projects/web/",
+			            "link": "#",
+			            "category": 8,
+			            "description": "Working on this website, with the intent to create a fully interactive browsing experience.",
+			            "tags": "NodeJS, VueJS, D3JS, MQTT, Express",
+			            "img": "static/icons/here.png",
 			            "started_at": 1526384090000,
 			            "ended_at": 0,
 			            "is_alive": true
 			        }, {
-			        	"name": "presentation slides Aloes",
-			            "link": "/projects/pitch/",
+			        	"name": "presentation Aloes",
+			            "link": "https://aloes.io",
+			            "category": 0,
+			            "description": "Summarize Aloes.io product and goals on a website and an interactive presentation.",
+			          	"tags": "NodeJS, HTML5, Bootstrap, RevealJS, FabricJS",
+			            "img": "static/img/aloes.gif",
 			            "started_at": 1519904090000,
 			            "ended_at": 1523792090000,
 			            "is_alive": true
-			        }, {
-			        	"name": "customer development",
-			            "link": "/projects/pitch/",
-			            "started_at": 1516793690000,
-			            "ended_at": 0,
-			            "is_alive": true
-			        }, {
-			   			"name": "product design II",
-			            "link": "/projects/product-design/",
+			        },{
+			   			"name": "plateforme Aloes",
+			            "link": "https://app.aloes.io",
+			            "category": 4,
+			            "description": "Designing an IoT platform, aiming to simplify device and software integrations.",
+			            "tags": "IoT, Dataviz, low code",
+			            "img": "static/img/dashboard.gif",
 			            "started_at": 1503806400000,
 			            "ended_at": 1526384090000,
 			            "is_alive": true
 			        }, {
 			        	"name": "hardware prototype II",
-			            "link": "/projects/hardware/",
+			            "link": "https://framagit.org/getlarge/Cosmonode_PCBs",
+			            "category": 6,
+			            "description": "Creating a multipurpose board to ease IoT experiments.",
+			           	"tags": "OpenHardware, Kicad",
+			            "img": "static/img/cosmonode.gif",
 			            "started_at": 1497526490000,
 			            "ended_at": 1515584090000,
 			            "is_alive": true
 			        }, {
 			        	"name": "study for Katra - Chessé",
-			            "link": "/projects/study-katra/",
+			            "link": "#",
+			            "category": 3,
+			            "description": "Studying faisability of automated green installation in offices.",
+			           	"tags": "Green, design, automation",
+			            "img": "static/img/chesse.png",
 			            "started_at": 1489145690000,
 			            "ended_at": 1497822490000,
 			            "is_alive": false
 			        }, {
 			        	"name": "web app PoC",
-			            "link": "/projects/app-poc/",
-			            "started_at": 1468582490000,
-			            "ended_at": 1473939290000,
-			            "is_alive": true
+			            "link": "#",
+			            "category": 8,
+						"description": "First attempt in web development, to visualize data and manage devices remotely.",
+			           	"tags": "Web, Node-red, Raspberry Pi, ",
+			            "img": "static/img/proto7.png",		            
+			            "started_at": 1482582490000,
+			            "ended_at": 1489939290000,
+			            "is_alive": false
 			        }, {
-			        	"name": "software development",
-			            "link": "/projects/product-design/",
-			            "started_at": 1463312090000,
+			        	"name": "Gateway",
+			            "link": "https://framagit.org/getlarge/GatewayManager",
+			            "category": 7,
+						"description": "Developping a gateway firmware to forward nodes ( with sensors ) comunication to the web",
+			           	"tags": "Arduino, C++, MQTT, embedded software",
+			            "img": "static/img/arduino.png",	
+			            "started_at": 1483312090000,
 			            "ended_at": 1497526490000,
 			            "is_alive": true
 			        }, {
-			        	"name": "hardware prototype",
-			            "link": "/projects/hardware/",
-			            "started_at": 1463312090000,
+			        	"name": "Biodiag prototype",
+			            "link": "#",
+			            "category": 6,
+			            "description": "First sketch to monitor plants, and trigger reactions based on environment conditions.",
+			            "tags": "Hardware, Software, Arduino ",
+			            "img": "static/img/proto6.jpg",
+			            "started_at": 1461312090000,
 			            "ended_at": 1489145690000,
 			            "is_alive": true
 			        }, {
 			        	"name": "plants have conversations",
-			            "link": "/projects/plants-talk/",
+			            "link": "#",
+			            "category": 1,
+			            "description": "Studying the ways to catch , classify, and interprete plants signals. ",
+			            "tags": "Botanic, secret life of plants",
+			            "img": "static/icons/random-dither-green.png",
 			            "started_at": 1481260890000,
 			            "ended_at": 0,
 			            "is_alive": true
 			        }, {
 			            "name": "art exhibition",
-			            "link": "/projects/art-exhibition/",
+			            "link": "#",
+			            "category": 5,
+			            "description": "Exhibition introducing two creations made for Promenarts galerie",
+			            "tags": "arts, île de Ré,",
+			            "img": "static/img/promenarts.jpg",
 			            "started_at": 1460720090000,
 			            "ended_at": 1476531290000,
 			            "is_alive": true
 			        }, {
 			        	"name": "vegetal column prototypes",
-			            "link": "/projects/vegetal-column/",
+			            "link": "#",
+			            "category": 1,
+			            "description": "Another approach to grow plants, now commercialized.",
+			            "tags": "Urban farming, hydroponic",
+			            "img": "static/img/proto4.jpg",
 			            "started_at": 1445513690000,
 			            "ended_at": 1469187290000,
 			            "is_alive": true
 			        }, {
 			        	"name": "publication",
-			            "link": "/projects/publication/",
+			            "link": "#",
+			            "category": 5,
+			            "description": "Vegetal installation in a nice residence",
+			            "tags": "Habitat magazine, green wall, hydroponic",
+			            "img": "static/img/publish.jpg",
 			            "started_at": 1449884890000,
 			            "ended_at": 1449916890000,
 			            "is_alive": true
 			        }, {
-			        	"name": "product design",
-			            "link": "/projects/product-design/",
-			            "started_at": 1430884890000,
-			            "ended_at": 1441884890000,
-			            "is_alive": false
-			        }, {
 			            "name": "study for city greenspaces",
-			            "link": "/projects/study-larochelle/",
+			            "link": "#",
+			            "category": 3,
+			            "description": "Assisting La Rochelle's landscape team for an installation.",
+			            "tags": "project call, hydroponic",
+			            "img": "static/img/serre-lr.jpg",
 			            "started_at": 1421384400000,
 			            "ended_at": 1428638400000,
 			            "is_alive": false
 			        }, {
-			            "name": "hydroponics advisor",
-			            "link": "/projects/hydroponic-advisor/",
-			            "started_at": 1403496000000,
-			            "ended_at": 1410235200000,
-			            "is_alive": true
-			        }, {
 			            "name": "IVI",
-			            "link": "/projects/ivi/",
+			            "link": "#",
+			            "category": 2,
+			            "description": "Designing and making nests for plants, hydroponic advisor",
+			            "tags": "design vegetal, landscapes",
+			            "img": "static/img/mv_3.jpg",
 			            "started_at": 1398425690000,
 			            "ended_at": 1500873690000,
 			            "is_alive": false
 			        }, {
 			            "name": "green wall experimentations",
-			            "link": "/projects/green-wall/",
+			            "link": "#",
+			            "category": 1,
+			            "description": "A fun attempt to create a flying garden turning into a job.",
+			            "tags": "green wall, NFT, experiment",
+			            "img": "static/img/visuals.gif",			            
 			            "started_at": 1378380890000,
 			            "ended_at": 1398425690000,
 			            "is_alive": false
 			        }, {
 			            "name": "HGL - online store",
-			            "link": "/projects/hgl/",
+			            "link": "#",
+			            "category": 0,
+			            "description": "Setting up an online grow shop. Graphic creation, content management, SEO",
+			            "tags": "e-commerce, hydroponic",
+			            "img": "static/img/HGL.jpg",
 			            "started_at": 1346844890000,
-			            "ended_at": 1378380890000,
+			            "ended_at": 1395380890000,
 			            "is_alive": false
 			        }]
 			}
 	  	},
 
+		components: {
+			tooltip: tooltip,
+		},
+
 	  	created() {
-	  		EventBus.$on("got-volt-frame", voltFrame => {
-		      //console.log("voltFrame", voltFrame)
-		      //return this.tick(voltFrame);
-	    	});
 	  	},
 
 	  	mounted() {
-		    this.initTimeLine();
+            this.$on("projectSelected", e => {
+              //console.log("projectSelected", e);
+              this.currentProject = this.projects[e];
+            });	
+
+            this.$on("projectDeselected", () => {
+              //console.log("projectDeselected");
+              this.currentProject = undefined;
+            });		    
+
+            this.initTimeLine();
 		},
 
 		updated() {
@@ -161,7 +240,6 @@
 		},
 
 		beforeDestroy() {
-			EventBus.$off("got-volt-frame");
 		},
 
 		watch: { 
@@ -169,26 +247,32 @@
 		},
 
 		computed: {
-			filter: function() {
-
+			currentProjectDescription: function() {
+				return "Description: " + this.currentProject.link;
 			}
 		},
 
 		methods: {
+
 		    initTimeLine() {
+		    	var self = this;
+
 				function t(t) {
-			        dataSet = t,
-			        update()
+			        dataSet = t;
+			        update();
 			    }
 			    function n() { // onmouseout
-			        dataSet = null,
-			        update()
+			        dataSet = null;
+			        update();
 			    }
 			    function e(n, e) { //onmouseover
-			        t(node[e], !0)
+			        t(node[e], !0);
+			        self.$emit('projectSelected', e);
+
 			    }
 			    function r() { //onmouseenter.?
-			        event.stopPropagation()
+			        event.stopPropagation();
+			        self.$emit('projectDeselected');
 			    }
 			    function a(t, n) {
 			        return Math.round(D(I[n].midpoint))
@@ -234,23 +318,35 @@
 			    }
 
 			    var k,
-			    	l = 1e3, // viewbox width
-					d = 120, // flag height
+			    	l = 1000, // viewbox width
+					d = 110, // flag height
 					s = 20,
 					f = 120, // stack height
 					m = f + d,
 					p = m + s,
 					v = 1.4,
 					h = 20,
-					node = this.projects.reverse();
+					paletteLength = 10;
+
+					const colorPalette = scaleOrdinal().range([ "#3e57f9", "#05ad29", "#e8b32e", "#1fba2f", "#1fba2f", "#475bd1", "#1cb294", "#2097c1", "#475bd1" ]); 
+					var colorScheme = 
+				      scaleLinear().domain([1,paletteLength]).interpolate(interpolateHclLong)
+				      .range([rgb("#007AFF"), rgb('#FFF500')]);
+
+					var node = this.projects.reverse();
 			    
 			    if (node) {
 			        var timestamp = (new Date).getTime(),
 		          		colors = scaleOrdinal(schemePaired);
+		          		//colors = colorPalette;
+		          		//console.log("colors", colorScheme("0.1"));
+
 
 			        node.forEach(function(t, n) {
 			            0 === t.ended_at && (t.ended_at = timestamp),
-			            t.color = colors(n)
+			            //t.color = colors(n);
+			            t.color = colors(t.category);
+			           
 			        }); 
 				    var startTime = min(node, function(t) {
 			            	return t.started_at
@@ -296,7 +392,8 @@
 			            })
 			        }));
 			        var F = scaleLinear().domain([0, E]).range([d, 0]);
-			        var N = area().x(function(t, n) {
+			        var N = area()
+			        .x(function(t, n) {
 			            return D(n)
 			        }).y0(function(t) {
 			            return F(t[0])
@@ -304,8 +401,8 @@
 			            return F(t[1])
 			        });
 
-			        select("#project-timeline").style("padding-bottom", p / l * 100 + "%");
-			        var frame = select("#project-timeline > svg").attr("viewBox", "0 0 " + l + " " + p).attr("preserveAspectRatio", "xMinYMin meet").on("mouseout", n),
+			        select("#timeline").style("padding-bottom", p / l * 100 + "%");
+			        var frame = select("#timeline > svg").attr("viewBox", "0 0 " + l + " " + p).attr("preserveAspectRatio", "xMinYMin meet").on("mouseout", n),
 			          	timeline = frame.append("g").attr("class", "timeline").attr("transform", "translate(0 " + f + ")");
 			        
 			        timeline.append("rect").attr("width", l).attr("height", d).attr("fill", "transparent").on("click", n).on("mouseout", r);
@@ -318,6 +415,8 @@
 			          	flags = timeline.selectAll(".flag").data(L).enter().append("g").attr("class", "flag").on("click", function(n, e) {
 			            	t(node[e])
 			        	}).on("mouseover", e);
+
+
 			        flags.append("line").attr("x1", a).attr("x2", a).attr("y2", function(t, n) {
 			            return F(t[I[n].midpoint][1]) + 1
 			        }).attr("stroke-width", 1).attr("stroke", function(t, n) {
@@ -369,28 +468,32 @@
 <style lang="scss">
 
 	#project-timeline {
+	    margin-top: 3%;
+	}
+
+	#timeline {
 	    display: inline-block;
 	    position: relative;
 	    width: 100%;
 	    vertical-align: middle;
 	    overflow: hidden;
-	    margin-top: 10%;
+	    margin-top: 12%;
 	}
 
-	#project-timeline svg {
+	#timeline svg {
 	    display: inline-block;
 	    position: absolute;
 	    top: 0;
 	    left: 0
 	}
 
-	#project-timeline path {
+	#timeline path {
 	    cursor: pointer;
 	    stroke: #999;
 	    stroke-width: 0.2px;
 	}
 
-	#timeline-tooltip.hidden {
+	.timeline-tooltip.hidden {
 	    visibility: hidden
 	}
 
@@ -424,4 +527,12 @@
 	    font-size: 12px
 	}
 
+ 	 h1 {
+ 	    font-family: 'Aloes-Bd';
+    	font-size: 24px;  
+ 	 	text-transform: uppercase; 
+ 	 	color: #686868; 
+	    text-align: left;
+	    margin-left: 2%; 
+  	}
 </style>

@@ -1,4 +1,3 @@
-  import config from '@/config.json'
   import { min, max } from "d3-array"
   import { axisBottom, axisLeft} from "d3-axis"
   import { easeLinear } from "d3-ease"
@@ -10,8 +9,8 @@
 
 
 export const realTimeLineChart = function () {
-  var margin = {top: 20, right: 20, bottom: 20, left: 20},
-      width = Math.max(document.documentElement.clientWidth/1.5, window.innerWidth/1.5 || 0),
+  var margin = {top: 25, right: 25, bottom: 25, left: 25},
+      width = Math.max(document.documentElement.clientWidth/1.6, window.innerWidth/1.6 || 0),
       height = Math.max(document.documentElement.clientHeight/1.5, window.innerHeight/1.5 || 0),
       duration = 1000,
       //color = schemePaired;
@@ -56,7 +55,6 @@ export const realTimeLineChart = function () {
         .y0(y(0))
         .y1(function(d) { return y(d.value); })
         .curve(curveCardinal);
-
 
 
       var svg = select(this).selectAll("svg").data([data]);
@@ -112,7 +110,7 @@ export const realTimeLineChart = function () {
       g.selectAll("g path.data")
         .data(data)
         .style("stroke", function(d) { return z(d.label); })
-        .style("stroke-width", 3)
+        .style("stroke-width", 2)
         .style("fill", "none")
         .transition()
         .duration(duration)

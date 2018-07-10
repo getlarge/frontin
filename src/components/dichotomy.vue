@@ -345,8 +345,10 @@
     }*/
 
     h1 {
-	    font-family: 'Aloes-Bd'; 
+    	text-transform: uppercase; 
 	    color: #686868; 
+	    font-family: 'Aloes-Bd';
+	    font-size: 24px; 
     }
 
     #tree-holder {

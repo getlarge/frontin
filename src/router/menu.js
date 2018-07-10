@@ -27,7 +27,7 @@ export const routes = [
     component: loadView('portfolio')
   },
   {
-    name: 'Network Tree',
+    name: 'Network Topology',
     title: 'Realtime Network Mapping',
     path: '/tidy-tree',
     alias: '/tidy-tree/*',
