@@ -6,10 +6,13 @@
         <hr class="my-4">
         
         <b-container fluid class="bv-example-row">
-          <p >
-            Retrospective of previous and present projects. For more information visit the website or contact me.
-          </p>
+          
           <b-row align-h="center">
+            <b-col xs="12" sm="12" md="12" lg="12" >
+              <p >
+                Retrospective of previous and present projects. For more information visit the website or contact me.
+              </p>
+            </b-col>
             <b-col xs="3" sm="3" md="3" lg="3" >
               <b-btn class="doors" href="#/portfolio"  >
                 <b-img class="signs" :src="icon1" fluid />

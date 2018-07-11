@@ -2,7 +2,7 @@
   <b-container id="tidy-tree" fluid class="bv-example-row">
       <b-row >        
          <b-col class="infos" sm="12" md="5" lg="4">
-            <h1 class="head-title" >Network topology </h1>
+            <h1 class="head-title1" >Network topology </h1>
         </b-col>
         <b-col class="infos" sm="12" md="6" lg="5">
           <p>"Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol."
@@ -342,7 +342,7 @@
     width: 100%;
   }
 
-  .head-title {
+  .head-title1 {
     font-family: 'Aloes-Bd';
     font-size: 22px;  
     text-transform: uppercase; 

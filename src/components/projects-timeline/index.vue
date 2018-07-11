@@ -326,7 +326,6 @@
 					paletteLength = 10;
 
 					const colorPalette = scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#9adfb0", "#6ed659", "#417c52", "#56a46f" ]); 
-					const colorPalette1 = scaleOrdinal().range([ "#3e57f9", "#05ad29", "#e8b32e", "#1fba2f", "#1fba2f", "#475bd1", "#1cb294", "#2097c1", "#475bd1" ]); 
 					var colorScheme = 
 				      scaleLinear().domain([1,paletteLength]).interpolate(interpolateHclLong)
 				      .range([rgb("#007AFF"), rgb('#FFF500')]);
@@ -507,10 +506,10 @@
 	    fill: #686868
 	}
 
-	.axis line,.axis path {
+	.axis path {
 	    fill: none;
 	    stroke: #686868;
-	    shape-rendering: crispEdges
+	    shape-rendering: geometricPrecision;
 	}
 
 	.flag {
