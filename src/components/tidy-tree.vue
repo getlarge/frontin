@@ -6,21 +6,21 @@
         <h1>Network topology</h1>
         </b-col>
         <b-col class="infos" sm="12" md="6" lg="5">
-          <p>" Logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol."
+          <p>"Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol."
           </p>
         </b-col>
       </b-row>
 
       <b-row align-h="center">
-          <b-col sm="3" md="3" lg="3" >
+          <b-col xs="12" sm="4" md="3" lg="2" >
               <div class="panel-heading"></div>
 
               <div class="panel-body">
                   <div class="form-horizontal">
 
                   <div class="form-group">
-                    <label for="type" class="control-label col-sm-3">type</label>
-                      <div  class="col-sm-9">
+                    <label for="type" class="control-label">Type</label>
+                      <div >
                         <select id="type" class="form-control" v-model="type">
                           <option>tree</option>
                           <option>cluster</option>
@@ -29,8 +29,8 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="layout-type" class="control-label col-sm-3">layoutType</label>
-                      <div  class="col-sm-9">
+                    <label for="layout-type" class="control-label">Layout Type</label>
+                      <div  >
                         <select id="layout-type" class="form-control" v-model="layoutType">
                           <option>euclidean</option>
                           <option>circular</option>
@@ -39,42 +39,31 @@
                   </div> 
 
                   <div class="form-group">
-                    <label for="margin-x" class="control-label col-sm-3">marginx</label>
-                    <div class="col-sm-7">
-                      <input id="margin-x" class="form-control" type="range" min="-200" max="200" v-model.number="Marginx">
+                    <label for="margin-x" class="control-label">X-margin :  {{Marginx}}px</label>  
+                    <div class="">
+                      <input id="margin-x" class="form-control" type="range" min="-100" max="600" v-model.number="Marginx">
                     </div> 
-                      <div class="col-sm-2">
-                        <p>{{Marginx}}px</p>       
-                    </div> 
+                      
                   </div>        
 
                   <div class="form-group">
-                    <label for="margin-y" class="control-label col-sm-3">marginy</label>
-                    <div class="col-sm-7">
+                    <label for="margin-y" class="control-label">Y-margin :  {{Marginy}}px</label>
+                    <div class="">
                       <input id="margin-y" class="form-control" type="range" min="-200" max="200" v-model.number="Marginy">
                     </div>
-                    <div class="col-sm-2">
-                      <p>{{Marginy}}px</p>       
-                    </div> 
                   </div>   
 
                    <div class="form-group">
-                    <label for="margin-y" class="control-label col-sm-3">radius</label>
-                    <div class="col-sm-7">
+                    <label for="margin-y" class="control-label">Radius : {{radius}}px</label>
+                    <div class="">
                       <input id="margin-y" class="form-control" type="range" min="1" max="10" v-model.number="radius">
                     </div>
-                    <div class="col-sm-2">
-                      <p>{{radius}}px</p>       
-                    </div> 
                   </div>        
 
                   <div class="form-group">
-                    <label for="velocity" class="control-label col-sm-3">Duration</label>
-                    <div class="col-sm-7">
+                    <label for="velocity" class="control-label">Duration : {{duration}}ms</label>
+                    <div class="">
                       <input id="velocity" class="form-control" type="range" min="0" max="3000" v-model.number="duration">
-                    </div>
-                    <div class="col-sm-2">
-                      <p>{{duration}}ms</p>       
                     </div>
                   </div>  
 
@@ -115,7 +104,7 @@
               </div> -->
           </b-col>
 
-          <b-col sm="9" md="9" lg="9" class="panel panel-default">
+          <b-col xs ="12" sm="8" md="9" lg="10" class="panel panel-default">
             <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/>          
           </b-col>
       </b-row>
@@ -133,10 +122,10 @@
   Object.assign(data, {
     type: 'tree',
     layoutType: 'euclidean',
-    duration: 450,
-    Marginx: 30,
-    Marginy: -10,
-    radius: 5,
+    duration: 750,
+    Marginx: 200,
+    Marginy: 60,
+    radius: 6,
     nodeText: 'text',
     currentNode: null,
     zoomable: true,
@@ -311,7 +300,7 @@
   }
 
   .tree {
-    height: 600px;
+    height: 700px;
     width: 100%;
   }
 
@@ -324,15 +313,33 @@
     stroke: url(#gradient);
   }
 
+
+  #type {
+    max-width:100%;
+  }
+
   .form-group {
     text-align: left;
+    padding-right: 0px;
+  }
+
+  .control-label {
+    font-size: 18px;
   }
 
   .form-control:hover {
     color: #33b277;
   }
 
-  input.form-control {
+  .form-control:focus {
+    box-shadow: 2px 2px 12px #000;
+    color: #33b277;
+    border-color: #f9b23e;
+  }
+
+  .form-control {
+    box-shadow: 1px 1px 3px #000;
+    padding: 0.5rem 0.5rem;
     width: 100%;
   }
 
@@ -342,6 +349,96 @@
     text-transform: uppercase; 
     text-align: center;
     color: #686868; 
+  }
+
+  input[type=range] {
+    height: 26px;
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 0px 0px 0px #000000;
+    background: #B0B0B0;
+    border-radius: 5px;
+    border: 0px solid #000000;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 0px #000000;
+    border: 0px solid #2497E3;
+    height: 20px;
+    width: 20px;
+    border-radius: 26px;
+    background: #686868;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7px;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #B0B0B0;
+  }
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 0px 0px 0px #000000;
+    background: #B0B0B0;
+    border-radius: 5px;
+    border: 0px solid #000000;
+  }
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 0px 0px 0px #000000;
+    border: 0px solid #2497E3;
+    height: 20px;
+    width: 20px;
+    border-radius: 26px;
+    background: #686868;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #B0B0B0;
+    border: 0px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0px 0px 0px #000000;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #B0B0B0;
+    border: 0px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0px 0px 0px #000000;
+  }
+  input[type=range]::-ms-thumb {
+    margin-top: 1px;
+    box-shadow: 0px 0px 0px #000000;
+    border: 0px solid #2497E3;
+    height: 20px;
+    width: 20px;
+    border-radius: 26px;
+    background: #686868;
+    cursor: pointer;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #B0B0B0;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #B0B0B0;
   }
 
   .log  {

@@ -1,18 +1,14 @@
 <template>
   <div id="bottom-nav">
     <hr class="my-4">
-    <b-container class="bv-example-row">
-      <b-row class="links" align-h="center">
-          <b-col sm="3" md="4" lg="4" lg-offset="1" class="prev"><router-link v-if="prev" :to="prev.path" > < {{ prev.title }} </router-link></b-col>
-          <b-col sm="4" md="4" lg="4" class="source"><a :href="sourceHref" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" /> {{ $route.name }}</a></b-col>
-          <b-col sm="3" md="4" lg="4" class="next"><router-link v-if="next" :to="next.path" > {{ next.title }} > </router-link></b-col>
-      </b-row>
+    <router-link class="prev" v-if="prev" :to="prev.path" >< {{ prev.title }}  -  </router-link><a class="source" :href="sourceHref" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" /> {{ $route.name }}</a><router-link class="next" v-if="next" :to="next.path" >  -  {{ next.title }} > </router-link>
+   <!--  <b-container >
       <b-row align-h="center">
-         <!--  <b-col sm="1" lg="1"><b-button id="playButton" @click="getBuffer" class="btn btn-outline-success my-1 my-sm-0" type="button">Subs</b-button></b-col> -->
-
+          <b-col xs="4" sm="4" md="3" lg="3"  class="prev"><router-link v-if="prev" :to="prev.path" ><{{ prev.title }}</router-link><a :href="sourceHref" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" /> {{ $route.name }}</a></b-col>
+          <b-col xs="4" sm="4" md="4" lg="4" class="source"><a :href="sourceHref" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" /> {{ $route.name }}</a></b-col>
+          <b-col xs="4" sm="4" md="3" lg="3" class="next"><router-link v-if="next" :to="next.path" >{{ next.title }}> </router-link></b-col>
       </b-row>
-
-    </b-container>
+    </b-container> -->
 
   </div>
 </template>
@@ -83,10 +79,7 @@
     },
 
     methods: {
-      
-      getBuffer: function() {
-        EventBus.$emit("get-store", "findMatching", "mysensors/GW4-out/99/#");
-      },
+
 
       findIndex: function() {
         var me = this.$route.name;
@@ -98,12 +91,9 @@
 
 <style scoped>
 
-
-
   #bottom-nav {
-    font-size: 14px; 
-    position: relative;
-
+    font-size: 11px; 
+    text-align: center;
     /*border-top: 1px dashed gray;*/
     margin-top: 0%;
     margin-bottom: 5%;
@@ -119,7 +109,7 @@
   }
 
   .prev {
-    text-align: left;
+    text-align: right;
   }
 
   .source {
@@ -127,7 +117,7 @@
   }
 
   .next {
-    text-align: right;
+    text-align: left;
   }
 
 </style>

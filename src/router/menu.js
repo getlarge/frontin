@@ -8,7 +8,7 @@ function loadView(view) {
 export const routes = [
   {
     name: 'Plants Print',
-    title: 'Plants Digital Print',
+    title: 'Plants Print',
     path: '/plants-print',
     alias: '/plants-print/*',
     component: loadView('plants-print/index')

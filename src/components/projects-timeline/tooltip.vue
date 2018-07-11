@@ -103,9 +103,9 @@
 
     #tooltipContainer {
       position: absolute;
-      top: -70px;
-      width: 180px;
-      left: -90px;
+      top: -60px;
+      width: 200px;
+      left: -100px;
       font-size: 9px;
       line-height: 8px;
       padding: 8px;
@@ -119,9 +119,17 @@
     }
 
     #tooltip .pics {
-      width: 100%;
-      max-height: 80px;    
+      max-width: 100%;
+      max-height: 60px;    
     }
+
+    #tooltip .description {
+      font-size: 7px;
+    }
+
+    #tooltip .tags {
+      font-size: 7px;
+    } 
   }
 
   .controls-tablet {
@@ -134,9 +142,9 @@
 
     #tooltipContainer {
       position: absolute;
-      top: -90px;
-      width: 230px;
-      left: -115px;
+      top: -80px;
+      width: 300px;
+      left: -150px;
       font-size: 10px;
       line-height: 12px;
       padding: 10px;
@@ -150,9 +158,17 @@
     }
 
     #tooltip .pics {
-      width: 100%;
-      max-height: 100px;    
+      width: 80%;
+      max-height: 130px;    
     }
+
+    #tooltip .description {
+      font-size: 10px;
+    }
+
+    #tooltip .tags {
+      font-size: 10px;
+    } 
   }
 
   .controls-laptop {
@@ -166,8 +182,8 @@
     #tooltipContainer {
       position: absolute;
       top: -130px;
-      width: 320px;
-      left: -160px;
+      width: 400px;
+      left: -200px;
       font-size: 14px;
       line-height: 16px;
       padding: 12px;
@@ -179,10 +195,12 @@
       border:1px solid rgba(200,200,200,0.85);
       text-align:center;
     }
+
     #tooltip .pics {
-      width: 100%;
+      max-width: 100%;
       max-height: 150px;
     }
+
   }
 
   .controls-desktop {
@@ -196,8 +214,8 @@
     #tooltipContainer {
       position: absolute;
       top: -160px;
-      width: 400px;
-      left: -200px;
+      width: 500px;
+      left: -250px;
       font-size: 16px;
       line-height: 20px;
       padding: 13px;
@@ -211,7 +229,7 @@
     }
 
     #tooltip .pics {
-      width: 100%;
+      max-width: 100%;
       max-height: 220px;
     }
 

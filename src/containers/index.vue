@@ -10,12 +10,12 @@
             Retrospective of previous and present projects. For more information visit the website or contact me.
           </p>
           <b-row align-h="center">
-            <b-col sm="3" md="3" lg="3" >
+            <b-col xs="3" sm="3" md="3" lg="3" >
               <b-btn class="doors" href="#/portfolio"  >
                 <b-img class="signs" :src="icon1" fluid />
               </b-btn>
             </b-col>
-            <b-col sm="3" md="3" lg="3" >
+            <b-col xs="3" sm="3" md="3" lg="3" >
               <b-btn class="doors"  @click="chat._initClient()"  >
                 <b-img class="signs" :src="icon2" fluid />
               </b-btn>
