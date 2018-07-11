@@ -1,7 +1,6 @@
 <template>
 
   <b-container id="plant-life" fluid class="bv-example-row">
-    <h1 class="head-title" >Plants digital print </h1>
     <b-row align-h="center">
       <b-col sm="4" md="4" lg="4" >
         <b-img class="specimen" :src="icon" fluid />

@@ -103,19 +103,17 @@
 
     #tooltipContainer {
       position: absolute;
-      top: -60px;
+      top: -30px;
       width: 200px;
       left: -100px;
-      font-size: 9px;
+      font-size: 8px;
       line-height: 8px;
-      padding: 8px;
+      padding: 6px;
       border-radius: 3px;
       background: rgba(255,255,255,0.9);
-      color: #000;
       box-shadow: 0 1px 5px rgba(0,0,0,0.4);
       -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
       border:1px solid rgba(200,200,200,0.85);
-      text-align:center;
     }
 
     #tooltip .pics {
@@ -142,7 +140,7 @@
 
     #tooltipContainer {
       position: absolute;
-      top: -80px;
+      top: -40px;
       width: 300px;
       left: -150px;
       font-size: 10px;
@@ -181,7 +179,7 @@
 
     #tooltipContainer {
       position: absolute;
-      top: -130px;
+      top: -90px;
       width: 400px;
       left: -200px;
       font-size: 14px;
@@ -213,7 +211,7 @@
 
     #tooltipContainer {
       position: absolute;
-      top: -160px;
+      top: -130px;
       width: 500px;
       left: -250px;
       font-size: 16px;

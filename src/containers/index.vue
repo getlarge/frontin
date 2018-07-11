@@ -34,16 +34,68 @@
 
   import { routes } from '@/router/menu'
   import liveRocketChat  from '@/services/live-rocketchat'
+  import { rgb } from "d3-color"
+  import { easeLinear } from "d3-ease"
+  import { interpolateHcl, interpolateHclLong } from "d3-interpolate"
+  import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale"
+  import { append, attr, event, select, selectAll, style } from "d3-selection"
+  import { active, transition } from "d3-transition"
 
   export default {
-      data() {
-        return {
-          items: routes,
-          icon1: "static/icons/enter-white.png",
-          icon2: "static/icons/send-white.png",
-          chat: new(liveRocketChat),
-        }
+    data() {
+      return {
+        items: routes,
+        icon1: "static/icons/enter-white.png",
+        icon2: "static/icons/send-white.png",
+        chat: new(liveRocketChat),
+        colorSet: [
+          {
+            color1: "#01c669",
+            color2: "#ff830f", //"#48725e"
+          },
+        ],
+        duration : 10000,
+
+      }
+    },
+
+    mounted() {
+        this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
+        this.initialize();
+        console.log("this", this);
+    },
+
+    methods: {
+      initialize() {
+        select(".jumbotron")
+          .style("background-color", this.color("0.1"))
+          .style("opacity", "0.4" )
+        this.transitionBG();
+      },
+      transitionBG() {
+        var self = this;
+        select(".jumbotron")
+        .transition()
+          .style("background-color", this.color("0.1"))       
+          .duration(this.duration)
+          .ease(easeLinear) 
+          .style("background-color", this.color("0.3"))
+          .transition()        
+          .duration(this.duration)
+          .ease(easeLinear)       
+          .style("background-color", this.color("0.5"))
+          .transition()       
+          .duration(this.duration)
+          .ease(easeLinear)  
+          .style("background-color", this.color("0.7"))
+          .transition()       
+          .duration(this.duration)
+          .ease(easeLinear)  
+          .style("background-color", this.color("0.9"))
+          .on("end", self.transitionBG);  
+      },
     }
+      
   }
   
 </script>
@@ -85,10 +137,7 @@
     background-color: #33b277;
   }
 
-  .jumbotron {
-    background-color: #33b277;
-    opacity: 0.7;
-  }
+  
 
   .hello {
     position: relative;
@@ -106,7 +155,7 @@
     justify-content: center;
     width: 50%;
     height: 50%;
-    opacity: 1 !important;
+    opacity: 0.8 !important;
   }
 
   .signs:hover {
@@ -115,6 +164,7 @@
     justify-content: center;
     width: 50%;
     height: 50%;
+    opacity: 1 !important;
   }
 
   .doors {
@@ -124,8 +174,8 @@
     background-color: transparent;
     border: none;
     opacity: 0.8;
-    padding-top: 10%;
-    padding-bottom: 10%;
+    padding-top: 2%;
+    padding-bottom: 5%;
   }
 
   .doors:hover {

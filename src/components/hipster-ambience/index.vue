@@ -1,58 +1,40 @@
 <template >
+	
   	<b-container ref="slider-master" id="audio-slider-holder" fluid class="bv-example-row">
-	<b-row align-h="center">
-		<b-col xs="2" sm="2" md="2" lg="2" >
-  			<button class="help-button" @click="help"><font-awesome-icon :icon="['fas', 'question-circle']" size=2x /></button>
-		</b-col>
-		<b-col xs="6" sm="6" md="6" lg="6" >
-  			<h1>Hipster ambience</h1>
-  			<h3>Make your own !</h3>
-		</b-col>
-		<b-col xs="2" sm="2" md="2" lg="2" >
-		        <button class="help-button" @click="getBuffer"><font-awesome-icon :icon="['fas', 'info-circle']" size="lg" /> Logger</button>
-		</b-col>
+      	<b-row >
+			<b-col class="colzy" sm="3" md="3" lg="3" >
+				<button class="help-button" @click="help"><font-awesome-icon :icon="['fas', 'question-circle']" size=2x /></button>
+				<div id="edit-container" v-for="item in format">
+					<file-uploader :mimetype="item" > </file-uploader>
+	          	</div>
+	  	        <button class="create-button" @click="addItem"><font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" /> Create</button>
 
-	</b-row>
-
-      <b-row >
-		<b-col class="colzy" sm="3" md="3" lg="3" >
-			<div id="edit-container" v-for="item in format">
-				<file-uploader :mimetype="item" > </file-uploader>
-          	</div>
-
-  	        <button class="create-button" @click="addItem"><font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" /> Create</button>
-
-	        
-
-          	<!-- <div v-if="$refs.fileUploader.isSuccess">
-			</div> -->
-		</b-col>
-		<b-col class="colzy" sm="3" md="3" lg="3" >
-			 <draggable tag="div" :list="as1" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
-				<audio-slider v-for="(element, index) in as1"  :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}"  :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :draggable="true" :loop="true" ></audio-slider>
-       		</draggable>
-		</b-col>
-		<b-col class="colzy" sm="3" md="3" lg="3" >
-            <draggable tag="div" :list="as2" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
-				<audio-slider  v-for="(element, index) in as2" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true" ></audio-slider>
-           	</draggable>
-		</b-col>
-		<b-col class="colzy" sm="3" md="3" lg="3" >
-
-	        <div v-if="as3.length > 0" >
-	            <draggable  :list="as3" tag="div" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
-	                <audio-slider  v-for="(element, index) in as3" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true"  ></audio-slider>
+	          	<!-- <div v-if="$refs.fileUploader.isSuccess">
+				</div> -->
+			</b-col>
+			<b-col class="colzy" sm="3" md="3" lg="3" >
+				 <draggable tag="div" :list="as1" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
+					<audio-slider v-for="(element, index) in as1"  :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}"  :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :draggable="true" :loop="true" ></audio-slider>
+	       		</draggable>
+			</b-col>
+			<b-col class="colzy" sm="3" md="3" lg="3" >
+	            <draggable tag="div" :list="as2" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
+					<audio-slider  v-for="(element, index) in as2" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true" ></audio-slider>
 	           	</draggable>
-	           
-           </div>
-           <div v-else>
-           	<p>Empty selection</p>
-           </div>
-           	<button class="del-button" @click="delBuffer">Delete <font-awesome-icon :icon="['fas', 'trash']" size="3x" /> </button>
-
-		</b-col>
-
-      </b-row>
+			</b-col>
+			<b-col class="colzy" sm="3" md="3" lg="3" >
+				<button class="help-button" @click="getBuffer"><font-awesome-icon :icon="['fas', 'info-circle']" size="lg" /> Logger</button>
+		        <div v-if="as3.length > 0" >
+		            <draggable  :list="as3" tag="div" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
+		                <audio-slider  v-for="(element, index) in as3" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true"  ></audio-slider>
+		           	</draggable>
+	           </div>
+	           <div v-else>
+	           	<p>Empty selection</p>
+	           </div>
+	           	<button class="del-button" @click="delBuffer">Delete <font-awesome-icon :icon="['fas', 'trash']" size="3x" /> </button>
+			</b-col>
+      	</b-row>
 		<!-- <div class="status">
             <p v-if="canDrag!=null"  :class="canDrag? 'ok' : 'ko'">
                 can Drag: {{canDrag}} future index {{futureIndex}}
@@ -61,7 +43,6 @@
                 No drag operation
             </small>
         </div> -->
-
     </b-container>
 
 </template>
@@ -76,7 +57,6 @@
 	import { active, transition } from "d3-transition"
 	import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 	import draggable from "vuedraggable"
-	
 	import { mapState } from 'vuex'
 	import { EventBus } from '@/main'
 	import ToneSynth from '@/tone-components/synth'
@@ -300,7 +280,7 @@
 	#audio-slider-holder {
 		text-align: center;
 		font-size: 16px;
-		padding: 5%;
+		padding: 3%;
 		color: white;
 	}
 
@@ -323,7 +303,7 @@
 		color: white;
 		position: absolute;
 		left: 10%;
-		top : 90%;
+		top : 70%;
 	}
 
 	.create-button :hover {
@@ -345,7 +325,7 @@
 		padding-bottom: 10%;
 		color: white;
 		position: absolute;
-		top : 90%;
+		top : 70%;
 		right: 10%;
 	}
 
@@ -361,7 +341,7 @@
 	}
 
 	.colzy {
-		padding-bottom: 5%;
+		padding-bottom: 2%;
 		padding-top: 5%;
 	}
 

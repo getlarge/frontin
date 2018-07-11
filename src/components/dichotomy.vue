@@ -1,16 +1,5 @@
 <template >
   	<b-container id="tree-holder" fluid>
-  		<b-row align-h="center">      	
-			<h1>Regular dichotomy</h1>
-			<b-col class="infos" sm="6" md="6" lg="6">
-		        </br>
-				<p>" a dichotomy is a mode of branching by repeated bifurcation - thus a focus on branching rather than on division."
-	      		</p>
-			</b-col>
-					<b-button class="regenerate" ><font-awesome-icon :icon="['fas', 'play']" size="2x" /> </b-button>
-
-      	</b-row>
-			
 		<b-row align-h="center">      	
 			<b-col id="tree" sm="10" md="10" lg="10" >
 		        <svg id="branches" pointer-events="all" viewBox="0 20 1100 450" preserveAspectRatio="xMinYMin meet"> 
@@ -20,6 +9,16 @@
 					</svg> -->
 			</b-col>
 		</b-row>
+		<b-row align-h="center">
+			<h1  class="def"> Dichotomy</h1>
+			<b-col class="infos" xs="4" sm="7" md="8" lg="5">
+				<p>:  is a mode of branching by repeated bifurcation - thus a focus on branching rather than on division.
+	      		</p>
+			</b-col>
+			<b-col class="regenerate" xs="2" sm="1" md="1" lg="1">
+				<b-button ><font-awesome-icon :icon="['fas', 'play']" size="2x" /> </b-button>
+			</b-col>
+      	</b-row>
     </b-container>
 
 </template>
@@ -41,7 +40,7 @@
 		data() {
 		    return {
 				branches: [],
-				seed: {i: 0, x: 550, y: 450, a: 0, l: 85, d:-1}, // a = angle, l = length, d = depth
+				seed: {i: 0, x: 550, y: 440, a: 0, l: 85, d:-1}, // a = angle, l = length, d = depth
 				da: 0.45, // Angle delta
 				dl: 0.81, // Length delta (factor)
 				ar : 0.5, // Randomness
@@ -75,15 +74,7 @@
 	  },
 
 	  mounted() {
-	  		// this.simulation = forceSimulation(this.branches)
-     //                .alphaDecay(0.005)
-     //                .alpha(0.2)
-     //                .alphaTarget(0.4)
-     //                .force("x", forceX((d, i) => d.x * 2))
-     //                .force("y", forceY((d, i) => d.y * 2));
-
 		    this.initTree();
-		    //console.log(this);
 		},
 
 	  updated() {
@@ -91,20 +82,20 @@
 		},
 
 		computed: {
-	    line() {
-        var that = this;
-        //console.log(that)
-        if (this.lineData) {
-          return select("#branches").append("g")
-        		.attr("class", "line")
-				.datum(this.lineData)
-		    	.attr("d", this.line1)
-		    	.enter().insert("path")
-	              .style("stroke-width", (d) => (d.target.data.size / d.target.data.group * 1.3).toString() + "px")
-	              .style("stroke", "#eee")
-	              .style("fill", "none");
-          }
-      	},
+		    line() {
+		        var that = this;
+		        //console.log(that)
+		        if (this.lineData) {
+		          return select("#branches").append("g")
+		        		.attr("class", "line")
+						.datum(this.lineData)
+				    	.attr("d", this.line1)
+				    	.enter().insert("path")
+			              .style("stroke-width", (d) => (d.target.data.size / d.target.data.group * 1.3).toString() + "px")
+			              .style("stroke", "#eee")
+			              .style("fill", "none");
+		        }
+	      	},
 		},
 
 		methods: {
@@ -345,25 +336,22 @@
         box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
     }*/
 
-    h1 {
+    .def {
     	text-transform: uppercase; 
 	    color: #686868; 
 	    font-family: 'Aloes-Bd';
-	    font-size: 24px; 
+	    font-size: 18px; 
     }
 
     #tree-holder {
     	margin-top: 3%;
     }
 
-    #tree {
-    	margin-top: 3%;
-    }
 
-    .infos {
+    .infos p {
     	color: #686868; 
 		font-size: 14px; 
-    	text-align: justify;
+    	text-align: left;
    	}
 
 	.roots {
@@ -376,7 +364,7 @@
 		background-color: #17a2b8;
 	}*/
 
-	.regenerate {
+	.regenerate  button{
 		display: flex;
 		align-items: center;
 		background-color: transparent;
@@ -384,7 +372,7 @@
 		color: #686868;
 		cursor: pointer; 
 	}
-	.regenerate:hover {
+	.regenerate button:hover {
 		display: flex;
 		align-items: center;
 		background-color: transparent;
@@ -392,7 +380,7 @@
 		color: #33b277;
 		cursor: pointer; 
 	}
-	.regenerate:focus {
+	.regenerate button:focus {
 		background-color: transparent;
 		border: none;
 		color: #33b277;

@@ -1,6 +1,5 @@
 <template>
 	<div id="project-timeline" >
-	    <h1 class="head-title" >Projects timeline </h1>
 	    <tooltip
 			v-if="currentProject"
 			:title="currentProject.name"
@@ -477,7 +476,7 @@
 	    width: 100%;
 	    vertical-align: middle;
 	    overflow: hidden;
-	    margin-top: 12%;
+	    margin-top: 10%;
 	}
 
 	#timeline svg {
