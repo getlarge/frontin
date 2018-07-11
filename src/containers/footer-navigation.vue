@@ -92,7 +92,7 @@
 <style scoped>
 
   #bottom-nav {
-    font-size: 11px; 
+    font-size: 12px; 
     text-align: center;
     /*border-top: 1px dashed gray;*/
     margin-top: 0%;

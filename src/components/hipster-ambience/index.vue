@@ -5,7 +5,8 @@
   			<button class="help-button" @click="help"><font-awesome-icon :icon="['fas', 'question-circle']" size=2x /></button>
 		</b-col>
 		<b-col xs="6" sm="6" md="6" lg="6" >
-  			<h1>Make your own !</h1>
+  			<h1>Hipster ambience</h1>
+  			<h3>Make your own !</h3>
 		</b-col>
 		<b-col xs="2" sm="2" md="2" lg="2" >
 		        <button class="help-button" @click="getBuffer"><font-awesome-icon :icon="['fas', 'info-circle']" size="lg" /> Logger</button>
@@ -100,14 +101,14 @@
 		    			name: "forrest",
 			    		audioSource:["static/sounds/forrest.mp3"],
 				        iconFile: 'static/icons/forrest-white.png',
-			    	},
-		    	],
-		    	as2: [{
+			    	},{
 		    			id: 4,
 		    			name: "fire",
 			    		audioSource:["static/sounds/fire.mp3"],
 				        iconFile: 'static/icons/fire-white.png',
-				    },{
+				    }
+		    	],
+		    	as2: [{
 		    			id: 5,
 		    			name: "water",
 			    		audioSource:["static/sounds/water-stream.mp3"],
@@ -117,7 +118,17 @@
 		    			name: "storm",
 			    		audioSource:["static/sounds/storm.mp3"],
 				        iconFile: 'static/icons/storm-white.png',
-			    	},
+			    	},{
+		    			id: 7,
+		    			name: "café",
+			    		audioSource:["static/sounds/cafe.mp3"],
+				        iconFile: 'static/icons/cafe-white.png',
+				    },{
+		    			id: 8,
+		    			name: "la-win",
+			    		audioSource:["static/sounds/la-win.mp3"],
+				        iconFile: 'static/icons/la-win-white.png',
+				    }
 		    	],
 		    	as3: [],
 		        colorSet: [

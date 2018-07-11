@@ -7,18 +7,19 @@
 				<p>" a dichotomy is a mode of branching by repeated bifurcation - thus a focus on branching rather than on division."
 	      		</p>
 			</b-col>
+					<b-button class="regenerate" ><font-awesome-icon :icon="['fas', 'play']" size="2x" /> </b-button>
+
       	</b-row>
 			
 		<b-row align-h="center">      	
 			<b-col id="tree" sm="10" md="10" lg="10" >
-		        <svg id="branches" pointer-events="all" viewBox="0 0 900 450" preserveAspectRatio="xMinYMin meet"> 
+		        <svg id="branches" pointer-events="all" viewBox="0 20 1100 450" preserveAspectRatio="xMinYMin meet"> 
 			        <g :id="line"></g>
 		    	</svg>
 	<!-- 				<svg id="roots" pointer-events="all" viewBox="0 0 900 200" preserveAspectRatio="xMinYMin meet">
 					</svg> -->
 			</b-col>
 		</b-row>
-		<b-button class="regenerate" ><font-awesome-icon :icon="['fas', 'play']" size="2x" /> </b-button>
     </b-container>
 
 </template>
@@ -40,7 +41,7 @@
 		data() {
 		    return {
 				branches: [],
-				seed: {i: 0, x: 450, y: 450, a: 0, l: 85, d:-1}, // a = angle, l = length, d = depth
+				seed: {i: 0, x: 550, y: 450, a: 0, l: 85, d:-1}, // a = angle, l = length, d = depth
 				da: 0.45, // Angle delta
 				dl: 0.81, // Length delta (factor)
 				ar : 0.5, // Randomness
@@ -391,6 +392,11 @@
 		color: #33b277;
 		cursor: pointer; 
 	}
-
+	.regenerate:focus {
+		background-color: transparent;
+		border: none;
+		color: #33b277;
+		cursor: pointer; 
+	}
 
 </style>

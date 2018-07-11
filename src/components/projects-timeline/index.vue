@@ -1,6 +1,6 @@
 <template>
 	<div id="project-timeline" >
-	    <h1 >Projects timeline </h1>
+	    <h1 class="head-title" >Projects timeline </h1>
 	    <tooltip
 			v-if="currentProject"
 			:title="currentProject.name"
@@ -158,8 +158,8 @@
 			            "description": "Vegetal installation in a nice residence hidden in La Rochelle, Habitat magazine",
 			            "tags": "luxury spot, japanese garden",
 			            "img": "static/img/publish.jpg",
-			            "started_at": 1449884890000,
-			            "ended_at": 1449916890000,
+			            "started_at": 1443314890000,
+			            "ended_at": 1445516890000,
 			            "is_alive": true
 			        }, {
 			            "name": "Greenspace study ",
@@ -303,9 +303,9 @@
 			        timeline.selectAll("path").transition().attr("fill", coloring),
 			        //timeline.selectAll(".flag rect").transition().attr("fill", coloring),
 			        //timeline.selectAll(".flag line").transition().attr("stroke", coloring),
-			        timeline.selectAll(".flag rest").transition().attr("fill", function(t, n) {
-			            return dataSet && node[n] !== dataSet || !t ? "transparent" : coloring
-			        });			        
+			        // timeline.selectAll(".flag rect").transition().attr("fill", function(t, n) {
+			        //     return dataSet && node[n] !== dataSet || !t ? "transparent" : coloring
+			        // });			        
 			        timeline.selectAll(".flag text").transition().attr("fill", function(t, n) {
 			            return dataSet && node[n] !== dataSet || !t ? "transparent" : "#686868"
 			        });
@@ -468,6 +468,7 @@
 <style lang="scss">
 
 	#project-timeline {
+		color: #686868;
 	    margin-top: 3%;
 	}
 
@@ -501,8 +502,6 @@
 	    color: #6ad1a4;
 	}
 
-	
-
 	.axis text {
 	    font-size: 10px;
 	    fill: #686868
@@ -523,7 +522,7 @@
 	    opacity: 0.7;
 	}
 
- 	h1 {
+ 	.head-title {
  	    font-family: 'Aloes-Bd';
     	font-size: 22px;  
  	 	text-transform: uppercase; 

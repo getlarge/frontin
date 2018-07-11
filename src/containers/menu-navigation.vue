@@ -2,10 +2,11 @@
   <div id="top-nav">
       <b-navbar toggleable="sm" type="light" variant="light" sticky>
         <b-navbar-brand href="/"><b-img id="logo" src="static/img/logo.png" fluid alt="Logo"/> Getlarge</b-navbar-brand>
+
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
         <b-collapse is-nav id="nav_collapse">
           <b-nav class="w-50">
-          <b-navbar-nav  col >
+          <b-navbar-nav >
             <b-nav-item-dropdown class="nav-link" text="Menu" left>
               <b-dropdown-item v-for="item in items" :key="item.path">
                 <router-link :to="item.path">{{ item.name }}</router-link>
@@ -20,7 +21,6 @@
               </b-dropdown-item>
             </b-nav-item-dropdown> --> 
             <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" /></b-nav-item>
-            <b-nav-item href="https://twitter.com/e_maleix" target="_blank"><font-awesome-icon :icon="['fab', 'twitter']" size="lg" /></b-nav-item>
             <b-nav-item href="https://framagit.org/getlarge" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg"/></b-nav-item>
             <b-nav-text class="nav-link" disabled>{{connStatus}}</b-nav-text>
           </b-navbar-nav>
@@ -121,6 +121,18 @@
     position: relative;
   }
 
+  .dropdown-item:active {
+    background-color: transparent;
+    border: 1px;
+    border-color: #f9b23e;
+  }
+
+  .dropdown-item:focus {
+    background-color: transparent;
+    border: 1px;
+    border-color: #f9b23e;
+  }
+
   a {
     color: #686868;
   }
@@ -128,21 +140,6 @@
   a:hover{
     color: #33b277;
     text-decoration: none;
-  }
-
-  .prev {
-    left: 0px;
-    text-align: left;
-  }
-
-  .source {
-    left:100px;
-    text-align: center;
-  }
-
-  .next {
-    right: 0px;
-    text-align: right;
   }
 
   #logo {

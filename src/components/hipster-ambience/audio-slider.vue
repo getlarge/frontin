@@ -46,9 +46,13 @@
           realTime: false,
           lazy: true,
           formatter: null,
-          bgStyle: null,
+          bgStyle: {
+            "backgroundColor": "#fff",
+          },
           sliderStyle: null,
-          processStyle: null,
+          processStyle: {
+            "backgroundColor": "#FFF"
+          },
         }
       }
     },
@@ -130,17 +134,6 @@
 </script>
 
 <style lang="scss">
- 
-  .vue-slider-component .vue-slider {
-  }
-
-  .vue-slider-component .vue-slider-process {
-    background-color: #FFF;
-  }
-
-  .vue-slider-sr-only {
-    background-color: #FFF;
-  }
 
   .iconic {
     display: flex;

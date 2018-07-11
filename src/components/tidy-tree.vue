@@ -1,9 +1,8 @@
 <template>
   <b-container id="tidy-tree" fluid class="bv-example-row">
-
       <b-row >        
          <b-col class="infos" sm="12" md="5" lg="4">
-        <h1>Network topology</h1>
+            <h1 class="head-title" >Network topology </h1>
         </b-col>
         <b-col class="infos" sm="12" md="6" lg="5">
           <p>"Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol."
@@ -49,7 +48,7 @@
                   <div class="form-group">
                     <label for="margin-y" class="control-label">Y-margin :  {{Marginy}}px</label>
                     <div class="">
-                      <input id="margin-y" class="form-control" type="range" min="-200" max="200" v-model.number="Marginy">
+                      <input id="margin-y" class="form-control" type="range" min="-200" max="400" v-model.number="Marginy">
                     </div>
                   </div>   
 
@@ -343,9 +342,9 @@
     width: 100%;
   }
 
-  h1 {
+  .head-title {
     font-family: 'Aloes-Bd';
-    font-size: 24px;  
+    font-size: 22px;  
     text-transform: uppercase; 
     text-align: center;
     color: #686868; 

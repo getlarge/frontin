@@ -1,7 +1,7 @@
 <template>
 
   <b-container id="plant-life" fluid class="bv-example-row">
-    <h1 >Plants digital print </h1>
+    <h1 class="head-title" >Plants digital print </h1>
     <b-row align-h="center">
       <b-col sm="4" md="4" lg="4" >
         <b-img class="specimen" :src="icon" fluid />
@@ -211,9 +211,9 @@
     text-align: justify;
   }
 
-  h1 {
+  .head-title {
     font-family: 'Aloes-Bd';
-    font-size: 24px; 
+    font-size: 22px; 
     text-transform: uppercase; 
     text-align: left;
     margin-left: 2%; 
