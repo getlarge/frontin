@@ -309,20 +309,20 @@
 			        timeline.selectAll(".flag text").transition().attr("fill", function(t, n) {
 			            return dataSet && node[n] !== dataSet || !t ? "transparent" : "#686868"
 			        });
-			        timeline.selectAll(".flag line").transition().attr("stroke", function(t, n) {
-			            return dataSet && node[n] !== dataSet || !t ? "transparent" : "#dbdbdb"
-			        })
+			        timeline.selectAll(".flag line").transition().attr("opacity", function(t, n) {
+			            return dataSet && node[n] !== dataSet || !t ? "0" : "0.6"
+			        });
 			    }
 
 			    var k,
 			    	l = 1000, // viewbox width
-					d = 120, // flag height
+					d = 110, // flag height or stack height
 					s = 20,
-					f = 120, // stack height
+					f = 180, // over height
 					m = f + d,
 					p = m + s,
-					v = 1.4,
-					h = 20,
+					v = 1.5,
+					h = 35, // line height
 					paletteLength = 10;
 
 					const colorPalette = scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#9adfb0", "#6ed659", "#417c52", "#56a46f" ]); 
@@ -397,7 +397,7 @@
 			        });
 
 			        select("#timeline").style("padding-bottom", p / l * 100 + "%");
-			        var frame = select("#timeline > svg").attr("viewBox", "0 0 " + l + " " + p).attr("preserveAspectRatio", "xMinYMin meet").on("mouseout", n),
+			        var frame = select("#timeline > svg").attr("viewBox", "0 0 " + l + " " + p ).attr("preserveAspectRatio", "xMinYMin meet").on("mouseout", n),
 			          	timeline = frame.append("g").attr("class", "timeline").attr("transform", "translate(0 " + f + ")");
 			        
 			        timeline.append("rect").attr("width", l).attr("height", d).attr("fill", "transparent").on("click", n).on("mouseout", reduce);
@@ -415,7 +415,6 @@
 			        flags.append("line").attr("x1", a).attr("x2", a).attr("y2", function(t, n) {
 			            return F(t[I[n].midpoint][1]) + 1
 			        }).attr("stroke-width", 1).attr("opacity", 0.6)
-					//.attr("stroke", "#686868");
 			        	.attr("stroke", function(t, n) {
 			            return node[n].color
 			        });
@@ -469,6 +468,7 @@
 	#project-timeline {
 		color: #686868;
 	    margin-top: 3%;
+	    margin-bottom: 0% !important;
 	}
 
 	#timeline {
@@ -477,7 +477,7 @@
 	    width: 100%;
 	    vertical-align: middle;
 	    overflow: hidden;
-	    margin-top: 14%;
+	    margin-top: 12%;
 	}
 
 	#timeline svg {
@@ -489,8 +489,8 @@
 
 	#timeline path {
 	    cursor: pointer;
-	    stroke: #999;
-	    stroke-width: 0.2px;
+	    stroke: #FFF;
+	    stroke-width: 0px;
 	}
 
 	.timeline-tooltip.hidden {
@@ -517,7 +517,9 @@
 	}
 
 	.flag text {
-	    font-size: 12px;
+		font-family: 'Aloes-Rg';
+	    font-size: 10px;
+	    text-transform: uppercase; 
 	    opacity: 0.7;
 	}
 

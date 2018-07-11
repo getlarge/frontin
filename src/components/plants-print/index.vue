@@ -182,7 +182,6 @@
 
   #plant-life {
     margin-top: 3%;
-    color: #686868; 
   }
 
   .specimen {
@@ -201,8 +200,8 @@
     font-size: 11px;
   }
 
-  line {
-    stroke: #cecece; 
+  .tick {
+    stroke: #cecece !important; 
     stroke-width: 1px;
   }
 
