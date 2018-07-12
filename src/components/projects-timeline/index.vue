@@ -155,11 +155,11 @@
 			    	l = 1000, // viewbox width
 					d = 110, // flag height or stack height
 					s = 20,
-					f = 180, // over height
+					f = 220, // over height
 					m = f + d,
 					p = m + s,
 					v = 1.5,
-					h = 35, // line height
+					h = 45, // line height
 					paletteLength = 10;
 
 				var node = projects.reverse();

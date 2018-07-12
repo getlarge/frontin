@@ -9,7 +9,7 @@
           
           <b-row align-h="center">
             <b-col xs="12" sm="12" md="12" lg="12" >
-              <p >
+              <p class="desc">
                 Retrospective of previous and present projects. For more information visit the website or contact me.
               </p>
             </b-col>
@@ -147,6 +147,10 @@
     margin-left: 10%;
   }
 
+  .desc {
+    text-align: center;
+  }
+  
   .signs {
     display: flex;
     align-items: center;

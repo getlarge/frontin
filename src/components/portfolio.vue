@@ -99,8 +99,8 @@
                         .data(that.graph.nodes, d => d.data.id )
                         .enter().append("circle")
                         .attr("r", d => d.data.size || 4.5 )
-                        //.style("fill", d => this.colorPalette(d.data.group))
-                        .style("fill", "#686868")
+                        .style("fill", d => this.colorPalette(d.data.category))
+                        //.style("fill", "#686868")
                         .style("opacity", d => d.data.group > 2 ? "0" : "1")
                 }
             },
@@ -113,31 +113,34 @@
                         .selectAll("path.link")
                         .data(that.graph.links, (d) => d.target.id )
                         .enter().insert("path")
-                        .style("stroke-width", (d) => (d.target.data.size / d.target.data.group * 0.8).toString() + "px")
+                        .style("stroke-width", (d) => (d.target.data.size / d.target.data.group * 0.4).toString() + "px")
                         //.style("stroke", "#eee")
                         .style("stroke", d => that.colorPalette(d.target.data.category))
-                        .style("opacity", d => d.source.data.group > 2 ? "0" : "0.4")
+                        .style("opacity", d => d.source.data.group > 2 ? "0" : "0.6")
                         .style("fill", "none");
                 }
             },
 
-            // texts() {
-            //     var that = this;
-            //     if (that.nodes) {
-            //         console.log("that", that)
-            //         return select("#svg").append("g")
-            //             .attr("class", "texts")
-            //             .selectAll("text")
-            //             .data(that.graph.nodes, d => d.data.id )
-            //             .enter().append("text")
-            //             .attr("x", 10)
-            //             .attr("y", (d) => 15 + d.data.size)
-            //             //.attr("y", (d) => ( d.data.y > this.settings.svgHeight/2 ) ? ( 15 + d.data.size ) : ( 15 - d.data.size ) )
-            //             .attr("fill", "#686868")
-            //             .attr("opacity", d => d.data.group > 2 ? "0" : "0.8")
-            //             .text((d) => d.data.title );
-            //     }
-            // },
+            texts() {
+                var that = this;
+                if (that.nodes) {
+                    console.log("that", that)
+                    return select("#svg").append("g")
+                        .attr("class", "texts")
+                        .selectAll("text")
+                        .data(that.graph.nodes, d => d.data.id )
+                        .enter().append("text")
+                        .attr("x", (d) => -d.data.size/2)
+                        .attr("x", d => d.data.group > 1 ? -d.data.size/2 : -d.data.size/1.6)
+                        .attr("y", (d) => d.data.size*0.15)
+                        .attr("fill", "#FFF")
+                        .style("text-transform", "uppercase")
+
+                        .style("font-size", d => d.data.group > 1 ? "18" : "21")
+                        .attr("opacity", d => d.data.group > 2 ? "0" : "1")
+                        .text((d) =>  d.data.group < 3 ? d.data.title : "" );
+                }
+            },
 
             images() {
                 var that = this;
@@ -147,7 +150,7 @@
                         .selectAll("image")
                         .data(that.graph.nodes, d => d.data.id )
                         .enter().append("image")
-                        .attr("xlink:href", (d) => d.data.mini)
+                        .attr("xlink:href", (d) => d.data.group > 2 ? d.data.mini : "")
                         .attr("crossOrigin", "anonymous")
                         .attr("x", (d) => -1 * d.data.size)
                         .attr("y", (d) => -1 * d.data.size)
@@ -155,8 +158,7 @@
                         .attr("height", d => d.data.group > 2 ? (1.5 * d.data.size) : (2 * d.data.size) )
                         .attr("width", d => d.data.group > 2 ? (1.5 * d.data.size) : (2 * d.data.size) )
 
-                        .attr("width", (d) => 2 * d.data.size)
-                        .attr("opacity", d => d.data.group > 2 ? "0.8" : "1")
+                        .attr("opacity", d => d.data.group > 2 ? "01" : "1")
                         .on( 'click', this.mouseClick)
                         .on( 'mouseenter', this.mouseEnter)
                         // set back
@@ -172,8 +174,8 @@
                             .on("drag", function dragged(d) {
                                 d.fx = event.x;
                                 d.fy = event.y;
-                                EventBus.$emit('mqtt-tx', "getlarge/nodes-position", d.fx + "-" + d.fy)
                                 that.synth.synthModulo(event.x, event.y)
+                                //EventBus.$emit('mqtt-tx', "getlarge/nodes-position", d.fx + "-" + d.fy)
 
                             })
                             .on("end", function dragended(d) {
@@ -238,8 +240,8 @@
                         d.target.y;
                 })
                 that.nodes.attr("transform", that.nodeTransform);
+                that.texts.attr("transform", that.nodeTransform);
                 that.images.attr("transform", that.nodeTransform);
-                //that.texts.attr("transform", that.nodeTransform);
 
             },
 

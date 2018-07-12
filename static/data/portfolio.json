@@ -1,7 +1,7 @@
 {
 "id": "base",
 "group": 1,
-"category": 9,
+"category": 0,
 "img": "static/img/ed2.jpg",
 "mini": "static/img/ed-mini.png",
 "size": 60,
@@ -18,7 +18,7 @@
     "mini": "static/icons/processor-white.png",
     "size": 45,
     "note":  "C3",
-    "title": "Computer science",            
+    "title": "tech",            
     "subtitle": "Hello World!",
     "description": "Nerd stuff, maker science, do it yourself terminology...",
     "children": [
@@ -116,7 +116,7 @@
     "mini": "static/icons/doodle-white.png",
     "size": 45,
     "note":  "D3",
-    "title": "arts",            
+    "title": "   art",            
     "subtitle": "navigate though the mind",
     "description": "... or something like this.", 
     "children": [
@@ -214,7 +214,7 @@
     "mini": "static/icons/botany-white.png",
     "size": 45,
     "note":  "E3" ,
-    "title": "Botanic",            
+    "title": "bio",            
     "subtitle": "Plants through life",
     "subtitle1": "...and death",
     "description": "listening to old ladies talk about life",
