@@ -18,11 +18,8 @@
 
 	import { min, max, range, sum } from "d3-array"
 	import { axisBottom } from "d3-axis"
-	import { rgb } from "d3-color"
 	import { easeLinear, easeQuadInOut } from "d3-ease"
-	import { interpolate, interpolateHcl, interpolateHclLong } from "d3-interpolate"
 	import { scaleLinear, scalePow, scaleOrdinal, scaleTime } from "d3-scale"
-	import { schemeCategory10, schemePaired } from "d3-scale-chromatic"
 	import { event, select, selectAll, style } from "d3-selection"
 	import { area, stack, stackOrderNone, stackOffsetNone } from "d3-shape"
 	import { timeFormat } from "d3-time-format"
@@ -30,6 +27,7 @@
 	import tooltip from "./tooltip"
 	import moment from 'moment'
 	import { EventBus } from '@/main'
+	import { projects } from '@/../static/data/cv'
 
 	export default {
 
@@ -38,169 +36,8 @@
 		    	pageTopic: "getlarge" + this.$route.path,
 				width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
 				height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+				colorPalette : scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#9adfb0", "#6ed659", "#417c52", "#56a46f" ]),
 				currentProject: undefined,
-				projectData: undefined,
-				projects : [{
-			            "name": "Web app development",
-			            "link": "#",
-			            "category": 8,
-			            "description": "Working on the frontend and backend, with the intent to create a fully interactive browsing experience.",
-			            "tags": "NodeJS, VueJS, D3JS, MQTT, Express, Open Source",
-			            "img": "static/icons/here.png",
-			            "started_at": 1526384090000,
-			            "ended_at": 0,
-			            "is_alive": true
-			        }, {
-			        	"name": "Web presentations",
-			            "link": "https://aloes.io",
-			            "category": 0,
-			            "description": "Summarize and describe product and goals on a website and an interactive presentation, Aloes",
-			          	"tags": "NodeJS, HTML5, Bootstrap, RevealJS, FabricJS",
-			            "img": "static/img/aloes.gif",
-			            "started_at": 1519904090000,
-			            "ended_at": 1523792090000,
-			            "is_alive": true
-			        },{
-			   			"name": "IoT platform",
-			            "link": "https://app.aloes.io",
-			            "category": 4,
-			            "description": "Designing a web platform for professionals with Exostic, aiming to simplify devices and softwares interoperability. Backend and frontend dev.",
-			            "tags": "IoT, Dataviz, low code",
-			            "img": "static/img/dashboard.gif",
-			            "started_at": 1503806400000,
-			            "ended_at": 1526384090000,
-			            "is_alive": true
-			        }, {
-			        	"name": "Cosmonode board",
-			            "link": "https://framagit.org/getlarge/Cosmonode_PCBs",
-			            "category": 6,
-			            "description": "Creating a multipurpose board to ease IoT experiments on the field.",
-			           	"tags": "OpenHardware, PCB, Kicad, MVP, Lora",
-			            "img": "static/img/cosmonode.gif",
-			            "started_at": 1497526490000,
-			            "ended_at": 1515584090000,
-			            "is_alive": true
-			        }, {
-			        	"name": "Greenspace study",
-			            "link": "#",
-			            "category": 3,
-			            "description": "Studying faisability of automated green installation in offices at Nantes. Katra - Chessé",
-			           	"tags": "Green, design, automation",
-			            "img": "static/img/chesse.png",
-			            "started_at": 1489145690000,
-			            "ended_at": 1497822490000,
-			            "is_alive": false
-			        }, {
-			        	"name": "Web app prototype",
-			            "link": "#",
-			            "category": 8,
-						"description": "First attempt in web development, to visualize data and manage devices remotely.",
-			           	"tags": "Node-red, Raspberry Pi, PoC",
-			            "img": "static/img/proto7.png",		            
-			            "started_at": 1482582490000,
-			            "ended_at": 1489939290000,
-			            "is_alive": false
-			        }, {
-			        	"name": "DIY Gateway",
-			            "link": "https://framagit.org/getlarge/GatewayManager",
-			            "category": 7,
-						"description": "Developping a gateway firmware to forward nodes (+ sensors) comunication to the web",
-			           	"tags": "ESP8266, C++, MySensors MQTT, Open Source",
-			            "img": "static/img/arduino.png",	
-			            "started_at": 1483312090000,
-			            "ended_at": 1497526490000,
-			            "is_alive": true
-			        }, {
-			        	"name": "Biodiag prototype",
-			            "link": "#",
-			            "category": 6,
-			            "description": "First sketch to monitor plants, and trigger reactions based on environment conditions.",
-			            "tags": "Hardware, Software, Arduino, PoC",
-			            "img": "static/img/proto6.jpg",
-			            "started_at": 1461312090000,
-			            "ended_at": 1489145690000,
-			            "is_alive": true
-			        }, {
-			        	"name": "Plants have conversations",
-			            "link": "#",
-			            "category": 1,
-			            "description": "Studying the ways to catch , classify, and interprete plants signals. ",
-			            "tags": "Botanic, secret life of plants",
-			            "img": "static/icons/random-dither-green.png",
-			            "started_at": 1481260890000,
-			            "ended_at": 0,
-			            "is_alive": true
-			        }, {
-			            "name": "Art exhibition",
-			            "link": "#",
-			            "category": 5,
-			            "description": "Exhibition introducing two handmade creations, Promenarts gallery",
-			            "tags": "arts, île de Ré",
-			            "img": "static/img/promenarts.jpg",
-			            "started_at": 1460720090000,
-			            "ended_at": 1476531290000,
-			            "is_alive": true
-			        }, {
-			        	"name": "Vegetal column prototypes",
-			            "link": "#",
-			            "category": 1,
-			            "description": "Another approach to grow plants, now commercialized.",
-			            "tags": "Urban farming, innovation, hydroponic",
-			            "img": "static/img/proto4.jpg",
-			            "started_at": 1445513690000,
-			            "ended_at": 1469187290000,
-			            "is_alive": true
-			        }, {
-			        	"name": "Publication",
-			            "link": "#",
-			            "category": 5,
-			            "description": "Vegetal installation in a nice residence hidden in La Rochelle, Habitat magazine",
-			            "tags": "luxury spot, japanese garden",
-			            "img": "static/img/publish.jpg",
-			            "started_at": 1443314890000,
-			            "ended_at": 1445516890000,
-			            "is_alive": true
-			        }, {
-			            "name": "Greenspace study ",
-			            "link": "#",
-			            "category": 3,
-			            "description": "Assisting landscape team for an installation linked to the public opening of the greenhouses, La Rochelle",
-			            "tags": "project call, hydroponic",
-			            "img": "static/img/serre-lr.jpg",
-			            "started_at": 1421384400000,
-			            "ended_at": 1428638400000,
-			            "is_alive": false
-			        }, {
-			            "name": "IVI",
-			            "link": "#",
-			            "category": 2,
-			            "description": "Created a company to offer my skills on designing and making unexpected nests for plants.",
-			            "tags": "design vegetal, landscapes",
-			            "img": "static/img/mv_3.jpg",
-			            "started_at": 1398425690000,
-			            "ended_at": 1500873690000,
-			            "is_alive": false
-			        }, {
-			            "name": "Green wall experimentations",
-			            "link": "#",
-			            "category": 1,
-			            "description": "After experimenting with hydroponics for a while, i made a fun attempt to create a flying garden, later turning into a job.",
-			            "tags": "green wall, NFT, experiment",
-			            "img": "static/img/visuals.gif",			            
-			            "started_at": 1378380890000,
-			            "ended_at": 1398425690000,
-			            "is_alive": false
-			        }, {
-			            "name": "Online store",
-			            "link": "#",
-			            "category": 0,
-			            "description": "Setting up an online grow shop ( frontend, graphic creation, content management, SEO ), Home Garden Labs",
-			            "tags": "e-commerce, garden, organic, hydroponic",
-			            "img": "static/img/HGL.jpg",
-			            "started_at": 1346844890000,
-			            "ended_at": 1395380890000,
-			            "is_alive": false
-			        }]
 			}
 	  	},
 
@@ -212,9 +49,9 @@
 	  	},
 
 	  	mounted() {
-            this.$on("projectSelected", e => {
+            this.$on("projectSelected", i => {
               //console.log("projectSelected", e);
-              this.currentProject = this.projects[e];
+              this.currentProject = projects[i];
             });	
 
             this.$on("projectDeselected", () => {
@@ -255,47 +92,48 @@
 			        dataSet = null;
 			        update();
 			    }
-			    function extend(n, e) { //onmouseover
-			        t(node[e], !0);
-			        self.$emit('projectSelected', e);
+			    function extend(d, i) { 
+			        t(node[i], !0);
+			        self.$emit('projectSelected', i);
 
 			    }
-			    function reduce() { //onmouseenter.?
+			    function reduce() { 
 			        event.stopPropagation();
 			        self.$emit('projectDeselected');
 			    }
-			    function a(t, n) {
-			        return Math.round(D(I[n].midpoint))
+			    function a(d, i) {
+			        return Math.round(D(I[i].midpoint))
 			    }
-			    function o(t, n) {
+
+				function o(d, i) {
 			        var e = 0,
-			          	r = Q[n];
+			          	r = Q[i];
 			        if (r) {
-			            var o = a(t, n)
-			              , i = o + r.width;
-			            i > l && (o -= r.width,
-			            i -= r.width),
-			            e = q.findIndex(function(t) {
-			                return !t || t.i === n || t.x < o
+			            var o = a(d, i),
+			            u = o + r.width;
+			            u > l && (o -= r.width,
+			            u -= r.width),
+			            e = q.findIndex(function(d) {
+			                return !d || d.u === i || d.x < o
 			            }),
 			            -1 === e ? e = 0 : q[e] = {
-			                x: i,
-			                i: n
+			                x: u,
+			                u: i
 			            }
 			        }
 			        return (e + 1) * h * -1
 			    }
 
-			    function i(t, n) {
-			        var e = a(t, n)
-			          , r = Q[n];
+			    function i(d, i) {
+			        var e = a(d, i)
+			          , r = Q[i];
 			        return r && e + r.width > l && (e -= r.width),
-			        "translate(" + e + " " + o(t, n) + ")"
+			        "translate(" + e + " " + o(d, i) + ")"
 			    }
 
-			    function coloring(t, n) {
-			        var e = node[n];
-			        return dataSet && e !== dataSet || !t ? "#f4f4f4" : e.color
+			    function coloring(d, i) {
+			        var e = node[i];
+			        return dataSet && e !== dataSet || !d ? "#f4f4f4" : e.color
 			    }
 
 			    function update() {
@@ -305,11 +143,11 @@
 			        // timeline.selectAll(".flag rect").transition().attr("fill", function(t, n) {
 			        //     return dataSet && node[n] !== dataSet || !t ? "transparent" : coloring
 			        // });			        
-			        timeline.selectAll(".flag text").transition().attr("fill", function(t, n) {
-			            return dataSet && node[n] !== dataSet || !t ? "transparent" : "#686868"
+			        timeline.selectAll(".flag text").transition().attr("fill", function(d, i) {
+			            return dataSet && node[i] !== dataSet || !d ? "transparent" : "#686868"
 			        });
-			        timeline.selectAll(".flag line").transition().attr("opacity", function(t, n) {
-			            return dataSet && node[n] !== dataSet || !t ? "0" : "0.6"
+			        timeline.selectAll(".flag line").transition().attr("opacity", function(d, i) {
+			            return dataSet && node[i] !== dataSet || !d ? "0" : "0.6"
 			        });
 			    }
 
@@ -324,29 +162,23 @@
 					h = 35, // line height
 					paletteLength = 10;
 
-					const colorPalette = scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#9adfb0", "#6ed659", "#417c52", "#56a46f" ]); 
-					var colorScheme = 
-				      scaleLinear().domain([1,paletteLength]).interpolate(interpolateHclLong)
-				      .range([rgb("#007AFF"), rgb('#FFF500')]);
-
-					var node = this.projects.reverse();
+				var node = projects.reverse();
 			    
 			    if (node) {
 			        var timestamp = (new Date).getTime(),
-		          		//colors = scaleOrdinal(schemePaired);
-		          		colors = colorPalette;
+		          		colors = this.colorPalette;
 
-			        node.forEach(function(t, n) {
-			            0 === t.ended_at && (t.ended_at = timestamp),
-			            //t.color = colors(n);
-			            t.color = colors(t.category);
+			        node.forEach(function(d, i) {
+			            0 === d.ended_at && (d.ended_at = timestamp),
+			            //t.color = colors(i);
+			            d.color = colors(d.category);
 			           
 			        }); 
-				    var startTime = min(node, function(t) {
-			            	return t.started_at
+				    var startTime = min(node, function(d) {
+			            	return d.started_at
 			        	});
-			        var endTime = max(node, function(t) {
-			            	return t.ended_at
+			        var endTime = max(node, function(d) {
+			            	return d.ended_at
 			        	});
 			        var	M = moment.utc(startTime), 
 			        	_ = moment.utc(endTime),
@@ -369,30 +201,30 @@
 				            }
 				        }),
 
-			        	O = range(b).map(function(t) {
+			        	O = range(b).map(function(d) {
 				            var n = {};
 				            return I.forEach(function(e, r) {
-				                n[node[r].name] = e.values[t]
+				                n[node[r].name] = e.values[d]
 				            }),
 				            n
 			        	});
-			        var P = stack().keys(node.map(function(t) {
-			            return t.name
+			        var P = stack().keys(node.map(function(d) {
+			            return d.name
 			        })).order(stackOrderNone).offset(stackOffsetNone);
 			        var D = scalePow().exponent(v).domain([0, b - 1]).range([0, l]);
-			        var E = max(range(b).map(function(t) {
-			            return sum(I, function(n) {
-			                return n.values[t]
+			        var E = max(range(b).map(function(d) {
+			            return sum(I, function(i) {
+			                return i.values[d]
 			            })
 			        }));
 			        var F = scaleLinear().domain([0, E]).range([d, 0]);
 			        var N = area()
-			        .x(function(t, n) {
-			            return D(n)
-			        }).y0(function(t) {
-			            return F(t[0])
-			        }).y1(function(t) {
-			            return F(t[1])
+			        .x(function(d, i) {
+			            return D(i)
+			        }).y0(function(d) {
+			            return F(d[0])
+			        }).y1(function(d) {
+			            return F(d[1])
 			        });
 
 			        select("#timeline").style("padding-bottom", p / l * 100 + "%");
@@ -403,40 +235,40 @@
 			        
 			        var dataSet = null,
 			          	L = P(O),
-			          	Q = (timeline.selectAll("path").data(L).enter().append("path").attr("d", N).on("click", function(n, e) {
-			            	t(node[e], !0)
+			          	Q = (timeline.selectAll("path").data(L).enter().append("path").attr("d", N).on("click", function(d, i) {
+			            	t(node[i], !0)
 			        	}).on("mouseover", extend).on("mouseout", reduce).exit().remove(), []),
-			          	flags = timeline.selectAll(".flag").data(L).enter().append("g").attr("class", "flag").on("click", function(n, e) {
-			            	t(node[e])
+			          	flags = timeline.selectAll(".flag").data(L).enter().append("g").attr("class", "flag").on("click", function(d, i) {
+			            	t(node[i])
 			        	}).on("mouseover", extend);
 
 
-			        flags.append("line").attr("x1", a).attr("x2", a).attr("y2", function(t, n) {
-			            return F(t[I[n].midpoint][1]) + 1
+			        flags.append("line").attr("x1", a).attr("x2", a).attr("y2", function(d, i) {
+			            return F(d[I[i].midpoint][1]) + 1
 			        }).attr("stroke-width", 1).attr("opacity", 0.6)
-			        	.attr("stroke", function(t, n) {
-			            return node[n].color
+			        	.attr("stroke", function(d, i) {
+			            return node[i].color
 			        });
-			        var flagsLinks = flags.append("a").attr("xlink:href", function(t, n) {
-			            return node[n].link
+			        var flagsLinks = flags.append("a").attr("xlink:href", function(d, i) {
+			            return node[i].link
 			        }).attr("target", "_blank").attr("transform", i);
 			        flagsLinks.append("rect").attr("x", 0).attr("y", 0).attr("width", 100).attr("height", 16)
 			        	.attr("fill", "transparent");
 			        	// .attr("fill", function(t, n) {
 			         //    	return node[n].color
 			        	// }),
-			        flagsLinks.append("text").attr("x", 2).attr("y", 12).text(function(t, n) {
-			            return node[n].name
+			        flagsLinks.append("text").attr("x", 2).attr("y", 12).text(function(d, i) {
+			            return node[i].name
 			        });
-			        var Q = flagsLinks.nodes().map(function(t) {
-			            var n = t.children[1].getBBox();
+			        var Q = flagsLinks.nodes().map(function(d) {
+			            var n = d.children[1].getBBox();
 			            return {
 			                bbox: n,
 			                width: Math.ceil(n.width) + 6
 			            }
 			        });
-			        flagsLinks.select("rect").attr("width", function(t, n) {
-			            return Q[n].width
+			        flagsLinks.select("rect").attr("width", function(d, i) {
+			            return Q[i].width
 			        });
 			        var q = range(10).map(function() {
 			            return null
@@ -476,7 +308,7 @@
 	    width: 100%;
 	    vertical-align: middle;
 	    overflow: hidden;
-	    margin-top: 10%;
+	    margin-top: 12%;
 	}
 
 	#timeline svg {
@@ -517,17 +349,10 @@
 
 	.flag text {
 		font-family: 'Aloes-Rg';
-	    font-size: 10px;
+	    font-size: 9px;
 	    text-transform: uppercase; 
 	    opacity: 0.7;
 	}
 
- 	.head-title {
- 	    font-family: 'Aloes-Bd';
-    	font-size: 22px;  
- 	 	text-transform: uppercase; 
- 	 	color: #686868; 
-	    text-align: left;
-	    margin-left: 2%; 
-  	}
+
 </style>

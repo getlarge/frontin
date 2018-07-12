@@ -2,9 +2,9 @@
 
   <b-container id="plant-life" fluid class="bv-example-row">
     <b-row align-h="center">
-      <b-col sm="4" md="4" lg="4" >
+      <b-col class="description" sm="4" md="4" lg="4" >
         <b-img class="specimen" :src="icon" fluid />
-        <p> Measuring conductivity signals from 2 specimens living in my  garden ( represented as X & Y ), compared in real time. 
+        <p > Measuring conductivity signals from 2 specimens living in my  garden ( represented as X & Y ), compared in real time. 
         </br> The aim of this experiment is to map plant's sensitivity and finally create an id card based on its vital print. 
         </p>
         <small># In Progress</small>
@@ -195,29 +195,21 @@
   }
 
   .axis {
-    stroke: #cecece; 
+    color: #cecece; 
     font-size: 11px;
   }
 
   .tick {
-    stroke: #cecece !important; 
+    fill: #cecece !important; 
     stroke-width: 1px;
   }
 
-  p {
+  .description {
     font-size: 14px; 
     text-align: justify;
-  }
-
-  .head-title {
-    font-family: 'Aloes-Bd';
-    font-size: 22px; 
-    text-transform: uppercase; 
-    text-align: left;
-    margin-left: 2%; 
     color: #686868; 
-
   }
+
 
 
 </style>

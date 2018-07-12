@@ -1,13 +1,13 @@
 <template>
   <div id="top-nav">
       <b-navbar toggleable="sm" type="light" variant="light" sticky>
-        <b-navbar-brand href="/"><b-img id="logo" src="static/img/logo.png" fluid alt="Logo"/> Getlarge</b-navbar-brand>
+        <b-navbar-brand href="/"><b-img id="logo" src="static/img/logo.png" fluid alt="Logo"/> </b-navbar-brand>
 
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
         <b-collapse is-nav id="nav_collapse">
           <b-nav class="w-50">
           <b-navbar-nav >
-            <b-nav-item-dropdown class="nav-link" text="Menu" left>
+            <b-nav-item-dropdown class="nav-link" text="Latest works" left>
               <b-dropdown-item v-for="item in items" :key="item.path">
                 <router-link :to="item.path">{{ item.name }}</router-link>
               </b-dropdown-item>

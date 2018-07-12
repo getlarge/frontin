@@ -1,9 +1,7 @@
 <template>
 
   <div >
-
     <mq-layout class="controls-desktop" mq="desktop">
-
       <div id="tooltipPositioner">
         <div id="tooltip">
           <b-container id="tooltipContainer" fluid >
@@ -66,10 +64,10 @@
           <b-container id="tooltipContainer"  >
             <div class="title">{{title}}</div>
             <b-row >
-              <b-col xs="6"  >
+              <b-col xs="7"  >
                 <div class="description">{{description}}</div>
               </b-col>
-              <b-col xs="6" >
+              <b-col xs="5" >
                 <b-img class="pics" :src="img" fluid/>
               </b-col>  
             </b-row>
@@ -117,7 +115,7 @@
     }
 
     #tooltip .pics {
-      max-width: 100%;
+      max-width: 90%;
       max-height: 60px;    
     }
 

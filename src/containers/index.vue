@@ -137,8 +137,6 @@
     background-color: #33b277;
   }
 
-  
-
   .hello {
     position: relative;
     width: 80%;

@@ -1,0 +1,174 @@
+{ "projects": [
+	{
+	    "name": "Web app development",
+	    "link": "#",
+	    "category": 8,
+	    "description": "Working on the frontend and backend, with the intent to create a fully interactive browsing experience.",
+	    "tags": "VueJS, D3JS, MQTT, Express, Open Source",
+	    "img": "static/icons/here.png",
+	    "started_at": 1526384090000,
+	    "ended_at": 0,
+	    "is_alive": true
+	}, {
+		"name": "Web presentations",
+	    "link": "https://aloes.io",
+	    "category": 0,
+	    "description": "Summarize and describe product and goals on a website and an interactive presentation, Aloes",
+	  	"tags": "NodeJS, HTML5, Bootstrap, RevealJS, FabricJS",
+	    "img": "static/img/aloes.gif",
+	    "started_at": 1519904090000,
+	    "ended_at": 1523792090000,
+	    "is_alive": true
+	},{
+		"name": "IoT platform",
+	    "link": "https://app.aloes.io",
+	    "category": 4,
+	    "description": "Designing a web platform for professionals with Exostic, aiming to simplify devices and softwares interoperability. Backend and frontend dev.",
+	    "tags": "IoT, Dataviz, React, JSON, low code",
+	    "img": "static/img/dashboard.gif",
+	    "started_at": 1503806400000,
+	    "ended_at": 1526384090000,
+	    "is_alive": true
+	},{
+		"name": "IS admin",
+	    "link": "https://chat.aloes.io",
+	    "category": 8,
+	    "description": "Setting up and managing chat, and cloud systems to ease remote workers organization. Developping a chatbot to suggest tutorials to users ( also to replace CLI tools and notify important logs ),  Exostic",
+	   	"tags": "Nginx, Netcloud, RocketChat, Hubot, Linux",
+	    "img": "static/img/chatbot.png",
+	    "started_at": 1496526490000,
+	    "ended_at": 1503584090000,
+	    "is_alive": true
+	},{
+		"name": "Cosmonode board",
+	    "link": "https://framagit.org/getlarge/Cosmonode_PCBs",
+	    "category": 6,
+	    "description": "Creating a multipurpose board to ease IoT experiments on the field.",
+	   	"tags": "OpenHardware, PCB, Kicad, MVP, Lora",
+	    "img": "static/img/cosmonode.gif",
+	    "started_at": 1497526490000,
+	    "ended_at": 1515584090000,
+	    "is_alive": true
+	},{
+		"name": "Greenspace study",
+	    "link": "#",
+	    "category": 3,
+	    "description": "Studying faisability of automated green installation in offices at Nantes. Katra - Chessé",
+	   	"tags": "Green, design, automation",
+	    "img": "static/img/chesse.png",
+	    "started_at": 1490145690000,
+	    "ended_at": 1495822490000,
+	    "is_alive": false
+	}, {
+		"name": "Web app prototype",
+	    "link": "#",
+	    "category": 8,
+		"description": "First attempt in web development, to visualize data and manage devices remotely.",
+	   	"tags": "Node-red, Raspberry Pi, PoC",
+	    "img": "static/img/proto7.png",		            
+	    "started_at": 1482582490000,
+	    "ended_at": 1489939290000,
+	    "is_alive": false
+	}, {
+		"name": "DIY Gateway",
+	    "link": "https://framagit.org/getlarge/GatewayManager",
+	    "category": 7,
+		"description": "Developping a gateway firmware to forward nodes (+ sensors) comunication to the web",
+	   	"tags": "ESP8266, C++, MySensors MQTT, Open Source",
+	    "img": "static/img/arduino.png",	
+	    "started_at": 1483312090000,
+	    "ended_at": 1497526490000,
+	    "is_alive": true
+	}, {
+		"name": "Biodiag prototype",
+	    "link": "#",
+	    "category": 6,
+	    "description": "First sketch to monitor plants, and trigger reactions based on environment conditions.",
+	    "tags": "Hardware, Software, Arduino, PoC",
+	    "img": "static/img/proto6.jpg",
+	    "started_at": 1461312090000,
+	    "ended_at": 1489145690000,
+	    "is_alive": true
+	}, {
+		"name": "Plants have conversations",
+	    "link": "#",
+	    "category": 1,
+	    "description": "Studying the ways to catch , classify, and interprete plants signals. ",
+	    "tags": "Botanic, secret life of plants",
+	    "img": "static/icons/random-dither-green.png",
+	    "started_at": 1481260890000,
+	    "ended_at": 0,
+	    "is_alive": true
+	}, {
+	    "name": "Art exhibition",
+	    "link": "#",
+	    "category": 5,
+	    "description": "Exhibition introducing two handmade creations, Promenarts gallery",
+	    "tags": "arts, île de Ré",
+	    "img": "static/img/promenarts.jpg",
+	    "started_at": 1460720090000,
+	    "ended_at": 1476531290000,
+	    "is_alive": true
+	}, {
+		"name": "Vegetal column prototypes",
+	    "link": "#",
+	    "category": 1,
+	    "description": "After Another approach to grow plants, now commercialized.",
+	    "tags": "Urban farming, innovation, hydroponic",
+	    "img": "static/img/proto4.jpg",
+	    "started_at": 1448513690000,
+	    "ended_at": 1470187290000,
+	    "is_alive": true
+	}, {
+		"name": "Publication",
+	    "link": "#",
+	    "category": 5,
+	    "description": "Vegetal installation in a nice residence hidden in La Rochelle, Habitat magazine",
+	    "tags": "luxury spot, japanese garden",
+	    "img": "static/img/publish.jpg",
+	    "started_at": 1447314890000,
+	    "ended_at": 1449516890000,
+	    "is_alive": true
+	}, {
+	    "name": "Greenspace study ",
+	    "link": "#",
+	    "category": 3,
+	    "description": "Assisting landscape team for an installation related to the public opening of the greenhouses, La Rochelle",
+	    "tags": "project call, hydroponic",
+	    "img": "static/img/serre-lr.jpg",
+	    "started_at": 1421384400000,
+	    "ended_at": 1428638400000,
+	    "is_alive": false
+	}, {
+	    "name": "IVI",
+	    "link": "#",
+	    "category": 2,
+	    "description": "Created a company to offer my skills on designing and making unexpected nests for plants.",
+	    "tags": "design vegetal, landscapes",
+	    "img": "static/img/mv-3.jpg",
+	    "started_at": 1398425690000,
+	    "ended_at": 1500873690000,
+	    "is_alive": false
+	}, {
+	    "name": "Green wall experimentations",
+	    "link": "#",
+	    "category": 1,
+	    "description": "After experimenting with hydroponics for a while, i made a fun attempt to create a flying garden, later turning into a job.",
+	    "tags": "green wall, NFT, experiment",
+	    "img": "static/img/visuals.gif",			            
+	    "started_at": 1378380890000,
+	    "ended_at": 1398425690000,
+	    "is_alive": false
+	}, {
+	    "name": "Online store",
+	    "link": "#",
+	    "category": 0,
+	    "description": "Setting up an online grow shop ( frontend, graphic creation, content management, SEO ), Home Garden Labs",
+	    "tags": "e-commerce, garden, organic, hydroponic",
+	    "img": "static/img/HGL.jpg",
+	    "started_at": 1346844890000,
+	    "ended_at": 1395380890000,
+	    "is_alive": false
+	}
+]
+}

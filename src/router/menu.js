@@ -47,13 +47,6 @@ export const routes = [
     alias: '/hipster-ambience/*',
     component: loadView('hipster-ambience/index')
   },  
-  {
-    name: 'Cam viewer',
-    title: 'Cam viewer',
-    path: '/cam-viewer',
-    alias: '/cam-viewer/*',
-    component: loadView('utils/cam-viewer')
-  },
 ].map(r => {
   var res = r;
   res.source = config.gitLink +
