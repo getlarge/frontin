@@ -1,8 +1,7 @@
 <template>
     <div class="hello">
-      <b-jumbotron  text-variant="white" >
-        <h5>work by</h5>
-        <h2>Edouard Maleix</h2>
+      
+        <h2 class="title">Edouard Maleix</h2>
         <hr class="my-4">
         
         <b-container fluid class="bv-example-row">
@@ -26,7 +25,6 @@
 
           </b-row>
         </b-container>
-      </b-jumbotron>
     </div>
 </template>
 
@@ -67,14 +65,14 @@
 
     methods: {
       initialize() {
-        select(".jumbotron")
+        select(this.$el)
           .style("background-color", this.color("0.1"))
           .style("opacity", "0.4" )
         this.transitionBG();
       },
       transitionBG() {
         var self = this;
-        select(".jumbotron")
+        select(this.$el)
         .transition()
           .style("background-color", this.color("0.1"))       
           .duration(this.duration)
@@ -102,36 +100,13 @@
 
 <style scoped>
 
-  h1, h2 {
+  .title {
+     margin-top: 8%;
     font-family: Aloes-Bd;
     font-size: 20px;
   }
 
-  h5 {
-    font-size: 18px;
-/*      color: #dbdbdb;
-*/    }
-
-  ul {
-    /*list-style-type: none;*/
-    padding: 0;
-    margin: auto;
-    width: 300px;
-  }
-
-  li {
-    /*display: inline-block;*/
-    margin: 0 0px;
-    list-style: decimal
-  }
-
-/*    a {
-    color: blue;
-    display: block;
-    text-decoration: none;
-    text-align: left;
-  }*/
-
+ 
   a:hover {
     text-decoration: underline;
     background-color: #33b277;
@@ -139,15 +114,16 @@
 
   .hello {
     position: relative;
-    width: 80%;
-    height: 60%;
+    color: #FFF;
+    width: 100%;
+    height: 700px;
     text-align: center;
     overflow: hidden;
-    margin-top: 10%;
-    margin-left: 10%;
   }
 
   .desc {
+    margin-top: 3%;
+    margin-bottom: 3%;
     text-align: center;
   }
   
@@ -184,7 +160,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #686868;
     opacity: 1;
     background-color: transparent;
     border: 5px;

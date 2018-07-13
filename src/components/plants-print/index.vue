@@ -30,23 +30,22 @@
     data() {
         return {
           pageTopic: "getlarge" + this.$route.path,
-          subscribeList: [],
           icon: "static/img/asplen.jpg",
           lineArr: [],
           MAX_LENGTH: 100,
           duration: 1000,
           chart : realTimeLineChart(),
-          lineData: {
-            time: "0",
-            x: 0,
-            y: 0
-          },
           x: 0,
           y: 0,
       }
     },
 
     mounted() {
+        this.seedData();
+        window.setInterval(this.updateData, this.duration);
+        select("#chart").datum(this.lineArr).call(this.chart);
+        select(window).on('resize', this.resize);
+
         EventBus.$emit("mqtt-sub", "mysensors/Gateway16149114-out/99/#");
         EventBus.$emit("mqtt-sub", "mysensors//Gateway1456278-out/27/#");
         EventBus.$on("mqtt-rx", (topic, payload) => {
@@ -61,20 +60,26 @@
            return this.y = Number(y);
          });
 
-        this.seedData();
-        window.setInterval(this.updateData, this.duration);
-        select("#chart").datum(this.lineArr).call(this.chart);
-        select(window).on('resize', this.resize);
+        
     },
 
     updated() {
+
       //this.updateData;
-      console.log(this)
+      //console.log(this)
+    },
+
+    beforeUnmount() {
+      window.setInterval(this.updateData, 0);
+
+      
     },
 
     beforeDestroy() {
-      EventBus.$emit("mqtt-unsub", "mysensors/GW4-out/99");
-      EventBus.$emit("mqtt-unsub", "mysensors/GW3-out/27");
+      this.lineArr = [];
+      //delete this.lineArr;
+      // EventBus.$emit("mqtt-unsub", "mysensors/GW4-out/99");
+      // EventBus.$emit("mqtt-unsub", "mysensors/GW3-out/27");
       EventBus.$off("mqtt-rx");
       EventBus.$off("got-x");
       EventBus.$off("got-y");
@@ -167,7 +172,7 @@
           return;
         }
         this.chart.width(+select("#chart").style("width").replace(/(px)/g, ""));
-        this.chart.height(+select("#chart").style("height").replace(/(px)/g, ""));
+        //this.chart.height(+select("#chart").style("height").replace(/(px)/g, ""));
         select("#chart").call(this.chart);
       },
 
@@ -177,7 +182,7 @@
 
 
 </script>
-<style lang="scss">
+<style scoped>
 
   #plant-life {
     margin-top: 3%;

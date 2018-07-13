@@ -24,7 +24,8 @@ Vue.use(VueMq, {
 	    mobile: 600,
 	    tablet: 900,
 	    laptop: 1250,
-	    desktop: Infinity,
+      desktop: 1600,
+      xxl: Infinity,
 	  }
 });
 Vue.use(BootstrapVue);

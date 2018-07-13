@@ -1,7 +1,7 @@
 <template>
     <div id="vis">
 
-     <b-container id="tooltipContainer" fluid >
+     <b-container fluid >
             <b-row align-h="center">
                 
               <b-col sm="9" md="9" lg="9" >
@@ -29,7 +29,6 @@
 	import { hierarchy, tree } from "d3-hierarchy"
 	import { interpolateString } from "d3-interpolate"
 	import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale"
-	import { schemeCategory10 } from "d3-scale-chromatic"
 	import { append, attr, event, select, selectAll, style } from "d3-selection"
 	import { interval, now, timeout, timer } from "d3-timer"
 	import { active, transition } from "d3-transition"
@@ -50,7 +49,13 @@
                     strokeColor: "#29B5FF",
                     width: 100,
                     svgWigth: 1200,
-                    svgHeight: 800
+                    svgHeight: 800,
+                    circles: {
+                        levels: 6,
+                        maxValue: 100,
+                        labelFactor: 1.15,
+                        opacity: 0.2,
+                    },
                 },
                 synth: new(ToneSynth),
             };
@@ -61,22 +66,23 @@
         },
 
         mounted() {
-            this.$on("nodeClicked", i => {
-              console.log("nodeClicked", i);
-              this.currentNode = this.nodes[i];
-            }); 
-
-            this.$on("nodeSelected", i => {
-              console.log("nodeSelected", i);
-              this.currentNode = this.nodes[i];
-            }); 
-
-            this.$on("nodeDeselected", () => {
-              console.log("nodeDeselected");
-              this.currentNode = undefined;
-            });         
-
             this.initPortfolio();
+
+            // this.$on("nodeClicked", i => {
+            //   console.log("nodeClicked", i);
+            //   this.currentNode = this.nodes[i];
+            // }); 
+
+            // this.$on("nodeSelected", i => {
+            //   console.log("nodeSelected", i);
+            //   this.currentNode = this.nodes[i];
+            // }); 
+
+            // this.$on("nodeDeselected", () => {
+            //   console.log("nodeDeselected");
+            //   this.currentNode = undefined;
+            // });         
+
         },
 
         updated() {
@@ -86,7 +92,12 @@
         },
 
         beforeDestroy() {
+            // this.nodes = null;
+            // this.links = null;
 
+            // this.currentNode = null;
+            // this.graph = null;
+            //delete this.graph;
         },
 
         computed: {
@@ -130,12 +141,11 @@
                         .selectAll("text")
                         .data(that.graph.nodes, d => d.data.id )
                         .enter().append("text")
-                        .attr("x", (d) => -d.data.size/2)
-                        .attr("x", d => d.data.group > 1 ? -d.data.size/2 : -d.data.size/1.6)
-                        .attr("y", (d) => d.data.size*0.15)
+                        // .attr("x", d => d.data.group > 1 ? -d.data.size/2 : -d.data.size/1.6)
+                        // .attr("y", (d) => d.data.size*0.15)
                         .attr("fill", "#FFF")
+                        .attr("text-anchor", "middle")
                         .style("text-transform", "uppercase")
-
                         .style("font-size", d => d.data.group > 1 ? "18" : "21")
                         .attr("opacity", d => d.data.group > 2 ? "0" : "1")
                         .text((d) =>  d.data.group < 3 ? d.data.title : "" );
@@ -227,6 +237,9 @@
             },
 
             ticked() {
+                // var total = nodes.length;
+                // var radius = Math.min(this.settings.svgWidth / 2, this.settings.svgHeight / 2);
+                // var angleSlice = Math.PI * 2 / total;
                 var that = this;
                 that.links.attr("d", (d) => {
                     var dx = d.target.x - d.source.x,
@@ -242,7 +255,15 @@
                 that.nodes.attr("transform", that.nodeTransform);
                 that.texts.attr("transform", that.nodeTransform);
                 that.images.attr("transform", that.nodeTransform);
-
+               
+                // that.texts.attr("transform", function(d, i) {
+                //     var rotate = angleSlice * i > Math.PI / 2 ?
+                //         (angleSlice * i * 180 / Math.PI) - 270 :
+                //         (angleSlice * i * 180 / Math.PI) - 90;
+                //     return "translate(" + radius * Math.cos(angleSlice * i - Math.PI / 2) * this.settings.circles.labelFactor +
+                //         "," + radius * Math.sin(angleSlice * i - Math.PI / 2) * this.settings.circles.labelFactor +
+                //         ") rotate(" + rotate + ")"
+                // })
             },
 
             mouseClick(d, i) {
@@ -250,10 +271,12 @@
             },
 
             mouseEnter(d, i) {
+                /// stroke on circle ?
                 this.$emit('nodeSelected', i);
             },
 
             mouseLeave(d, i) {
+                //reduce stroke
                 this.$emit('nodeDeselected');
             },
 
