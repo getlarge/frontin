@@ -68,27 +68,27 @@
         mounted() {
             this.initPortfolio();
 
-            // this.$on("nodeClicked", i => {
-            //   console.log("nodeClicked", i);
-            //   this.currentNode = this.nodes[i];
-            // }); 
+            this.$on("nodeClicked", i => {
+              console.log("nodeClicked", i);
+              this.currentNode = this.nodes[i];
+            }); 
 
-            // this.$on("nodeSelected", i => {
-            //   console.log("nodeSelected", i);
-            //   this.currentNode = this.nodes[i];
-            // }); 
+            this.$on("nodeSelected", i => {
+              console.log("nodeSelected", i);
+              this.currentNode = this.nodes[i];
+            }); 
 
-            // this.$on("nodeDeselected", () => {
-            //   console.log("nodeDeselected");
-            //   this.currentNode = undefined;
-            // });         
+            this.$on("nodeDeselected", () => {
+              console.log("nodeDeselected");
+              this.currentNode = undefined;
+            });         
 
         },
 
         updated() {
             var that = this;
             that.simulation.nodes(that.graph.nodes).on('tick', that.ticked);
-            console.log(that.graph.nodes)
+            //console.log(that.graph.nodes)
         },
 
         beforeDestroy() {
@@ -135,7 +135,6 @@
             texts() {
                 var that = this;
                 if (that.nodes) {
-                    console.log("that", that)
                     return select("#svg").append("g")
                         .attr("class", "texts")
                         .selectAll("text")

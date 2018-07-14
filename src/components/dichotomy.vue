@@ -14,6 +14,7 @@
 			<b-col class="infos" xs="4" sm="7" md="8" lg="5">
 				<p>:  is a mode of branching by repeated bifurcation - thus a focus on branching rather than on division.
 	      		</p>
+	      		<hr class="my-4">
 	      		<p>Working on an algorithm to reproduce plant's branching mechanism, by observing patterns, such criterias can be defined. You need an X & Y proportion - lenght of the base vein - angle and length growing's ratio - maximum number of branching and ... a random factor. 
 	      		</br>Todo :  using advanced image analytic tool ( machine learning involved ), it could be possible to extract parameters from species pictures and then synthesize plant's flow structure. 
 	      		</p>

@@ -168,7 +168,7 @@
 	  	mounted() {
 	  		this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
 		    this.initialize();
-		    console.log("this", this);
+		    //console.log("this", this);
 		},
 
 	  	updated() {

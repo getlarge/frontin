@@ -21,6 +21,7 @@
   import config from '@/config.json'
   import { min, max } from "d3-array"
   import { append, attr, event, select, selectAll, style } from "d3-selection"
+  import { interval, now, timeout, timer } from "d3-timer"
   import { active, transition } from "d3-transition"
   import { EventBus } from '@/main'
   import { realTimeLineChart } from "./real-timeline-chart"
@@ -34,7 +35,7 @@
           lineArr: [],
           MAX_LENGTH: 100,
           duration: 1000,
-          chart : realTimeLineChart(),
+          chart : new realTimeLineChart(),
           x: 0,
           y: 0,
       }
@@ -42,7 +43,7 @@
 
     mounted() {
         this.seedData();
-        window.setInterval(this.updateData, this.duration);
+        this.interv = interval(this.updateData, this.duration);
         select("#chart").datum(this.lineArr).call(this.chart);
         select(window).on('resize', this.resize);
 
@@ -64,22 +65,17 @@
     },
 
     updated() {
-
       //this.updateData;
       //console.log(this)
     },
 
     beforeUnmount() {
-      window.setInterval(this.updateData, 0);
-
-      
+      //window.setInterval(this.updateData, 0);
     },
 
     beforeDestroy() {
-      this.lineArr = [];
-      //delete this.lineArr;
-      // EventBus.$emit("mqtt-unsub", "mysensors/GW4-out/99");
-      // EventBus.$emit("mqtt-unsub", "mysensors/GW3-out/27");
+      this.chart = null;
+      this.interv.stop();
       EventBus.$off("mqtt-rx");
       EventBus.$off("got-x");
       EventBus.$off("got-y");
@@ -87,27 +83,17 @@
 
     watch: {
 
-      // lineArr() {
-      //    console.log("updated")
-      //     this.updateData;
-      // }
     },
 
     methods: {
-      randomNumberBounds(min, max) {
-        return Math.floor(Math.random() * max) + min;
-      },
 
       seedData() {
         var now = new Date();
         for (var i = 0; i < this.MAX_LENGTH; ++i) {
           this.lineArr.push({
             time: new Date(now.getTime() - ((this.MAX_LENGTH - i) * this.duration)),
-            // x: this.randomNumberBounds(0, 5),
-            // y: this.randomNumberBounds(0, 2.5),
             x: 0,
             y: 0,
-            // z: this.randomNumberBounds(0, 10)
           });
         }
       },
@@ -119,7 +105,6 @@
           time: now,
           x: this.x,
           y: this.y,
-          //z: this.randomNumberBounds(0, 10)
         };
         this.lineArr.push(lineData);
 

@@ -19,6 +19,8 @@
 	import { min, max, range, sum } from "d3-array"
 	import { axisBottom } from "d3-axis"
 	import { easeLinear, easeQuadInOut } from "d3-ease"
+	import { json } from "d3-fetch"
+	import { hierarchy, tree } from "d3-hierarchy"
 	import { scaleLinear, scalePow, scaleOrdinal, scaleTime } from "d3-scale"
 	import { event, select, selectAll, style } from "d3-selection"
 	import { area, stack, stackOrderNone, stackOffsetNone } from "d3-shape"
@@ -37,8 +39,8 @@
 				width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
 				height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 				colorPalette : scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#9adfb0", "#6ed659", "#417c52", "#56a46f" ]),
+				dataPath : 'static/data/cv.json',
 				currentProject: undefined,
-				projects : projects,
 				node: null,
 				dataSet: null,
 				timeline: null,
@@ -53,7 +55,10 @@
 					v : 1.5,
 					h : 45, // line height
 					paletteLength : 10,
-				}
+				},
+				I: null,
+				D: null,
+				Q: null,
 			}
 	  	},
 
@@ -62,11 +67,11 @@
 		},
 
 	  	created() {
+
 	  	},
 
 	  	mounted() {
 	  		this.initTimeLine();
-			console.log("this", this)
 
             this.$on("projectSelected", i => {
               this.currentProject = this.node[i];
@@ -87,11 +92,7 @@
 		},
 
 		beforeDestroy() {
-			//this.currentProject = undefined;
-			// this.node = null;
-			// this.dataSet = null;
-			// this.timeline = null;
-    		//delete this.currentProject;
+
 		},
 
 		watch: { 
@@ -99,9 +100,6 @@
 		},
 
 		computed: {
-			currentProjectDescription: function() {
-				return "Description: " + this.currentProject.link;
-			}, 
 
 		},
 
@@ -109,53 +107,20 @@
 
 		    initTimeLine() {
 		    	var self = this;
+				self.settings.m = self.settings.f + self.settings.lineHeight;
+				self.settings.height = self.settings.m + self.settings.s;
 
-			    function a(d, i) {
-			        return Math.round(D(I[i].midpoint))
-			    }
+				json(this.dataPath).then(projects => {
+                    var root = hierarchy(projects);
+                    var nodes = root.descendants();
+                    this.node = nodes[0].data.projects.reverse();
 
-				function o(d, i) {
-			        var e = 0,
-			          	r = Q[i];
-			        if (r) {
-			            var o = a(d, i),
-			            u = o + r.width;
-			            u > self.settings.width && (o -= r.width,
-			            u -= r.width),
-			            e = q.findIndex(function(d) {
-			                return !d || d.u === i || d.x < o
-			            }),
-			            -1 === e ? e = 0 : q[e] = {
-			                x: u,
-			                u: i
-			            }
-			        }
-			        return (e + 1) * self.settings.h * -1
-			    }
-
-			    function i(d, i) {
-			        var e = a(d, i),
-			           r = Q[i];
-			        return r && e + r.width > self.settings.width && (e -= r.width),
-			        "translate(" + e + " " + o(d, i) + ")"
-			    }
-
-				self.settings.m = self.settings.f + self.settings.lineHeight,
-				self.settings.height = this.settings.m+ this.settings.s,
-
-				this.node = this.projects.reverse();
-			    console.log("this", this)
-
-			    if (this.node) {
-			        var timestamp = (new Date).getTime(),
-		          		colors = this.colorPalette;
-
+			        var timestamp = (new Date).getTime();
 			        this.node.forEach(function(d, i) {
 			            0 === d.ended_at && (d.ended_at = timestamp),
-			            //t.color = colors(i);
-			            d.color = colors(d.category);
-			           
+			            d.color = self.colorPalette(d.category);
 			        }); 
+
 				    var startTime = min(this.node, function(d) {
 			            	return d.started_at
 			        	});
@@ -164,8 +129,9 @@
 			        	});
 			        var	M = moment.utc(startTime), 
 			        	_ = moment.utc(endTime),
-			        	b = _.diff(M, "days") + 1, 
-			        	I = this.node.map(function(d) {
+			        	b = _.diff(M, "days") + 1;
+
+			        this.I = this.node.map(function(d) {
 				            for (var n = range(b).map(function() {
 				                return 0
 				            }),
@@ -176,6 +142,8 @@
 					        i = e.diff(M, "days"), c = 0; c < a; c++)
 			                k = c < o ? easeQuadInOut(c / o) : 1 - easeQuadInOut(Math.abs(c - o) / o),
 			                n[i + c] = k;
+						    // console.log("o", o)
+						    // console.log("d", d)
 				            return {
 				                midpoint: i + o,
 				                project: d,
@@ -183,58 +151,59 @@
 				            }
 				        });
 
-			        var	O = range(b).map(function(d) {
+			        var O = range(b).map(function(d) {
 				            var n = {};
-				            return I.forEach(function(e, r) {
+				            return self.I.forEach(function(e, r) {
 				                n[self.node[r].name] = e.values[d]
 				            }),
 				            n
 			        	});
-			        var P = stack().keys(this.node.map(function(d) {
+			        var P = stack().keys(self.node.map(function(d) {
 			            return d.name
 			        })).order(stackOrderNone).offset(stackOffsetNone);
-			        var D = scalePow().exponent(self.settings.v).domain([0, b - 1]).range([0, this.settings.width]);
+			        self.D = scalePow().exponent(self.settings.v).domain([0, b - 1]).range([0, self.settings.width]);
 			        var E = max(range(b).map(function(d) {
-			            return sum(I, function(i) {
+			            return sum( self.I, function(i) {
 			                return i.values[d]
 			            })
 			        }));
 			        var F = scaleLinear().domain([0, E]).range([self.settings.lineHeight, 0]);
 			        var N = area()
 				        .x(function(d, i) {
-				            return D(i)
+				            return self.D(i)
 				        }).y0(function(d) {
 				            return F(d[0])
 				        }).y1(function(d) {
 				            return F(d[1])
 				        });
 
-			        select("#timeline").style("padding-bottom", this.settings.height / this.settings.width * 100 + "%");
-			        var frame = select("#timeline > svg").attr("viewBox", "0 0 " + this.settings.width + " " + this.settings.height ).attr("preserveAspectRatio", "xMinYMin meet").on("mouseout", self.n);
+			        select("#timeline").style("padding-bottom", self.settings.height / self.settings.width * 100 + "%");
+			        var frame = select("#timeline > svg").attr("viewBox", "0 0 " + self.settings.width + " " + self.settings.height ).attr("preserveAspectRatio", "xMinYMin meet").on("mouseout", self.n);
 			        self.timeline = frame.append("g").attr("class", "timeline").attr("transform", "translate(0 " + self.settings.f + ")");
-			        self.timeline.append("rect").attr("width", this.settings.width).attr("height", self.settings.lineHeight).attr("fill", "transparent").on("click", self.n).on("mouseout", self.reduce);
+			        self.timeline.append("rect").attr("width", self.settings.width).attr("height", self.settings.lineHeight).attr("fill", "transparent").on("click", self.n).on("mouseout", self.reduce);
 			        
 			        self.dataSet = null;
-			        var L = P(O),
-			          	Q = (self.timeline.selectAll("path").data(L).enter().append("path").attr("d", N).on("click", function(d, i) {
+			        var L = P(O);
+			        self.Q = (self.timeline.selectAll("path").data(L).enter().append("path").attr("d", N).on("click", function(d, i) {
 			            	self.t(self.node[i], !0)
-			        	}).on("mouseover", self.extend).on("mouseout", self.reduce).exit().remove(), []),
-			          	flags = this.timeline.selectAll(".flag").data(L).enter().append("g").attr("class", "flag").on("click", function(d, i) {
+			        	}).on("mouseover", self.extend).on("mouseout", self.reduce).exit().remove(), []);
+			        var flags = self.timeline.selectAll(".flag").data(L).enter().append("g").attr("class", "flag").on("click", function(d, i) {
 			            	self.t(self.node[i])
 			        	}).on("mouseover", self.extend);
 
 
-			        flags.append("line").attr("x1", a).attr("x2", a).attr("y2", function(d, i) {
-			            return F(d[I[i].midpoint][1]) + 1
+			        flags.append("line").attr("x1", self.a).attr("x2", self.a).attr("y2", function(d, i) {
+			            return F(d[self.I[i].midpoint][1]) + 1
 			        }).attr("stroke-width", 1).attr("opacity", 0.6)
 			        	.attr("stroke", function(d, i) {
 			            return self.node[i].color
 			        });
 			        var flagsLinks = flags.append("a").attr("xlink:href", function(d, i) {
 			            return self.node[i].link
-			        }).attr("target", "_blank").attr("transform", i);
+			        }).attr("target", "_blank").attr("transform", self.i);
 			        flagsLinks.append("rect").attr("x", 0).attr("y", 0).attr("width", 100).attr("height", 16)
 			        	.attr("fill", "transparent");
+
 			        	// .attr("fill", function(t, n) {
 			         //    	return node[n].color
 			        	// }),
@@ -245,7 +214,7 @@
     				.text(function(d, i) {
 			            return self.node[i].name
 			        });
-			        var Q = flagsLinks.nodes().map(function(d) {
+			        self.Q = flagsLinks.nodes().map(function(d) {
 			            var n = d.children[1].getBBox();
 			            return {
 			                bbox: n,
@@ -253,16 +222,16 @@
 			            }
 			        });
 			        flagsLinks.select("rect").attr("width", function(d, i) {
-			            return Q[i].width
+			            return self.Q[i].width
 			        });
-			        var q = range(10).map(function() {
+			        self.q = range(10).map(function() {
 			            return null
 			        });
-			        flagsLinks.attr("transform", i),
-			        q = range(10).map(function() {
+			        flagsLinks.attr("transform", self.i),
+			        self.q = range(10).map(function() {
 			            return null
 			        }),
-			        flags.select("line").attr("y1", o),
+			        flags.select("line").attr("y1", self.o),
 			        flags.exit().remove();
 			        self.update(); //
 
@@ -271,19 +240,52 @@
 			        	var S = axisBottom().scale(z).tickValues(K).tickFormat(G);
 			        	frame.append("g").attr("class", "axis").attr("transform", "translate(0," + self.settings.m + ")").call(S)
 			        }
-			    }
+                });
 			},
 
 			update() {
-		        this.timeline.selectAll("path").transition().attr("fill", this.coloring),
+				var self = this;
+		        self.timeline.selectAll("path").transition().attr("fill", self.coloring),
 		        //timeline.selectAll(".flag rect").transition().attr("fill", coloring),
 		        //timeline.selectAll(".flag line").transition().attr("stroke", coloring),	        
-		        this.timeline.selectAll(".flag text").transition().attr("fill", function(d, i) {
-		            return this.dataSet && this.node[i] !== this.dataSet || !d ? "transparent" : "#686868"
+		        self.timeline.selectAll(".flag text").transition().attr("fill", function(d, i) {
+		            return self.dataSet && self.node[i] !== self.dataSet || !d ? "transparent" : "#686868"
 		        });
-		        this.timeline.selectAll(".flag line").transition().attr("opacity", function(d, i) {
-		            return this.dataSet && this.node[i] !== this.dataSet || !d ? "0" : "0.6"
+		        self.timeline.selectAll(".flag line").transition().attr("opacity", function(d, i) {
+		            return self.dataSet && self.node[i] !== self.dataSet || !d ? "0" : "0.6"
 		        });
+		    },
+
+			a(d, i) {
+				var self = this;
+		        return Math.round(self.D(self.I[i].midpoint))
+		    },
+
+			o(d, i) {
+				var self = this;
+		        var e = 0,
+		          	r = self.Q[i];
+		        if (r) {
+		            var o = self.a(d, i),
+		            u = o + r.width;
+		            u > self.settings.width && (o -= r.width,
+		            u -= r.width),
+		            e = self.q.findIndex(function(d) {
+		                return !d || d.u === i || d.x < o
+		            }),
+		            -1 === e ? e = 0 : self.q[e] = {
+		                x: u,
+		                u: i
+		            }
+		        }
+		        return (e + 1) * self.settings.h * -1
+		    },
+
+		    i(d, i) {
+		        var e = this.a(d, i),
+		           r = this.Q[i];
+		        return r && e + r.width > this.settings.width && (e -= r.width),
+		        "translate(" + e + " " + this.o(d, i) + ")"
 		    },
 
 			t(d) {

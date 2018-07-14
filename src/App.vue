@@ -14,6 +14,7 @@
   import bottomNav from '@/containers/footer-navigation'
   import { EventBus } from '@/main';
 
+
   export default {
     name: "App",
     components: { 
@@ -43,6 +44,7 @@
     // },
 
     created() {
+      console.log('%c Getlarge - 2018 ', 'background: #33b277; color: white; display: block; font-size: 18px;');
       this.client.openStream();
       this.client.sub(this.appName + "/#")
       this.client.sendMessage( this.appName + "/logs", "Getlarge : frontin connected")
