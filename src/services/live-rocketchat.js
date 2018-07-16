@@ -1,24 +1,31 @@
 import config from '@/config.json'
 import { EventBus } from '@/main'
-import ToneSynth from '@/tone-components/synth'
+//import ToneSynth from '@/tone-components/synth'
 
 
 export default class liveRocketChat {
   constructor() {
-    //this._initClient();
+    this.eventListener();
     this.ready = false;
-    this.synth = new(ToneSynth);
+    //this.synth = new(ToneSynth);
+  }
+
+  eventListener() {
+    EventBus.$on('start-chat', () => {
+      this._initClient();
+    });
 
   }
 
   _initClient() {
-    (function(w, d, s, u) {
+    if ( this.ready == false ) {
+      (function(w, d, s, u) {
         w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
         var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
         j.async = true; j.src = 'https://chat.aloes.io/packages/rocketchat_livechat/assets/rocketchat-livechat.min.js?_=201702160944';
         h.parentNode.insertBefore(j, h);
       })(window, document, 'script', 'https://chat.aloes.io/livechat');
-      
+
       RocketChat(function() {
         this.setDepartment('getlarge');
         this.setCustomField('fieldName1', 'Any value you want to store');
@@ -28,27 +35,25 @@ export default class liveRocketChat {
             fontColor: '#FFF' // widget title font color
         });
         this.onChatMaximized(function() {
-          // do whatever you want
           console.log('chat widget maximized');
         });
         this.onChatMinimized(function() {
-          // do whatever you want
           console.log('chat widget minimized');
         });
         this.onChatEnded(function() {
-          // do whatever you want
           console.log('chat ended');
         });
         this.onChatStarted(function() {
-          // do whatever you want
-          EventBus.$emit('chat-started', "chat started");
+          console.log('chat started');
+          //EventBus.$emit('chat-started', "chat started");
         });
-    });
+      });
+      this.ready = true;
+    }
 
-    EventBus.$on('chat-started', ( message) => {
-      //this.sendAsyncMessage(topic, message)
-      console.log("message");
-    });
+    else {
+      return;
+    }
   }
 
 }

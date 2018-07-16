@@ -63,23 +63,23 @@
                         <font-awesome-icon v-if="isLoading" :icon="['fas', 'spinner']" :transform="{ rotate: 42 }" size="xs" />
                   </div> 
 
-                  <button type="button" :disabled="!currentNode" class="btn btn-primary" @click="expandAll" data-toggle="tooltip" data-placement="top" title="Expand All from current">
+                  <button type="button" :disabled="!currentNode" class="btn" @click="expandAll" data-toggle="tooltip" data-placement="top" title="Expand All from current">
                     <font-awesome-icon :icon="['fas', 'expand']" size="xs" />
                   </button>
 
-                  <button type="button" :disabled="!currentNode" class="btn btn-secondary" @click="collapseAll" data-toggle="tooltip" data-placement="top" title="Collapse All from current">
+                  <button type="button" :disabled="!currentNode" class="btn" @click="collapseAll" data-toggle="tooltip" data-placement="top" title="Collapse All from current">
                   <font-awesome-icon :icon="['fas', 'compress']" size="xs" />
                   </button>
 
-                  <button type="button" :disabled="!currentNode" class="btn btn-success" @click="showOnly" data-toggle="tooltip" data-placement="top" title="Show Only from current">
+                  <button type="button" :disabled="!currentNode" class="btn" @click="showOnly" data-toggle="tooltip" data-placement="top" title="Show Only from current">
                   <font-awesome-icon :icon="['fas', 'search-plus']" size="xs" />
                   </button>
 
-                  <button type="button" :disabled="!currentNode" class="btn btn-warning" @click="show" data-toggle="tooltip" data-placement="top" title="Show current">
+                  <button type="button" :disabled="!currentNode" class="btn" @click="show" data-toggle="tooltip" data-placement="top" title="Show current">
                   <font-awesome-icon :icon="['fas', 'binoculars']" size="xs" />
                   </button>
 
-                  <button v-if="zoomable" type="button" class="btn btn-warning" @click="resetZoom" data-toggle="tooltip" data-placement="top" title="Reset Zoom">
+                  <button v-if="zoomable" type="button" class="btn " @click="resetZoom" data-toggle="tooltip" data-placement="top" title="Reset Zoom">
                   <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" />
                   </button>
 
@@ -94,17 +94,12 @@
           </b-col>
 
           <b-col xs ="12" sm="8" md="9" lg="10" xl="10" class="panel panel-default">
-            <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/>          
+            <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/> 
+            <p>Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol.
+            </p>
           </b-col>
       </b-row>
-      <b-row >        
-        <b-col xs="0" sm="4" md="3" lg="2">
-        </b-col>
-        <b-col class="infos" xs="12" sm="8" md="9" lg="10">
-          <p>Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol.
-          </p>
-        </b-col>
-      </b-row>
+
 
     </b-container>
 </template>
@@ -112,7 +107,9 @@
 <script>
 
   import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-  import {tree} from 'vued3tree'
+  import { append, attr, event, select, selectAll, style } from "d3-selection"
+  import { active, transition } from "d3-transition"
+  import { tree } from 'vued3tree'
   import data from '@/../static/data/mqtt'
   import { EventBus } from '@/main'
 
@@ -125,6 +122,7 @@
     radius: 6,
     nodeText: 'text',
     currentNode: null,
+    currentSensor: null,
     zoomable: true,
     isLoading: false,
     graph: null,
@@ -142,30 +140,31 @@
     },
    created() {
       EventBus.$on("mqtt-rx", (topic, payload) => {
-        // var split = message.split('>')
-        // var topic = split[0];
-        // var payload = split[1];
-      return this.addNode(topic, payload.toString());
+        return this.addNode(topic, payload.toString());
       });
 
     },
 
     mounted() {
-      //console.log(this);
+      this.pageTopic = "getlarge/" + this.$route.path;
+      //this.div = select(this.$refs['tree'].$el).append("div").attr("class", "tooltip").style("opacity", 0);
+      this.div = select(this.$el).append("div").attr("class", "tooltip").style("opacity", 0);
+      EventBus.$emit("mqtt-tx", (this.pageTopic, "started"));            
     },
 
     updated() {
       //console.log("updated tree2", this.$data.Graph.tree)
+      //console.log("updated tree2", this.$refs['tree'].$el.children[1])
     },
     
     beforeDestroy() {
+      EventBus.$emit("mqtt-tx", (this.pageTopic, "ended"));            
       EventBus.$off("mqtt-rx");
     },
 
     watch: {
       data (current, old) {
           console.log("watch updated tree", data.Graph.tree)
-          //console.log(this);
       },
     },
 
@@ -176,35 +175,53 @@
           this.$refs['tree'][action](this.currentNode).then(() => { this.isLoading = false })
         }
       },
+
       getId (node) {
         return node.id
       },
+
       expandAll () {
         this.do('expandAll')
       },
+
       collapseAll () {
         this.do('collapseAll')
       },
+
       showOnly () {
         this.do('showOnly')
       },
+
       show () {
         this.do('show')
       },
+
       onClick (evt) {
-        this.currentNode = evt.element
-        this.onEvent('onClick', evt)
+        this.currentNode = evt.element;
+        if ( evt.element.data.dirty ) {
+          this.openTooltip(evt.element.data);
+          this.currentSensor = evt.element.data;
+        }
+        else {
+          this.currentSensor = null;
+          this.closeTooltip();
+        }
+        this.onEvent('onClick', evt);
       },
+
       onExpand (evt) {
-        this.onEvent('onExpand', evt)
+        this.onEvent('onExpand', evt);
       },
+
       onRetract (evt) {
-        this.onEvent('onRetract', evt)
+        this.onEvent('onRetract', evt);
       },
+
       onEvent (eventName, data) {
-        this.events.push({eventName, data: data.data})
+        this.events.push({eventName, data: data.data});
         console.log({eventName, data: data})
       },
+
       resetZoom () {
         this.isLoading = true
         this.$refs['tree'].resetZoom().then(() => { this.isLoading = false })
@@ -212,8 +229,8 @@
 
       addNode(topic, body) {
         var self = this;
-        //console.log("tree", data.Graph.tree)
-        //console.log("componenent", this.$refs['tree'])
+        // console.log("tree", data.Graph.tree)
+        // console.log("component", this.$refs['tree'])
         var parts = topic.split("/");
         if (data.Graph.tree.children[0]===undefined){
           newnode = {"text": parts.shift(), "children":[]};
@@ -239,7 +256,6 @@
                 this.walk(parts,node.children[z], body);
                 break;
               }
-
             }
             //console.log("done loop - " + z + ", " + node.children.length);
             if (z == node.children.length) {
@@ -278,12 +294,36 @@
           this.walk(parts,node.children[0],body);
           }
         } else {
-          //console.log("body");
-          node.data = body;
+          //console.log("body", body);
+          node.payload = body;
           node.dirty = true;
-          //this.$refs['tree'].onData(data.Graph.tree)
+          if ( node == this.currentSensor ) {
+            this.openTooltip(node);
+          }
         }
       },
+
+      openTooltip(data) {
+        //console.log("data", data);
+        var self = this;       
+        this.div.transition()
+            .duration(200)
+            .style("opacity", .8)
+            .style("fill", "#33b277");
+
+        this.div.html("Payload :" + data.payload)
+            .style("width", ( Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/1.7 + "px")
+            .style("height", (Math.max(document.documentElement.clientHeight, window.innerHeight || 0))/13 + "px")
+            .style("left", ( Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/5 + "px")
+            .style("top", 50 + "px");
+      },
+
+      closeTooltip() {
+         this.div.transition()
+         .duration(500)
+         .style("opacity", 0);
+      },      
+
     }
   }
 </script>
@@ -314,9 +354,35 @@
     max-width:100%;
   }
 
+
+  div.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 2px;
+    font: 14px;
+    color: white;
+    background: #33b277;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
   .form-group {
     text-align: left;
     padding-right: 0px;
+  }
+
+  button.btn:hover{
+    color: #33b277;
+    background-color: transparent;
+    border: 1px;
+    border-color: #f9b23e;
+  }
+
+  button.btn:active {
+    background-color: transparent;
+    border: 1px;
+    border-color: #f9b23e;
   }
 
   .control-label {

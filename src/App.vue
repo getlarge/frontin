@@ -26,7 +26,6 @@
       return {
         appName: config.inTopic,
         client: new(mqttClient),
-        pageTopic: config.inTopic + this.$route.path + "main",
         showLocale: false,
         showNav: false,
       }
@@ -47,10 +46,12 @@
       console.log('%c Getlarge - 2018 ', 'background: #33b277; color: white; display: block; font-size: 18px;');
       this.client.openStream();
       this.client.sub(this.appName + "/#")
-      this.client.sendMessage( this.appName + "/logs", "Getlarge : frontin connected")
+      //this.client.sendMessage( this.appName + "/logs", "Getlarge : frontin connected")
+      this.client.sendMessage( this.appName + "/stat", "connected");
     },
      
     beforeDestroy() {
+      this.client.sendMessage( this.appName + "/stat", "disconnected");
       this.client.close();
       EventBus.$off();
     },

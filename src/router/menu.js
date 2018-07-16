@@ -46,12 +46,6 @@ export const routes = [
     path: '/hipster-ambience',
     alias: '/hipster-ambience/*',
     component: loadView('hipster-ambience/index')
-  },{
-    name: 'Bubbles',
-    title: 'Bubbles',
-    path: '/bubbles',
-    alias: '/bubbles/*',
-    component: loadView('bubbles')
   },
 ].map(r => {
   var res = r;

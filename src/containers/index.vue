@@ -11,7 +11,7 @@
           <b-row align-h="center">
             <b-col xs="12" sm="12" md="12" lg="12" >
               <p class="desc">
-                Retrospective of previous and present projects. For more information visit the website or contact me.
+                Retrospective of previous and present crafts. For more information visit the website or contact me.
               </p>
             </b-col>
             <b-col xs="3" sm="3" md="3" lg="3" >
@@ -41,6 +41,7 @@
   import { append, attr, event, select, selectAll, style } from "d3-selection"
   import { interval, now, timeout, timer } from "d3-timer"
   import { active, transition } from "d3-transition"
+  import { EventBus } from '@/main'
 
   export default {
     data() {
@@ -76,17 +77,15 @@
 
       this.interv = interval(function() {
         self.update(shuffle(self.letters)
-          //.slice(0, Math.floor(Math.random() * 14))
-          //.reverse()
-          //.sort()
           );
       }, self.settings.duration);
 
-
+      EventBus.$on('chat-started', ( message) => {
+        console.log("message");
+      });
     },
 
     updated() {
-        console.log("updated this", this);
 
     },
 
@@ -195,6 +194,7 @@
   .desc {
     margin-top: 3%;
     margin-bottom: 3%;
+    font-size: 1rem;
     text-align: center;
   }
   

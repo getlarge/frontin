@@ -111,30 +111,24 @@
 				self.settings.height = self.settings.m + self.settings.s;
 
 				json(this.dataPath).then(projects => {
-                    var root = hierarchy(projects);
-                    var nodes = root.descendants();
+                    const root = hierarchy(projects);
+                    const nodes = root.descendants();
                     this.node = nodes[0].data.projects.reverse();
 
-			        var timestamp = (new Date).getTime();
-			        this.node.forEach(function(d, i) {
+			        const timestamp = (new Date).getTime();
+			        this.node.forEach((d, i) => {
 			            0 === d.ended_at && (d.ended_at = timestamp),
 			            d.color = self.colorPalette(d.category);
 			        }); 
 
-				    var startTime = min(this.node, function(d) {
-			            	return d.started_at
-			        	});
-			        var endTime = max(this.node, function(d) {
-			            	return d.ended_at
-			        	});
-			        var	M = moment.utc(startTime), 
+				    const startTime = min(this.node, (d) => d.started_at);
+			        const endTime = max(this.node, (d) => d.ended_at);
+			        const	M = moment.utc(startTime), 
 			        	_ = moment.utc(endTime),
 			        	b = _.diff(M, "days") + 1;
 
-			        this.I = this.node.map(function(d) {
-				            for (var n = range(b).map(function() {
-				                return 0
-				            }),
+					this.I = this.node.map(d => {
+				            for (var n = range(b).map(() => 0),
 					        e = moment.utc(d.started_at), 
 					        r = moment.utc(d.ended_at), 
 					        a = r.diff(e, "days"), 
@@ -142,78 +136,77 @@
 					        i = e.diff(M, "days"), c = 0; c < a; c++)
 			                k = c < o ? easeQuadInOut(c / o) : 1 - easeQuadInOut(Math.abs(c - o) / o),
 			                n[i + c] = k;
-						    // console.log("o", o)
-						    // console.log("d", d)
 				            return {
 				                midpoint: i + o,
 				                project: d,
 				                values: n
 				            }
 				        });
-
-			        var O = range(b).map(function(d) {
-				            var n = {};
-				            return self.I.forEach(function(e, r) {
-				                n[self.node[r].name] = e.values[d]
-				            }),
-				            n
+					const O = range(b).map(d => {
+				            const n = {};
+				            return self.I.forEach((e, r) => n[self.node[r].name] = e.values[d]), n
 			        	});
-			        var P = stack().keys(self.node.map(function(d) {
-			            return d.name
-			        })).order(stackOrderNone).offset(stackOffsetNone);
+			        const P = stack().keys(self.node.map((d) => d.name)).order(stackOrderNone).offset(stackOffsetNone);
 			        self.D = scalePow().exponent(self.settings.v).domain([0, b - 1]).range([0, self.settings.width]);
-			        var E = max(range(b).map(function(d) {
-			            return sum( self.I, function(i) {
-			                return i.values[d]
-			            })
-			        }));
-			        var F = scaleLinear().domain([0, E]).range([self.settings.lineHeight, 0]);
-			        var N = area()
-				        .x(function(d, i) {
-				            return self.D(i)
-				        }).y0(function(d) {
-				            return F(d[0])
-				        }).y1(function(d) {
-				            return F(d[1])
-				        });
+			        const E = max(range(b).map((d) => sum( self.I, (i) => i.values[d])));
+			        const F = scaleLinear().domain([0, E]).range([self.settings.lineHeight, 0]);
+			        const N = area()
+				        .x((d, i) => self.D(i))
+				        .y0((d) =>F(d[0]))
+				        .y1((d) => F(d[1]));
 
 			        select("#timeline").style("padding-bottom", self.settings.height / self.settings.width * 100 + "%");
-			        var frame = select("#timeline > svg").attr("viewBox", "0 0 " + self.settings.width + " " + self.settings.height ).attr("preserveAspectRatio", "xMinYMin meet").on("mouseout", self.n);
-			        self.timeline = frame.append("g").attr("class", "timeline").attr("transform", "translate(0 " + self.settings.f + ")");
-			        self.timeline.append("rect").attr("width", self.settings.width).attr("height", self.settings.lineHeight).attr("fill", "transparent").on("click", self.n).on("mouseout", self.reduce);
+			        var frame = select("#timeline > svg")
+					        .attr("viewBox", "0 0 " + self.settings.width + " " + self.settings.height )
+					        .attr("preserveAspectRatio", "xMinYMin meet").on("mouseout", self.n);
+			        self.timeline = frame.append("g")
+					        .attr("class", "timeline")
+					        .attr("transform", "translate(0 " + self.settings.f + ")");
+			        self.timeline.append("rect")
+					        .attr("width", self.settings.width)
+					        .attr("height", self.settings.lineHeight)
+					        .attr("fill", "transparent")
+					        .on("click", self.n).on("mouseout", self.reduce);
 			        
 			        self.dataSet = null;
 			        var L = P(O);
-			        self.Q = (self.timeline.selectAll("path").data(L).enter().append("path").attr("d", N).on("click", function(d, i) {
-			            	self.t(self.node[i], !0)
-			        	}).on("mouseover", self.extend).on("mouseout", self.reduce).exit().remove(), []);
-			        var flags = self.timeline.selectAll(".flag").data(L).enter().append("g").attr("class", "flag").on("click", function(d, i) {
-			            	self.t(self.node[i])
-			        	}).on("mouseover", self.extend);
+			        self.Q = (self.timeline.selectAll("path").data(L).enter()
+		        			.append("path").attr("d", N)
+				        	.on("click", (d, i) =>self.t(self.node[i], !0))
+				        	.on("mouseover", self.extend)
+				        	.on("mouseout", self.reduce).exit().remove(), []);
+			        var flags = self.timeline.selectAll(".flag").data(L).enter()
+					        .append("g").attr("class", "flag")
+					        .on("click", (d, i) =>self.t(self.node[i]))
+					        .on("mouseover", self.extend);
 
+			        flags.append("line")
+				        	.attr("x1", self.a).attr("x2", self.a)
+				        	.attr("y2", (d, i) => F(d[self.I[i].midpoint][1]) + 1)
+					        .attr("stroke-width", 1)
+					        .attr("opacity", 0.6)
+			        		.attr("stroke", (d, i) => self.node[i].color);
 
-			        flags.append("line").attr("x1", self.a).attr("x2", self.a).attr("y2", function(d, i) {
-			            return F(d[self.I[i].midpoint][1]) + 1
-			        }).attr("stroke-width", 1).attr("opacity", 0.6)
-			        	.attr("stroke", function(d, i) {
-			            return self.node[i].color
-			        });
-			        var flagsLinks = flags.append("a").attr("xlink:href", function(d, i) {
-			            return self.node[i].link
-			        }).attr("target", "_blank").attr("transform", self.i);
+			        var flagsLinks = flags.append("a")
+				        	.attr("xlink:href", (d, i) =>
+				             self.node[i].link)
+				        	.attr("target", "_blank")
+				        	.attr("transform", self.i);
+
 			        flagsLinks.append("rect").attr("x", 0).attr("y", 0).attr("width", 100).attr("height", 16)
-			        	.attr("fill", "transparent");
+			        		.attr("fill", "transparent");
 
 			        	// .attr("fill", function(t, n) {
 			         //    	return node[n].color
 			        	// }),
 			        flagsLinks.append("text").attr("x", 2)
-			        .style("font-size", "10px")
-			        .attr("fill", "#ededed")
-			        .style("text-transform", "uppercase") 
-    				.text(function(d, i) {
-			            return self.node[i].name
-			        });
+					        .style("font-size", "10px")
+					        .attr("fill", "#ededed")
+					        .style("text-transform", "uppercase") 
+					        .style("opacity", "0.7") 
+					        .style("cursor", "pointer") 
+		    				.text((d, i) => self.node[i].name);
+
 			        self.Q = flagsLinks.nodes().map(function(d) {
 			            var n = d.children[1].getBBox();
 			            return {
@@ -221,9 +214,8 @@
 			                width: Math.ceil(n.width) + 6
 			            }
 			        });
-			        flagsLinks.select("rect").attr("width", function(d, i) {
-			            return self.Q[i].width
-			        });
+			        flagsLinks.select("rect").attr("width", (d, i) => self.Q[i].width);
+
 			        self.q = range(10).map(function() {
 			            return null
 			        });
@@ -235,7 +227,10 @@
 			        flags.exit().remove();
 			        self.update(); //
 
-			        for (var z = scalePow().exponent(self.settings.v).domain([startTime, endTime]).range([0, self.settings.width]), G = timeFormat("%Y"), H = parseInt(G(startTime), 10), J = parseInt(G(endTime), 10), K = [], k = H; k < J; k++) {
+			        for (var z = scalePow().exponent(self.settings.v).domain([startTime, endTime]).range([0, self.settings.width]),
+			         G = timeFormat("%Y"), H = parseInt(G(startTime), 10), 
+			         J = parseInt(G(endTime), 10), K = [], k = H; k < J; k++) 
+		        	{	
 			            K.push(new Date(k,1).getTime());
 			        	var S = axisBottom().scale(z).tickValues(K).tickFormat(G);
 			        	frame.append("g").attr("class", "axis").attr("transform", "translate(0," + self.settings.m + ")").call(S)
@@ -334,7 +329,7 @@
 	    width: 100%;
 	    vertical-align: middle;
 	    overflow: hidden;
-	    margin-top: 12%;
+	    margin-top: 8%;
 	}
 
 	#timeline svg {
@@ -369,16 +364,6 @@
 	    shape-rendering: geometricPrecision;
 	}*/
 
-	.flag {
-	    cursor: pointer;
-	}
-
-	.flag text {
-		font-family: 'Aloes-Rg';
-	    font-size: 9px;
-	    text-transform: uppercase; 
-	    opacity: 0.7;
-	}
 
 
 </style>

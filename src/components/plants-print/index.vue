@@ -36,6 +36,9 @@
           MAX_LENGTH: 100,
           duration: 1000,
           chart : new realTimeLineChart(),
+          protocol: ["mysensors", "octoprint"],
+          endpoints: ["GW100-1456278-out", "GW101-16149114-out"],
+          topics: ["99", "95"],
           x: 0,
           y: 0,
       }
@@ -47,8 +50,11 @@
         select("#chart").datum(this.lineArr).call(this.chart);
         select(window).on('resize', this.resize);
 
-        EventBus.$emit("mqtt-sub", "mysensors/Gateway16149114-out/99/#");
-        EventBus.$emit("mqtt-sub", "mysensors//Gateway1456278-out/27/#");
+        // EventBus.$emit("mqtt-sub", "mysensors/Gateway16149114-out/99/+");
+        // EventBus.$emit("mqtt-sub", "mysensors/Gateway16149114-out/95/+");
+        EventBus.$emit("mqtt-sub", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.topics[0] +"/#");
+        EventBus.$emit("mqtt-sub", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.topics[1] +"/#");
+
         EventBus.$on("mqtt-rx", (topic, payload) => {
           return this.selectMessage(topic, payload);
           //return console.log(this);
@@ -117,18 +123,18 @@
       selectMessage(topic, payload) {
         //var newPayload = topic + ">" + payload.toString();       
         var topicSplit = topic.split("/");
-        if (topicSplit[3] == "99" ) {
+        if (topicSplit[3] == this.topics[0] ) {
           var obj = JSON.parse(payload.toString());
           if ( obj.subType == "37") {
             //this.formatIncomingMessage("json", obj, "got-sound-frame");
           };
-          if ( obj.subType == "48") {
+          if ( obj.subType == "48" && topicSplit[4] == "2") {
             this.formatIncomingMessage("json", obj, "got-x");
           }
         }
-        if (topicSplit[3] == "27" ) {
+        if (topicSplit[3] == this.topics[1]) {
           var obj = JSON.parse(payload.toString());
-          if ( obj.subType == "48") {
+          if ( obj.subType == "48" && topicSplit[4] == "2" ) {
             this.formatIncomingMessage("json", obj, "got-y");
           }
         }

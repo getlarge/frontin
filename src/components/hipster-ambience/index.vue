@@ -220,20 +220,24 @@
 				}
 				return true;
 			},
+
 			checkMove: function(evt){
 				var res = this.privateCheckMove(evt)
 				this.canDrag=res;
 				this.futureIndex = evt.draggedContext.futureIndex;
 				return res;
 			},
+
 			endDrag: function () {
 				this.canDrag = null;
 				this.targetElement = null;
 				this.futureIndex = null;
 			},
+
 			startDrag: function (evt) {
 				console.log(evt)
 			},
+
 			addItem(){
 				var self = this;
 				//this.$store.commit('as3', files)
@@ -244,7 +248,8 @@
 					self.obj.audioSource = self.audioSource;
 					self.obj.iconFile = self.iconFile;
 					self.counter++;
-					self.as3.push(self.model);
+					//self.as3.push(self.model);
+					self.as3.push(obj);
 					return console.log(self.counter);
 				}
 				
@@ -255,17 +260,21 @@
 					obj.audioSource = self.audioSource;
 					obj.iconFile = self.iconFile;
 					self.counter++;
-					self.as3.push(self.model);
+					//self.as3.push(self.model);
+					self.as3.push(obj);
 					return console.log(self.counter);
 				}	
 			},
+
 			getBuffer() {
 				console.log("as3", this.as3);
 				console.log("model", this.model);
 			},
+
 			delBuffer() {
 				this.as3 = [];
 			},
+
 			help() {
 				alert("here is the help, but you better ask the bot :)");
 			}

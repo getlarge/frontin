@@ -22,6 +22,7 @@
             </b-nav-item-dropdown> --> 
             <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" /></b-nav-item>
             <b-nav-item href="https://framagit.org/getlarge" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg"/></b-nav-item>
+            <b-nav-item @click="chat._initClient()" ><font-awesome-icon :icon="['fab', 'rocketchat']" size="lg"/></b-nav-item>
             <b-nav-text class="nav-link" disabled>{{connStatus}}</b-nav-text>
           </b-navbar-nav>
         </b-collapse>
@@ -31,6 +32,7 @@
 
 <script>
   import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+  import liveRocketChat  from '@/services/live-rocketchat'
   import config from '@/config.json'
   import { routes } from '@/router/menu'
   import { EventBus } from '@/main';
@@ -45,6 +47,7 @@
     data() {
       return {
         items: routes,
+        chat: new(liveRocketChat),
         connStatus: null,
         pageTopic: "getlarge" + this.$route.path + "main",
       }
