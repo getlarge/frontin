@@ -50,6 +50,10 @@
       this.client.sendMessage( this.appName + "/stat", "connected");
     },
      
+    mounted() {
+
+    },
+
     beforeDestroy() {
       this.client.sendMessage( this.appName + "/stat", "disconnected");
       this.client.close();
@@ -96,27 +100,6 @@
          url('./assets/fonts/Aloes/Aloes-Bd.ttf') format('truetype');
   }
 
-  @font-face { /* SourceCode Regular - latin */
-    font-family: 'SourceCode-Rg';
-    font-style: normal;
-    font-weight: normal;
-    src: url("./assets/fonts/SourceCodePro/SourceCodePro-Regular.eot");
-    src: url('./assets/fonts/SourceCodePro/SourceCodePro-Regular.eot?#iefix') format('embedded-opentype'), 
-      url('./assets/fonts/SourceCodePro/SourceCodePro-Regular.woff2') format('woff2'), 
-      url('./assets/fonts/SourceCodePro/SourceCodePro-Regular.woff') format('woff'), 
-      url('./assets/fonts/SourceCodePro/SourceCodePro-Regular.ttf') format('truetype');
-  }
-
-  @font-face { /* SourceCode Bold - latin */
-    font-family: 'SourceCode-Bd';
-    font-style: normal;
-    font-weight: 500;
-    src: url("./assets/fonts/SourceCodePro/SourceCodePro-Bold.eot");
-    src: url('./assets/fonts/SourceCodePro/SourceCodePro-Bold.eot?#iefix') format('embedded-opentype'), 
-      url('./assets/fonts/SourceCodePro/SourceCodePro-Bold.woff2') format('woff2'), 
-      url('./assets/fonts/SourceCodePro/SourceCodePro-Bold.woff') format('woff'), 
-      url('./assets/fonts/SourceCodePro/SourceCodePro-Bold.ttf') format('truetype');
-  }
   @font-face { /* Market Deco - latin */
     font-family: 'MarketDeco';
     font-weight: normal;
@@ -127,9 +110,9 @@
          url('./assets/fonts/MarketDeco/MarketDeco.ttf') format('truetype');
   }
 
-  @import 'font-awesome/css/font-awesome.css'
-  @import url("@/assets/css/main.css")
-
+/*  @import 'font-awesome/css/font-awesome.css'
+*//*  @import url("@/assets/css/main.css")
+*/
   h1 { 
     font-family: 'Aloes-Bd'; 
     font-size: 18px; 

@@ -27,19 +27,29 @@ Data:
 
 <script>
 
-import * as _ from 'lodash'
+  import * as _ from 'lodash'
+  import map from '@/components/basic-map-tooltip/map'
+  import tooltip from '@/components/basic-map-tooltip/tooltip'
+  import * as d3 from 'd3-dsv';
+  import config from '@/config.json'
+  
+  const STATES_DATA_PATH = 'static/data/states-data.csv';
 
-import map from '@/components/basic-map-tooltip/map'
-import tooltip from '@/components/basic-map-tooltip/tooltip'
+  export default {
 
-const STATES_DATA_PATH = 'static/data/states-data.csv';
-
-// lets load with vue-resource, but parse with d3
-// just because we can
-import * as d3 from 'd3-dsv';
-
-
-export default {
+   data: function () {
+      return {
+        serverURL: config.httpServerURL,
+        settings: {
+          width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+          height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+        },
+        width: 0,
+        height: 0,
+        x: 0,
+        y: 0
+      }
+    },
   components: {
     usMap: map,
     tooltip: tooltip
@@ -48,7 +58,7 @@ export default {
     var that = this;
     
 
-    this.$http.get(STATES_DATA_PATH)
+    this.$http.get(serverURL+STATES_DATA_PATH)
       .then(function(res) {
         this.statesData = {};
         d3.dsvFormat(';')

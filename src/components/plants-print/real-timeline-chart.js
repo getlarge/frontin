@@ -12,7 +12,7 @@ export const realTimeLineChart = function () {
   var margin = {top: 25, right: 25, bottom: 25, left: 25},
       width = Math.max(document.documentElement.clientWidth/1.6, window.innerWidth/1.6 || 0),
       height = Math.max(document.documentElement.clientHeight/1.5, window.innerHeight/1.5 || 0),
-      duration = 1000,
+      duration = 2000,
       //color = schemePaired;
       color = ["#0fc153", "#33b277"];
 

@@ -14,12 +14,12 @@
 			</b-col>
 			<b-col class="colzy" sm="3" md="3" lg="3" >
 				 <draggable tag="div" :list="as1" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
-					<audio-slider v-for="(element, index) in as1"  :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}"  :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :draggable="true" :loop="true" ></audio-slider>
+					<audio-slider v-for="(element, index) in as1"  :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}"  :key="element.id" :icon="serverURL+element.iconFile" :sources="element.audioSource" :draggable="true" :loop="true" ></audio-slider>
 	       		</draggable>
 			</b-col>
 			<b-col class="colzy" sm="3" md="3" lg="3" >
 	            <draggable tag="div" :list="as2" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
-					<audio-slider  v-for="(element, index) in as2" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true" ></audio-slider>
+					<audio-slider  v-for="(element, index) in as2" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="serverURL+element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true" ></audio-slider>
 	           	</draggable>
 			</b-col>
 			<b-col class="colzy" sm="3" md="3" lg="3" >
@@ -62,51 +62,53 @@
 	import ToneSynth from '@/tone-components/synth'
 	import audioSlider from './audio-slider'
 	import fileUploader from '@/components/utils/file-upload'
+  	import config from '@/config.json'
 
 	export default {
 		data() {
 		    return {
+        		serverURL: config.httpServerURL,
 		    	as1: [{
 		    			id: 1,
 		    			name: "rain",
-			    		audioSource:["static/sounds/rain.mp3"],
+			    		audioSource:["http://server4.getlarge.eu/static/sounds/rain.mp3"],
 				        iconFile: 'static/icons/rain-white.png',
 				    },{
 		    			id: 2,
 		    			name: "wind",
-			    		audioSource:["static/sounds/wind.mp3"],
+			    		audioSource:["http://server4.getlarge.eu/static/sounds/wind.mp3"],
 				        iconFile: 'static/icons/wind-white.png',
 			    	},{
 		    			id: 3,
 		    			name: "forrest",
-			    		audioSource:["static/sounds/forrest.mp3"],
+			    		audioSource:["http://server4.getlarge.eu/static/sounds/forrest.mp3"],
 				        iconFile: 'static/icons/forrest-white.png',
 			    	},{
 		    			id: 4,
 		    			name: "fire",
-			    		audioSource:["static/sounds/fire.mp3"],
+			    		audioSource:["http://server4.getlarge.eu/static/sounds/fire.mp3"],
 				        iconFile: 'static/icons/fire-white.png',
 				    }
 		    	],
 		    	as2: [{
 		    			id: 5,
 		    			name: "water",
-			    		audioSource:["static/sounds/water-stream.mp3"],
+			    		audioSource:["http://server4.getlarge.eu/static/sounds/water-stream.mp3"],
 				        iconFile: 'static/icons/water-white.png',
 			    	},{
 		    			id: 6,
 		    			name: "storm",
-			    		audioSource:["static/sounds/storm.mp3"],
+			    		audioSource:["http://server4.getlarge.eu/static/sounds/storm.mp3"],
 				        iconFile: 'static/icons/storm-white.png',
 			    	},{
 		    			id: 7,
 		    			name: "café",
-			    		audioSource:["static/sounds/cafe.mp3"],
+			    		audioSource:["http://server4.getlarge.eu/static/sounds/cafe.mp3"],
 				        iconFile: 'static/icons/cafe-white.png',
 				    },{
 		    			id: 8,
 		    			name: "la-win",
-			    		audioSource:["static/sounds/la-win.mp3"],
+			    		audioSource:["http://server4.getlarge.eu/static/sounds/la-win.mp3"],
 				        iconFile: 'static/icons/la-win-white.png',
 				    }
 		    	],
@@ -151,14 +153,14 @@
 		      return this.toggleBG(id, value);
 	    	});
 	    	EventBus.$on("file-uploader", (format, uploadedFile) => {
-	    		if ( format == "audio") {
+	    		if ( format === "audio") {
 	    			//this.$store.state
 	    			this.audioSource.pop();
 	    			var url = uploadedFile[0].url;
 	    			this.audioSource.push(url);
 					return console.log("newvalue",this.audioSource);
 	    		}
-	    		if (format == "image") {
+	    		if (format === "image") {
 					this.iconFile = uploadedFile[0].url;
 					return console.log("newvalue1",this.iconFile);
 	    		}
@@ -215,7 +217,7 @@
 
 			privateCheckMove: function(evt){
 				this.targetElement = evt.relatedContext.element
-				if ( evt.relatedContext.list.length == 5 ){
+				if ( evt.relatedContext.list.length === 5 ){
 					return false
 				}
 				return true;
@@ -223,7 +225,7 @@
 
 			checkMove: function(evt){
 				var res = this.privateCheckMove(evt)
-				this.canDrag=res;
+				this.canDrag = res;
 				this.futureIndex = evt.draggedContext.futureIndex;
 				return res;
 			},
@@ -241,12 +243,12 @@
 			addItem(){
 				var self = this;
 				//this.$store.commit('as3', files)
-				if ( this.as3.length == 0 && this.counter == 0 ) {
-					self.obj = Object.create(self.model);
-					self.obj.id = 1;
-					self.obj.name = "customWidget";
-					self.obj.audioSource = self.audioSource;
-					self.obj.iconFile = self.iconFile;
+				if ( this.as3.length === 0 && this.counter === 0 ) {
+					var obj = Object.create(self.model);
+					obj.id = 1;
+					obj.name = "customWidget";
+					obj.audioSource = self.audioSource;
+					obj.iconFile = self.iconFile;
 					self.counter++;
 					//self.as3.push(self.model);
 					self.as3.push(obj);
@@ -255,8 +257,9 @@
 				
 				if ( this.as3.length > 0 && this.counter > 0 ) {
 					var obj = Object.create(self.model) ;
+					//var obj = Object.assign({}, self.model) ;
 					obj.id = self.counter;
-					obj.name = "customWidget"+self.counter;
+					obj.name = "customWidget" + self.counter;
 					obj.audioSource = self.audioSource;
 					obj.iconFile = self.iconFile;
 					self.counter++;
@@ -277,7 +280,7 @@
 
 			help() {
 				alert("here is the help, but you better ask the bot :)");
-			}
+			},
 
 	    },
 	}

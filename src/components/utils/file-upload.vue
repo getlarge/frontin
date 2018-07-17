@@ -18,9 +18,9 @@
 
        <div v-if="isSuccess">
         <p>
-        <font-awesome-icon :icon="['fas', 'smile']" size="md" /> Success!</p>
+        <font-awesome-icon :icon="['fas', 'smile']" size="xs" /> Success!</p>
         <p>
-          <font-awesome-icon :icon="['fas', 'arrow-up']" size="md" />
+          <font-awesome-icon :icon="['fas', 'arrow-up']" size="xs" />
           <a href="javascript:void(0)" @click="reset()">Upload again</a>
         </p>
         <div v-if="mimetype == 'audio'" v-for="item in uploadedFiles" >
@@ -36,9 +36,9 @@
       </div>
 
       <div v-if="isFailed">
-        <h2><font-awesome-icon :icon="['fas', 'frown']" size="md" /> Failed.</h2>
+        <h2><font-awesome-icon :icon="['fas', 'frown']" size="xs" /> Failed.</h2>
         <p>
-          <font-awesome-icon :icon="['fas', 'arrow-up']" size="md" />
+          <font-awesome-icon :icon="['fas', 'arrow-up']" size="xs" />
           <a href="javascript:void(0)" @click="reset()">Try again</a>
         </p>
       </div>

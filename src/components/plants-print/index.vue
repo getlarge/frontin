@@ -3,7 +3,7 @@
   <b-container id="plant-life" fluid class="bv-example-row">
     <b-row align-h="center">
       <b-col class="description" sm="4" md="4" lg="4" >
-        <b-img class="specimen" :src="icon" fluid />
+        <b-img class="specimen" :src="serverURL+icon" fluid />
         <p > Measuring conductivity signals from 2 specimens living in my  garden ( represented as X & Y ), compared in real time. 
         </br> The aim of this experiment is to map plant's sensitivity and finally create an id card based on its vital print. 
         </p>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+
   import config from '@/config.json'
   import { min, max } from "d3-array"
   import { append, attr, event, select, selectAll, style } from "d3-selection"
@@ -31,10 +32,11 @@
     data() {
         return {
           pageTopic: "getlarge" + this.$route.path,
+          serverURL: config.httpServerURL,
           icon: "static/img/asplen.jpg",
           lineArr: [],
           MAX_LENGTH: 100,
-          duration: 1000,
+          duration: 2000,
           chart : new realTimeLineChart(),
           protocol: ["mysensors", "octoprint"],
           endpoints: ["GW100-1456278-out", "GW101-16149114-out"],

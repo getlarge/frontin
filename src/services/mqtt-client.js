@@ -18,8 +18,8 @@ export default class mqttClient {
       outgoingStore: null
     };
     this.client; 
-    this.store = new MQTTStore();
-    this.manager = levelStore('static/db'); 
+    //this.store = new MQTTStore();
+    //this.manager = levelStore('static/db'); 
     this._initClient();
     this.asyncClient;
     this.buffer = [];
@@ -29,8 +29,8 @@ export default class mqttClient {
   }
 
   _initClient() {
-    this.options.incomingStore = this.manager.incoming;
-    this.options.outgoingStore = this.manager.outgoing;
+    //this.options.incomingStore = this.manager.incoming;
+    //this.options.outgoingStore = this.manager.outgoing;
     this.client = mqtt.connect(config.wsServerURL, this.options);
     this.asyncClient = new AsyncClient(this.client);
 
@@ -66,7 +66,7 @@ export default class mqttClient {
     })
 
     this.client.on("message", (topic, payload) => {
-      this.store.put(topic, payload);
+      //this.store.put(topic, payload);
       EventBus.$emit("mqtt-rx", topic, payload); 
       // this.client.publish('hello', 'world', {qos: 1}, function () {
       //     console.log('published')

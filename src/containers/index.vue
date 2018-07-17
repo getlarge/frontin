@@ -16,12 +16,12 @@
             </b-col>
             <b-col xs="3" sm="3" md="3" lg="3" >
               <b-btn class="doors" href="#/portfolio"  >
-                <b-img class="signs" :src="icon1" fluid />
+                <b-img class="signs" :src="serverURL+icon1" fluid />
               </b-btn>
             </b-col>
             <b-col xs="3" sm="3" md="3" lg="3" >
               <b-btn class="doors"  @click="chat._initClient()"  >
-                <b-img class="signs" :src="icon2" fluid />
+                <b-img class="signs" :src="serverURL+icon2" fluid />
               </b-btn>
             </b-col>
           </b-row>
@@ -31,6 +31,7 @@
 
 <script>
 
+  import config from '@/config.json'
   import { routes } from '@/router/menu'
   import liveRocketChat  from '@/services/live-rocketchat'
   import { shuffle } from "d3-array"
@@ -47,6 +48,7 @@
     data() {
       return {
         items: routes,
+        serverURL: config.httpServerURL,
         icon1: "static/icons/enter-white.png",
         icon2: "static/icons/send-white.png",
         chat: new(liveRocketChat),
@@ -194,7 +196,7 @@
   .desc {
     margin-top: 3%;
     margin-bottom: 3%;
-    font-size: 1rem;
+    font-size: 1.2rem;
     text-align: center;
   }
   

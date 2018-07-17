@@ -19,6 +19,8 @@
 </template>
 
 <script>
+
+    import config from '@/config.json'
     import { range } from "d3-array"
     import { rgb, interpolateRgb } from "d3-color"
     import { drag } from "d3-drag"
@@ -36,6 +38,7 @@
   export default {
     data() {
         return {
+                serverURL: config.httpServerURL,
                 dataPath : 'static/data/bubbles.json',
                 graph: null,
                 simulation: null,
@@ -173,7 +176,7 @@
 
           initBubbles() {
               var that = this;
-              json(this.dataPath).then(graph => {
+              json(serverURL+this.dataPath).then(graph => {
                   var root = hierarchy(graph);
                   var nodes = root.descendants();
                 

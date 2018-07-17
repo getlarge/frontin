@@ -116,10 +116,10 @@
   Object.assign(data, {
     type: 'tree',
     layoutType: 'euclidean',
-    duration: 750,
+    duration: 0,
     Marginx: 200,
     Marginy: 60,
-    radius: 6,
+    radius: 8,
     nodeText: 'text',
     currentNode: null,
     currentSensor: null,
@@ -138,7 +138,8 @@
       tree,
       FontAwesomeIcon
     },
-   created() {
+
+    created() {
       EventBus.$on("mqtt-rx", (topic, payload) => {
         return this.addNode(topic, payload.toString());
       });
@@ -339,6 +340,15 @@
   .tree {
     height: 700px;
     width: 100%;
+  }
+
+  .treeclass .nodetree circle:hover {
+    fill: #33b277;
+    cursor: pointer;
+  }
+
+  .treeclass .nodetree text {
+    font-size: 0.8rem;
   }
 
   .graph-root {

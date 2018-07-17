@@ -19,6 +19,8 @@
 </template>
 
 <script>
+
+    import config from '@/config.json'
 	import { range } from "d3-array"
 	import { rgb, interpolateRgb } from "d3-color"
 	import { drag } from "d3-drag"
@@ -40,6 +42,7 @@
 	export default {
 		data() {
 		    return {
+                serverURL: config.httpServerURL,
                 dataPath : 'static/data/portfolio.json',
                 graph: null,
                 simulation: null,
@@ -159,7 +162,7 @@
                         .selectAll("image")
                         .data(that.graph.nodes, d => d.data.id )
                         .enter().append("image")
-                        .attr("xlink:href", (d) => d.data.group > 2 ? d.data.mini : "")
+                        .attr("xlink:href", (d) => d.data.group > 2 ? that.serverURL+d.data.mini : "")
                         .attr("crossOrigin", "anonymous")
                         .attr("x", (d) => -1 * d.data.size)
                         .attr("y", (d) => -1 * d.data.size)
@@ -201,7 +204,7 @@
         methods: {
             initPortfolio() {
                 var that = this;
-                json(this.dataPath).then(graph => {
+                json(this.serverURL + this.dataPath).then(graph => {
                     var root = hierarchy(graph);
                     var nodes = root.descendants();
                     var links = root.links(nodes)

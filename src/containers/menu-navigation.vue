@@ -1,8 +1,7 @@
 <template>
   <div id="top-nav">
       <b-navbar toggleable="sm" type="light" variant="light" sticky>
-        <b-navbar-brand href="/"><b-img id="logo" src="static/img/logo.png" fluid alt="Logo"/> </b-navbar-brand>
-
+        <b-navbar-brand href="/"><b-img class="logo" :src="serverURL+icon1" fluid/><b-img class="logo" :src="serverURL+icon1" fluid /> </b-navbar-brand>
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
         <b-collapse is-nav id="nav_collapse">
           <b-nav class="w-50">
@@ -23,7 +22,10 @@
             <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" /></b-nav-item>
             <b-nav-item href="https://framagit.org/getlarge" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg"/></b-nav-item>
             <b-nav-item @click="chat._initClient()" ><font-awesome-icon :icon="['fab', 'rocketchat']" size="lg"/></b-nav-item>
-            <b-nav-text class="nav-link" disabled>{{connStatus}}</b-nav-text>
+            <b-nav-text class="nav-link" disabled>
+              <font-awesome-icon v-if="connStatus == 'Connected'" class="connected" :icon="['fas', 'circle']" size="lg"/>
+              <font-awesome-icon v-else class="disconnected" :icon="['fas', 'circle']" size="lg"/>
+            </b-nav-text>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -31,38 +33,39 @@
 </template>
 
 <script>
+
   import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
   import liveRocketChat  from '@/services/live-rocketchat'
   import config from '@/config.json'
   import { routes } from '@/router/menu'
-  import { EventBus } from '@/main';
+  import { EventBus } from '@/main'
 
   export default {
     props: {
     }, 
-    components: { 
-      FontAwesomeIcon
-    },
 
     data() {
       return {
         items: routes,
+        serverURL: config.httpServerURL,
+        icon1: "static/icons/braille-E.png",
+        icon2: "static/icons/braille-M.png",
         chat: new(liveRocketChat),
-        connStatus: null,
+        connStatus: "Disconnected",
         pageTopic: "getlarge" + this.$route.path + "main",
       }
     },
     
+    components: { 
+      FontAwesomeIcon
+    },
+
     created() {
-    // console.log("parent", this.$parent)
       EventBus.$on('got-status', status => {
         //console.log(`mqtt status : ${status}`)
         return this.connStatus = status
       });
 
-      EventBus.$on('got-store', buffer => {
-        console.log('mqtt buffer :', buffer)
-      });
     },
 
     updated() {
@@ -94,10 +97,6 @@
         if (event) {
           alert(event.target.tagName)
         }      
-      },
-
-      getBuffer: function() {
-        EventBus.$emit('get-store');
       },
 
       findIndex: function() {
@@ -145,10 +144,11 @@
     text-decoration: none;
   }
 
-  #logo {
+  .logo {
     height: 45px;
-    width: 45px;
+    opacity: 0.8;
   }
+
 
   .page-title {
     position: relative;
@@ -159,5 +159,14 @@
     text-align: center;
   }
 
+  .connected path {
+    fill : #01c669 !important;
+    opacity: 0.6;
+  }
+
+  .disconnected path{
+    fill : #ff830f !important;
+    opacity: 0.6;
+  }
 
 </style>

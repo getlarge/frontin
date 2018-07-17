@@ -16,6 +16,7 @@
 
 <script>
 
+	import config from '@/config.json'
 	import { min, max, range, sum } from "d3-array"
 	import { axisBottom } from "d3-axis"
 	import { easeLinear, easeQuadInOut } from "d3-ease"
@@ -29,13 +30,13 @@
 	import tooltip from "@/components/utils/tooltip"
 	import moment from 'moment'
 	import { EventBus } from '@/main'
-	import { projects } from '@/../static/data/cv'
 
 	export default {
 
 		data() {
 		    return {
 		    	pageTopic: "getlarge" + this.$route.path,
+        		serverURL: config.httpServerURL,
 				width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
 				height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 				colorPalette : scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#9adfb0", "#6ed659", "#417c52", "#56a46f" ]),
@@ -110,7 +111,7 @@
 				self.settings.m = self.settings.f + self.settings.lineHeight;
 				self.settings.height = self.settings.m + self.settings.s;
 
-				json(this.dataPath).then(projects => {
+				json(this.serverURL+this.dataPath).then(projects => {
                     const root = hierarchy(projects);
                     const nodes = root.descendants();
                     this.node = nodes[0].data.projects.reverse();

@@ -13,7 +13,7 @@
                 <div class="description">{{description}}</div>
               </b-col>
               <b-col xs="7" >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/2.5" :src="img" />
+                  <b-img class="pics" :width="settings.width/4" :height="settings.height/2.5" :src="serverURL+img" />
               </b-col>  
             </b-row>
             <div class="tags">{{tags}}</div>
@@ -27,13 +27,13 @@
           <div id="tooltip">
             <b-container >
               <div class="title">{{title}}</div>
-              <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="md" /> </button>
+              <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
               <b-row >
                 <b-col sm="5"  >
                   <div class="description">{{description}}</div>
                 </b-col>
                 <b-col sm="7"   >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/3" :src="img" />
+                  <b-img class="pics" :width="settings.width/4" :height="settings.height/3" :src="serverURL+img" />
                 </b-col>  
               </b-row>
               <div class="tags">{{tags}}</div>
@@ -53,7 +53,7 @@
                 <div class="description">{{description}}</div>
               </b-col>
               <b-col md="7" lg="7" >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/3" :src="img" />
+                  <b-img class="pics" :width="settings.width/4" :height="settings.height/3" :src="serverURL+img" />
               </b-col>  
             </b-row>
             <div class="tags">{{tags}}</div>
@@ -73,7 +73,7 @@
                 <div class="description">{{description}}</div>
               </b-col>
               <b-col lg="7" >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/2.8" :src="img" />
+                  <b-img class="pics" :width="settings.width/4" :height="settings.height/2.8" :src="serverURL+img" />
               </b-col>  
             </b-row>
             <div class="tags">{{tags}}</div>
@@ -93,7 +93,7 @@
                 <div class="description">{{description}}</div>
               </b-col>
               <b-col lg="7" >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/2.8" :src="img" />
+                  <b-img class="pics" :width="settings.width/4" :height="settings.height/2.8" :src="serverURL+img" />
               </b-col>  
             </b-row>
             <div class="tags">{{tags}}</div>
@@ -105,7 +105,8 @@
 </template>
 
 <script>
-
+  
+  import config from '@/config.json'
   import VueDraggableResizable from 'vue-draggable-resizable'
   import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
@@ -115,6 +116,7 @@
 
     data: function () {
       return {
+        serverURL: config.httpServerURL,
         settings: {
           width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
           height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
@@ -129,6 +131,11 @@
     components: {
       VueDraggableResizable,
       FontAwesomeIcon
+    },
+
+    mounted() {
+      
+        
     },
 
     methods: {
@@ -272,7 +279,7 @@
     text-align: justify;
   } 
 
-  img[class] {
+  img[class] .pics {
     width: 100%
   }
 

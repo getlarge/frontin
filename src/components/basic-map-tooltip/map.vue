@@ -17,12 +17,14 @@ Links:
 
 <script>
 
+  import config from '@/config.json'
   import * as d3 from 'd3'
   import * as topojson from 'topojson'
 
   export default {
     data() {
         return {
+          serverURL: config.httpServerURL,
           pageTopic: "getlarge" + this.$route.path,
           width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
           height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
@@ -42,7 +44,7 @@ Links:
       var projection = d3.geoAlbersUsa();
       var path = d3.geoPath().projection(projection);
 
-      d3.json("static/data/us.json").then(function(json) {
+      d3.json(serverURL+"static/data/us.json").then(function(json) {
         var g = svg.append('g');
         g.selectAll('.state')
           .data(topojson.feature(json, json.objects.usStates).features)
