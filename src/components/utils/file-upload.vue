@@ -55,7 +55,6 @@
   import { EventBus } from "@/main"
   import { upload } from '@/services/file-upload.service'
   import { wait } from '@/utils';
-
   //import { upload } from '@/services/file-upload.fake.service'; // fake service
 
 
@@ -127,7 +126,7 @@
             //this.inputUpdate(this.$store.state.uploadedFiles);
             //var uploadedFile = this.uploadedFiles.slice().reverse().find(x ==> x.)
             //var uploadedFile = this.uploadedFile.pop();
-            console.log(this.uploadedFiles)
+            console.log("uploaded : ", this.uploadedFiles)
             EventBus.$emit("file-uploader", format, this.uploadedFiles);
 
           })
@@ -150,7 +149,7 @@
           .map(x => {
             formData.append(fieldName, fileList[x], fileList[x].name);
           });
-
+        //console.log("formData", formData)
         this.save(format, formData);
       },
 

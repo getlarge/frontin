@@ -7,19 +7,19 @@
 				<div id="edit-container" v-for="item in format">
 					<file-uploader :mimetype="item" > </file-uploader>
 	          	</div>
-	  	        <button class="create-button" @click="addItem"><font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" /> Create</button>
+	  	        <button class="create-button" @click="addItem"><font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" /> Create a new widget</button>
 
 	          	<!-- <div v-if="$refs.fileUploader.isSuccess">
 				</div> -->
 			</b-col>
 			<b-col class="colzy" sm="3" md="3" lg="3" >
 				 <draggable tag="div" :list="as1" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
-					<audio-slider v-for="(element, index) in as1"  :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}"  :key="element.id" :icon="serverURL+element.iconFile" :sources="element.audioSource" :draggable="true" :loop="true" ></audio-slider>
+					<audio-slider v-for="(element, index) in as1"  :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}"  :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :draggable="true" :loop="true" ></audio-slider>
 	       		</draggable>
 			</b-col>
 			<b-col class="colzy" sm="3" md="3" lg="3" >
 	            <draggable tag="div" :list="as2" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
-					<audio-slider  v-for="(element, index) in as2" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="serverURL+element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true" ></audio-slider>
+					<audio-slider  v-for="(element, index) in as2" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true" ></audio-slider>
 	           	</draggable>
 			</b-col>
 			<b-col class="colzy" sm="3" md="3" lg="3" >
@@ -32,7 +32,7 @@
 	           <div v-else>
 	           	<p>Empty selection</p>
 	           </div>
-	           	<button class="del-button" @click="delBuffer">Delete <font-awesome-icon :icon="['fas', 'trash']" size="3x" /> </button>
+	           	<button class="del-button" @click="delBuffer">Drag here to delete <font-awesome-icon :icon="['fas', 'trash']" size="3x" /> </button>
 			</b-col>
       	</b-row>
 		<!-- <div class="status">
@@ -64,52 +64,53 @@
 	import fileUploader from '@/components/utils/file-upload'
   	import config from '@/config.json'
 
+    const serverURL = config.httpServerURL;
+
 	export default {
 		data() {
 		    return {
-        		serverURL: config.httpServerURL,
 		    	as1: [{
 		    			id: 1,
 		    			name: "rain",
-			    		audioSource:["http://server4.getlarge.eu/static/sounds/rain.mp3"],
-				        iconFile: 'static/icons/rain-white.png',
+			    		audioSource:[serverURL+"/static/sounds/rain.mp3"],
+				        iconFile: serverURL+'static/icons/rain-white.png',
 				    },{
 		    			id: 2,
 		    			name: "wind",
-			    		audioSource:["http://server4.getlarge.eu/static/sounds/wind.mp3"],
-				        iconFile: 'static/icons/wind-white.png',
+			    		audioSource:[serverURL+"static/sounds/wind.mp3"],
+				        iconFile: serverURL+'static/icons/wind-white.png',
 			    	},{
 		    			id: 3,
 		    			name: "forrest",
-			    		audioSource:["http://server4.getlarge.eu/static/sounds/forrest.mp3"],
-				        iconFile: 'static/icons/forrest-white.png',
+			    		audioSource:[serverURL+"static/sounds/forrest.mp3"],
+				        iconFile: serverURL+'static/icons/forrest-white.png',
 			    	},{
 		    			id: 4,
 		    			name: "fire",
-			    		audioSource:["http://server4.getlarge.eu/static/sounds/fire.mp3"],
-				        iconFile: 'static/icons/fire-white.png',
+			    		audioSource:[serverURL+"static/sounds/fire.mp3"],
+				        iconFile: serverURL+'static/icons/fire-white.png',
 				    }
 		    	],
 		    	as2: [{
 		    			id: 5,
 		    			name: "water",
-			    		audioSource:["http://server4.getlarge.eu/static/sounds/water-stream.mp3"],
-				        iconFile: 'static/icons/water-white.png',
+			    		audioSource:[serverURL+"static/sounds/water-stream.mp3"],
+				        iconFile: serverURL+'static/icons/water-white.png',
 			    	},{
 		    			id: 6,
 		    			name: "storm",
-			    		audioSource:["http://server4.getlarge.eu/static/sounds/storm.mp3"],
-				        iconFile: 'static/icons/storm-white.png',
+			    		audioSource:[serverURL+"static/sounds/storm.mp3"],
+				        iconFile: serverURL+'static/icons/storm-white.png',
 			    	},{
 		    			id: 7,
 		    			name: "café",
-			    		audioSource:["http://server4.getlarge.eu/static/sounds/cafe.mp3"],
-				        iconFile: 'static/icons/cafe-white.png',
+			    		audioSource:[serverURL+"static/sounds/cafe.mp3"],
+				        iconFile: serverURL+'static/icons/cafe-white.png',
 				    },{
 		    			id: 8,
 		    			name: "la-win",
-			    		audioSource:["http://server4.getlarge.eu/static/sounds/la-win.mp3"],
-				        iconFile: 'static/icons/la-win-white.png',
+			    		audioSource:[serverURL+"static/sounds/la-win.mp3"],
+				        iconFile: serverURL+'static/icons/la-win-white.png',
 				    }
 		    	],
 		    	as3: [],
@@ -155,14 +156,17 @@
 	    	EventBus.$on("file-uploader", (format, uploadedFile) => {
 	    		if ( format === "audio") {
 	    			//this.$store.state
+	    			console.log("newvalue",this.audioSource);
 	    			this.audioSource.pop();
 	    			var url = uploadedFile[0].url;
-	    			this.audioSource.push(url);
-					return console.log("newvalue",this.audioSource);
+
+	    			console.log("newvalue1",this.audioSource);
+	    			console.log("newvalue2",url);
+					return this.audioSource.push(url);
 	    		}
 	    		if (format === "image") {
-					this.iconFile = uploadedFile[0].url;
-					return console.log("newvalue1",this.iconFile);
+	    			//console.log("newvalue1",this.iconFile);
+					return this.iconFile = uploadedFile[0].url;
 	    		}
 	    	});
 	  	},
@@ -170,11 +174,14 @@
 	  	mounted() {
 	  		this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
 		    this.initialize();
-		    //console.log("this", this);
 		},
 
 	  	updated() {
 		    //this.update();
+		},
+
+		beforeDestroy() {
+
 		},
 
 		methods: {
@@ -243,33 +250,32 @@
 			addItem(){
 				var self = this;
 				//this.$store.commit('as3', files)
-				if ( this.as3.length === 0 && this.counter === 0 ) {
-					var obj = Object.create(self.model);
-					obj.id = 1;
-					obj.name = "customWidget";
+				if ( this.as3.length === 0 ) {
+					self.counter++;
+					//var obj = Object.create(self.model);
+					var obj = Object.assign({}, self.model) ;
+					obj.id = 8+self.counter;
+					obj.name = "customWidget"+self.counter;
 					obj.audioSource = self.audioSource;
 					obj.iconFile = self.iconFile;
-					self.counter++;
-					//self.as3.push(self.model);
-					self.as3.push(obj);
-					return console.log(self.counter);
+					return self.as3.push(obj);
 				}
 				
 				if ( this.as3.length > 0 && this.counter > 0 ) {
 					var obj = Object.create(self.model) ;
 					//var obj = Object.assign({}, self.model) ;
-					obj.id = self.counter;
+					obj.id = 9+self.counter;
 					obj.name = "customWidget" + self.counter;
 					obj.audioSource = self.audioSource;
 					obj.iconFile = self.iconFile;
-					self.counter++;
-					//self.as3.push(self.model);
-					self.as3.push(obj);
-					return console.log(self.counter);
+					self.counter++;					
+					return self.as3.push(obj);
 				}	
 			},
 
 			getBuffer() {
+				console.log("as1", this.as1);
+				console.log("as2", this.as2);
 				console.log("as3", this.as3);
 				console.log("model", this.model);
 			},
