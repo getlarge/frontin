@@ -9,9 +9,9 @@
           </b-row>
           <hr class="my-4">
           <b-row align-h="center">
-            <b-col xs="12" sm="12" md="12" lg="12" >
+            <b-col xs="10" sm="10" md="10" lg="10" >
               <p class="desc">
-                Retrospective of previous and present crafts. For more information visit the website or contact me.
+                Retrospective of previous and present crafts, from UX design to frontend development, until embedded system prototyping. For more information visit the website or contact me.
               </p>
             </b-col>
             <b-col xs="3" sm="3" md="3" lg="3" >

@@ -1,16 +1,21 @@
 <template>
 
-  <b-container id="plant-life" fluid class="bv-example-row">
-    <b-row align-h="center">
-      <b-col class="description" sm="4" md="4" lg="4" >
-        <b-img class="specimen" :src="serverURL+icon" fluid />
-        <p > Measuring conductivity signals from 2 specimens living in my  garden ( represented as X & Y ), compared in real time. 
-        </br> The aim of this experiment is to map plant's sensitivity and finally create an id card based on its vital print. 
-        </p>
-        <small># In Progress</small>
-      </b-col>
-      <b-col id="chart" sm="8" md="8" lg="8" >
+  <b-container id="plant-life" fluid >
 
+    <b-row align-h="center">
+      <b-col  xs="4" sm="4" md="4" lg="4" >
+        <b-img class="specimen" :src="serverURL+icon" fluid />
+        <div class="description" > Measuring conductivity signals from 2 specimens living in my  garden ( represented as X & Y ), compared in real time. 
+        </br> The aim of this experiment is to map plant's sensitivity and finally create an id card based on its vital print. 
+        </br><small># In Progress</small>
+      </div>
+      </b-col>
+       
+      <b-col xs="8" sm="8" md="8" lg="8" >
+        <h1 class="title">Asplenium nidus</h1>
+        <p class="subtitle"> welcoming you with her long curvy bordered leaves, from the ground to the sky. 
+        </p>
+        <div id="chart"></div>
       </b-col>
     </b-row>
   </b-container>
@@ -33,14 +38,14 @@
         return {
           pageTopic: "getlarge" + this.$route.path,
           serverURL: config.httpServerURL,
-          icon: "static/img/asplen.jpg",
+          icon: "static/img/asplenium-nidus.jpeg",
           lineArr: [],
           MAX_LENGTH: 100,
           duration: 2000,
           chart : new realTimeLineChart(),
           protocol: ["mysensors", "octoprint"],
           endpoints: ["GW100-1456278-out", "GW101-16149114-out"],
-          topics: ["99", "95"],
+          nodes: ["99", "95"],
           x: 0,
           y: 0,
       }
@@ -51,25 +56,20 @@
         this.interv = interval(this.updateData, this.duration);
         select("#chart").datum(this.lineArr).call(this.chart);
         select(window).on('resize', this.resize);
-
-        // EventBus.$emit("mqtt-sub", "mysensors/Gateway16149114-out/99/+");
-        // EventBus.$emit("mqtt-sub", "mysensors/Gateway16149114-out/95/+");
-        EventBus.$emit("mqtt-sub", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.topics[0] +"/#");
-        EventBus.$emit("mqtt-sub", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.topics[1] +"/#");
-
+        EventBus.$emit("mqtt-sub", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.nodes[0] +"/#");
+        EventBus.$emit("mqtt-sub", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.nodes[1] +"/#");
         EventBus.$on("mqtt-rx", (topic, payload) => {
           return this.selectMessage(topic, payload);
-          //return console.log(this);
         }),
          EventBus.$on("got-x", x => {
-           return this.x = Number(x);
+          //console.log("x", x)
+          return this.x = x;
          });
          EventBus.$on("got-y", y => {
           //console.log("y", y)
-           return this.y = Number(y);
+          return this.y = y;
          });
-
-        
+   
     },
 
     updated() {
@@ -78,13 +78,13 @@
     },
 
     beforeUnmount() {
-      //window.setInterval(this.updateData, 0);
+
     },
 
     beforeDestroy() {
       this.chart = null;
       this.interv.stop();
-      EventBus.$off("mqtt-rx");
+      //EventBus.$off("mqtt-rx");
       EventBus.$off("got-x");
       EventBus.$off("got-y");
     },
@@ -125,18 +125,18 @@
       selectMessage(topic, payload) {
         //var newPayload = topic + ">" + payload.toString();       
         var topicSplit = topic.split("/");
-        if (topicSplit[3] == this.topics[0] ) {
+        if (topicSplit[3] == this.nodes[0] ) {
           var obj = JSON.parse(payload.toString());
           if ( obj.subType == "37") {
             //this.formatIncomingMessage("json", obj, "got-sound-frame");
           };
-          if ( obj.subType == "48" && topicSplit[4] == "2") {
+          if ( obj.subType == "48" && topicSplit[4] == "1") {
             this.formatIncomingMessage("json", obj, "got-x");
           }
         }
-        if (topicSplit[3] == this.topics[1]) {
+        if (topicSplit[3] == this.nodes[1]) {
           var obj = JSON.parse(payload.toString());
-          if ( obj.subType == "48" && topicSplit[4] == "2" ) {
+          if ( obj.subType == "48" && topicSplit[4] == "1" ) {
             this.formatIncomingMessage("json", obj, "got-y");
           }
         }
@@ -148,12 +148,12 @@
           /// formater le timestamp en format prêt à afficher sur D3
           // var day = moment(Number(payloadSplit[1]));
           // console.log("date", day)
-          var x = Number(message.time);
-          var y = Number(message.data);
-          var formatedPayload = {
-            x: x,
-            y: y,
-            type: message.subType
+            var x = Number(message.time);
+            var y = Number(message.data);
+            var formatedPayload = {
+              x: x,
+              y: y,
+              type: message.subType
           }; 
           EventBus.$emit(event.toString(), y);
           //this.buffer.push(formatedPayload);
@@ -175,37 +175,55 @@
 
 
 </script>
-<style scoped>
+<style lang="scss">
 
   #plant-life {
     margin-top: 3%;
+    margin-bottom: 2%;
+    color: #a0a0a0; 
+    font-family: "MarketDeco";
   }
 
   .specimen {
-    margin-top: 3%;
-    margin-bottom: 3%;
+    opacity: 0.8;
+    margin-top: 0%;
+    margin-bottom: 6%;
     max-height: 60%;
   }
   
-  .domain {
-    stroke: #cecece; 
+  path.domain {
+    stroke: #a0a0a0; 
     stroke-width: 1.5px;
   }
 
-  .axis {
-    color: #cecece; 
-    font-size: 11px;
+  h1.title {
+    font-family: "MarketDeco";
+    font-size: 2.5rem;
+    text-align: left;
+    color: #0fc153;
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
   }
 
-  .tick {
-    fill: #cecece !important; 
-    stroke-width: 1px;
+  .subtitle {
+    font-size: 1rem;
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+  }
+
+  g.tick {
+    opacity: 0.8;
+    stroke: #a0a0a0 ; 
+    stroke-width: 0.5px;
   }
 
   .description {
-    font-size: 14px; 
+    font-size: 0.9rem; 
     text-align: justify;
-    color: #686868; 
+    padding-right: 2%;
+    padding-left: 2%;
   }
 
 

@@ -20,7 +20,7 @@
 	      		</p>
 			</b-col>
 			<b-col class="regenerate" xs="2" sm="1" md="1" lg="1">
-				<b-button ><font-awesome-icon :icon="['fas', 'play']" size="2x" /> </b-button>
+				<b-button @click="regenerate(true)"><font-awesome-icon :icon="['fas', 'play']" size="2x" /> </b-button>
 			</b-col>
       	</b-row>
     </b-container>
@@ -349,6 +349,7 @@
 
     #tree-holder {
     	margin-top: 3%;
+    	margin-bottom: 3%;
     }
 
 

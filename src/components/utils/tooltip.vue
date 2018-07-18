@@ -3,7 +3,7 @@
   <div >  
     
     <mq-layout class="controls-mobile" mq="mobile">
-      <vue-draggable-resizable   id="tooltipContainer" :x="settings.width/20" :y="settings.height/2.5"  :w="settings.width/2" :h="settings.height/1.7" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+      <vue-draggable-resizable   id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.5"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
         <div id="tooltip">
           <b-container  >
             <div class="title">{{title}}</div>
@@ -11,19 +11,19 @@
             <b-row >
               <b-col xs="5"  >
                 <div class="description">{{description}}</div>
+                <div class="tags">{{tags}}</div>
               </b-col>
               <b-col xs="7" >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/2.5" :src="serverURL+img" />
+                  <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
               </b-col>  
             </b-row>
-            <div class="tags">{{tags}}</div>
           </b-container>
         </div>
       </vue-draggable-resizable>
     </mq-layout>
 
     <mq-layout class="controls-tablet" mq="tablet">
-        <vue-draggable-resizable  id="tooltipContainer" :x="settings.width/20" :y="settings.height/4"  :w="settings.width/2" :h="settings.height/2" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+        <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.1"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
           <div id="tooltip">
             <b-container >
               <div class="title">{{title}}</div>
@@ -31,19 +31,19 @@
               <b-row >
                 <b-col sm="5"  >
                   <div class="description">{{description}}</div>
+                  <div class="tags">{{tags}}</div>
                 </b-col>
                 <b-col sm="7"   >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/3" :src="serverURL+img" />
+                  <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
                 </b-col>  
               </b-row>
-              <div class="tags">{{tags}}</div>
             </b-container>
           </div>
       </vue-draggable-resizable>
     </mq-layout>
     
     <mq-layout class="controls-laptop" mq="laptop">
-      <vue-draggable-resizable  id="tooltipContainer" :x="settings.width/20" :y="settings.height/6"  :w="settings.width/2" :h="settings.height/2" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+      <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/3"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
         <div id="tooltip">
           <b-container fluid class="bv-example-row">
             <div class="title">{{title}}</div>
@@ -51,19 +51,19 @@
             <b-row >
               <b-col  md="5" lg="5" >
                 <div class="description">{{description}}</div>
+                <div class="tags">{{tags}}</div>
               </b-col>
               <b-col md="7" lg="7" >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/3" :src="serverURL+img" />
+                  <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
               </b-col>  
             </b-row>
-            <div class="tags">{{tags}}</div>
           </b-container>
         </div>
       </vue-draggable-resizable>
     </mq-layout>
 
     <mq-layout class="controls-desktop" mq="desktop">
-      <vue-draggable-resizable id="tooltipContainer" :x="settings.width/20" :y="settings.height/8"  :w="settings.width/2" :h="settings.height/2" :minw="500" :minh="settings.height/2.2" :drag-handle="'.drag-button'" v-on:dragging="onDrag"  :resizable="false" v-on:resizing="onResize" :handles="['tr']">
+      <vue-draggable-resizable id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/4"  :minw="settings.dragBoxWidth" :minh="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag"  :resizable="false" v-on:resizing="onResize" :handles="['tr']">
         <div id="tooltip">
           <b-container  fluid >
             <div class="title">{{title}}</div>              
@@ -71,32 +71,32 @@
             <b-row >
               <b-col lg="5" >
                 <div class="description">{{description}}</div>
+                <div class="tags">{{tags}}</div>                
               </b-col>
               <b-col lg="7" >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/2.8" :src="serverURL+img" />
+                  <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img"/></a>
               </b-col>  
             </b-row>
-            <div class="tags">{{tags}}</div>
           </b-container>
         </div>
       </vue-draggable-resizable>
     </mq-layout>
 
     <mq-layout class="controls-xxl" mq="xxl">
-      <vue-draggable-resizable id="tooltipContainer" :x="settings.width/20" :y="settings.height/8"  :w="settings.width/2" :h="settings.height/2" :minw="500" :minh="settings.height/2.2" :drag-handle="'.drag-button'" v-on:dragging="onDrag"  :resizable="false" v-on:resizing="onResize" :handles="['tr']">
+      <vue-draggable-resizable id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/4"  :minw="settings.dragBoxWidth" :minh="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag"  :resizable="false" v-on:resizing="onResize" :handles="['tr']">
         <div id="tooltip">
           <b-container  fluid >
             <div class="title">{{title}}</div>
             <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="2x" /> </button>
             <b-row >
-              <b-col lg="5" >
+              <b-col xl="5" >
                 <div class="description">{{description}}</div>
+                <div class="tags">{{tags}}</div>
               </b-col>
-              <b-col lg="7" >
-                  <b-img class="pics" :width="settings.width/4" :height="settings.height/2.8" :src="serverURL+img" />
+              <b-col xl="7" >
+                  <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
               </b-col>  
             </b-row>
-            <div class="tags">{{tags}}</div>
           </b-container>
         </div>
       </vue-draggable-resizable>
@@ -118,8 +118,10 @@
       return {
         serverURL: config.httpServerURL,
         settings: {
-          width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-          height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+          dragBoxX: Math.max(document.documentElement.clientWidth, window.innerWidth || 0)/20,
+          dragBoxY: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)/2,
+          dragBoxHeight: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)/2.2,
+          dragBoxWidth: Math.max(document.documentElement.clientWidth, window.innerWidth || 0)/2,
         },
         width: 0,
         height: 0,
@@ -164,8 +166,8 @@
   .controls-mobile {
 
    #tooltipContainer {
-      font-size: 8px;
-      line-height: 8px;
+      font-size: 0.5rem;
+      line-height: 7px;
       padding: 6px;
       border-radius: 3px;
       background: rgba(255,255,255,0.9);
@@ -178,19 +180,19 @@
 
 
     #tooltip .description {
-      font-size: 7px;
+      font-size: 0.3rem;
     }
 
     #tooltip .tags {
-      font-size: 7px;
+      font-size: 0.3rem;
     } 
   }
 
   .controls-tablet {
 
    #tooltipContainer {
-      font-size: 10px;
-      line-height: 12px;
+      font-size: 0.6rem;
+      line-height: 9px;
       padding: 10px;
       border-radius: 3px;
       background: rgba(255,255,255,0.9);
@@ -201,21 +203,20 @@
       text-align: center;
     }
 
-
     #tooltip .description {
-      font-size: 10px;
+      font-size: 0.4rem;
     }
 
     #tooltip .tags {
-      font-size: 10px;
+      font-size: 0.4rem;
     } 
   }
 
   .controls-laptop {
 
    #tooltipContainer {
-      font-size: 14px;
-      line-height: 16px;
+      font-size: 0.7rem;
+      line-height: 15px;
       padding: 12px;
       border-radius: 3px;
       background: rgba(255,255,255,0.9);
@@ -225,12 +226,21 @@
       border:1px solid rgba(200,200,200,0.85);
       text-align: center;
     }
+
+    #tooltip .description {
+      font-size: 0.7rem;
+    } 
+
+    #tooltip .tags {
+      font-size: 0.7rem;
+    }
+
   }
 
   .controls-desktop {
 
     #tooltipContainer {
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 20px;
       padding: 13px;
       border-radius: 3px;
@@ -240,14 +250,22 @@
       -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
       border:1px solid rgba(200,200,200,0.85);
       text-align: center;
+    }
+
+    #tooltip .description {
+      font-size: 1rem;
+    } 
+
+    #tooltip .tags {
+      font-size: 1rem;
     }
   }
 
   .controls-xxl {
 
     #tooltipContainer {
-      font-size: 16px;
-      line-height: 20px;
+      font-size: 1.2rem;
+      line-height: 25px;
       padding: 13px;
       border-radius: 3px;
       background: rgba(255,255,255,0.9);
@@ -257,6 +275,22 @@
       border:1px solid rgba(200,200,200,0.85);
       text-align: center;
     }
+
+    #tooltip .description {
+      font-size: 1.1rem;
+      margin-top: 3%;
+      color:#686868;
+      text-align: justify;
+    } 
+
+    #tooltip .tags {
+      margin-top: 3%;
+      color:#33b277;
+      font-size: 1.1rem;
+      text-align: justify;
+      text-transform: lowercase;
+    }
+
   }
 
   #tooltip {
@@ -274,14 +308,12 @@
   }
 
   #tooltip .description {
+    font-size: 1.1rem;
     margin-top: 3%;
     color:#686868;
     text-align: justify;
   } 
 
-  img[class] .pics {
-    width: 100%
-  }
 
   #tooltip .pics {
     object-fit: cover
@@ -290,7 +322,9 @@
   #tooltip .tags {
     margin-top: 3%;
     color:#33b277;
-    font-style:italic;
+    font-size: 1rem;
+    text-align: justify;
+    text-transform: lowercase;
   }
 
   .drag-button {
@@ -300,8 +334,8 @@
     border: none;
     color: #33b277;
     position: absolute;
-    font-size: 1rem;
-    top : 2%;
+    font-size: 0.8rem;
+    top : 0.5%;
     right: 2%;
   }
 
@@ -310,10 +344,11 @@
     align-items: center;
     background-color: transparent;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #33b277;
     position: absolute;
-    top : 1.5%;
+    top : 0%;
     right: 1.5%;
   }
+
 </style>

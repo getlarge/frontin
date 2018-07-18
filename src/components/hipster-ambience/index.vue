@@ -8,7 +8,6 @@
 					<file-uploader :mimetype="item" > </file-uploader>
 	          	</div>
 	  	        <button class="create-button" @click="addItem"><font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" /> Create a new widget</button>
-
 	          	<!-- <div v-if="$refs.fileUploader.isSuccess">
 				</div> -->
 			</b-col>
@@ -23,16 +22,16 @@
 	           	</draggable>
 			</b-col>
 			<b-col class="colzy" sm="3" md="3" lg="3" >
-				<button class="help-button" @click="getBuffer"><font-awesome-icon :icon="['fas', 'info-circle']" size="lg" /> Logger</button>
 		        <div v-if="as3.length > 0" >
 		            <draggable  :list="as3" tag="div" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
 		                <audio-slider  v-for="(element, index) in as3" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true"  ></audio-slider>
 		           	</draggable>
-	           </div>
-	           <div v-else>
-	           	<p>Empty selection</p>
-	           </div>
+	            </div>
+	           	<div v-else>
+	           		<p></p>
+	            </div>
 	           	<button class="del-button" @click="delBuffer">Drag here to delete <font-awesome-icon :icon="['fas', 'trash']" size="3x" /> </button>
+	           	<button class="log-button" @click="getBuffer"><font-awesome-icon :icon="['fas', 'info-circle']" size="lg" /> Logger</button>
 			</b-col>
       	</b-row>
 		<!-- <div class="status">
@@ -129,7 +128,6 @@
 				audioSource : [],
 				iconFile : "",
 				counter: 0,
-				obj: {},
 	        	model: {
 	        		id: null,
 	        		name: "null",
@@ -303,10 +301,10 @@
 	}
 
 	#edit-container {
+		background-color: transparent;
 		height: 50%;
 		max-height: 180px;
-		color: white;
-		margin-top: 3%;
+		margin-top: 5%;
 		margin-bottom: 3%;
 	}
 
@@ -316,12 +314,12 @@
 		background-color: transparent;
 		border: none;
 		font-size: 16px;
-		padding-top: 5%;
+		padding-top: 10%;
 		padding-bottom: 10%;
 		color: white;
 		position: absolute;
 		left: 10%;
-		top : 70%;
+		top : 80%;
 	}
 
 	.create-button :hover {
@@ -339,11 +337,11 @@
 		border: none;
 		font-size: 16px;
 		padding-left: 10%;
-		padding-top: 5%;
+		padding-top: 0%;
 		padding-bottom: 10%;
 		color: white;
 		position: absolute;
-		top : 70%;
+		top : 2%;
 		right: 10%;
 	}
 
@@ -352,8 +350,23 @@
 		align-items: center;
 		background-color: transparent;
 		border: none;
+		padding-top: 0%;
+		padding-bottom: 10%;
+		top : 1%;
+		position: absolute;
+		color: white;
+		cursor: pointer; 
+	}
+
+	.log-button {
+		display: flex;
+		align-items: center;
+		background-color: transparent;
+		border: none;
 		padding-top: 5%;
 		padding-bottom: 10%;
+		position: absolute;
+		top : 85%;
 		color: white;
 		cursor: pointer; 
 	}

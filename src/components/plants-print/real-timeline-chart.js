@@ -14,7 +14,7 @@ export const realTimeLineChart = function () {
       height = Math.max(document.documentElement.clientHeight/1.5, window.innerHeight/1.5 || 0),
       duration = 2000,
       //color = schemePaired;
-      color = ["#0fc153", "#33b277"];
+      color = ["#b4d785", "#3d991c"];
 
   function chart(selection) {
     // Based on https://bl.ocks.org/mbostock/3884955
@@ -55,7 +55,6 @@ export const realTimeLineChart = function () {
         .y0(y(0))
         .y1(function(d) { return y(d.value); })
         .curve(curveCardinal);
-
 
       var svg = select(this).selectAll("svg").data([data]);
       var gEnter = svg.enter().append("svg").append("g");
@@ -131,7 +130,7 @@ export const realTimeLineChart = function () {
 
         var xMinLess = new Date(new Date(xMin).getTime() - duration);
         active(this)
-            .attr("transform", "translate(" + x(xMinLess) + ",0)")
+          .attr("transform", "translate(" + x(xMinLess) + ",0)")
           .transition()
             .on("start", tick);
       }

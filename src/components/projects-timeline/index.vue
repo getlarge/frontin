@@ -54,7 +54,7 @@
 					m : null,
 					height : null,
 					v : 1.5,
-					h : 45, // line height
+					h : 40, // line height
 					paletteLength : 10,
 				},
 				I: null,
@@ -175,7 +175,8 @@
 		        			.append("path").attr("d", N)
 				        	.on("click", (d, i) =>self.t(self.node[i], !0))
 				        	.on("mouseover", self.extend)
-				        	.on("mouseout", self.reduce).exit().remove(), []);
+				        	.on("mouseout", self.reduce)
+				        	.exit().remove(), []);
 			        var flags = self.timeline.selectAll(".flag").data(L).enter()
 					        .append("g").attr("class", "flag")
 					        .on("click", (d, i) =>self.t(self.node[i]))
@@ -189,16 +190,14 @@
 			        		.attr("stroke", (d, i) => self.node[i].color);
 
 			        var flagsLinks = flags.append("a")
-				        	.attr("xlink:href", (d, i) =>
-				             self.node[i].link)
+				        	.attr("xlink:href", (d, i) => self.node[i].link)
 				        	.attr("target", "_blank")
 				        	.attr("transform", self.i);
 
 			        flagsLinks.append("rect").attr("x", 0).attr("y", 0).attr("width", 100).attr("height", 16)
 			        		.attr("fill", "transparent");
-
 			        	// .attr("fill", function(t, n) {
-			         //    	return node[n].color
+			            //    	return node[n].color
 			        	// }),
 			        flagsLinks.append("text").attr("x", 2)
 					        .style("font-size", "10px")
@@ -330,7 +329,7 @@
 	    width: 100%;
 	    vertical-align: middle;
 	    overflow: hidden;
-	    margin-top: 8%;
+	    margin-top: 9%;
 	}
 
 	#timeline svg {

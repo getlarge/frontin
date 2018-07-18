@@ -140,13 +140,14 @@
     },
 
     created() {
-      EventBus.$on("mqtt-rx", (topic, payload) => {
-        return this.addNode(topic, payload.toString());
-      });
+
 
     },
 
     mounted() {
+      EventBus.$on("mqtt-rx", (topic, payload) => {
+        return this.addNode(topic, payload.toString());
+      });
       this.pageTopic = "getlarge/" + this.$route.path;
       //this.div = select(this.$refs['tree'].$el).append("div").attr("class", "tooltip").style("opacity", 0);
       this.div = select(this.$el).append("div").attr("class", "tooltip").style("opacity", 0);
@@ -200,7 +201,7 @@
       onClick (evt) {
         this.currentNode = evt.element;
         if ( evt.element.data.dirty ) {
-          this.openTooltip(evt.element.data);
+          this.openTooltip(evt.element);
           this.currentSensor = evt.element.data;
         }
         else {
@@ -233,7 +234,7 @@
         // console.log("tree", data.Graph.tree)
         // console.log("component", this.$refs['tree'])
         var parts = topic.split("/");
-        if (data.Graph.tree.children[0]===undefined){
+        if (data.Graph.tree.children[0] === undefined){
           newnode = {"text": parts.shift(), "children":[]};
           data.Graph.tree.children = [newnode];
           this.walk(parts,newnode,body);
@@ -244,9 +245,9 @@
 
       walk(parts, node, body) {
         var that = this;
-        if (parts.length != 0) {
+        if (parts.length !== 0) {
           var current = parts.shift();
-          if (node.children && node.children.length != 0) {
+          if (node.children && node.children.length !== 0) {
           //console.log("walking old");
             var z=0;
             for(z=0; z < node.children.length; z++) {
@@ -259,7 +260,7 @@
               }
             }
             //console.log("done loop - " + z + ", " + node.children.length);
-            if (z == node.children.length) {
+            if (z === node.children.length) {
               //console.log("adding new");
               //var newId = data.each(d => { d.id = this.identifier(d.data) })
               //console.log(newId);
@@ -271,17 +272,17 @@
             }
           } else if (node._children && node._children.length != 0) {
             //console.log("walking hidden");
-            var z=0;
-            for(z=0; z < node._children.length; z++) {
+            var z = 0;
+            for(z === 0; z < node._children.length; z++) {
               //console.log(node._children[z].name + " - " + current);
-              if (node._children[z].text == current) {
+              if (node._children[z].text === current) {
                 //console.log("found");
                 this.walk(parts,node._children[z], body);
                 break;
               }
             }
           //console.log("done hidden loop - " + z + ", " + node._children.length);
-            if (z == node._children.length) {
+            if (z === node._children.length) {
               //console.log("adding new hidden");
               var newnode = {"text": current, "_children":[]};
               node._children.push(newnode);
@@ -298,8 +299,8 @@
           //console.log("body", body);
           node.payload = body;
           node.dirty = true;
-          if ( node == this.currentSensor ) {
-            this.openTooltip(node);
+          if ( node === this.currentSensor ) {
+            //this.openTooltip(node);
           }
         }
       },
@@ -312,11 +313,13 @@
             .style("opacity", .8)
             .style("fill", "#33b277");
 
-        this.div.html("Payload :" + data.payload)
+        this.div.html("Payload :" + data.data.payload)
             .style("width", ( Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/1.7 + "px")
             .style("height", (Math.max(document.documentElement.clientHeight, window.innerHeight || 0))/13 + "px")
-            .style("left", ( Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/5 + "px")
-            .style("top", 50 + "px");
+            // .style("left", ( Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/5 + "px")
+            // .style("top", 50 + "px");
+            .style("left", data.y + "px")
+            .style("top", data.x+ (Math.max(document.documentElement.clientHeight, window.innerHeight || 0))/13 +"px");
       },
 
       closeTooltip() {

@@ -13,17 +13,14 @@
   import VueHowler from 'vue-howler'
   import { EventBus } from "@/main"
 
-  //import image from "@/../static/icons/rain.png"
-
   export default {
     props: ["icon", "id", "colors"], 
+
     mixins: [VueHowler],
 
     data() {
       return {
-        //image: image,
         isPlaying : false,
-        //id : 0,
         value: 0.5,
         options: {
           eventType: 'auto',
@@ -56,6 +53,7 @@
         }
       }
     },
+
     components: {
       vueSlider,
     },
@@ -65,7 +63,7 @@
     },
 
     mounted() {
-      if ( this.icon != null ) {
+      if ( this.icon !== null ) {
           this.initialize();
 
           this.$on('play', function (msg) {
@@ -78,7 +76,7 @@
           })
 
         EventBus.$on('file-uploader', function (event, msg) {
-          if ( event == "add") {
+          if ( event === "add") {
             return console.log(this)
             //this.$props.icon = "http://localhost:3000/images/3"
           }
@@ -131,6 +129,7 @@
 
     },
   }
+  
 </script>
 
 <style lang="scss">

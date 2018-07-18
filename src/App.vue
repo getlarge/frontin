@@ -12,7 +12,7 @@
   import mqttClient  from '@/services/mqtt-client'
   import topNav from '@/containers/menu-navigation'
   import bottomNav from '@/containers/footer-navigation'
-  import { EventBus } from '@/main';
+  import { EventBus } from '@/main'
 
 
   export default {
@@ -43,7 +43,7 @@
     // },
 
     created() {
-      console.log('%c Getlarge - 2018 ', 'background: #33b277; color: white; display: block; font-size: 18px;');
+      console.log('%c Getlarge - 2018 ', 'background: #33b277; color: white; display: block; border-radius: 5px; font-size: 16px;');
       this.client.openStream();
       this.client.sub(this.appName + "/#")
       //this.client.sendMessage( this.appName + "/logs", "Getlarge : frontin connected")
@@ -113,29 +113,7 @@
 /*  @import 'font-awesome/css/font-awesome.css'
 *//*  @import url("@/assets/css/main.css")
 */
-  h1 { 
-    font-family: 'Aloes-Bd'; 
-    font-size: 18px; 
-    text-transform: uppercase; 
-  }
 
-  h2, h3 { 
-    font-size: 18px; 
-    margin: 5px 0; 
-  }
-
-  h4 {
-    font: 400 120px/500px ;
-    text-align: center;
-    width: 960px;
-    height: 500px;
-    margin: 0;
-    position: absolute;
-  }
-  
-  h6 {
-    margin-top: 20px;
-  }
 
 
   #app {
