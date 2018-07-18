@@ -39,7 +39,7 @@
         		serverURL: config.httpServerURL,
 				width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
 				height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
-				colorPalette : scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#9adfb0", "#6ed659", "#417c52", "#56a46f" ]),
+				colorPalette : scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#80e56b", "#9adfb0", "#417c52", "#56a46f", "#5df48a"]),
 				dataPath : 'static/data/cv.json',
 				currentProject: undefined,
 				node: null,

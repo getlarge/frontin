@@ -1,5 +1,4 @@
 <template >
-	
   	<b-container ref="slider-master" id="audio-slider-holder" fluid class="bv-example-row">
       	<b-row >
 			<b-col class="colzy" sm="3" md="3" lg="3" >
@@ -43,7 +42,6 @@
             </small>
         </div> -->
     </b-container>
-
 </template>
 
 <script>
@@ -108,7 +106,7 @@
 				    },{
 		    			id: 8,
 		    			name: "la-win",
-			    		audioSource:[serverURL+"static/sounds/la-win.mp3"],
+			    		audioSource:[serverURL+"static/sounds/champion.mp3"],
 				        iconFile: serverURL+'static/icons/la-win-white.png',
 				    }
 		    	],

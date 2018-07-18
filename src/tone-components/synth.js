@@ -35,13 +35,13 @@ export default class ToneSynth {
 
 	synthAttack(notes) { //ex delay : '+0.05'
 		Tone.context.resume().then(() => {
-		this.synth.triggerAttack(notes, '+0.05')
+			this.synth.triggerAttack(notes, '+0.05')
 		})
 	}
 
 	synthModulo(eventX, eventY) {
 		//console.log(( eventX ) + ( eventY ))
-	//Tone.context.resume().then(() => {
+		//Tone.context.resume().then(() => {
 		this.synth.oscillator.frequency.value = ((eventX / 4) + (eventY / 4))
 	//});
 	}

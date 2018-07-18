@@ -1,12 +1,11 @@
 <template >
   	<b-container id="tree-holder" fluid>
+		<!--   		Updating Peter Cook version -->		
 		<b-row align-h="center">      	
 			<b-col id="tree" sm="10" md="10" lg="10" >
 		        <svg id="branches" pointer-events="all" viewBox="0 20 1100 450" preserveAspectRatio="xMinYMin meet"> 
 			        <g :id="line"></g>
 		    	</svg>
-	<!-- 				<svg id="roots" pointer-events="all" viewBox="0 0 900 200" preserveAspectRatio="xMinYMin meet">
-					</svg> -->
 			</b-col>
 		</b-row>
 		<b-row align-h="center">
@@ -40,7 +39,6 @@
 	import { EventBus } from '@/main'
 
 	export default {
-
 		data() {
 		    return {
 				branches: [],
@@ -49,39 +47,28 @@
 				dl: 0.81, // Length delta (factor)
 				ar : 0.6, // Randomness
 				maxDepth : 11,
-				roots: [],
-				seed2: {i: 0, x: 450, y: -20, a: 179, l:25, d:0}, // a = angle, l = length, d = depth
-				maxDepth2 : 9,
 				settings: {
 		            strokeColor: "#29B5FF",
 		            width: 100,
 		            svgWidth: 900,
 		            svgHeight: 600,
 	        	},
-		        simulation: null,
-		        line1: {},
-		        lineData: [
-					{date: new Date(2007, 3, 24), value: 93.24},
-					{date: new Date(2007, 3, 25), value: 95.35},
-					{date: new Date(2007, 3, 26), value: 98.84},
-					{date: new Date(2007, 3, 27), value: 99.92},
-					{date: new Date(2007, 3, 30), value: 99.80},
-					{date: new Date(2007, 4,  1), value: 99.47},
-				],
+		        simulation: null,		      
 			}
 	  	},
 
 		components: {
-		  FontAwesomeIcon,
+			FontAwesomeIcon,
 		},
-	  created() {
-	  },
 
-	  mounted() {
+		created() {
+		},
+
+		mounted() {
 		    this.initTree();
 		},
 
-	  updated() {
+		updated() {
 		    this.update();
 		},
 
@@ -107,16 +94,14 @@
 				selectAll('.regenerate')
 					.on('click', this.regenerate);
 				//this.lineScape();
-
 				this.regenerate(true);
-
 			},
+
 			lineScape(b) {
 			    line()
 				    .x(function(d) { return x(d.date); })
 				    .y(function(d) { return y(d.value); })
 				    .curve(curveCatmullRom.alpha(0.5));
-				  		
 			},			
 			// Tree creation functions
 			branch(b) {
@@ -137,7 +122,6 @@
 					parent: b.i
 				};
 				self.branch(newB);
-
 				// Right branch
 				daR = this.ar * Math.random() - this.ar * 0.5;
 				newB = {
@@ -151,38 +135,7 @@
 				};
 				self.branch(newB);
 			},
-			root(b) {
-				var self = this;
-				var end = this.rootEndPt(b), daR, newR;
-				this.roots.push(b);
-				if (b.d === this.maxDepth2)
-					return;
-				// Left roots
-				daR = this.ar * Math.random() - this.ar * 0.5;
-				newR = {
-					i: this.roots.length,
-					x: end.x,
-					y: end.y,
-					a: b.a - this.da - daR,
-					l: b.l * this.dl,
-					d: b.d + 1,
-					parent: b.i
-				};
-				self.root(newR);
-
-				// Right roots
-				daR = this.ar * Math.random() - this.ar * 0.5;
-				newR = {
-					i: this.roots.length,
-					x: end.x, 
-					y: end.y, 
-					a: b.a + this.da - daR, 
-					l: b.l * this.dl, 
-					d: b.d + 1,
-					parent: b.i
-				};
-				self.root(newR);
-			},
+			
 			// D3 functions
 			x1(d) {return d.x;},
 			y1(d) {return d.y;},
@@ -205,6 +158,7 @@
 					d = this.branches[d.parent];
 				}	
 			},
+
 			highlightRootParents(d) {
 				var colour = event.type === 'mouseover' ? '#17a2b8' : '#C6C6C6';
 				var depth = d.d;
@@ -213,6 +167,7 @@
 					d = this.roots[d.parent];
 				}	
 			},
+
 			create() {
 				//this.createRoots();
 				this.createBranches();
@@ -250,7 +205,6 @@
 					
 			},
 
-
 			updateBranches() {
 				return select('#branches')
 					.selectAll('line')
@@ -266,39 +220,6 @@
 						.attr('y1', this.y1)
 						.attr('x2', this.x2)
 						.attr('y2', this.y2);
-			},
-			createRoots() {
-				var that = this;
-				select('#roots')
-					.selectAll('line')
-					.data(this.roots)
-					.enter()
-					.append('line')
-					.attr('class', "roots")
-			    .style("stroke-width", this.rootStroke)
-					.attr('opacity', this.rootOpacity)
-					.style("stroke", "#dddddd")
-					.attr('x1', this.Rx1)
-					.attr('y1', this.Ry1)
-					.attr('x2', this.Rx2)
-					.attr('y2', this.Ry2)
-					.attr('id', function(d) {return 'root-'+d.i;})
-					.on('mouseover', this.highlightRootParents)
-					.on('mouseout', this.highlightRootParents);
-					
-			},
-			updateRoots() {
-				return select('#roots')
-					.selectAll('line')
-					.data(this.roots)
-				     .transition()
-				        //.duration(250)
-				        .style("stroke-width", this.rootStroke)
-						.attr('opacity', this.rootOpacity)
-						.attr('x1', this.Rx1)
-						.attr('y1', this.Ry1)
-						.attr('x2', this.Rx2)
-						.attr('y2', this.Ry2);
 			},
 
 			regenerate(initialise) {
@@ -316,12 +237,7 @@
 				var y = b.y - b.l * Math.cos( b.a );
 				return {x: x, y: y};
 			},
-			rootEndPt(b) {
-				// Return endpoint of branch
-				var x = b.x + b.l * Math.sin( b.a ) ;
-				var y = b.y - b.l * Math.cos( b.a );
-				return {x: x, y: y};
-			},
+			
 		}
 	}
 

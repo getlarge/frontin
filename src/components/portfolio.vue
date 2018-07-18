@@ -1,7 +1,6 @@
 <template>
     <div id="vis">
-
-     <b-container fluid >
+        <b-container fluid >
             <b-row align-h="center">
                 
               <b-col sm="9" md="9" lg="9" >
@@ -14,7 +13,6 @@
                 </b-col>  
             </b-row>
           </b-container>
-        
     </div>
 </template>
 

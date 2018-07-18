@@ -21,6 +21,7 @@
                 captures: []
             }
         },
+
         mounted() {
             this.video = this.$refs.video;
             if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -52,23 +53,29 @@
 
 </script>
 
-<style>
-    body: {
+<style scoped>
+
+/*    body: {
         background-color: #F0F0F0;
-    }
+    }*/
+
     #cam-viewer {
         text-align: center;
         color: #2c3e50;
         margin-top: 60px;
     }
+
     #video {
         background-color: #000000;
     }
+
     #canvas {
         display: none;
     }
+
     li {
         display: inline;
         padding: 5px;
     }
+
 </style>

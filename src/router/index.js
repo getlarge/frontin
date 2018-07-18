@@ -8,9 +8,9 @@ Vue.use(Router)
 export default new Router({
     routes: [
 	    {
-	      path: '/',
-	      name: 'Home',
-	      component: Index
+	      	path: '/',
+	      	name: 'Home',
+	      	component: Index
 	    }, ... menuRoutes
 	]
 })

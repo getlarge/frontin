@@ -12,7 +12,8 @@
 </template>
 
 <script>
-     export default {
+     
+    export default {
         name: 'stream-viewer',
         data() {
             return {
@@ -64,7 +65,7 @@
                 this.captures.push(canvas.toDataURL("image/png"));
                 // const dataURL = canvas.toDataURL('image/png');
                 // return dataURL;
-            }
+            },
 
         },
     }    
@@ -73,19 +74,24 @@
 
 
 <style>
+
     body: {
         background-color: #F0F0F0;
     }
+
     #stream-viewer {
         text-align: center;
         color: #2c3e50;
         margin-top: 60px;
     }
+
     #stream-container {
         display: none;
     }
+
     li {
         display: inline;
         padding: 5px;
     }
+
 </style>
