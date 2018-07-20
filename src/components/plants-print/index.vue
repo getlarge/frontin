@@ -185,9 +185,11 @@
 
   h1.title {
     font-family: "MarketDeco";
+        opacity: 0.8;
+
     font-size: 2.5rem;
     text-align: left;
-    color: #0fc153;
+    color: #449425;
     margin-left: 5%;
     margin-top: 2%;
     margin-bottom: 2%;

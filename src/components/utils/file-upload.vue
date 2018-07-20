@@ -219,7 +219,7 @@
 
     .dropbox {
         outline-offset: -10px;
-        height: 30%;
+        height: 40%;
         max-height: 130px;
         align-items: center;
         position: relative;

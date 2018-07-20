@@ -3,7 +3,7 @@
 		<!--   		Updating Peter Cook version -->		
 		<b-row align-h="center">      	
 			<b-col id="tree" sm="10" md="10" lg="10" >
-		        <svg id="branches" pointer-events="all" viewBox="0 20 1100 450" preserveAspectRatio="xMinYMin meet"> 
+		        <svg id="branches" pointer-events="all" viewBox="0 20 700 450" preserveAspectRatio="xMinYMin meet"> 
 			        <g :id="line"></g>
 		    	</svg>
 			</b-col>
@@ -14,7 +14,7 @@
 				<p>:  is a mode of branching by repeated bifurcation - thus a focus on branching rather than on division.
 	      		</p>
 	      		<hr class="my-4">
-	      		<p>Working on an algorithm to reproduce plant's branching mechanism, by observing patterns, such criterias can be defined. You need an X & Y proportion - lenght of the base vein - angle and length growing's ratio - maximum number of branching and ... a random factor. 
+	      		<p>Updating Peter Cook algorithm to reproduce plant's branching mechanism, by observing patterns, such criterias can be defined. You need an X & Y proportion - lenght of the base vein - angle and length growing's ratio - maximum number of branching and ... a random factor. 
 	      		</br>Todo :  using advanced image analytic tool ( machine learning involved ), it could be possible to extract parameters from species pictures and then synthesize plant's flow structure. 
 	      		</p>
 			</b-col>
@@ -42,7 +42,7 @@
 		data() {
 		    return {
 				branches: [],
-				seed: {i: 0, x: 550, y: 440, a: 0, l: 85, d:-1}, // a = angle, l = length, d = depth
+				seed: {i: 0, x: 350, y: 440, a: 0, l: 85, d:-1}, // a = angle, l = length, d = depth
 				da: 0.45, // Angle delta
 				dl: 0.81, // Length delta (factor)
 				ar : 0.6, // Randomness
@@ -274,10 +274,6 @@
 		font-size: 14px; 
     	text-align: left;
    	}
-
-	.roots {
-		margin-top: -10px;
-	}
 
 	/*.regenerate {
 		border: 0px;

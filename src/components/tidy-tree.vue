@@ -6,7 +6,6 @@
 
                 <div class="panel-body">
                     <div class="form-horizontal">
-
                         <div class="form-group">
                             <label for="type" class="control-label">Type</label>
                             <div >
@@ -105,9 +104,10 @@
     import { append, attr, event, select, selectAll, style } from "d3-selection"
     import { active, transition } from "d3-transition"
     import { tree } from 'vued3tree'
-    import data from '@/../static/data/mqtt'
+    import data from '@/../static/data/mqtt' /// todo: fetch the json from the http server or the broker storage ?
     import { EventBus } from '@/main'
 
+/// todo: assign marginY & x values based on window size
     Object.assign(data, {
         type: 'tree',
         layoutType: 'euclidean',
@@ -127,26 +127,27 @@
     export default {
         data () {
           //return initialState()
-          return data
+            return data
         },
+
         components: {
-          tree,
-          FontAwesomeIcon
+            tree,
+            FontAwesomeIcon
         },
 
         created() {
 
-
         },
 
         mounted() {
-          EventBus.$on("mqtt-rx", (topic, payload) => {
-            return this.addNode(topic, payload.toString());
-          });
-          this.pageTopic = "getlarge/" + this.$route.path;
-          //this.div = select(this.$refs['tree'].$el).append("div").attr("class", "tooltip").style("opacity", 0);
-          this.div = select(this.$el).append("div").attr("class", "tooltip").style("opacity", 0);
-          EventBus.$emit("mqtt-tx", (this.pageTopic, "started"));            
+            // make object.assign here ?
+            EventBus.$on("mqtt-rx", (topic, payload) => {
+                return this.addNode(topic, payload.toString());
+            });
+            this.pageTopic = "getlarge/" + this.$route.path;
+            //this.div = select(this.$refs['tree'].$el).append("div").attr("class", "tooltip").style("opacity", 0);
+            this.div = select(this.$el).append("div").attr("class", "tooltip").style("opacity", 0);
+            EventBus.$emit("mqtt-tx", (this.pageTopic, "started"));            
         },
 
         updated() {
@@ -155,14 +156,14 @@
         },
         
         beforeDestroy() {
-          EventBus.$emit("mqtt-tx", (this.pageTopic, "ended"));            
-          EventBus.$off("mqtt-rx");
+            EventBus.$emit("mqtt-tx", (this.pageTopic, "ended"));            
+            EventBus.$off("mqtt-rx");
         },
 
         watch: {
-          data (current, old) {
+            data (current, old) {
               console.log("watch updated tree", data.Graph.tree)
-          },
+            },
         },
 
         methods: {
@@ -358,10 +359,9 @@
         stroke: url(#gradient);
     }
 
-    #type {
-        max-width:100%;
+    .panel-body {
+        padding-left: 3%;
     }
-
 
     div.tooltip {
         position: absolute;

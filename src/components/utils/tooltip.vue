@@ -1,27 +1,40 @@
 <template>
     <div >  
         <mq-layout class="controls-mobile" mq="mobile">
-            <vue-draggable-resizable   id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.5"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
-                <div id="tooltip">
-                    <b-container  >
-                        <div class="title">{{title}}</div>
-                        <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
-                        <b-row >
-                            <b-col xs="5"  >
-                                <div class="description">{{description}}</div>
-                                <div class="tags">{{tags}}</div>
-                            </b-col>
-                            <b-col xs="7" >
-                                <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
-                            </b-col>  
-                        </b-row>
-                    </b-container>
-                </div>
-            </vue-draggable-resizable>
+            <!-- v-if="settings.dragBoxWidth > settings.dragBoxHeight  " -->
+            <div v-if="settings.dragBoxWidth > settings.dragBoxHeight*2" class="">
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.4"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+                    <div id="tooltip">
+                        <b-container  >
+                            <div class="title">{{title}}</div>
+                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
+                            <b-row >
+                                <b-col xs="5" >
+                                    <div v-if="settings.dragBoxWidth > settings.dragBoxHeight*2.2 ">
+                                        <div class="description">{{description}}</div>
+                                        <div class="tags">{{tags}}</div>
+                                    </div>
+                                    <div v-else>
+                                        <div  style="font-size: 0.2rem;" class="description">{{description}}</div>
+                                        <div class="tags">{{tags}}</div>
+                                    </div>
+                                </b-col>
+                                <b-col xs="7" >
+                                    <a v-if="settings.dragBoxWidth > settings.dragBoxHeight*3"  :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
+                                    <a v-else :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2.5" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
+                                </b-col>  
+                            </b-row>
+                        </b-container>
+                    </div>
+                </vue-draggable-resizable>
+            </div>
+            <div v-else class="">
+                please rotate your screen
+            </div>
         </mq-layout>
 
         <mq-layout class="controls-tablet" mq="tablet">
-            <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.1"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+            <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
                 <div id="tooltip">
                     <b-container >
                         <div class="title">{{title}}</div>
@@ -188,6 +201,7 @@
     #tooltip .description {
         color:#686868;
         text-align: justify;
+        
     } 
 
     #tooltip .pics {
@@ -298,7 +312,7 @@
         right: 2%;
     }
 
-    .drag-button:hover {
+    .drag-button:focus {
         display: flex;
         align-items: center;
         background-color: transparent;

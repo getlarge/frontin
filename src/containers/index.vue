@@ -1,21 +1,23 @@
 <template>
     <div id="hello">
-        <b-container fluid class="bv-example-row">
+        <b-container fluid >
             <b-row align-h="center">
-                <b-col xs="5" sm="5" md="5" lg="5" >
-                    <svg id="svg" pointer-events="all" viewBox="0 0 500 100" preserveAspectRatio="xMinYMin meet">
+                <b-col xs="6" sm="8" md="7" lg="6" xl="5" >
+                    <svg id="svg" pointer-events="all" viewBox="0 0 550 100" preserveAspectRatio="xMinYMin meet">
                     </svg>
                 </b-col>
             </b-row>
             <hr class="my-4">
             <b-row align-h="center">
-                <b-col xs="10" sm="10" md="10" lg="10" >
+                <b-col xs="10" sm="10" md="10" lg="8" xl="8">
                     <p class="desc">
                     Retrospective of previous and present crafts, from UI/UX design to frontend development, until embedded system prototyping. For more information visit the website or contact me.
                     </p>
                 </b-col>
+            </b-row>
+            <b-row align-h="center">
                 <b-col xs="3" sm="3" md="3" lg="3" >
-                    <b-btn class="doors" href="#/portfolio"  >
+                    <b-btn class="doors" href="#/projects-timeline"  >
                         <b-img class="signs" :src="serverURL+icon1" fluid />
                     </b-btn>
                 </b-col>
@@ -63,25 +65,24 @@
                 color2: "#ff830f", //"#48725e"
                 },
             ],
-            letters: null,
+            letters: "edouard maleix".split(""),
+            updateCounter: 0,
           }
         },
 
         mounted() {
             var self = this;
-            this.letters = "edouard maleix".split("");
             this.g = select("#svg").append("g");
-
             this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
             this.initialize();
             this.update(this.letters);
             this.transitionBG();
-
             this.interv = interval(function() {
-                self.update(shuffle(self.letters));
-            }, self.settings.duration);
+                /// Once the counter hit a multiple of 3, show "normal" title
+                self.updateCounter % 3 === 0 ? self.update("edouard maleix".split("")) : self.update(shuffle(self.letters))
+            }, self.settings.duration/2);
 
-            EventBus.$on('chat-started', ( message) => {
+            EventBus.$on('chat-started', message => {
                 console.log("message");
             });
         },
@@ -109,6 +110,8 @@
             update(data) {
                 //console.log("data", data);
                 var self = this;
+                self.updateCounter++;
+
                 var t = transition()
                     .duration(self.settings.duration/10);
 
@@ -137,7 +140,7 @@
                     .attr("x", function(d, i) { return i * 35; })
                     .style("fill-opacity", 1e-6)
                     .style("fill", "#FFF")
-                    .style("font-size", "28px")
+                    .style("font-size", "30px")
                     .text(function(d) { return d; })
                   .transition(t)
                     .attr("y", self.settings.height/2)
@@ -189,6 +192,9 @@
         overflow: hidden;
     }
 
+    #svg {
+        margin-left: 12%;
+    }
 
     .desc {
         margin-top: 3%;

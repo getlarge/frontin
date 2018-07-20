@@ -20,22 +20,16 @@
 
     import config from '@/config.json'
 	import { range } from "d3-array"
-	import { rgb, interpolateRgb } from "d3-color"
 	import { drag } from "d3-drag"
-	import { easeCubic, easeElastic, easeLinear } from "d3-ease"
 	import { json } from "d3-fetch"
 	import { forceSimulation, force, forceCenter, forceCollide, forceLink, forceManyBody, forceX, forceY } from "d3-force"
 	import { format } from "d3-format"
 	import { hierarchy, tree } from "d3-hierarchy"
-	import { interpolateString } from "d3-interpolate"
-	import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale"
+	import { scaleOrdinal } from "d3-scale"
 	import { append, attr, event, select, selectAll, style } from "d3-selection"
-	import { interval, now, timeout, timer } from "d3-timer"
 	import { active, transition } from "d3-transition"
-	import { zoom } from "d3-zoom"
     import { EventBus } from '@/main'
     import ToneSynth from '@/tone-components/synth'
-
 
 	export default {
 		data() {

@@ -29,7 +29,6 @@
 	           	<div v-else>
 	           		<p></p>
 	            </div>
-	           	<button class="del-button" @click="delBuffer">Drag here to delete <font-awesome-icon :icon="['fas', 'trash']" size="3x" /> </button>
 	           	<button class="log-button" @click="getBuffer"><font-awesome-icon :icon="['fas', 'info-circle']" size="lg" /> Logger</button>
 			</b-col>
       	</b-row>
@@ -300,8 +299,7 @@
 
 	#edit-container {
 		background-color: transparent;
-		height: 50%;
-		max-height: 180px;
+		height: 30%;
 		margin-top: 5%;
 		margin-bottom: 3%;
 	}
@@ -312,12 +310,10 @@
 		background-color: transparent;
 		border: none;
 		font-size: 16px;
-		padding-top: 10%;
-		padding-bottom: 10%;
+		padding-top: 15%;
+		padding-bottom: 15%;
 		color: white;
-		position: absolute;
-		left: 10%;
-		top : 80%;
+		position: relative;
 	}
 
 	.create-button :hover {

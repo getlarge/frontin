@@ -228,12 +228,12 @@
 			        self.update(); //
 
 			        for (var z = scalePow().exponent(self.settings.v).domain([startTime, endTime]).range([0, self.settings.width]),
-			         G = timeFormat("%Y"), H = parseInt(G(startTime), 10), 
-			         J = parseInt(G(endTime), 10), K = [], k = H; k < J; k++) 
-		        	{	
-			            K.push(new Date(k,1).getTime());
-			        	var S = axisBottom().scale(z).tickValues(K).tickFormat(G);
-			        	frame.append("g").attr("class", "axis").attr("transform", "translate(0," + self.settings.m + ")").call(S)
+		         		G = timeFormat("%Y"), 
+		         		H = parseInt(G(startTime), 10), 
+		         		J = parseInt(G(endTime), 10), K = [], k = H; k < J; k++) {	
+				            K.push(new Date(k,1).getTime());
+				        	var S = axisBottom().scale(z).tickValues(K).tickFormat(G);
+				        	frame.append("g").attr("class", "axis").attr("transform", "translate(0," + self.settings.m + ")").call(S)
 			        }
                 });
 			},
