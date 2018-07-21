@@ -29,7 +29,7 @@
                 </vue-draggable-resizable>
             </div>
             <div v-else class="">
-                please rotate your screen
+                <small> please rotate your screen </small>
             </div>
         </mq-layout>
 

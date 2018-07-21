@@ -26,7 +26,7 @@
 	import { format } from "d3-format"
 	import { hierarchy, tree } from "d3-hierarchy"
 	import { scaleOrdinal } from "d3-scale"
-	import { append, attr, event, select, selectAll, style } from "d3-selection"
+	import { event, select, selectAll } from "d3-selection"
 	import { active, transition } from "d3-transition"
     import { EventBus } from '@/main'
     import ToneSynth from '@/tone-components/synth'

@@ -45,20 +45,19 @@
 
 <script>
 
+  	import config from '@/config.json'
 	import { rgb } from "d3-color"
 	import { easeLinear } from "d3-ease"
 	import { interpolateHcl, interpolateHclLong } from "d3-interpolate"
 	import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale"
-	import { append, attr, event, select, selectAll, style } from "d3-selection"
+	import { event, select, selectAll } from "d3-selection"
 	import { active, transition } from "d3-transition"
 	import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 	import draggable from "vuedraggable"
 	import { mapState } from 'vuex'
 	import { EventBus } from '@/main'
-	import ToneSynth from '@/tone-components/synth'
 	import audioSlider from './audio-slider'
 	import fileUploader from '@/components/utils/file-upload'
-  	import config from '@/config.json'
 
     const serverURL = config.httpServerURL;
 
@@ -247,8 +246,7 @@
 				//this.$store.commit('as3', files)
 				if ( this.as3.length === 0 ) {
 					self.counter++;
-					//var obj = Object.create(self.model);
-					var obj = Object.assign({}, self.model) ;
+					var obj = Object.create(self.model);
 					obj.id = 8+self.counter;
 					obj.name = "customWidget"+self.counter;
 					obj.audioSource = self.audioSource;
@@ -257,13 +255,14 @@
 				}
 				
 				if ( this.as3.length > 0 && this.counter > 0 ) {
-					var obj = Object.create(self.model) ;
+					self.counter++;					
+					//var obj = Object.create(self.model);
+					var obj = Object.assign({}, self.model);
 					//var obj = Object.assign({}, self.model) ;
 					obj.id = 9+self.counter;
 					obj.name = "customWidget" + self.counter;
 					obj.audioSource = self.audioSource;
 					obj.iconFile = self.iconFile;
-					self.counter++;					
 					return self.as3.push(obj);
 				}	
 			},

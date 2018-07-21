@@ -39,7 +39,7 @@ export const routes = [
         component: loadView('tidy-tree')
     }, {
         name: 'Dichotomy',
-        title: 'Regular dichotomy',
+        title: 'Dichotomy',
         path: '/dichotomy',
         alias: '/dichotomy/*',
         component: loadView('dichotomy')

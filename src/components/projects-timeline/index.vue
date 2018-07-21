@@ -23,7 +23,7 @@
 	import { json } from "d3-fetch"
 	import { hierarchy, tree } from "d3-hierarchy"
 	import { scaleLinear, scalePow, scaleOrdinal, scaleTime } from "d3-scale"
-	import { event, select, selectAll, style } from "d3-selection"
+	import { event, select, selectAll } from "d3-selection"
 	import { area, stack, stackOrderNone, stackOffsetNone } from "d3-shape"
 	import { timeFormat } from "d3-time-format"
 	import { active, transition } from "d3-transition"

@@ -21,8 +21,8 @@
 
     import config from '@/config.json'
     import { min, max } from "d3-array"
-    import { append, attr, event, select, selectAll, style } from "d3-selection"
-    import { interval, now, timeout, timer } from "d3-timer"
+    import { event, select, selectAll } from "d3-selection"
+    import { interval } from "d3-timer"
     import { active, transition } from "d3-transition"
     import { EventBus } from '@/main'
     import { realTimeLineChart } from "./real-timeline-chart"
@@ -214,7 +214,5 @@
     padding-right: 2%;
     padding-left: 2%;
   }
-
-
 
 </style>

@@ -101,7 +101,7 @@
 <script>
 
     import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-    import { append, attr, event, select, selectAll, style } from "d3-selection"
+    import { event, select, selectAll } from "d3-selection"
     import { active, transition } from "d3-transition"
     import { tree } from 'vued3tree'
     import data from '@/../static/data/mqtt' /// todo: fetch the json from the http server or the broker storage ?
