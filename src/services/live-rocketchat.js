@@ -5,14 +5,18 @@ import { EventBus } from '@/main'
 export default class liveRocketChat {
     constructor() {
         this.ready = false;
-        //this.synth = new(ToneSynth);
-    }
-
-     eventListener() {
         EventBus.$on('start-chat', () => {
             this._initClient();
         });
+        //this.synth = new(ToneSynth);
+        this.chatId = "guest32";
+    }
 
+
+     eventListener() {
+        // EventBus.$on('start-chat', () => {
+        //     this._initClient();
+        // });
     }
 
     _initClient() {
@@ -26,7 +30,7 @@ export default class liveRocketChat {
 
             RocketChat(function() {
                 this.setDepartment('Accueil');
-                // this.setCustomField('name', 'Any value you want to store');
+                this.setCustomField('name', this.chatId);
                 // this.setCustomField('mail', 'A value set just once', false); // you can pass false as the third parameter to not overwrite an already set value
                 this.setTheme({
                     title: 'getlarge',
@@ -54,6 +58,7 @@ export default class liveRocketChat {
                 });
             });
             this.ready = true;
+            EventBus.$emit("chat-id", this.chatId);
             this.eventListener();
         } else {
           return;

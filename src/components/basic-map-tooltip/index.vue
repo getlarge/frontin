@@ -58,7 +58,7 @@ Data:
     var that = this;
     
 
-    this.$http.get(serverURL+STATES_DATA_PATH)
+    this.$http.get(this.serverURL+STATES_DATA_PATH)
       .then(function(res) {
         this.statesData = {};
         d3.dsvFormat(';')

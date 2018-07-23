@@ -43,6 +43,12 @@ export const routes = [
         path: '/dichotomy',
         alias: '/dichotomy/*',
         component: loadView('dichotomy')
+    }, {
+        name: 'Aloes protocol',
+        title: 'Aloes protocol',
+        path: '/aloes-sensors',
+        alias: '/aloes-sensors/*',
+        component: loadView('aloes-sensors')
     }
 ].map(r => {
     var res = r;

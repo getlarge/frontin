@@ -2,6 +2,15 @@
     <b-container id="plant-life" fluid >
         <b-row align-h="center">
             <b-col  xs="4" sm="4" md="4" lg="4" >
+                </div>
+            </b-col>
+            <b-col xs="8" sm="8" md="8" lg="8" >
+                <h1 class="title">Asplenium nidus</h1>
+                <p class="subtitle"> welcoming you with her long curvy bordered leaves, from the ground to the sky. </p>
+            </b-col>
+        </b-row>
+        <b-row align-h="center">
+            <b-col  xs="4" sm="4" md="4" lg="4" >
                 <b-img class="specimen" :src="serverURL+icon" fluid />
                 <div class="description" > Measuring conductivity signals from 2 specimens living in my  garden ( represented as X & Y ), compared in real time. 
                     </br> The aim of this experiment is to map plant's sensitivity and finally create an id card based on its vital print. 
@@ -9,8 +18,6 @@
                 </div>
             </b-col>
             <b-col xs="8" sm="8" md="8" lg="8" >
-                <h1 class="title">Asplenium nidus</h1>
-                <p class="subtitle"> welcoming you with her long curvy bordered leaves, from the ground to the sky. </p>
                 <div id="chart"></div>
             </b-col>
         </b-row>

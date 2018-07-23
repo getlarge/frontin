@@ -2,7 +2,6 @@
   	<b-container ref="slider-master" id="audio-slider-holder" fluid class="bv-example-row">
       	<b-row >
 			<b-col class="colzy" sm="3" md="3" lg="3" >
-				<button class="help-button" @click="help"><font-awesome-icon :icon="['fas', 'question-circle']" size=2x /></button>
 				<div id="edit-container" v-for="item in format">
 					<file-uploader :mimetype="item" > </file-uploader>
 	          	</div>
@@ -276,10 +275,6 @@
 
 			delBuffer() {
 				this.as3 = [];
-			},
-
-			help() {
-				alert("here is the help, but you better ask the bot :)");
 			},
 
 	    },

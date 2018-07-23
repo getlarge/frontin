@@ -20,11 +20,15 @@
                 <router-link class="dropdown-item" :to="'/' + name + ($route.params.locale ? $route.fullPath.substr($route.params.locale.length + 1) : $route.fullPath)">{{value}}</router-link>
               </b-dropdown-item>
             </b-nav-item-dropdown> --> 
+                    <b-nav-item  @click="help()" >
+                        <font-awesome-icon v-if="tutorial === true" class="help-on" :icon="['fas', 'question-circle']" size="lg"/>
+                        <font-awesome-icon v-else class="help-off" :icon="['fas', 'question-circle']" size="lg"/>
+                    </b-nav-item>
                     <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" /></b-nav-item>
                     <b-nav-item href="https://framagit.org/getlarge" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg"/></b-nav-item>
                     <b-nav-item @click="chat._initClient()" ><font-awesome-icon :icon="['fab', 'rocketchat']" size="lg"/></b-nav-item>
                     <b-nav-text class="nav-link" disabled>
-                        <font-awesome-icon v-if="connStatus == 'Connected'" class="connected" :icon="['fas', 'circle']" size="lg"/>
+                        <font-awesome-icon v-if="connStatus === 'Connected'" class="connected" :icon="['fas', 'circle']" size="lg"/>
                         <font-awesome-icon v-else class="disconnected" :icon="['fas', 'circle']" size="lg"/>
                     </b-nav-text>
                     </b-navbar-nav>
@@ -53,6 +57,7 @@
                 chat: new(liveRocketChat),
                 connStatus: "Disconnected",
                 pageTopic: "getlarge" + this.$route.path + "main",
+                tutorial : false,
             }
         },
         
@@ -96,6 +101,20 @@
                 if (event) {
                     alert(event.target.tagName)
                 }      
+            },
+
+            help : function() {
+                if ( this.tutorial === true ) {
+                    this.tutorial = false;
+                    EventBus.$emit('tutorial-deactivated');     
+                    alert("Now tutorials are off");
+                }
+                else if ( this.tutorial === false ) {
+                    this.tutorial = true;
+                    EventBus.$emit('tutorial-activated');     
+                    alert("Here is the help! Now tutorials are activated \n but you can still ask the bot for advices :)");
+                }
+
             },
 
             findIndex: function() {
@@ -157,6 +176,14 @@
         margin-top: 8%;
         margin-bottom: -5%;
         text-align: center;
+    }
+
+    .help-on path {
+        opacity: 0.9;
+    }
+
+    .help-off path{
+        opacity: 0.5;
     }
 
     .connected path {

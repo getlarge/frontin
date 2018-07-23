@@ -141,13 +141,22 @@
 
         mounted() {
             // make object.assign here ?
-            EventBus.$on("mqtt-rx", (topic, payload) => {
-                return this.addNode(topic, payload.toString());
+            this.pageTopic = "getlarge" + this.$route.path;
+            EventBus.$on("tutorial-activated", () => {
+                EventBus.$emit("mqtt-tx", "getlarge"+this.$route.path,"started");
+                return this.tutorial = true;                
             });
-            this.pageTopic = "getlarge/" + this.$route.path;
+            EventBus.$on("tutorial-deactivated", () => {
+                EventBus.$emit("mqtt-tx", "getlarge"+this.$route.path,"ended");
+                return this.tutorial = false;        
+            });      
             //this.div = select(this.$refs['tree'].$el).append("div").attr("class", "tooltip").style("opacity", 0);
             this.div = select(this.$el).append("div").attr("class", "tooltip").style("opacity", 0);
-            EventBus.$emit("mqtt-tx", (this.pageTopic, "started"));            
+
+            EventBus.$emit("mqtt-sub", "#");
+            EventBus.$on("mqtt-rx", (topic, payload) => {
+                return this.addNode(topic, payload.toString());
+            });            
         },
 
         updated() {
@@ -156,7 +165,9 @@
         },
         
         beforeDestroy() {
-            EventBus.$emit("mqtt-tx", (this.pageTopic, "ended"));            
+            // if ( this.tutorial === true ) {
+            //     EventBus.$emit("mqtt-tx", (this.pageTopic, "ended"));            
+            // }
             EventBus.$off("mqtt-rx");
         },
 
@@ -347,7 +358,7 @@
     }
 
     .treeclass .nodetree text {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     .graph-root {

@@ -40,7 +40,8 @@ export default class mqttClient {
             this.sub(topic)
         });
         EventBus.$on('mqtt-tx', (topic, message) => {
-          //this.sendAsyncMessage(topic, message)
+            //this.sendAsyncMessage(topic, message)
+            //console.log("sending :" ,topic, message)
             this.sendMessage(topic, message)
         });
     }
@@ -52,7 +53,6 @@ export default class mqttClient {
     openStream() {
         this.client.on("connect", () => {
             this.ready = true;
-            this.sub('#');
             this.setStatus("Connected");
         })
             
