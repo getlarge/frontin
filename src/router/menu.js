@@ -44,8 +44,8 @@ export const routes = [
         alias: '/dichotomy/*',
         component: loadView('dichotomy')
     }, {
-        name: 'Aloes protocol',
-        title: 'Aloes protocol',
+        name: 'IPSO protocol',
+        title: 'IPSO protocol',
         path: '/aloes-sensors',
         alias: '/aloes-sensors/*',
         component: loadView('aloes-sensors')
