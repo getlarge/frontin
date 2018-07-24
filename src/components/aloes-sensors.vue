@@ -5,6 +5,7 @@
 <script>
 
     import config from '@/config.json'
+    import { keys } from "d3-collection"
     import { json } from "d3-fetch"
     import { hierarchy, tree } from "d3-hierarchy"
     import { append, attr, event, select, selectAll, style } from "d3-selection"
@@ -12,16 +13,16 @@
     export default {
         data() {
             return {
-              serverURL: config.httpServerURL,
-              pageTopic: "getlarge" + this.$route.path,
-              width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-              height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
-              selectedColumns: [],
+                serverURL: config.httpServerURL,
+                pageTopic: "getlarge" + this.$route.path,
+                width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+                height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+                selectedColumns: [],
           }
         },
 
         mounted() {
-            this.tableLoader(this.serverURL+"static/data/tables.json");
+            this.tableLoader(this.serverURL+"static/data/tables.json", this.selectedColumns);
         },
 
         methods: {
@@ -29,99 +30,215 @@
                 this.selectedColumns = selection;
             },
 
-            tableLoader(dataPath) {
+            tableLoader(dataPath, colums) {
                 var self = this;
                 json(dataPath).then(function(obj) {
                     var root = hierarchy(obj);
                     var nodes = root.descendants();
-                    console.log("nodes", nodes)
+                    var titles = keys(nodes[0].data.tables[0]);
                     // self.graph = {
                     //     nodes : nodes,
                     // }
-                   //self.tabulate(nodes[0].data.tables, self.selectedColums); 
-                   self.tabulate(nodes[0].data.tables, ['name', 'description', 'ipsoId', 'ressources', 'colors', 'img']); 
+                   self.tabulate(nodes[0].data.tables, titles); 
+                   //self.tabulate(nodes[0].data.tables, ['name', 'description', 'ipsoId', 'ressources', 'colors', 'img']); 
                     //self.tabulate(nodes[0].data.tables, ['Resource', 'Description', 'Resource ID', 'Operations', 'Type']); 
               });
             },
 
-            tabulate(obj, columns) {
+            tabulate(obj, titles) {
                 var self = this;
+                var sortAscending = true;
+                console.log("titles",  titles)
+
                 var table = select('#aloes-table').append('table')
-                    var thead = table.append('thead')
-                    var tbody = table.append('tbody');
-                    // append the header row
-                    thead.append('tr')
-                      .selectAll('th')
-                      .data(columns).enter()
-                      .append('th')
-                        .text(function (column) { return column; });
-
-                    // create a row for each object in the data
-                    var rows = tbody.selectAll('tr')
-                      .data(obj)
-                      .enter()
-                      .append('tr');
-                    // create a cell in each row for each column
-                    var cells = rows.selectAll('td')
-                        .data(function (row) {
-                            return columns.map(function (column) {
-                                if ( column !== "img" &&  column !== "colors") {
-                                    return {column: column, value: row[column]};
-                                }
-                                if ( column === "img") {
-                                    return {column: column, link: row[column]};
-                                }
-                                if ( column === "colors") {
-                                    return {column: column, colors: row[column]};
-                                }
-                                else {
-                                    return {column: column, value: row[column]};
-                                }                               
-                            });
-                        })
-                        .enter()
-                        .append('td')
-                            .text((d) => d.value !== null ? d.value : "" )
-                        //function(d) { return d.value !== null ? d.value : "" }
-                        .append('p')
-                            .attr("class", "cells")
-                            .style("background", (d) => d.colors ? "linear-gradient(to right,"+d.colors[0]+","+d.colors[1]+")" : "transparent" )
-                            .style("opacity", (d) => d.colors ? "0.7" : "1" )
-                        .append("img")
-                            .attr("class", "icons")
-                            .attr("src", (d) => d.link ? self.serverURL+d.link[0] : "" )
-                        
-
-                    return table;
+                var headers = table.append('thead')
+                                .append('tr')
+                                .selectAll('th')
+                                //.data(columns).enter()
+                                .data(titles).enter()
+                                .append('th')
+                                .text((d) => d )
+                                .on('click', function (d) {
+                                    headers.attr('class', 'header');
+                                    if (sortAscending) {
+                                        rows.sort(function(a, b) { return b[d] < a[d]; });
+                                        sortAscending = false;
+                                        this.className = 'aes';
+                                    } else {
+                                        rows.sort(function(a, b) { return b[d] > a[d]; });
+                                        sortAscending = true;
+                                        this.className = 'des';
+                                    }
+                                });
+                var rows = table.append('tbody').selectAll('tr')
+                  .data(obj)
+                  .enter()
+                  .append('tr');
+                rows.selectAll('td')
+                    .data(function (row) {
+                        return titles.map(function (column) {
+                            //return {column: column, value: row[column]};
+                            if ( column !== "img" &&  column !== "colors") {
+                                return {column: column, value: row[column]};
+                            }
+                            if ( column === "img") {
+                                return {column: column, link: row[column]};
+                            }
+                            if ( column === "colors") {
+                                return {column: column, colors: row[column]};
+                            }
+                            else {
+                                return {column: column, value: row[column]};
+                            }                               
+                        });
+                    })
+                    .enter()
+                    .append('td')
+                        .attr('data-th',(d) => d.column)
+                        .text((d) => d.value !== null ? d.value : "" )
+                    .append('p')
+                        .attr("class", "cells")
+                        .style("background", (d) => d.colors ? "linear-gradient(to right,"+d.colors[0]+","+d.colors[1]+")" : "transparent" )
+                        .style("opacity", (d) => d.colors ? "0.7" : "1" )
+                    .append("img")
+                        .attr("class", "icons")
+                        .attr("src", (d) => d.link ? self.serverURL+d.link[0] : "" )
+                //return table;
             }
         }
     }
 </script>
 
 <style lang="scss" >
-
-    #aloes-table th {
-        padding: 5px 5px;
-        font-size: 18px;        
-        max-width: 350px;
+    * { 
+      margin: 0; 
+      padding: 0; 
     }
 
-    #aloes-table td {
+    #aloes-table {
+      margin: 50px;
+    }
+    #aloes-table p {
+     margin: 20px 0; 
+    }
+
+    /* 
+    Generic Styling, for Desktops/Laptops 
+    */
+    #aloes-table table { 
+        width: 100%; 
+        border-collapse: collapse; 
+    }
+    /* Zebra striping */
+    #aloes-table tr:nth-of-type(odd) { 
+        background: #eee; 
+    }
+    #aloes-table th { 
+        background: #333; 
+        color: white; 
+        font-weight: bold; 
+        cursor: s-resize;
+        background-repeat: no-repeat;
+        background-position: 3% center;
+    }
+
+    #aloes-table td, th { 
         padding: 5px 5px;
+        border: 1px solid #ccc; 
+        text-align: left; 
+        max-width: 350px;
         font-size: 16px;        
-        max-width: 350px;
 
     }
+    
+    th.des:after {
+      content: "\21E9";
+    }
+    
+    th.aes:after {
+      content: "\21E7";
+    }
+    /* 
+    Max width before this PARTICULAR table gets nasty
+    This query will take effect for any screen smaller than 760px
+    and also iPads specifically.
+    */
+    @media 
+    only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px)  {
+    
+        /* Force table to not be like tables anymore */
+        #aloes-table table, thead, tbody, th, td, tr { 
+            display: block; 
+        }
+        
+        /* Hide table headers (but not display: none;, for accessibility) */
+        #aloes-table thead tr { 
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        
+        #aloes-table tr { border: 1px solid #ccc; }
+        
+        #aloes-table td { 
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee; 
+            position: relative;
+            padding-left: 50%; 
+        }
+        
+        #aloes-table td:before { 
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 6px;
+            left: 6px;
+            width: 45%; 
+            padding-right: 10px; 
+            white-space: nowrap;
+        }
+        
+        /*
+        Label the data
+        */
+        #aloes-table td:before {
+          content: attr(data-th) ": ";
+          font-weight: bold;
+          width: 6.5em;
+          display: inline-block;
+        }
+    }
+    
+    /* Smartphones (portrait and landscape) ----------- */
+    @media only screen
+    and (min-device-width : 320px)
+    and (max-device-width : 480px) {
+        body { 
+            padding: 0; 
+            margin: 0; 
+            width: 320px; }
+        }
+    
+    /* iPads (portrait and landscape) ----------- */
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        body { 
+            width: 495px; 
+        }
+    }
+        
     #aloes-table .icons {
         max-width: 30px;
         max-height: 30px;
+
     }
 
     #aloes-table .cells {
-        padding: 5px 15px;
         margin: 0px !important;
         height: 30px;
         width: 30px;
         border-radius: 50%;
     }
+
 </style>
