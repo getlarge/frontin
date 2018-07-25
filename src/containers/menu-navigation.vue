@@ -67,8 +67,8 @@
 
         created() {
             EventBus.$on('got-status', status => {
-            //console.log(`mqtt status : ${status}`)
-            return this.connStatus = status
+                //console.log(`mqtt status : ${status}`)
+                return this.connStatus = status
             });
         },
 
@@ -107,12 +107,12 @@
                 if ( this.tutorial === true ) {
                     this.tutorial = false;
                     EventBus.$emit('tutorial-deactivated');     
-                    alert("Now tutorials are off");
+                    //alert("Now tutorials are off");
                 }
                 else if ( this.tutorial === false ) {
                     this.tutorial = true;
                     EventBus.$emit('tutorial-activated');     
-                    alert("Here is the help! Now tutorials are activated \n but you can still ask the bot for advices :)");
+                    //alert("Here is the help! Now tutorials are activated \n but you can still ask the bot for advices :)");
                 }
 
             },

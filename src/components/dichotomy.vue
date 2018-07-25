@@ -66,10 +66,17 @@
 
 		mounted() {
 		    this.initTree();
+		   	EventBus.$on("tutorial-activated", i => {
+                alert("Click the play icon to regenerate the tree");
+            });  
 		},
 
 		updated() {
 		    this.update();
+		},
+
+		beforeDestroy() {
+            EventBus.$off("tutorial-activated");
 		},
 
 		computed: {

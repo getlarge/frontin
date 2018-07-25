@@ -156,7 +156,11 @@
             EventBus.$emit("mqtt-sub", "#");
             EventBus.$on("mqtt-rx", (topic, payload) => {
                 return this.addNode(topic, payload.toString());
-            });            
+            });
+            EventBus.$on("tutorial-activated", i => {
+                alert("You can select each circles to navigate in the tree,\n click on the text next to light grey circles to display messages");
+            }); 
+                        
         },
 
         updated() {
@@ -169,6 +173,7 @@
             //     EventBus.$emit("mqtt-tx", (this.pageTopic, "ended"));            
             // }
             EventBus.$off("mqtt-rx");
+            EventBus.$off("tutorial-activated");
         },
 
         watch: {

@@ -167,6 +167,9 @@
 	  	mounted() {
 	  		this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
 		    this.initialize();
+		    EventBus.$on("tutorial-activated", i => {
+                alert("Click on each icons to play a sound and use the slider to update volume,\n you can create your own widget too, just add audio and image files");
+            });  
 		},
 
 	  	updated() {
@@ -174,7 +177,7 @@
 		},
 
 		beforeDestroy() {
-
+            EventBus.$off("tutorial-activated");
 		},
 
 		methods: {

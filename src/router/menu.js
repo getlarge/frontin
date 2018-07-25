@@ -12,38 +12,38 @@ export const routes = [
         folder: true,
         alias: '/projects-timeline/*',
         component: loadView('projects-timeline/index')
-    }, {
+    },{
         name: 'Portfolio',
         title: 'Portfolio',
         path: '/portfolio',
         component: loadView('portfolio')
-    }, {
+    },{
         name: 'Hipster ambience',
         title: 'Hipster ambience',
         path: '/hipster-ambience',
         folder: true,
         alias: '/hipster-ambience/*',
         component: loadView('hipster-ambience/index')
-    }, {
+    },{
         name: 'Plants Print',
         title: 'Plants Print',
         path: '/plants-print',
         folder: true,
         alias: '/plants-print/*',
         component: loadView('plants-print/index')
-    }, {
-        name: 'Network Topology',
-        title: 'Realtime Network Mapping',
-        path: '/tidy-tree',
-        alias: '/tidy-tree/*',
-        component: loadView('tidy-tree')
-    }, {
+    },{
         name: 'Dichotomy',
         title: 'Dichotomy',
         path: '/dichotomy',
         alias: '/dichotomy/*',
         component: loadView('dichotomy')
-    }, {
+    },{
+        name: 'Network Topology',
+        title: 'Realtime Network Mapping',
+        path: '/tidy-tree',
+        alias: '/tidy-tree/*',
+        component: loadView('tidy-tree')
+    },{
         name: 'IPSO protocol',
         title: 'IPSO protocol',
         path: '/aloes-sensors',

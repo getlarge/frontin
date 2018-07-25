@@ -81,8 +81,13 @@
             this.$on("projectDeselected", () => {
               this.currentProject = undefined;
             });		    
-
-		},
+            EventBus.$on("tutorial-activated", i => {
+                alert("You can select an event on hovering each stack,\n you can also click on flag links");
+            });	
+            EventBus.$on("tutorial-deactivated", i => {
+                //alert("Here is the help! Now tutorials are activated \n but you can still ask the bot for advices :)");
+            });			
+        },
 
 		updated() {
 			//console.log("this", this)
@@ -93,7 +98,7 @@
 		},
 
 		beforeDestroy() {
-
+            EventBus.$off("tutorial-activated");
 		},
 
 		watch: { 

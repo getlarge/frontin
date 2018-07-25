@@ -1,10 +1,21 @@
 <template>
-    <div id="aloes-table" >
-        <b-dropdown id="ddown-split" split text="Table selector" class="m-2">
-            <b-dropdown-item-button  @click="dataPath('static/data/sensors.json')">Sensors Type</b-dropdown-item-button>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item-button  @click="dataPath('static/data/ressources.json')">Ressources Type</b-dropdown-item-button>
-        </b-dropdown>
+    <div id="tables">
+        <b-container  fluid>
+            <b-row >        
+                <b-col xs="5" sm="4" md="3" lg="3" xl="2">
+                    <b-dropdown id="ddown-split" split text="Table selector" class="m-2">
+                        <b-dropdown-item-button  @click="dataPath('static/data/sensors.json')">Sensors Type</b-dropdown-item-button>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item-button  @click="dataPath('static/data/ressources.json')">Ressources Type</b-dropdown-item-button>
+                    </b-dropdown>
+                </b-col>
+                <b-col class="desc"  xs="7" sm="8" md="9" lg="9" >
+                    <p>Global views describing <a href="https://github.com/IPSO-Alliance/pub">IPSO Protocol</a></p>
+                </b-col>
+            </b-row>
+        </b-container>
+        <div id="aloes-table">
+        </div> 
     </div>
 </template>
 
@@ -21,7 +32,7 @@
         data() {
             return {
                 serverURL: config.httpServerURL,
-                path: "static/data/ressources.json",
+                path: "static/data/sensors.json",
                 pageTopic: "getlarge" + this.$route.path,
                 width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
                 height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
@@ -33,7 +44,7 @@
             var self = this;
             this.tableLoader(this.serverURL+this.path, this.selectedColumns);
             EventBus.$on('updated-table', path => {
-                selectAll('table').remove()
+                select('#ipso-table').remove();
                 self.tableLoader(self.serverURL+path, self.selectedColumns);
             });
         },
@@ -61,12 +72,7 @@
                     var root = hierarchy(obj);
                     var nodes = root.descendants();
                     var titles = keys(nodes[0].data.tables[0]);
-                    // self.graph = {
-                    //     nodes : nodes,
-                    // }
-                    console.log("updated", dataPath);
-
-                   self.tabulate(nodes[0].data.tables, titles); 
+                    self.tabulate(nodes[0].data.tables, titles); 
                    //self.tabulate(nodes[0].data.tables, ['name', 'description', 'ipsoId', 'ressources', 'colors', 'img']); 
               });
             },
@@ -74,9 +80,7 @@
             tabulate(obj, titles) {
                 var self = this;
                 var sortAscending = true;
-                //console.log("titles",  titles)
-
-                var table = select('#aloes-table').append('table')
+                var table = select('#aloes-table').append('table').attr("id", "ipso-table")
                 var headers = table.append('thead')
                                 .append('tr')
                                 .selectAll('th')
@@ -88,11 +92,11 @@
                                     headers.attr('class', 'header');
                                     if (sortAscending) {
                                         rows.sort((a, b) => b[d] < a[d] );
-                                        console.log(rows.sort((a, b) => b[d] < a[d] ))
+                                        console.log(rows.sort((a, b) => b[d].toString() < a[d].toString() ))
                                         sortAscending = false;
                                         this.className = 'aes';
                                     } else {
-                                        rows.sort((a, b) => b[d] > a[d] );
+                                        rows.sort((a, b) => b[d].toString() > a[d].toString() );
                                         sortAscending = true;
                                         this.className = 'des';
                                     }
@@ -124,6 +128,7 @@
                         .attr('data-th',(d) => d.column)
                         .text((d) => d.value !== null ? d.value : "" )
                     //function(d) { return d.value !== null ? d.value : "" }
+                    // TODO : remove this dirty move
                     .append('div')
                         .attr("class", "cells")
                         .style("background", (d) => d.colors ? "linear-gradient(to right,"+d.colors[0]+","+d.colors[1]+")" : "transparent" )
@@ -141,13 +146,58 @@
 
 <style lang="scss" >
 
+    #tables {
+        margin: 50px;
+    }
+    
+    #ddown-split {
+        padding-left: 5%;
+    }
+
+    .btn-secondary {
+        color: #FFF;
+        padding-left: 5%;
+    }
+
+    .btn-secondary:hover {
+        background-color: white ;
+        color: #33b277 ;
+        border-color: #f9b23e ;
+        padding-left: 5%;
+    }
+
+    .btn-secondary:focus {
+        background-color: white;
+        color: #33b277;
+        border-color: #f9b23e;
+        padding-left: 5%;
+    }
+
+    .dropdown-item:active {
+        background-color: transparent ;
+        color: #686868 ;
+        border: 1px ;
+        border-color: #f9b23e ;
+    }
+
+    .dropdown-item:hover {
+        background-color: transparent ;
+        color: #33b277;
+        border: 1px ;
+        border-color: #f9b23e ;
+    }
+
+    .desc {
+        padding-top: 1%;
+        padding-left: 5%;
+    }
 
     #aloes-table {
-      margin: 50px;
+        margin: 50px;
     }
 
     #aloes-table p {
-     margin: 20px 0; 
+        margin: 20px 0; 
     }
 
     /* 
@@ -177,7 +227,6 @@
         text-align: left; 
         max-width: 350px;
         font-size: 16px;        
-
     }
     
     #aloes-table th.des:after {
