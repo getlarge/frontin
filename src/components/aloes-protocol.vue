@@ -136,7 +136,7 @@
                     .append("img")
                         .attr("class", "icons")
                         .attr("src", (d) => d.link ? self.serverURL+d.link[0] : "" )
-                    
+
 
                 return table;
             }

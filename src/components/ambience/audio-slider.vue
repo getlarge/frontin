@@ -8,7 +8,8 @@
 </template>
 
 <script>
-
+    import { rgb } from "d3-color"
+    import { interpolateHclLong } from "d3-interpolate"
     import { select, selectAll } from "d3-selection"
     import vueSlider from "vue-slider-component"
     import VueHowler from 'vue-howler'
@@ -26,8 +27,8 @@
                 options: {
                     eventType: 'auto',
                     width: 'auto',
-                    height: 12,
-                    dotSize: 20,
+                    height: 10,
+                    dotSize: 25,
                     dotHeight: null,
                     dotWidth: null,
                     min: 0,
@@ -45,13 +46,21 @@
                     lazy: true,
                     formatter: null,
                     bgStyle: {
-                        "backgroundColor": "#fff",
+                        "backgroundColor": "#e8e8e8",
+                        "opacity": "0.7"
                     },
                     sliderStyle: null,
                     processStyle: {
-                        "backgroundColor": "#FFF"
+                        "backgroundColor": "#aaf7d3",
+                        "opacity": "0.7"
                     },
-                }
+                },
+                colorSet: [
+                    {
+                      color1: "#01c669",
+                      color2: "#ff830f", //"#48725e"
+                    },
+                ],
             }
         },
 
@@ -64,6 +73,9 @@
         },
 
         mounted() {
+            //console.log(this.$refs.slider1)
+            this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
+            var self = this;
             if ( this.icon !== null ) {
                 this.initialize();
                 this.$on('play', function (msg) {
@@ -81,6 +93,13 @@
                     //this.$props.icon = "http://localhost:3000/images/3"
                     }
                 })
+                EventBus.$on('audio-slider-color', function (value) {
+                    if ( self.$refs.slider1 !== null ) {
+                        return self.$refs.slider1.processStyle.backgroundColor = self.color(value);
+                    }
+                    //console.log("value", value);
+                })
+
                 return;
             }
             else {
@@ -115,13 +134,13 @@
                 this.setVolume(this.value);
                 select(this.$el)
                   .attr("ref", "audio-slider-"+this.$props.id)
-                  .style("opacity", "0.4" )
+                  .style("opacity", "0.6" )
                 //console.log(this)
             },
 
             toggleBG() {
                 select(this.$el)
-                  .style("opacity", this.isPlaying ? "0.8" : "0.4");
+                  .style("opacity", this.isPlaying ? "1" : "0.6");
             },
         },
     }

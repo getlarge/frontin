@@ -18,12 +18,12 @@ export const routes = [
         path: '/portfolio',
         component: loadView('portfolio')
     },{
-        name: 'Hipster ambience',
-        title: 'Hipster ambience',
-        path: '/hipster-ambience',
+        name: 'Ambience',
+        title: 'Ambience',
+        path: '/ambience',
         folder: true,
-        alias: '/hipster-ambience/*',
-        component: loadView('hipster-ambience/index')
+        alias: '/ambience/*',
+        component: loadView('ambience/index')
     },{
         name: 'Plants Print',
         title: 'Plants Print',
@@ -46,9 +46,9 @@ export const routes = [
     },{
         name: 'IPSO protocol',
         title: 'IPSO protocol',
-        path: '/aloes-sensors',
-        alias: '/aloes-sensors/*',
-        component: loadView('aloes-sensors')
+        path: '/aloes-protocol',
+        alias: '/aloes-protocol/*',
+        component: loadView('aloes-protocol')
     }
 ].map(r => {
     var res = r;

@@ -1,13 +1,21 @@
 <template >
   	<b-container ref="slider-master" id="audio-slider-holder" fluid class="bv-example-row">
       	<b-row >
-			<b-col class="colzy" sm="3" md="3" lg="3" >
+			<b-col class="colzy" id="control-col" sm="3" md="3" lg="3" >
 				<div id="edit-container" v-for="item in format">
 					<file-uploader :mimetype="item" > </file-uploader>
 	          	</div>
 	  	        <button class="create-button" @click="addItem"><font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" /> Create a new widget</button>
 	          	<!-- <div v-if="$refs.fileUploader.isSuccess">
 				</div> -->
+				<div v-if="as0.length > 0" >
+		            <draggable  :list="as0" tag="div" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
+		                <audio-slider  v-for="(element, index) in as0" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true"  ></audio-slider>
+		           	</draggable>
+	            </div>
+	           	<div v-else>
+	           		<p></p>
+	            </div>
 			</b-col>
 			<b-col class="colzy" sm="3" md="3" lg="3" >
 				 <draggable tag="div" :list="as1" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
@@ -63,51 +71,58 @@
 	export default {
 		data() {
 		    return {
+		    	as0: [],
 		    	as1: [{
 		    			id: 1,
-		    			name: "rain",
-			    		audioSource:[serverURL+"/static/sounds/rain.mp3"],
-				        iconFile: serverURL+'static/icons/rain-white.png',
-				    },{
-		    			id: 2,
-		    			name: "wind",
+		    			name: "vent",
 			    		audioSource:[serverURL+"static/sounds/wind.mp3"],
-				        iconFile: serverURL+'static/icons/wind-white.png',
+				        iconFile: serverURL+'static/icons/blaetter.png',
 			    	},{
-		    			id: 3,
-		    			name: "forrest",
-			    		audioSource:[serverURL+"static/sounds/forrest.mp3"],
-				        iconFile: serverURL+'static/icons/forrest-white.png',
-			    	},{
-		    			id: 4,
-		    			name: "fire",
+		    			id: 2,
+		    			name: "feu",
 			    		audioSource:[serverURL+"static/sounds/fire.mp3"],
-				        iconFile: serverURL+'static/icons/fire-white.png',
-				    }
+				        iconFile: serverURL+'static/icons/feuer.png',
+				    },{
+		    			id: 3,
+		    			name: "eau",
+			    		audioSource:[serverURL+"static/sounds/water-stream.mp3"],
+				        iconFile: serverURL+'static/icons/meer.png',
+			    	}
 		    	],
 		    	as2: [{
+		    			id: 4,
+		    			name: "pluie",
+			    		audioSource:[serverURL+"/static/sounds/rain.mp3"],
+				        iconFile: serverURL+'static/icons/wolke.png',
+				    },{
 		    			id: 5,
-		    			name: "water",
-			    		audioSource:[serverURL+"static/sounds/water-stream.mp3"],
-				        iconFile: serverURL+'static/icons/water-white.png',
+		    			name: "foret",
+			    		audioSource:[serverURL+"static/sounds/forrest.mp3"],
+				        iconFile: serverURL+'static/icons/wald.png',
 			    	},{
 		    			id: 6,
-		    			name: "storm",
+		    			name: "tempete",
 			    		audioSource:[serverURL+"static/sounds/storm.mp3"],
-				        iconFile: serverURL+'static/icons/storm-white.png',
-			    	},{
+				        iconFile: serverURL+'static/icons/sturm.png',
+			    	},
+		    	],
+		    	as3: [{
 		    			id: 7,
 		    			name: "café",
 			    		audioSource:[serverURL+"static/sounds/cafe.mp3"],
-				        iconFile: serverURL+'static/icons/cafe-white.png',
+				        iconFile: serverURL+'static/icons/koffee.png',
 				    },{
 		    			id: 8,
-		    			name: "la-win",
+		    			name: "livre",
+			    		audioSource:[serverURL+"static/sounds/book.mp3"],
+				        iconFile: serverURL+'static/icons/buch.png',
+				    },{
+		    			id: 9,
+		    			name: "trophée",
 			    		audioSource:[serverURL+"static/sounds/champion.mp3"],
-				        iconFile: serverURL+'static/icons/la-win-white.png',
+				        iconFile: serverURL+'static/icons/trophae.png',
 				    }
-		    	],
-		    	as3: [],
+				],
 		        colorSet: [
 			        {
 			          color1: "#01c669",
@@ -129,6 +144,7 @@
 		        	audioSource: ["null"],
 		        	iconFile: "null",
 	        	},
+	        	sliderValue: 0.5,
 	  		}
 	  	},
 
@@ -144,7 +160,15 @@
 		      //console.log("newvalue", id, value)
 		      /// changer les couleurs de références, 
 		      //this.store.push()
-		      return this.toggleBG(id, value);
+		      	if ( value > 0.5 ) {
+		      		this.sliderValue = this.sliderValue + value;
+		      	}
+		      	if ( value <= 0.5 ) {
+		      		this.sliderValue = this.sliderValue - value;
+		      	}		    
+		       	EventBus.$emit("audio-slider-color", this.sliderValue);
+  
+		      	return this.toggleBG(id, this.sliderValue);
 	    	});
 	    	EventBus.$on("file-uploader", (format, uploadedFile) => {
 	    		if ( format === "audio") {
@@ -152,7 +176,6 @@
 	    			console.log("newvalue",this.audioSource);
 	    			this.audioSource.pop();
 	    			var url = uploadedFile[0].url;
-
 	    			console.log("newvalue1",this.audioSource);
 	    			console.log("newvalue2",url);
 					return this.audioSource.push(url);
@@ -166,7 +189,7 @@
 
 	  	mounted() {
 	  		this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
-		    this.initialize();
+		    //this.initialize();
 		    EventBus.$on("tutorial-activated", i => {
                 alert("Click on each icons to play a sound and use the slider to update volume,\n you can create your own widget too, just add audio and image files");
             });  
@@ -182,15 +205,16 @@
 
 		methods: {
 			initialize() {
-				select(this.$el)
+				select("#control-col")
 					.style("background-color", this.color("0.1"))
-					.style("opacity", "0.4" )
+					.style("opacity", "0.3" )
 				this.transitionBG();
 			},
 
 			transitionBG() {
 				var self = this;
-				select(this.$el)
+				//select(this.$el)
+				select("#control-col")
 				.transition()
 					.style("background-color", this.color("0.1"))       
 					.duration(this.duration)
@@ -214,7 +238,8 @@
 			toggleBG(id, value) {
 				//this.globalValues = globalValues+ ou - values;
 				// attribuer une palette de couleurs par composants
-				select(this.$el)
+				select("#control-col")
+					.style("opacity", "0.4" )
 					.style("background-color", this.color(value))
 			},
 
@@ -246,17 +271,17 @@
 			addItem(){
 				var self = this;
 				//this.$store.commit('as3', files)
-				if ( this.as3.length === 0 ) {
+				if ( this.as0.length === 0 ) {
 					self.counter++;
 					var obj = Object.create(self.model);
-					obj.id = 8+self.counter;
+					obj.id = 9+self.counter;
 					obj.name = "customWidget"+self.counter;
 					obj.audioSource = self.audioSource;
 					obj.iconFile = self.iconFile;
-					return self.as3.push(obj);
+					return self.as0.push(obj);
 				}
 				
-				if ( this.as3.length > 0 && this.counter > 0 ) {
+				if ( this.as0.length > 0 && this.counter > 0 ) {
 					self.counter++;					
 					//var obj = Object.create(self.model);
 					var obj = Object.assign({}, self.model);
@@ -265,11 +290,12 @@
 					obj.name = "customWidget" + self.counter;
 					obj.audioSource = self.audioSource;
 					obj.iconFile = self.iconFile;
-					return self.as3.push(obj);
+					return self.as0.push(obj);
 				}	
 			},
 
 			getBuffer() {
+				console.log("as0", this.as0);
 				console.log("as1", this.as1);
 				console.log("as2", this.as2);
 				console.log("as3", this.as3);
@@ -277,7 +303,7 @@
 			},
 
 			delBuffer() {
-				this.as3 = [];
+				this.as0 = [];
 			},
 
 	    },
@@ -291,14 +317,14 @@
 		text-align: center;
 		font-size: 16px;
 		padding: 3%;
-		color: white;
+		color: grey;
 	}
 
 	#edit-container {
 		background-color: transparent;
 		height: 30%;
-		margin-top: 5%;
-		margin-bottom: 3%;
+		margin-top: 2%;
+		margin-bottom: 2%;
 	}
 
 	.create-button {
@@ -307,8 +333,8 @@
 		background-color: transparent;
 		border: none;
 		font-size: 16px;
-		padding-top: 15%;
-		padding-bottom: 15%;
+		padding-top: 1%;
+		padding-bottom: 2%;
 		color: white;
 		position: relative;
 	}
@@ -316,6 +342,7 @@
 	.create-button :hover {
 		display: flex;
 		align-items: center;
+		color: #e8e8e8;
 		background-color: transparent;
 		border: none;
 		cursor: pointer; 
@@ -367,6 +394,13 @@
 		padding-top: 5%;
 	}
 
+	#control-col {
+		background-color: #aaf7d3;
+		color: white;
+		opacity: 0.6;
+		width: 80%;
+		border-radius: 50px;
+	}
 
 	h1 {
     	font-family: 'Aloes-Bd';
