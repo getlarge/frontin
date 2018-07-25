@@ -1,5 +1,11 @@
 <template>
-    <div id="aloes-table" ></div>
+    <div id="aloes-table" >
+        <b-dropdown id="ddown-split" split text="Table selector" class="m-2">
+            <b-dropdown-item-button  @click="dataPath('static/data/sensors.json')">Sensors Type</b-dropdown-item-button>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item-button  @click="dataPath('static/data/ressources.json')">Ressources Type</b-dropdown-item-button>
+        </b-dropdown>
+    </div>
 </template>
 
 <script>
@@ -8,26 +14,45 @@
     import { keys } from "d3-collection"
     import { json } from "d3-fetch"
     import { hierarchy, tree } from "d3-hierarchy"
-    import { append, attr, event, select, selectAll, style } from "d3-selection"
+    import { event, select, selectAll } from "d3-selection"
+    import { EventBus } from '@/main'
 
     export default {
         data() {
             return {
                 serverURL: config.httpServerURL,
+                path: "static/data/ressources.json",
                 pageTopic: "getlarge" + this.$route.path,
                 width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
                 height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
                 selectedColumns: [],
-          }
+            }
         },
 
         mounted() {
-            this.tableLoader(this.serverURL+"static/data/tables.json", this.selectedColumns);
+            var self = this;
+            this.tableLoader(this.serverURL+this.path, this.selectedColumns);
+            EventBus.$on('updated-table', path => {
+                selectAll('table').remove()
+                self.tableLoader(self.serverURL+path, self.selectedColumns);
+            });
+        },
+
+        updated() {
+            //console.log("updated")
+        },
+
+        watch: {
+
         },
 
         methods: {
             columnSelector(selection) {
                 this.selectedColumns = selection;
+            },
+
+            dataPath(path) {
+                EventBus.$emit("updated-table", path);
             },
 
             tableLoader(dataPath, colums) {
@@ -39,16 +64,17 @@
                     // self.graph = {
                     //     nodes : nodes,
                     // }
+                    console.log("updated", dataPath);
+
                    self.tabulate(nodes[0].data.tables, titles); 
                    //self.tabulate(nodes[0].data.tables, ['name', 'description', 'ipsoId', 'ressources', 'colors', 'img']); 
-                    //self.tabulate(nodes[0].data.tables, ['Resource', 'Description', 'Resource ID', 'Operations', 'Type']); 
               });
             },
 
             tabulate(obj, titles) {
                 var self = this;
                 var sortAscending = true;
-                console.log("titles",  titles)
+                //console.log("titles",  titles)
 
                 var table = select('#aloes-table').append('table')
                 var headers = table.append('thead')
@@ -61,11 +87,12 @@
                                 .on('click', function (d) {
                                     headers.attr('class', 'header');
                                     if (sortAscending) {
-                                        rows.sort(function(a, b) { return b[d] < a[d]; });
+                                        rows.sort((a, b) => b[d] < a[d] );
+                                        console.log(rows.sort((a, b) => b[d] < a[d] ))
                                         sortAscending = false;
                                         this.className = 'aes';
                                     } else {
-                                        rows.sort(function(a, b) { return b[d] > a[d]; });
+                                        rows.sort((a, b) => b[d] > a[d] );
                                         sortAscending = true;
                                         this.className = 'des';
                                     }
@@ -96,28 +123,29 @@
                     .append('td')
                         .attr('data-th',(d) => d.column)
                         .text((d) => d.value !== null ? d.value : "" )
-                    .append('p')
+                    //function(d) { return d.value !== null ? d.value : "" }
+                    .append('div')
                         .attr("class", "cells")
                         .style("background", (d) => d.colors ? "linear-gradient(to right,"+d.colors[0]+","+d.colors[1]+")" : "transparent" )
                         .style("opacity", (d) => d.colors ? "0.7" : "1" )
                     .append("img")
                         .attr("class", "icons")
                         .attr("src", (d) => d.link ? self.serverURL+d.link[0] : "" )
-                //return table;
+                    
+
+                return table;
             }
         }
     }
 </script>
 
 <style lang="scss" >
-    * { 
-      margin: 0; 
-      padding: 0; 
-    }
+
 
     #aloes-table {
       margin: 50px;
     }
+
     #aloes-table p {
      margin: 20px 0; 
     }
@@ -133,6 +161,7 @@
     #aloes-table tr:nth-of-type(odd) { 
         background: #eee; 
     }
+
     #aloes-table th { 
         background: #333; 
         color: white; 
@@ -151,11 +180,11 @@
 
     }
     
-    th.des:after {
+    #aloes-table th.des:after {
       content: "\21E9";
     }
     
-    th.aes:after {
+    #aloes-table th.aes:after {
       content: "\21E7";
     }
     /* 
@@ -215,7 +244,7 @@
     @media only screen
     and (min-device-width : 320px)
     and (max-device-width : 480px) {
-        body { 
+        #aloes-table { 
             padding: 0; 
             margin: 0; 
             width: 320px; }
@@ -223,7 +252,7 @@
     
     /* iPads (portrait and landscape) ----------- */
     @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-        body { 
+        #aloes-table { 
             width: 495px; 
         }
     }
