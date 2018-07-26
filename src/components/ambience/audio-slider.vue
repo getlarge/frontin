@@ -93,8 +93,8 @@
                     //this.$props.icon = "http://localhost:3000/images/3"
                     }
                 })
-                EventBus.$on('audio-slider-color', function (value) {
-                    if ( self.$refs.slider1 !== null ) {
+                EventBus.$on('update:audio-slider', function (value) {
+                    if ( self.$refs.slider1.processStyle !== null ) {
                         return self.$refs.slider1.processStyle.backgroundColor = self.color(value);
                     }
                     //console.log("value", value);
@@ -113,7 +113,7 @@
         updated() {
             //console.log("props", this.$props);
             this.setVolume(this.value);
-            EventBus.$emit("audio-slider-value",this.$props.key, this.value);
+            EventBus.$emit("start:audio-slider",this.$props.key, this.value);
         },
 
 

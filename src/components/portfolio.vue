@@ -76,8 +76,14 @@
             this.$on("nodeDeselected", () => {
               console.log("nodeDeselected");
               this.currentNode = undefined;
-            });         
+            });  
 
+            EventBus.$on("start:tutorial", i => {
+                var text = "Click the play icon to regenerate the tree";
+                var tags = "tototo";
+                var img = "static/img/dashboard.gif";
+                EventBus.$emit("update:tutorial", this.$route.name, text, tags, img );     
+            });  
         },
 
         updated() {
@@ -86,10 +92,11 @@
             //console.log(that.graph.nodes)
         },
 
-        beforeDestroy() {
+        beforeDestroy() { 
+            EventBus.$off("start:tutorial");               
+            EventBus.$emit("stop:tutorial");     
             // this.nodes = null;
             // this.links = null;
-
             // this.currentNode = null;
             // this.graph = null;
             //delete this.graph;

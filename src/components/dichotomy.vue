@@ -66,9 +66,12 @@
 
 		mounted() {
 		    this.initTree();
-		   	EventBus.$on("tutorial-activated", i => {
-                alert("Click the play icon to regenerate the tree");
-            });  
+            EventBus.$on("start:tutorial", i => {
+                var text = "Click the play icon to regenerate the tree";
+                var tags = "tototo";
+                var img = "static/icons/wald.png";
+                EventBus.$emit("update:tutorial", this.$route.name, text, tags, img );     
+            });   
 		},
 
 		updated() {
@@ -76,7 +79,8 @@
 		},
 
 		beforeDestroy() {
-            EventBus.$off("tutorial-activated");
+			EventBus.$emit("stop:tutorial");     
+            EventBus.$off("start:tutorial");
 		},
 
 		computed: {

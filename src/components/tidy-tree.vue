@@ -91,7 +91,8 @@
 
             <b-col xs ="12" sm="8" md="9" lg="10" xl="10" class="panel panel-default">
                 <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/> 
-                <p>Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol.
+                <p>Real time logical mapping of a network composed of web portal, devices, sensors; using <a href="https://github.com/mqtt/mqtt.github.io/wiki/topic_format" >MQTT</a> protocol.
+                </br>TODO : unify transport protocol using <a href="#/aloes-protocol"  > IPSO</a> references.
                 </p>
             </b-col>
         </b-row>
@@ -142,25 +143,26 @@
         mounted() {
             // make object.assign here ?
             this.pageTopic = "getlarge" + this.$route.path;
-            EventBus.$on("tutorial-activated", () => {
-                EventBus.$emit("mqtt-tx", "getlarge"+this.$route.path,"started");
-                return this.tutorial = true;                
-            });
-            EventBus.$on("tutorial-deactivated", () => {
-                EventBus.$emit("mqtt-tx", "getlarge"+this.$route.path,"ended");
-                return this.tutorial = false;        
-            });      
+     
             //this.div = select(this.$refs['tree'].$el).append("div").attr("class", "tooltip").style("opacity", 0);
             this.div = select(this.$el).append("div").attr("class", "tooltip").style("opacity", 0);
-
-            EventBus.$emit("mqtt-sub", "#");
-            EventBus.$on("mqtt-rx", (topic, payload) => {
+            EventBus.$emit("sub:mqtt", "#");
+            EventBus.$on("rx:mqtt", (topic, payload) => {
+                //console.log(topic, payload.toString())
                 return this.addNode(topic, payload.toString());
             });
-            EventBus.$on("tutorial-activated", i => {
-                alert("You can select each circles to navigate in the tree,\n click on the text next to light grey circles to display messages");
+            EventBus.$on("start:tutorial", i => {
+                var text = "You can select each circles to navigate in the tree,\n click on the text next to light grey circles to display messages";
+                var tags = "tototo";
+                var img = "static/img/dashboard.gif";
+                EventBus.$emit('update:tutorial', this.$route.name, text, tags, img ); 
+                EventBus.$emit("tx:mqtt", "getlarge"+this.$route.path,"started");
+                return this.tutorial = true;    
             }); 
-                        
+            EventBus.$on("stop:tutorial", () => {
+                EventBus.$emit("tx:mqtt", "getlarge"+this.$route.path,"ended");
+                return this.tutorial = false;        
+            });            
         },
 
         updated() {
@@ -172,8 +174,8 @@
             // if ( this.tutorial === true ) {
             //     EventBus.$emit("mqtt-tx", (this.pageTopic, "ended"));            
             // }
-            EventBus.$off("mqtt-rx");
-            EventBus.$off("tutorial-activated");
+            EventBus.$off("rx:mqtt");
+            EventBus.$off("start:tutorial");
         },
 
         watch: {
@@ -312,13 +314,12 @@
                     node.payload = body;
                     node.dirty = true;
                     if ( node === this.currentSensor ) {
-                        //this.openTooltip(node);
+                        this.updateTooltip(node);
                     }
                 }
             },
 
             openTooltip(data) {
-                //console.log("data", data);
                 var self = this;       
                 this.div.transition()
                     .duration(200)
@@ -332,6 +333,19 @@
                     // .style("top", 50 + "px");
                     .style("left", data.y + "px")
                     .style("top", data.x+ (Math.max(document.documentElement.clientHeight, window.innerHeight || 0))/13 +"px");
+            },
+
+            updateTooltip(data) {
+                //console.log("data", data);
+                var self = this;       
+                this.div.transition()
+                    .duration(200)
+                    .style("opacity", .8)
+                    .style("fill", "#33b277");
+
+                this.div.html("Payload :" + data.payload)
+                    .style("width", ( Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/1.7 + "px")
+                    .style("height", (Math.max(document.documentElement.clientHeight, window.innerHeight || 0))/13 + "px")
             },
 
             closeTooltip() {
@@ -364,6 +378,7 @@
 
     .treeclass .nodetree text {
         font-size: 0.9rem;
+        opacity: 0.8;
     }
 
     .graph-root {

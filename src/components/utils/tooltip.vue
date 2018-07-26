@@ -2,12 +2,13 @@
     <div >  
         <mq-layout class="controls-mobile" mq="mobile">
             <!-- v-if="settings.dragBoxWidth > settings.dragBoxHeight  " -->
-            <div v-if="settings.dragBoxWidth > settings.dragBoxHeight*2" class="">
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.4"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+            <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.5)" class="">
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.6"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container  >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
+                            <a class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="lg" /> </a>
                             <b-row >
                                 <b-col xs="5" >
                                     <div v-if="settings.dragBoxWidth > settings.dragBoxHeight*2.2 ">
@@ -20,7 +21,7 @@
                                     </div>
                                 </b-col>
                                 <b-col xs="7" >
-                                    <a v-if="settings.dragBoxWidth > settings.dragBoxHeight*3"  :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
+                                    <a v-if="settings.dragBoxWidth > settings.dragBoxHeight*1.5"  :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
                                     <a v-else :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2.5" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
                                 </b-col>  
                             </b-row>
@@ -28,37 +29,62 @@
                     </div>
                 </vue-draggable-resizable>
             </div>
-            <div v-else class="">
-                <small> please rotate your screen </small>
+            <div v-else  class="pop">
+                please rotate your screen 
             </div>
         </mq-layout>
 
         <mq-layout class="controls-tablet" mq="tablet">
-            <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
-                <div id="tooltip">
-                    <b-container >
-                        <div class="title">{{title}}</div>
-                        <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
-                        <b-row >
-                            <b-col sm="5"  >
-                                <div class="description">{{description}}</div>
-                                <div class="tags">{{tags}}</div>
-                            </b-col>
-                            <b-col sm="7"   >
-                                <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
-                            </b-col>  
-                        </b-row>
-                    </b-container>
-                </div>
-            </vue-draggable-resizable>
+            <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.1)" class="">
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+                    <div id="tooltip">
+                        <b-container >
+                            <div class="title">{{title}}</div>
+                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
+                            <a class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </a>
+                            <b-row >
+                                <b-col sm="5"  >
+                                    <div class="description">{{description}}</div>
+                                    <div class="tags">{{tags}}</div>
+                                </b-col>
+                                <b-col sm="7"   >
+                                    <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
+                                </b-col>  
+                            </b-row>
+                        </b-container>
+                    </div>
+                </vue-draggable-resizable>
+            </div>
+            <div v-else >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.5" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+                    <div id="tooltip">
+                        <b-container >
+                            <div class="title">{{title}}</div>
+                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
+                            <a class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </a>
+                            <b-row >
+                                <b-col sm="5"  >
+                                    <div class="description">{{description}}</div>
+                                    <div class="tags">{{tags}}</div>
+                                </b-col>
+                                <b-col sm="7"   >
+                                    <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/3" :src="serverURL+img" /></a>
+                                </b-col>  
+                            </b-row>
+                        </b-container>
+                    </div>
+                </vue-draggable-resizable>            
+            </div>
         </mq-layout>
     
         <mq-layout class="controls-laptop" mq="laptop">
+            <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.1)">
             <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/3"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
                 <div id="tooltip">
                     <b-container fluid class="bv-example-row">
                         <div class="title">{{title}}</div>
-                        <button class="drag-button" @click="close"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> </button>
+                        <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> </button>
+                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="lg" /> </button>
                         <b-row >
                             <b-col  md="5" lg="5" >
                                 <div class="description">{{description}}</div>
@@ -71,6 +97,27 @@
                     </b-container>
                 </div>
             </vue-draggable-resizable>
+        </div>
+        <div v-else >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/5"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.5" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+                    <div id="tooltip">
+                        <b-container >
+                            <div class="title">{{title}}</div>
+                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> </button>
+                            <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="lg" /> </button>
+                            <b-row >
+                                <b-col sm="5"  >
+                                    <div class="description">{{description}}</div>
+                                    <div class="tags">{{tags}}</div>
+                                </b-col>
+                                <b-col sm="7"   >
+                                    <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/3" :src="serverURL+img" /></a>
+                                </b-col>  
+                            </b-row>
+                        </b-container>
+                    </div>
+                </vue-draggable-resizable>            
+            </div>
         </mq-layout>
 
         <mq-layout class="controls-desktop" mq="desktop">
@@ -79,6 +126,7 @@
                     <b-container  fluid >
                         <div class="title">{{title}}</div>              
                         <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> </button>
+                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="lg" /> </button>
                         <b-row >
                             <b-col lg="5" >
                                 <div class="description">{{description}}</div>
@@ -99,6 +147,7 @@
                     <b-container  fluid >
                         <div class="title">{{title}}</div>
                         <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="2x" /> </button>
+                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="2x" /> </button>
                         <b-row >
                             <b-col xl="5" >
                                 <div class="description">{{description}}</div>
@@ -120,6 +169,7 @@
     import config from '@/config.json'
     import VueDraggableResizable from 'vue-draggable-resizable'
     import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+    import { EventBus } from '@/main'
 
     export default {
         name: 'tooltip',
@@ -164,7 +214,9 @@
             },
 
             close: () => {
-
+                var self = this;
+                console.log(this.a)
+                EventBus.$emit('stop:tooltip' );
             }
         }
 
@@ -228,23 +280,25 @@
 
         #tooltip .tags {
             font-size: 0.3rem;
-        } 
+        }
+
+ 
     }
 
     .controls-tablet {
         #tooltipContainer {
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             line-height: 9px;
             padding: 10px;
         }
 
         #tooltip .description {
             margin-top: 1%;
-            font-size: 0.45rem;
+            font-size: 0.55rem;
         }
 
         #tooltip .tags {
-            font-size: 0.38rem;
+            font-size: 0.5rem;
         } 
     }
 
@@ -307,21 +361,37 @@
         border: none;
         color: #33b277;
         position: absolute;
-        font-size: 0.8rem;
+        font-size: 1rem;
         top : 0.5%;
-        right: 2%;
+        right: 4%;
     }
 
-    .drag-button:focus {
+    .drag-button:hover {
+        position: absolute;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .close-button {
         display: flex;
         align-items: center;
         background-color: transparent;
         border: none;
-        font-size: 1rem;
         color: #33b277;
         position: absolute;
-        top : 0%;
-        right: 1.5%;
+        font-size: 1rem;
+        top : 0.5%;
+        right: 0.5%;
+    }
+
+    .close-button:hover {
+        font-size: 1rem;
+        color: #33b277;
+        cursor: pointer; 
+    }
+
+    .pop {
+        top: 80px;
     }
 
 </style>

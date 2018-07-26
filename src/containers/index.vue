@@ -9,22 +9,22 @@
             </b-row>
             <hr class="my-4">
             <b-row align-h="center">
-                <b-col xs="10" sm="10" md="10" lg="8" xl="8">
+                <b-col xs="10" sm="10" md="8" lg="7" xl="6">
                     <p class="desc">
-                    Retrospective of previous and present crafts, from UI/UX design to frontend development, until embedded system prototyping. For more information visit the website or contact me.
+                    Retrospective of previous and present crafts, from UI/UX design to frontend/backend development, until embedded system prototyping. For more information visit, the website or contact me.
                     </p>
                 </b-col>
             </b-row>
             <b-row align-h="center">
-                <b-col xs="3" sm="3" md="3" lg="3" >
-                    <b-btn class="doors" href="#/projects-timeline"  >
-                        <b-img class="signs" :src="serverURL+icon1" fluid />
-                    </b-btn>
+                <b-col xs="4" sm="4" lg="3">
+                    <a class="doors"  href="#/projects-timeline" title="Enter" >
+                        <img  class="signs" @mouseover="icon1='static/icons/info2.png'" @mouseout="icon1='static/icons/info.png'" :src="serverURL+icon1" alt="info icon" />
+                    </a>
                 </b-col>
-                <b-col xs="3" sm="3" md="3" lg="3" >
-                    <b-btn class="doors"  @click="chat._initClient()"  >
-                        <b-img class="signs" :src="serverURL+icon2" fluid />
-                    </b-btn>
+                <b-col xs="4" sm="4" lg="3" >
+                    <a class="doors" @click="$emit('start:chat')" title="Contact" >
+                        <img @mouseover="icon2='static/icons/letter2.png'" @mouseout="icon2='static/icons/letter.png'" class="signs" :src="serverURL+icon2" alt="hi icon" />
+                    </a>
                 </b-col>
             </b-row>
         </b-container>
@@ -51,9 +51,8 @@
           return {
             items: routes,
             serverURL: config.httpServerURL,
-            icon1: "static/icons/enter-white.png",
-            icon2: "static/icons/send-white.png",
-            chat: new(liveRocketChat),
+            icon1: "static/icons/info.png",
+            icon2: "static/icons/letter.png",
             settings: {
                 width: 500,
                 height: 100,
@@ -76,15 +75,12 @@
             this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
             this.initialize();
             this.update(this.letters);
-            this.transitionBG();
+            //this.transitionBG();
             this.interv = interval(function() {
                 /// Once the counter hit a multiple of 3, show "normal" title
                 self.updateCounter % 3 === 0 ? self.update("edouard maleix".split("")) : self.update(shuffle(self.letters))
             }, self.settings.duration/2);
 
-            EventBus.$on('chat-started', message => {
-                console.log("message");
-            });
         },
 
         updated() {
@@ -103,8 +99,9 @@
             initialize() {
                 var self = this;
                 select(this.$el)
-                    .style("background-color", this.color("0.1"))
-                    .style("opacity", "0.4" ); 
+                    //.style("background-color", this.color("0.1"))
+                    .style("background-color", "#FFF")
+                    //.style("opacity", "0.1" ); 
             },
 
             update(data) {
@@ -121,14 +118,14 @@
                 // EXIT
                 text.exit()
                   .transition(t)
-                    .attr("y", self.settings.height/2)
+                    .attr("y", self.settings.height/1.5)
                     .style("fill", "#33b277")
                     .style("fill-opacity", 1e-6)
                     .remove();
 
                 //UPDATE 
-                text.attr("y", self.settings.height/2)
-                    .style("fill", "#FFF")
+                text.attr("y", self.settings.height/1.5)
+                    .style("fill", "#686868")
                     .style("fill-opacity", 1)
                   .transition(t)
                     .attr("x", function(d, i) { return i * 35; });
@@ -139,11 +136,12 @@
                     .attr("y", 0)
                     .attr("x", function(d, i) { return i * 35; })
                     .style("fill-opacity", 1e-6)
-                    .style("fill", "#FFF")
-                    .style("font-size", "30px")
+                    .style("fill", "#686868")
+                    //.style("font-size", "30px")
+                    .style("font-size", self.settings.height/3+"px")
                     .text(function(d) { return d; })
                   .transition(t)
-                    .attr("y", self.settings.height/2)
+                    .attr("y", self.settings.height/1.5)
                     .style("fill-opacity", 1);
 
             },
@@ -176,70 +174,68 @@
       
 </script>
 
-<style scoped>
-
-    a:hover {
-        text-decoration: underline;
-        background-color: #33b277;
-    }
+<style lang="scss" >
 
     #hello {
         position: relative;
-        color: #FFF;
+        color: #686868;
+        background-color: white;
         width: 100%;
-        height: 700px;
         text-align: center;
         overflow: hidden;
     }
 
     #svg {
+        margin-top: 0%;
         margin-left: 12%;
     }
 
     .desc {
-        margin-top: 3%;
-        margin-bottom: 3%;
+        margin-top: 2%;
+        margin-bottom: 1%;
         font-size: 1.2rem;
-        text-align: center;
+        text-align: justify;
     }
 
     .signs {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 50%;
-        height: 50%;
-        opacity: 0.8 !important;
-    }
-
-    .signs:hover {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 50%;
-        height: 50%;
+        width: 80%;
+        height: 80%;
         opacity: 1 !important;
+        background-color: white;
+
     }
+    .signs:hover {
+    }    
 
     .doors {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: transparent;
         border: none;
-        opacity: 0.8;
-        padding-top: 2%;
-        padding-bottom: 5%;
+        background-color: white;
+        opacity: 1;
     }
 
     .doors:hover {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         opacity: 1;
-        background-color: transparent;
-        border: 5px;
-        border-radius: 1px;
+        background-color: white;
+        cursor: pointer; 
+    }
+
+    .doors:active {
+        opacity: 1;
+        background-color: white;
+        border: none;
+        cursor: pointer; 
+    }
+
+    .doors:focus {
+        opacity: 1;
+        background-color: white;
+        border: none;
         cursor: pointer; 
     }
 

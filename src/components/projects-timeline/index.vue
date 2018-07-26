@@ -40,7 +40,7 @@
 				width : Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
 				height : Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 				colorPalette : scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#80e56b", "#9adfb0", "#417c52", "#56a46f", "#5df48a"]),
-				dataPath : 'static/data/cv.json',
+				dataPath : "static/data/cv.json",
 				currentProject: undefined,
 				node: null,
 				dataSet: null,
@@ -81,12 +81,17 @@
             this.$on("projectDeselected", () => {
               this.currentProject = undefined;
             });		    
-            EventBus.$on("tutorial-activated", i => {
-                alert("You can select an event on hovering each stack,\n you can also click on flag links");
+            EventBus.$on("start:tutorial", i => {
+            	var text = "To get a description, you can select an event on hovering a wave,\n you can also click on text flags to read more about each project.";
+            	var tags = "";
+            	var img = "static/img/tuto-timeline.gif";
+            	EventBus.$emit("update:tutorial", "Tutorial", text, tags, img );     
+                //alert("You can select an event on hovering each stack,\n you can also click on flag links");
             });	
-            EventBus.$on("tutorial-deactivated", i => {
-                //alert("Here is the help! Now tutorials are activated \n but you can still ask the bot for advices :)");
-            });			
+            EventBus.$on("stop:tutorial", i => {
+              	//this.currentProject = undefined;
+            });
+		
         },
 
 		updated() {
@@ -98,7 +103,8 @@
 		},
 
 		beforeDestroy() {
-            EventBus.$off("tutorial-activated");
+			EventBus.$emit("stop:tutorial");     
+            EventBus.$off("start:tutorial");
 		},
 
 		watch: { 
@@ -185,7 +191,7 @@
 			        var flags = self.timeline.selectAll(".flag").data(L).enter()
 					        .append("g").attr("class", "flag")
 					        .on("click", (d, i) =>self.t(self.node[i]))
-					        .on("mouseover", self.extend);
+					        //.on("mouseover", self.extend);
 
 			        flags.append("line")
 				        	.attr("x1", self.a).attr("x2", self.a)
@@ -288,13 +294,15 @@
 		        "translate(" + e + " " + this.o(d, i) + ")"
 		    },
 
-			t(d) {
+			t(d, i) {
 		        this.dataSet = d;
+		       	//this.$emit('projectSelected', i);
 		        this.update();
 		    },
 
 		    n() { // onmouseout
 		        this.dataSet = null;
+		        this.$emit('projectDeselected');
 		        this.update();
 		    },
 

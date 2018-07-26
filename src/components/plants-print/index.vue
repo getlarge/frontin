@@ -55,22 +55,29 @@
 
         mounted() {
             this.seedData();
-            this.interv = interval(this.updateData, this.duration);
             select("#chart").datum(this.lineArr).call(this.chart);
             select(window).on('resize', this.resize);
-            EventBus.$emit("mqtt-sub", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.nodes[0] +"/#");
-            EventBus.$emit("mqtt-sub", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.nodes[1] +"/#");
-            EventBus.$on("mqtt-rx", (topic, payload) => {
+                        this.interv = interval(this.updateData, this.duration);
+
+            EventBus.$emit("sub:mqtt", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.nodes[0] +"/#");
+            EventBus.$emit("sub:mqtt", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.nodes[1] +"/#");
+            EventBus.$on("rx:mqtt", (topic, payload) => {
                 return this.selectMessage(topic, payload);
             }),
-            EventBus.$on("got-x", x => {
+            this.$on("got-x", x => {
               //console.log("x", x)
                 return this.x = x;
             });
-            EventBus.$on("got-y", y => {
+            this.$on("got-y", y => {
               //console.log("y", y)
                 return this.y = y;
             });
+            EventBus.$on("start:tutorial", i => {
+                var text = "Click the play icon to regenerate the tree";
+                var tags = "tototo";
+                var img = "static/img/dashboard.gif";
+                EventBus.$emit('update:tutorial', this.$route.name, text, tags, img );     
+            });  
         },
 
         updated() {
@@ -86,8 +93,10 @@
             this.chart = null;
             this.interv.stop();
             //EventBus.$off("mqtt-rx");
-            EventBus.$off("got-x");
-            EventBus.$off("got-y");
+            this.$off("got-x");
+            this.$off("got-y");
+            EventBus.$off("start:tutorial");
+            EventBus.$emit("stop:tutorial");     
         },
 
         watch: {
@@ -150,7 +159,7 @@
                         y: y,
                         type: message.subType
                     }; 
-                    EventBus.$emit(event.toString(), y);
+                    this.$emit(event.toString(), y);
                 //this.buffer.push(formatedPayload);
                 }
             },

@@ -20,29 +20,40 @@
                 <router-link class="dropdown-item" :to="'/' + name + ($route.params.locale ? $route.fullPath.substr($route.params.locale.length + 1) : $route.fullPath)">{{value}}</router-link>
               </b-dropdown-item>
             </b-nav-item-dropdown> --> 
-                    <b-nav-item  @click="help()" >
-                        <font-awesome-icon v-if="tutorial === true" class="help-on" :icon="['fas', 'question-circle']" size="lg"/>
-                        <font-awesome-icon v-else class="help-off" :icon="['fas', 'question-circle']" size="lg"/>
+                    
+                    <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank" title="Linkedin"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" alt="linkedin icon"/></b-nav-item>
+                    <b-nav-item href="https://framagit.org/getlarge" target="_blank" title="Gitlab"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg" alt="git icon"/></b-nav-item>
+                    <b-nav-item @click="chatHandler()" title="Chat" >
+                        <font-awesome-icon v-if="chat === true" class="on" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-on icon"/>
+                        <font-awesome-icon v-else class="off" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-off icon"/>
                     </b-nav-item>
-                    <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" /></b-nav-item>
-                    <b-nav-item href="https://framagit.org/getlarge" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg"/></b-nav-item>
-                    <b-nav-item @click="chat._initClient()" ><font-awesome-icon :icon="['fab', 'rocketchat']" size="lg"/></b-nav-item>
-                    <b-nav-text class="nav-link" disabled>
-                        <font-awesome-icon v-if="connStatus === 'Connected'" class="connected" :icon="['fas', 'circle']" size="lg"/>
-                        <font-awesome-icon v-else class="disconnected" :icon="['fas', 'circle']" size="lg"/>
-                    </b-nav-text>
+                    <b-nav-item  @click="help()" title="Tutorial">
+                        <font-awesome-icon v-if="tutorial === true" class="on" :icon="['fas', 'question-circle']" size="lg" alt="tuto-on"/>
+                        <font-awesome-icon v-else class="off" :icon="['fas', 'question-circle']" size="lg" alt="tuto-off"/>
+                    </b-nav-item>
+                    <b-nav-item title="MQTT status" disabled>
+                        <font-awesome-icon v-if="connStatus === 'Connected'" class="on" :icon="['fas', 'circle']" size="lg" alt="mqtt-on icon"/>
+                        <font-awesome-icon v-else class="off" :icon="['fas', 'circle']" size="lg" alt="mqtt-off icon"/>
+                    </b-nav-item>
                     </b-navbar-nav>
             </b-collapse>
         </b-navbar>
+                <tooltip
+            v-if="currentPage"
+            :title="currentPage.name"
+            :description="currentPage.tutorial"
+            :tags="currentPage.tags"
+            :img="currentPage.img"
+            />
     </div>
 </template>
 
 <script>
 
     import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-    import liveRocketChat  from '@/services/live-rocketchat'
     import config from '@/config.json'
     import { routes } from '@/router/menu'
+    import tooltip from "@/components/utils/tooltip"
     import { EventBus } from '@/main'
 
     export default {
@@ -54,22 +65,35 @@
                 serverURL: config.httpServerURL,
                 icon1: "static/icons/braille-E.png",
                 icon2: "static/icons/braille-M.png",
-                chat: new(liveRocketChat),
                 connStatus: "Disconnected",
                 pageTopic: "getlarge" + this.$route.path + "main",
+                currentPage: null, 
                 tutorial : false,
+                chat : false,
             }
         },
         
-        components: { 
+        components: {
+            tooltip: tooltip,
             FontAwesomeIcon
         },
 
         created() {
-            EventBus.$on('got-status', status => {
+            EventBus.$on("status:mqtt", status => {
                 //console.log(`mqtt status : ${status}`)
                 return this.connStatus = status
             });
+            EventBus.$on("update:tutorial", (name, text, tags, img) => {
+                //console.log(`ready : ${name}, ${text}, ${tags}, ${img}`)
+                return this.currentPage = { name: name, tutorial: text, tags: tags, img: img };
+            });
+            EventBus.$on("stop:tutorial", () => {
+                return this.currentPage = null;
+            });
+            EventBus.$on("stop:tooltip", i => {
+                this.currentPage = null;
+            }); 
+
         },
 
         updated() {
@@ -97,27 +121,37 @@
             //   }
             // },
 
+            chatHandler() {
+                if ( this.chat === false ) {
+                    this.chat = true;
+                    return EventBus.$emit('start:chat');
+                }
+                else if ( this.chat === true ) {
+                    this.chat = false;
+                    return EventBus.$emit('stop:chat');
+                }
+            },
+
             subs : event => {
                 if (event) {
                     alert(event.target.tagName)
                 }      
             },
 
-            help : function() {
+            help() {
                 if ( this.tutorial === true ) {
                     this.tutorial = false;
-                    EventBus.$emit('tutorial-deactivated');     
-                    //alert("Now tutorials are off");
+                    EventBus.$emit('stop:tutorial');     
+                    this.currentPage = null;
                 }
                 else if ( this.tutorial === false ) {
                     this.tutorial = true;
-                    EventBus.$emit('tutorial-activated');     
-                    //alert("Here is the help! Now tutorials are activated \n but you can still ask the bot for advices :)");
+                    EventBus.$emit('start:tutorial');
                 }
 
             },
 
-            findIndex: function() {
+            findIndex() {
                 var me = this.$route.name;
                 return routes.findIndex(r => r.name === me);
             },
@@ -178,20 +212,12 @@
         text-align: center;
     }
 
-    .help-on path {
-        opacity: 0.9;
-    }
-
-    .help-off path{
-        opacity: 0.5;
-    }
-
-    .connected path {
+    .on path {
         fill : #01c669 !important;
-        opacity: 0.6;
+        opacity: 0.7;
     }
 
-    .disconnected path{
+    .off path{
         fill : #ff830f !important;
         opacity: 0.6;
     }

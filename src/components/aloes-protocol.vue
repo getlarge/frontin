@@ -43,7 +43,7 @@
         mounted() {
             var self = this;
             this.tableLoader(this.serverURL+this.path, this.selectedColumns);
-            EventBus.$on('updated-table', path => {
+            EventBus.$on('update:table', path => {
                 select('#ipso-table').remove();
                 self.tableLoader(self.serverURL+path, self.selectedColumns);
             });
@@ -63,7 +63,7 @@
             },
 
             dataPath(path) {
-                EventBus.$emit("updated-table", path);
+                EventBus.$emit("update:table", path);
             },
 
             tableLoader(dataPath, colums) {

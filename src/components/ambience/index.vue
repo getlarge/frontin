@@ -28,14 +28,9 @@
 	           	</draggable>
 			</b-col>
 			<b-col class="colzy" sm="3" md="3" lg="3" >
-		        <div v-if="as3.length > 0" >
-		            <draggable  :list="as3" tag="div" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
-		                <audio-slider  v-for="(element, index) in as3" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true"  ></audio-slider>
-		           	</draggable>
-	            </div>
-	           	<div v-else>
-	           		<p></p>
-	            </div>
+		        <draggable  :list="as3" tag="div" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
+		            <audio-slider  v-for="(element, index) in as3" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true"  ></audio-slider>
+		        </draggable>
 	           	<button class="log-button" @click="getBuffer"><font-awesome-icon :icon="['fas', 'info-circle']" size="lg" /> Logger</button>
 			</b-col>
       	</b-row>
@@ -156,18 +151,21 @@
 		},
 
 		created() {
-	  		EventBus.$on("audio-slider-value", (id, value) => {
-		      //console.log("newvalue", id, value)
-		      /// changer les couleurs de références, 
+			EventBus.$on("start:tutorial", i => {
+                var text = "Click on each icons to play a sound and use the slider to update volume,\n you can create your own widget too, just add audio and image files";
+                var tags = "tototo";
+                var img = "static/img/tuto-timeline.gif";
+                EventBus.$emit('update:tutorial', this.$route.name, text, tags, img );     
+            });  
+	  		EventBus.$on("start:audio-slider", (id, value) => {
 		      //this.store.push()
-		      	if ( value > 0.5 ) {
-		      		this.sliderValue = this.sliderValue + value;
+		      	if ( value > this.sliderValue ) {
+		      		this.sliderValue = this.sliderValue + 0.1;
 		      	}
-		      	if ( value <= 0.5 ) {
-		      		this.sliderValue = this.sliderValue - value;
+		      	if ( value < this.sliderValue ) {
+		      		this.sliderValue = this.sliderValue -0.1;
 		      	}		    
-		       	EventBus.$emit("audio-slider-color", this.sliderValue);
-  
+		       	EventBus.$emit("update:audio-slider", this.sliderValue);
 		      	return this.toggleBG(id, this.sliderValue);
 	    	});
 	    	EventBus.$on("file-uploader", (format, uploadedFile) => {
@@ -188,11 +186,8 @@
 	  	},
 
 	  	mounted() {
-	  		this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
-		    //this.initialize();
-		    EventBus.$on("tutorial-activated", i => {
-                alert("Click on each icons to play a sound and use the slider to update volume,\n you can create your own widget too, just add audio and image files");
-            });  
+             this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
+
 		},
 
 	  	updated() {
@@ -200,7 +195,8 @@
 		},
 
 		beforeDestroy() {
-            EventBus.$off("tutorial-activated");
+            EventBus.$off("start:tutorial");
+            EventBus.$emit("stop:tutorial");     
 		},
 
 		methods: {
@@ -236,11 +232,12 @@
 			},
 
 			toggleBG(id, value) {
+				var self = this;
 				//this.globalValues = globalValues+ ou - values;
 				// attribuer une palette de couleurs par composants
 				select("#control-col")
-					.style("opacity", "0.4" )
-					.style("background-color", this.color(value))
+					.style("opacity", "0.6" )
+					.style("background-color", self.color(value))
 			},
 
 			privateCheckMove: function(evt){
@@ -321,7 +318,6 @@
 	}
 
 	#edit-container {
-		background-color: transparent;
 		height: 30%;
 		margin-top: 2%;
 		margin-bottom: 2%;
@@ -397,8 +393,9 @@
 	#control-col {
 		background-color: #aaf7d3;
 		color: white;
-		opacity: 0.6;
-		width: 80%;
+		opacity: 1;
+		width: 100%;
+		min-height: 500px;
 		border-radius: 50px;
 	}
 

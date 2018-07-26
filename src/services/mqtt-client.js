@@ -33,13 +33,13 @@ export default class mqttClient {
         this.client = mqtt.connect(config.wsServerURL, this.options);
         this.asyncClient = new AsyncClient(this.client);
 
-        EventBus.$on('get-store', () => {
+        EventBus.$on('store:mqtt', () => {
             this.getStore()
         });
-        EventBus.$on('mqtt-sub', (topic) => {
+        EventBus.$on('sub:mqtt', (topic) => {
             this.sub(topic)
         });
-        EventBus.$on('mqtt-tx', (topic, message) => {
+        EventBus.$on('tx:mqtt', (topic, message) => {
             //this.sendAsyncMessage(topic, message)
             //console.log("sending :" ,topic, message)
             this.sendMessage(topic, message)
@@ -66,7 +66,7 @@ export default class mqttClient {
 
         this.client.on("message", (topic, payload) => {
           //this.store.put(topic, payload);
-            EventBus.$emit("mqtt-rx", topic, payload); 
+            EventBus.$emit("rx:mqtt", topic, payload); 
           // this.client.publish('hello', 'world', {qos: 1}, function () {
           //     console.log('published')
           //     //this.client.end()
@@ -81,7 +81,7 @@ export default class mqttClient {
     }
 
     setStatus(status) {
-        EventBus.$emit("got-status", status);
+        EventBus.$emit("status:mqtt", status);
     }
 
     sendAsyncMessage(topic, message) {

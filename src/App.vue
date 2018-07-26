@@ -10,6 +10,7 @@
 
     import config from '@/config.json'
     import mqttClient  from '@/services/mqtt-client'
+    import liveRocketChat  from '@/services/live-rocketchat'
     import topNav from '@/containers/menu-navigation'
     import bottomNav from '@/containers/footer-navigation'
     import { EventBus } from '@/main'
@@ -26,6 +27,7 @@
             return {
                 appName: config.inTopic,
                 client: new(mqttClient),
+                chat: new(liveRocketChat),
                 showLocale: false,
                 showNav: false,
             }
@@ -78,7 +80,7 @@
 
 </script>
 
-<style>
+<style lang="scss" >
     @font-face { /* Aloes Regular - latin */
         font-family: 'Aloes-Rg';
         font-weight: normal;
@@ -114,6 +116,13 @@
 */
 
     #app {
+        font-family: 'Aloes-Rg'; 
+        font-size: 16px;  
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .livechat-room {
         font-family: 'Aloes-Rg'; 
         font-size: 16px;  
         -webkit-font-smoothing: antialiased;
