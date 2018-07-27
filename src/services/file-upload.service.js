@@ -1,5 +1,5 @@
-import * as axios from 'axios';
-import config from '@/config.json'
+import * as axios from "axios"
+import config from "@/config.json"
 
 const BASE_URL = config.httpServerURL;
 const URL = "localhost:3000/";

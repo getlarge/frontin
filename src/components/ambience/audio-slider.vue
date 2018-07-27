@@ -47,12 +47,12 @@
                     formatter: null,
                     bgStyle: {
                         "backgroundColor": "#e8e8e8",
-                        "opacity": "0.7"
+                        "opacity": "0.5"
                     },
                     sliderStyle: null,
                     processStyle: {
                         "backgroundColor": "#aaf7d3",
-                        "opacity": "0.7"
+                        "opacity": "0.5"
                     },
                 },
                 colorSet: [

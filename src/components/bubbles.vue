@@ -1,15 +1,13 @@
 <template>
     <div id="bubbles">
-     
        <div class="svg-container" >
-        <tooltip
+        <cards
           v-if="currentBubble"
           :title="currentBubble.data.id"
           :description="currentBubble.data.description"
           :tags="currentBubble.data.family"
           :img="currentBubble.data.img"
           />
-
           <svg id="svg" pointer-events="all" viewBox="0 0 1200 600" preserveAspectRatio="xMinYMin meet">
               <g :id="nodes"></g>
           </svg>
@@ -32,7 +30,7 @@
     import { append, attr, event, select, selectAll, style } from "d3-selection"
     import { interval, now, timeout, timer } from "d3-timer"
     import { active, transition } from "d3-transition"
-    import tooltip from "@/components/utils/tooltip"
+    import cards from "@/components/utils/cards"
 
 
   export default {
@@ -62,7 +60,7 @@
 
 
     components: {
-      tooltip: tooltip,
+      cards: cards,
     },
       created() {
 

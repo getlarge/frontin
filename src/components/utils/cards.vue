@@ -3,12 +3,12 @@
         <mq-layout class="controls-mobile" mq="mobile">
             <!-- v-if="settings.dragBoxWidth > settings.dragBoxHeight  " -->
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.5)" class="">
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.6"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable   id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.6"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container  >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
-                            <a class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="lg" /> </a>
+                            <button class="close-button"  @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="xs" /> </button>
                             <b-row >
                                 <b-col xs="5" >
                                     <div v-if="settings.dragBoxWidth > settings.dragBoxHeight*2.2 ">
@@ -36,12 +36,12 @@
 
         <mq-layout class="controls-tablet" mq="tablet">
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.1)" class="">
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
-                            <a class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </a>
+                            <button class="close-button" @mouseover="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
                             <b-row >
                                 <b-col sm="5"  >
                                     <div class="description">{{description}}</div>
@@ -56,12 +56,12 @@
                 </vue-draggable-resizable>
             </div>
             <div v-else >
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.5" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.5" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
-                            <a class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </a>
+                            <button class="close-button" @mouseout="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
                             <b-row >
                                 <b-col sm="5"  >
                                     <div class="description">{{description}}</div>
@@ -79,7 +79,7 @@
     
         <mq-layout class="controls-laptop" mq="laptop">
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.1)">
-            <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/3"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+            <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/3"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :maximize="true" :resizable="false" v-on:resizing="onResize" >
                 <div id="tooltip">
                     <b-container fluid class="bv-example-row">
                         <div class="title">{{title}}</div>
@@ -99,7 +99,7 @@
             </vue-draggable-resizable>
         </div>
         <div v-else >
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/5"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.5" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/5"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.5" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :maximize="true" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
@@ -121,7 +121,7 @@
         </mq-layout>
 
         <mq-layout class="controls-desktop" mq="desktop">
-             <vue-draggable-resizable id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/4"  :minw="settings.dragBoxWidth" :minh="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag"  :resizable="false" v-on:resizing="onResize" :handles="['tr']">
+             <vue-draggable-resizable id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/4"  :minw="settings.dragBoxWidth" :minh="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" :handles="['tr']">
                 <div id="tooltip">
                     <b-container  fluid >
                         <div class="title">{{title}}</div>              
@@ -172,7 +172,7 @@
     import { EventBus } from '@/main'
 
     export default {
-        name: 'tooltip',
+        name: 'cards',
         props: ['title', 'description', 'img', 'tags', 'X', 'Y'],
 
         data: function () {
@@ -214,9 +214,8 @@
             },
 
             close: () => {
-                var self = this;
                 console.log(this.a)
-                EventBus.$emit('stop:tooltip' );
+                EventBus.$emit('stop:cards' );
             }
         }
 

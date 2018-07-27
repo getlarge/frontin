@@ -20,7 +20,6 @@
                 <router-link class="dropdown-item" :to="'/' + name + ($route.params.locale ? $route.fullPath.substr($route.params.locale.length + 1) : $route.fullPath)">{{value}}</router-link>
               </b-dropdown-item>
             </b-nav-item-dropdown> --> 
-                    
                     <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank" title="Linkedin"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" alt="linkedin icon"/></b-nav-item>
                     <b-nav-item href="https://framagit.org/getlarge" target="_blank" title="Gitlab"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg" alt="git icon"/></b-nav-item>
                     <b-nav-item @click="chatHandler()" title="Chat" >
@@ -38,7 +37,7 @@
                     </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-                <tooltip
+                <cards
             v-if="currentPage"
             :title="currentPage.name"
             :description="currentPage.tutorial"
@@ -53,7 +52,7 @@
     import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
     import config from '@/config.json'
     import { routes } from '@/router/menu'
-    import tooltip from "@/components/utils/tooltip"
+    import cards from "@/components/utils/cards"
     import { EventBus } from '@/main'
 
     export default {
@@ -74,7 +73,7 @@
         },
         
         components: {
-            tooltip: tooltip,
+            cards: cards,
             FontAwesomeIcon
         },
 
@@ -90,8 +89,8 @@
             EventBus.$on("stop:tutorial", () => {
                 return this.currentPage = null;
             });
-            EventBus.$on("stop:tooltip", i => {
-                this.currentPage = null;
+            EventBus.$on("stop:cards", i => {
+                return this.currentPage = null;
             }); 
 
         },

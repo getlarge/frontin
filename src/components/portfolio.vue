@@ -80,7 +80,7 @@
 
             EventBus.$on("start:tutorial", i => {
                 var text = "Click the play icon to regenerate the tree";
-                var tags = "tototo";
+                var tags = "";
                 var img = "static/img/dashboard.gif";
                 EventBus.$emit("update:tutorial", this.$route.name, text, tags, img );     
             });  

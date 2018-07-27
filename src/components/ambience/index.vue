@@ -139,7 +139,7 @@
 		        	audioSource: ["null"],
 		        	iconFile: "null",
 	        	},
-	        	sliderValue: 0.5,
+	        	sliderValue: 0,
 	  		}
 	  	},
 
@@ -152,9 +152,9 @@
 
 		created() {
 			EventBus.$on("start:tutorial", i => {
-                var text = "Click on each icons to play a sound and use the slider to update volume,\n you can create your own widget too, just add audio and image files";
-                var tags = "tototo";
-                var img = "static/img/tuto-timeline.gif";
+                var text = "Create your own sound ambiance with this small application.\nClick on each icons to play a sound and use the slider to update volume, you can create your own widget too, just add audio and image files.\nAll icons are hand drawn by Isabella Kohout";
+                var tags = "";
+                var img = "static/img/tuto-ambiance.gif";
                 EventBus.$emit('update:tutorial', this.$route.name, text, tags, img );     
             });  
 	  		EventBus.$on("start:audio-slider", (id, value) => {
@@ -236,7 +236,7 @@
 				//this.globalValues = globalValues+ ou - values;
 				// attribuer une palette de couleurs par composants
 				select("#control-col")
-					.style("opacity", "0.6" )
+					.style("opacity", "0.4" )
 					.style("background-color", self.color(value))
 			},
 

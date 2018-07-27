@@ -5,20 +5,34 @@ import App from './App'
 import store from '@/services/store.js'
 import router from './router'
 //import i18n from './i18n'
+import * as axios from "axios"
+import VueResource from "vue-resource"
+import VueAuthImage from "vue-auth-image"
 
-import VueResource from 'vue-resource'
-import VueMq from 'vue-mq'
-import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import fontawesome from '@fortawesome/fontawesome'
-import brands from '@fortawesome/fontawesome-free-brands'
-import solid from '@fortawesome/fontawesome-free-solid'
+import VueMq from "vue-mq"
+import BootstrapVue from "bootstrap-vue"
+import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap-vue/dist/bootstrap-vue.css"
+import fontawesome from "@fortawesome/fontawesome"
+import brands from "@fortawesome/fontawesome-free-brands"
+import solid from "@fortawesome/fontawesome-free-solid"
+import config from "@/config.json"
 
 // Vue.config.silent = false
-// Vue.config.devtools = true
+Vue.config.devtools = true
+//Vue.config.productionTip = true
 
 Vue.use(VueResource);
+Vue.use(VueAuthImage);
+
+//Basic"+btoa(config.options.username + ":" + config.options.password)
+//var authHeader = 'Bearer ' + localStorage.getItem('id_token');
+//var authHeader = "Basic "+btoa(config.options.username + ":" + config.options.password);
+var authHeader = "Basic dXNlcjptb3RkZXBhc3Nl";
+//Vue.http.headers.common['Authorization'] = authHeader;
+axios.defaults.headers.common['Authorization'] = authHeader;
+
+
 Vue.use(VueMq, {
 	breakpoints: {
 	    mobile: 600,
@@ -47,7 +61,6 @@ Vue.filter('formatSize', function (size) {
 //   return '/' + i18n.locale + to
 // })
 
-Vue.config.productionTip = false
 
 fontawesome.library.add(brands, solid)
 

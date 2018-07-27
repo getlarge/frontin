@@ -1,6 +1,6 @@
 <template>
     <div id="hello">
-        <b-container fluid >
+        <b-container  fluid >
             <b-row align-h="center">
                 <b-col xs="6" sm="8" md="7" lg="6" xl="5" >
                     <svg id="svg" pointer-events="all" viewBox="0 0 550 100" preserveAspectRatio="xMinYMin meet">
@@ -11,20 +11,109 @@
             <b-row align-h="center">
                 <b-col xs="10" sm="10" md="8" lg="7" xl="6">
                     <p class="desc">
-                    Retrospective of previous and present crafts, from UI/UX design to frontend/backend development, until embedded system prototyping. For more information visit, the website or contact me.
+                    Retrospective of previous and present crafts, from UI/UX design to frontend/backend development, until embedded system prototyping. For more information, visit the website or contact me.
                     </p>
                 </b-col>
             </b-row>
-            <b-row align-h="center">
+
+            <b-row  v-if="contactCard === false" align-h="center">
                 <b-col xs="4" sm="4" lg="3">
                     <a class="doors"  href="#/projects-timeline" title="Enter" >
                         <img  class="signs" @mouseover="icon1='static/icons/info2.png'" @mouseout="icon1='static/icons/info.png'" :src="serverURL+icon1" alt="info icon" />
                     </a>
                 </b-col>
                 <b-col xs="4" sm="4" lg="3" >
-                    <a class="doors" @click="$emit('start:chat')" title="Contact" >
+                    <a class="doors" @click="toggleCard(); icon2='static/icons/letter2.png'" title="Contact" >  
                         <img @mouseover="icon2='static/icons/letter2.png'" @mouseout="icon2='static/icons/letter.png'" class="signs" :src="serverURL+icon2" alt="hi icon" />
                     </a>
+                </b-col>
+            </b-row>
+            <b-row v-else-if="contactCard === true && available === false" align-h="center">
+                 <b-col  class="card" xs="8" sm="8" md="6" lg="5" xl="4">
+                    <mq-layout class="controls-mobile" mq="mobile">
+                        <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text1"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
+                    <mq-layout class="controls-tablet" mq="tablet">
+                        <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text1"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
+                    <mq-layout class="controls-laptop" mq="laptop">
+                        <info-card  @click.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text1"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
+                    <mq-layout class="controls-desktop" mq="desktop">
+                        <info-card  @click.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text1"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
+                    <mq-layout class="controls-xxl" mq="xxl">
+                        <info-card  @click.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text1"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
+                </b-col>
+            </b-row>
+            <b-row v-else   align-h="center">
+                 <b-col  class="card" xs="8" sm="8" md="6" lg="5" xl="4">
+                    <mq-layout class="controls-mobile" mq="mobile">
+                        <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text2"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
+                    <mq-layout class="controls-tablet" mq="tablet">
+                        <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text2"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
+                    <mq-layout class="controls-laptop" mq="laptop">
+                        <info-card  @click.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text2"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
+                    <mq-layout class="controls-desktop" mq="desktop">
+                        <info-card  @click.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text2"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
+                    <mq-layout class="controls-xxl" mq="xxl">
+                        <info-card  @click.native="toggleCard()"  :frontType="'text'"
+                              :frontTitle="front.title"
+                              :frontData="front.text2"
+                              :backTitle="back.title"
+                              :backData="back.text" >
+                        </info-card>
+                    </mq-layout>
                 </b-col>
             </b-row>
         </b-container>
@@ -33,18 +122,26 @@
 
 <script>
 
-    import config from '@/config.json'
-    import { routes } from '@/router/menu'
-    import liveRocketChat  from '@/services/live-rocketchat'
+    import config from "@/config.json"
+    import { routes } from "@/router/menu"
     import { shuffle } from "d3-array"
     import { rgb } from "d3-color"
     import { easeLinear } from "d3-ease"
     import { interpolateHcl, interpolateHclLong } from "d3-interpolate"
     import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale"
-    import { append, attr, event, select, selectAll, style } from "d3-selection"
+    import { event, mouse, select, selectAll } from "d3-selection"
     import { interval, now, timeout, timer } from "d3-timer"
     import { active, transition } from "d3-transition"
-    import { EventBus } from '@/main'
+    import InfoCard from "vue-info-card"
+    import { EventBus } from "@/main"
+
+    const icon3 = "static/img/ed2.jpg";
+    const icon4 = "static/icons/available.png";
+    const icon5 = "static/icons/notavailable.png";
+    const rectangle = "<img class='square' src="+config.httpServerURL+"static/icons/rectangle.png />";
+    const frontCard2 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon4+"></img><p class='text'></br>and you need a dev in Nantes?</p></div>";
+    const frontCard1 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon5+"></img><p class='text'></br>...on a mission, but you can send me your request anyway!</p></div>";
+    const backCard =rectangle+"<div><img class='trombi' src="+config.httpServerURL+"static/img/ed2.jpg></img><p class='text'></br>ed@getlarge.eu</br>0624297761</br><a href='mailto:ed@"+config.mailDomain+"''></a></p></div>";
 
     export default {
         data() {
@@ -53,6 +150,7 @@
             serverURL: config.httpServerURL,
             icon1: "static/icons/info.png",
             icon2: "static/icons/letter.png",
+            icon3: "static/img/ed2.jpg",
             settings: {
                 width: 500,
                 height: 100,
@@ -66,21 +164,42 @@
             ],
             letters: "edouard maleix".split(""),
             updateCounter: 0,
+            contactCard: false,
+            available: true,
+            front: {
+                title: "hey, i'm ...",
+                text1: frontCard1,
+                text2: frontCard2,
+            },
+            back: {
+                title: "contact",
+                text: backCard,
+            },
           }
+        },
+        available: true,
+        components: {
+            InfoCard,
         },
 
         mounted() {
             var self = this;
             this.g = select("#svg").append("g");
             this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
-            this.initialize();
+            //this.initialize();
             this.update(this.letters);
             //this.transitionBG();
             this.interv = interval(function() {
                 /// Once the counter hit a multiple of 3, show "normal" title
                 self.updateCounter % 3 === 0 ? self.update("edouard maleix".split("")) : self.update(shuffle(self.letters))
             }, self.settings.duration/2);
-
+            //select('.context-menu').remove();
+            EventBus.$on("start:tutorial", i => {
+                var text = "Click the left button to read my resume, or the right button to contact me.\nAll icons are hand drawn by Isabella Kohout";
+                var tags = "";
+                var img = "static/img/tuto-home.gif";
+                EventBus.$emit('update:tutorial', "Tutorial", text, tags, img );     
+            });  
         },
 
         updated() {
@@ -104,6 +223,18 @@
                     //.style("opacity", "0.1" ); 
             },
 
+            toggleCard() {
+                if (this.contactCard === false) {
+                    this.contactCard = true;
+                    //this.available = true;
+                    //console.log("card-on")
+                }
+                else { 
+                    this.contactCard = false;
+                    //console.log("card-off")
+                }
+            },
+
             update(data) {
                 //console.log("data", data);
                 var self = this;
@@ -115,7 +246,6 @@
                 var text = this.g.selectAll("text")
                     .data(data, function(d) { return d; });
 
-                // EXIT
                 text.exit()
                   .transition(t)
                     .attr("y", self.settings.height/1.5)
@@ -123,14 +253,12 @@
                     .style("fill-opacity", 1e-6)
                     .remove();
 
-                //UPDATE 
                 text.attr("y", self.settings.height/1.5)
                     .style("fill", "#686868")
                     .style("fill-opacity", 1)
                   .transition(t)
                     .attr("x", function(d, i) { return i * 35; });
 
-                //ENTER 
                 text.enter().append("text")
                     .attr("dy", ".5em")
                     .attr("y", 0)
@@ -143,7 +271,6 @@
                   .transition(t)
                     .attr("y", self.settings.height/1.5)
                     .style("fill-opacity", 1);
-
             },
 
             transitionBG() {
@@ -181,6 +308,8 @@
         color: #686868;
         background-color: white;
         width: 100%;
+        height: 850px;
+        min-height: 700px;
         text-align: center;
         overflow: hidden;
     }
@@ -207,8 +336,9 @@
         background-color: white;
 
     }
-    .signs:hover {
-    }    
+    /*signs:hover {
+    content:url(@/../static/icons/send.png); 
+    }*/
 
     .doors {
         display: flex;
@@ -239,8 +369,48 @@
         cursor: pointer; 
     }
 
-    /*img:hover {
-    content:url(@/../static/icons/send.png); 
-    }*/
+    .card {
+        margin-top: 2%;
+        height: 60%;
+        border: none;
+        font-size: 1.2rem;
+    }
+
+    .with-shadow {
+        box-shadow: 0 0 0 0 !important;
+    }
+
+    .square {
+        position: absolute;
+        top: 0px;
+        left:0px;
+        width: 100%;
+        min-height: 90%;
+    }
+
+    .info-card .title {
+       color:  #029ea8 !important;
+       opacity: 0.8;
+    }
+
+    .trombi {
+        position: absolute;
+        top: 37%;
+        left: 5%;
+        width: 40%;
+        padding-bottom: 20px;
+    }
+
+    .text {
+        text-align: justify;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        padding-right: 3%;
+        width: 45%;
+        height: 280px;
+        font-size: 80%;
+    }
+
 
 </style>

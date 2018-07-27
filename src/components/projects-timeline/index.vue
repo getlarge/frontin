@@ -1,6 +1,6 @@
 <template>
 	<div id="project-timeline" >
-	    <tooltip
+	    <cards
 			v-if="currentProject"
 			:title="currentProject.name"
 			:description="currentProject.description"
@@ -27,7 +27,7 @@
 	import { area, stack, stackOrderNone, stackOffsetNone } from "d3-shape"
 	import { timeFormat } from "d3-time-format"
 	import { active, transition } from "d3-transition"
-	import tooltip from "@/components/utils/tooltip"
+	import cards from "@/components/utils/cards"
 	import moment from 'moment'
 	import { EventBus } from '@/main'
 
@@ -64,7 +64,7 @@
 	  	},
 
 		components: {
-			tooltip: tooltip,
+			cards: cards,
 		},
 
 	  	created() {
@@ -82,7 +82,7 @@
               this.currentProject = undefined;
             });		    
             EventBus.$on("start:tutorial", i => {
-            	var text = "To get a description, you can select an event on hovering a wave,\n you can also click on text flags to read more about each project.";
+            	var text = "You'll find here a resume of my work experiences. \nTo get a description, you can select an event on hovering a wave,\n you can also click on text flags to read more about each project.";
             	var tags = "";
             	var img = "static/img/tuto-timeline.gif";
             	EventBus.$emit("update:tutorial", "Tutorial", text, tags, img );     

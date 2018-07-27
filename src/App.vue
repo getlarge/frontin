@@ -12,9 +12,9 @@
     import mqttClient  from '@/services/mqtt-client'
     import liveRocketChat  from '@/services/live-rocketchat'
     import topNav from '@/containers/menu-navigation'
+    import { select, selectAll } from "d3-selection"
     import bottomNav from '@/containers/footer-navigation'
     import { EventBus } from '@/main'
-
 
     export default {
         name: "App",
@@ -53,7 +53,19 @@
         },
          
         mounted() {
+            EventBus.$on("stop:chat", i => {
+                chat = new(liveRocketChat);
+            });
+            selectAll("img").on('contextmenu', function(){ 
+                event.preventDefault();
+            //menu(mouse(this)[0], mouse(this)[1]);
+            });  
+        },
 
+        updated() {
+            selectAll("img").on('contextmenu', function(){ 
+                event.preventDefault();
+            });  
         },
 
         beforeDestroy() {
@@ -74,6 +86,12 @@
         },
 
         methods: {
+            login() {
+                const { username, password } = this;
+                this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
+                    this.$router.push('/')
+                })
+            },
 
         },
     }
