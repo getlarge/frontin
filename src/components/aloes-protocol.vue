@@ -53,6 +53,10 @@
             //console.log("updated")
         },
 
+        beforeDestroy() {
+            EventBus.$emit("stop:tutorial");
+        },
+
         watch: {
 
         },

@@ -87,9 +87,11 @@
                 return this.currentPage = { name: name, tutorial: text, tags: tags, img: img };
             });
             EventBus.$on("stop:tutorial", () => {
+                this.tutorial = false;
                 return this.currentPage = null;
             });
             EventBus.$on("stop:cards", i => {
+                this.tutorial = false;
                 return this.currentPage = null;
             }); 
 
@@ -139,13 +141,15 @@
 
             help() {
                 if ( this.tutorial === true ) {
+                    //console.log("help-off")
                     this.tutorial = false;
                     EventBus.$emit('stop:tutorial');     
-                    this.currentPage = null;
+                    return this.currentPage = null;
                 }
                 else if ( this.tutorial === false ) {
+                    //console.log("help-on")
                     this.tutorial = true;
-                    EventBus.$emit('start:tutorial');
+                    return EventBus.$emit('start:tutorial');
                 }
 
             },

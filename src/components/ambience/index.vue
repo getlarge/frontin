@@ -151,11 +151,15 @@
 		},
 
 		created() {
-			EventBus.$on("start:tutorial", i => {
+			
+	  	},
+
+	  	mounted() {
+	  		EventBus.$on("start:tutorial", i => {
                 var text = "Create your own sound ambiance with this small application.\nClick on each icons to play a sound and use the slider to update volume, you can create your own widget too, just add audio and image files.\nAll icons are hand drawn by Isabella Kohout";
                 var tags = "";
                 var img = "static/img/tuto-ambiance.gif";
-                EventBus.$emit('update:tutorial', this.$route.name, text, tags, img );     
+                EventBus.$emit('update:tutorial', "Tutorial", text, tags, img );     
             });  
 	  		EventBus.$on("start:audio-slider", (id, value) => {
 		      //this.store.push()
@@ -183,10 +187,7 @@
 					return this.iconFile = uploadedFile[0].url;
 	    		}
 	    	});
-	  	},
-
-	  	mounted() {
-             this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
+            this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
 
 		},
 
@@ -317,6 +318,10 @@
 		color: grey;
 	}
 
+	#audio-slider {
+		max-width: 95%;
+	}
+
 	#edit-container {
 		height: 30%;
 		margin-top: 2%;
@@ -387,6 +392,7 @@
 
 	.colzy {
 		padding-bottom: 2%;
+	
 		padding-top: 5%;
 	}
 

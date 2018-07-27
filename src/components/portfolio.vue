@@ -2,9 +2,17 @@
     <div id="vis">
         <b-container fluid >
             <b-row align-h="center">
+ <cards
+                        v-if="currentNode"
+                        :title="currentNode.id"
+                        :description="currentNode.description"
+                        :tags="currentNode.tags"
+                        :img="currentNode.img"
+                        />
+              <b-col sm="9" md="9" lg="9" >               
                 
-              <b-col sm="9" md="9" lg="9" >
                 <div class="svg-container" :style="{width: settings.width + '%'}">
+                    
                     <svg id="svg" pointer-events="all" viewBox="0 0 1200 800" preserveAspectRatio="xMinYMin meet">
                         <g :id="links"></g>
                         <g :id="nodes"></g>
@@ -28,6 +36,7 @@
 	import { scaleOrdinal } from "d3-scale"
 	import { event, select, selectAll } from "d3-selection"
 	import { active, transition } from "d3-transition"
+    import cards from "@/components/utils/cards"
     import { EventBus } from '@/main'
     import ToneSynth from '@/tone-components/synth'
 
@@ -56,6 +65,10 @@
             };
 	  	},
 
+        components: {
+            cards: cards,
+        },
+
         created() {
 
         },
@@ -63,27 +76,29 @@
         mounted() {
             this.initPortfolio();
 
-            this.$on("nodeClicked", i => {
-              console.log("nodeClicked", i);
-              this.currentNode = this.nodes[i];
-            }); 
+            EventBus.$on("stop:cards", i => {
+                this.currentNode = undefined;
+            });
 
             this.$on("nodeSelected", i => {
-              console.log("nodeSelected", i);
-              this.currentNode = this.nodes[i];
+              //console.log("nodeSelected", this.graph.nodes[i].data);
+              //this.currentNode = this.graph.nodes[i].data;
             }); 
 
             this.$on("nodeDeselected", () => {
-              console.log("nodeDeselected");
-              this.currentNode = undefined;
+              //console.log("nodeDeselected");
+              //this.currentNode = undefined;
             });  
 
             EventBus.$on("start:tutorial", i => {
                 var text = "Click the play icon to regenerate the tree";
                 var tags = "";
-                var img = "static/img/dashboard.gif";
+                var img = "static/img/tuto-portfolio.gif";
                 EventBus.$emit("update:tutorial", this.$route.name, text, tags, img );     
-            });  
+            });
+
+            //select(".svg-container").on("click", this.currentNode = null);
+   
         },
 
         updated() {
@@ -95,11 +110,7 @@
         beforeDestroy() { 
             EventBus.$off("start:tutorial");               
             EventBus.$emit("stop:tutorial");     
-            // this.nodes = null;
-            // this.links = null;
-            // this.currentNode = null;
-            // this.graph = null;
-            //delete this.graph;
+
         },
 
         computed: {
@@ -126,9 +137,9 @@
                         .selectAll("path.link")
                         .data(that.graph.links, (d) => d.target.id )
                         .enter().insert("path")
-                        .style("stroke-width", (d) => (d.target.data.size / d.target.data.group * 0.4).toString() + "px")
-                        //.style("stroke", "#eee")
-                        .style("stroke", d => that.colorPalette(d.target.data.category))
+                        .style("stroke-width", (d) => (d.source.data.size / d.source.data.group*0.1).toString() + "px")
+                        .style("stroke", "black")
+                        //.style("stroke", d => that.colorPalette(d.target.data.category))
                         .style("opacity", d => d.source.data.group > 2 ? "0" : "0.6")
                         .style("fill", "none");
                 }
@@ -154,14 +165,14 @@
             },
 
             images() {
-                var that = this;
-                if (that.graph) {
+                var self = this;
+                if (self.graph) {
                     return  select("#svg").append("g") //that.nodes.
                         .attr("class", "images")
                         .selectAll("image")
-                        .data(that.graph.nodes, d => d.data.id )
+                        .data(self.graph.nodes, d => d.data.id )
                         .enter().append("image")
-                        .attr("xlink:href", (d) => d.data.group > 2 ? that.serverURL+d.data.mini : "")
+                        .attr("xlink:href", (d) => d.data.group > 2 ? self.serverURL+d.data.mini : "")
                         .attr("crossOrigin", "anonymous")
                         .attr("x", (d) => -1 * d.data.size)
                         .attr("y", (d) => -1 * d.data.size)
@@ -175,26 +186,9 @@
                         // set back
                         .on( 'mouseleave', this.mouseLeave)
                         .call(drag()
-                            .on("start", function dragstarted(d) {
-                                if (!event.active) that.simulation.alphaTarget(0.3).restart();
-                                d.fx = d.x;
-                                d.fy = d.y;
-                                that.synth.synthAttack(d.data.notes); //ex delay : '+0.05'
-
-                            })
-                            .on("drag", function dragged(d) {
-                                d.fx = event.x;
-                                d.fy = event.y;
-                                that.synth.synthModulo(event.x, event.y)
-                                //EventBus.$emit('mqtt-tx', "getlarge/nodes-position", d.fx + "-" + d.fy)
-
-                            })
-                            .on("end", function dragended(d) {
-                                if (!event.active) that.simulation.alphaTarget(0);
-                                d.fx = null;
-                                d.fy = null;
-                                that.synth.synthRelease()
-                        })) 
+                            .on("start", this.dragstarted)
+                            .on("drag", this.dragged)
+                            .on("end", this.dragended)) 
                 }
             },
 
@@ -241,8 +235,8 @@
                 // var total = nodes.length;
                 // var radius = Math.min(this.settings.svgWidth / 2, this.settings.svgHeight / 2);
                 // var angleSlice = Math.PI * 2 / total;
-                var that = this;
-                that.links.attr("d", (d) => {
+                var self = this;
+                self.links.attr("d", (d) => {
                     var dx = d.target.x - d.source.x,
                         dy = d.target.y - d.source.y,
                         dr = Math.sqrt(dx * dx + dy * dy);
@@ -253,9 +247,9 @@
                         d.target.x + "," +
                         d.target.y;
                 })
-                that.nodes.attr("transform", that.nodeTransform);
-                that.texts.attr("transform", that.nodeTransform);
-                that.images.attr("transform", that.nodeTransform);
+                self.nodes.attr("transform", self.nodeTransform);
+                self.texts.attr("transform", self.nodeTransform);
+                self.images.attr("transform", self.nodeTransform);
                
                 // that.texts.attr("transform", function(d, i) {
                 //     var rotate = angleSlice * i > Math.PI / 2 ?
@@ -268,17 +262,42 @@
             },
 
             mouseClick(d, i) {
-                this.$emit('nodeClicked', i);
+                this.currentNode = d.data;
             },
 
             mouseEnter(d, i) {
-                /// stroke on circle ?
+                //this.currentNode = d.data;
                 this.$emit('nodeSelected', i);
             },
 
             mouseLeave(d, i) {
-                //reduce stroke
-                this.$emit('nodeDeselected');
+                if ( this.currentNode !== null ) {
+                    //this.currentNode = null;
+                    this.$emit('nodeDeselected');                    
+                }
+
+            },
+            
+            dragstarted(d) {
+                this.synth.synthAttack(d.data.notes); //ex delay : '+0.05'
+                if (!event.active) this.simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+
+            },
+
+            dragged(d) {
+                d.fx = event.x;
+                d.fy = event.y;
+                this.synth.synthModulo(event.x, event.y)
+                //EventBus.$emit('mqtt-tx', "getlarge/nodes-position", d.fx + "-" + d.fy)
+            },
+
+            dragended(d) {
+                if (!event.active) this.simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+                this.synth.synthRelease()
             },
 
         }

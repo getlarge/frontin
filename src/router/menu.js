@@ -25,18 +25,18 @@ export const routes = [
         alias: '/ambience/*',
         component: loadView('ambience/index')
     },{
+        name: 'Dichotomy',
+        title: 'Dichotomy',
+        path: '/dichotomy',
+        alias: '/dichotomy/*',
+        component: loadView('dichotomy')
+    },{
         name: 'Plants Print',
         title: 'Plants Print',
         path: '/plants-print',
         folder: true,
         alias: '/plants-print/*',
         component: loadView('plants-print/index')
-    },{
-        name: 'Dichotomy',
-        title: 'Dichotomy',
-        path: '/dichotomy',
-        alias: '/dichotomy/*',
-        component: loadView('dichotomy')
     },{
         name: 'Network Topology',
         title: 'Realtime Network Mapping',

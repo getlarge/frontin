@@ -16,7 +16,7 @@
                                         <div class="tags">{{tags}}</div>
                                     </div>
                                     <div v-else>
-                                        <div  style="font-size: 0.2rem;" class="description">{{description}}</div>
+                                        <div  class="description">{{description}}</div>
                                         <div class="tags">{{tags}}</div>
                                     </div>
                                 </b-col>
@@ -214,8 +214,8 @@
             },
 
             close: () => {
-                console.log(this.a)
-                EventBus.$emit('stop:cards' );
+                //console.log(this.a)
+                EventBus.$emit("stop:cards");
             }
         }
 
@@ -268,17 +268,17 @@
 
     .controls-mobile {
         #tooltipContainer {
-            font-size: 0.5rem;
+            font-size: 0.65rem;
             line-height: 7px;
             padding: 6px;
         }
 
         #tooltip .description {
-            font-size: 0.35rem;
+            font-size: 0.55rem !important;
         }
 
         #tooltip .tags {
-            font-size: 0.3rem;
+            font-size: 0.5rem;
         }
 
  
@@ -303,18 +303,18 @@
 
     .controls-laptop {
         #tooltipContainer {
-            font-size: 0.7rem;
+            font-size: 0.9rem;
             line-height: 15px;
             padding: 12px;
         }
 
         #tooltip .description {
             margin-top: 2%;
-            font-size: 0.6rem;
+            font-size: 0.8rem;
         } 
 
         #tooltip .tags {
-            font-size: 0.5rem;
+            font-size: 0.7rem;
         }
 
     }
@@ -328,11 +328,11 @@
 
         #tooltip .description {
             margin-top: 3%;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
         } 
 
         #tooltip .tags {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
         }
     }
 
@@ -345,11 +345,11 @@
 
         #tooltip .description {
             margin-top: 3%;
-            font-size: 1rem;
+            font-size: 1.1rem;
         } 
 
         #tooltip .tags {
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
     }
 

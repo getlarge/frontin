@@ -13,10 +13,8 @@
 			<b-col class="infos" xs="4" sm="7" md="8" lg="5">
 				<p>:  is a mode of branching by repeated bifurcation - thus a focus on branching rather than on division.
 	      		</p>
-	      		<hr class="my-4">
-	      		<p>Updating Peter Cook algorithm to reproduce plant's branching mechanism, by observing patterns, such criterias can be defined. You need an X & Y proportion - lenght of the base vein - angle and length growing's ratio - maximum number of branching and ... a random factor. 
-	      		</br>Todo :  using advanced image analytic tool ( machine learning involved ), it could be possible to extract parameters from species pictures and then synthesize plant's flow structure. 
-	      		</p>
+	      		<!-- <p></br>Todo :  using advanced image analytic tool ( machine learning involved ), it could be possible to extract parameters from species pictures and then synthesize plant's flow structure. 
+	      		</p> -->
 			</b-col>
 			<b-col class="regenerate" xs="2" sm="1" md="1" lg="1">
 				<b-button @click="regenerate(true)"><font-awesome-icon :icon="['fas', 'play']" size="2x" /> </b-button>
@@ -67,10 +65,10 @@
 		mounted() {
 		    this.initTree();
             EventBus.$on("start:tutorial", i => {
-                var text = "Click the play icon to regenerate the tree";
-                var tags = "tototo";
+                var text = "This work is based on Peter Cook's algorithm reproducing plant's branching mechanism. I tried to push realism further by observing their growing patterns, and playing with variables like vertical/horizontal proportion - angle and length growing's ratio - maximum number of branching, etc ... \nClick the play icon to regenerate the tree";
+                var tags = "";
                 var img = "static/icons/wald.png";
-                EventBus.$emit("update:tutorial", this.$route.name, text, tags, img );     
+                EventBus.$emit("update:tutorial", "En savoir plus", text, tags, img );     
             });   
 		},
 

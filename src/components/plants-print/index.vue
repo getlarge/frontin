@@ -74,9 +74,9 @@
             });
             EventBus.$on("start:tutorial", i => {
                 var text = "Click the play icon to regenerate the tree";
-                var tags = "tototo";
+                var tags = "";
                 var img = "static/img/dashboard.gif";
-                EventBus.$emit('update:tutorial', this.$route.name, text, tags, img );     
+                //EventBus.$emit('update:tutorial', this.$route.name, text, tags, img );     
             });  
         },
 
@@ -95,6 +95,7 @@
             //EventBus.$off("mqtt-rx");
             this.$off("got-x");
             this.$off("got-y");
+            EventBus.$off("rx:mqtt");
             EventBus.$off("start:tutorial");
             EventBus.$emit("stop:tutorial");     
         },

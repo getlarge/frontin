@@ -11,7 +11,7 @@
             <b-row align-h="center">
                 <b-col xs="10" sm="10" md="8" lg="7" xl="6">
                     <p class="desc">
-                    Retrospective of previous and present crafts, from UI/UX design to frontend/backend development, until embedded system prototyping. For more information, visit the website or contact me.
+                    Previous and present crafts, from UI/UX design to frontend/backend development, until embedded system prototyping. For more information, visit the website or contact me.
                     </p>
                 </b-col>
             </b-row>
@@ -30,7 +30,7 @@
             </b-row>
             <b-row v-else-if="contactCard === true && available === false" align-h="center">
                  <b-col  class="card" xs="8" sm="8" md="6" lg="5" xl="4">
-                    <mq-layout class="controls-mobile" mq="mobile">
+                    <mq-layout class="card-mobile" mq="mobile">
                         <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text1"
@@ -38,7 +38,7 @@
                               :backData="back.text" >
                         </info-card>
                     </mq-layout>
-                    <mq-layout class="controls-tablet" mq="tablet">
+                    <mq-layout class="card-tablet" mq="tablet">
                         <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text1"
@@ -46,7 +46,7 @@
                               :backData="back.text" >
                         </info-card>
                     </mq-layout>
-                    <mq-layout class="controls-laptop" mq="laptop">
+                    <mq-layout class="card-laptop" mq="laptop">
                         <info-card  @click.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text1"
@@ -54,7 +54,7 @@
                               :backData="back.text" >
                         </info-card>
                     </mq-layout>
-                    <mq-layout class="controls-desktop" mq="desktop">
+                    <mq-layout class="card-desktop" mq="desktop">
                         <info-card  @click.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text1"
@@ -62,7 +62,7 @@
                               :backData="back.text" >
                         </info-card>
                     </mq-layout>
-                    <mq-layout class="controls-xxl" mq="xxl">
+                    <mq-layout class="card-xxl" mq="xxl">
                         <info-card  @click.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text1"
@@ -74,7 +74,7 @@
             </b-row>
             <b-row v-else   align-h="center">
                  <b-col  class="card" xs="8" sm="8" md="6" lg="5" xl="4">
-                    <mq-layout class="controls-mobile" mq="mobile">
+                    <mq-layout class="card-mobile" mq="mobile">
                         <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text2"
@@ -82,7 +82,7 @@
                               :backData="back.text" >
                         </info-card>
                     </mq-layout>
-                    <mq-layout class="controls-tablet" mq="tablet">
+                    <mq-layout class="card-tablet" mq="tablet">
                         <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text2"
@@ -90,7 +90,7 @@
                               :backData="back.text" >
                         </info-card>
                     </mq-layout>
-                    <mq-layout class="controls-laptop" mq="laptop">
+                    <mq-layout class="card-laptop" mq="laptop">
                         <info-card  @click.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text2"
@@ -98,7 +98,7 @@
                               :backData="back.text" >
                         </info-card>
                     </mq-layout>
-                    <mq-layout class="controls-desktop" mq="desktop">
+                    <mq-layout class="card-desktop" mq="desktop">
                         <info-card  @click.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text2"
@@ -106,7 +106,7 @@
                               :backData="back.text" >
                         </info-card>
                     </mq-layout>
-                    <mq-layout class="controls-xxl" mq="xxl">
+                    <mq-layout class="card-xxl" mq="xxl">
                         <info-card  @click.native="toggleCard()"  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text2"
@@ -139,9 +139,10 @@
     const icon4 = "static/icons/available.png";
     const icon5 = "static/icons/notavailable.png";
     const rectangle = "<img class='square' src="+config.httpServerURL+"static/icons/rectangle.png />";
-    const frontCard2 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon4+"></img><p class='text'></br>and you need a dev in Nantes?</p></div>";
+    const rectangleFlipped = "<img class='square' src="+config.httpServerURL+"static/icons/rectangle-flipped.png />";
+    const frontCard2 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon4+"></img><p class='text'></br>And you need a web designer/developper ?</br>Why not talking about your project now.</p></div>";
     const frontCard1 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon5+"></img><p class='text'></br>...on a mission, but you can send me your request anyway!</p></div>";
-    const backCard =rectangle+"<div><img class='trombi' src="+config.httpServerURL+"static/img/ed2.jpg></img><p class='text'></br>ed@getlarge.eu</br>0624297761</br><a href='mailto:ed@"+config.mailDomain+"''></a></p></div>";
+    const backCard =rectangleFlipped+"<div><img class='trombi' style='opacity:0.8;' src="+config.httpServerURL+icon3+"></img><p class='text'></br><a href=mailto:ed@"+config.mailDomain+">ed at getlarge dot eu</a></br>+33624297761</br>Nantes</br>References on request</p></div>";
 
     export default {
         data() {
@@ -150,7 +151,6 @@
             serverURL: config.httpServerURL,
             icon1: "static/icons/info.png",
             icon2: "static/icons/letter.png",
-            icon3: "static/img/ed2.jpg",
             settings: {
                 width: 500,
                 height: 100,
@@ -167,7 +167,7 @@
             contactCard: false,
             available: true,
             front: {
-                title: "hey, i'm ...",
+                title: "Hey, i'm ...",
                 text1: frontCard1,
                 text2: frontCard2,
             },
@@ -177,7 +177,7 @@
             },
           }
         },
-        available: true,
+
         components: {
             InfoCard,
         },
@@ -207,6 +207,8 @@
         },
 
         beforeDestroy() {
+            EventBus.$off("start:tutorial");
+            EventBus.$emit("stop:tutorial");     
             this.interv.stop();
         },
 
@@ -372,7 +374,7 @@
     .card {
         margin-top: 2%;
         height: 60%;
-        border: none;
+        border: 0px !important;
         font-size: 1.2rem;
     }
 
@@ -385,7 +387,7 @@
         top: 0px;
         left:0px;
         width: 100%;
-        min-height: 90%;
+        min-height: 95%;
     }
 
     .info-card .title {
@@ -395,22 +397,34 @@
 
     .trombi {
         position: absolute;
-        top: 37%;
         left: 5%;
-        width: 40%;
-        padding-bottom: 20px;
+        width: 38%;
+        border-radius: 3px !important;
     }
 
     .text {
         text-align: justify;
         position: absolute;
-        top: 40%;
         left: 50%;
         padding-right: 3%;
         width: 45%;
         height: 280px;
-        font-size: 80%;
+        font-size: 85%;
     }
 
+    .card-mobile {
+        font-size: 70%!important;
+    }
 
+    .card-tablet {
+        font-size: 75%!important;
+    }
+
+    .card-laptop {
+        font-size: 80%!important;
+    }
+
+    .card-desktop {
+        font-size: 85%!important;
+    }
 </style>

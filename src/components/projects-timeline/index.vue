@@ -50,7 +50,7 @@
 			    	width : 1000, // viewbox width
 					lineHeight : 110, // flag height or stack height
 					s : 20,
-					f : 250, // over height
+					f : 350, // over height
 					m : null,
 					height : null,
 					v : 1.5,
@@ -75,11 +75,11 @@
 	  		this.initTimeLine();
 
             this.$on("projectSelected", i => {
-              this.currentProject = this.node[i];
+              	this.currentProject = this.node[i];
             });	
 
             this.$on("projectDeselected", () => {
-              this.currentProject = undefined;
+              	//this.currentProject = undefined;
             });		    
             EventBus.$on("start:tutorial", i => {
             	var text = "You'll find here a resume of my work experiences. \nTo get a description, you can select an event on hovering a wave,\n you can also click on text flags to read more about each project.";
@@ -91,6 +91,10 @@
             EventBus.$on("stop:tutorial", i => {
               	//this.currentProject = undefined;
             });
+
+            EventBus.$on("stop:cards", i => {
+                this.currentProject = undefined;
+            });  
 		
         },
 
@@ -105,6 +109,7 @@
 		beforeDestroy() {
 			EventBus.$emit("stop:tutorial");     
             EventBus.$off("start:tutorial");
+            EventBus.$off("stop:cards");
 		},
 
 		watch: { 
@@ -211,7 +216,8 @@
 			            //    	return node[n].color
 			        	// }),
 			        flagsLinks.append("text").attr("x", 2)
-					        .style("font-size", "10px")
+					        //.style("font-size", (self.width/50-self.height/100)+"px")
+					        .style("font-size","13px")
 					        .attr("fill", "#ededed")
 					        .style("text-transform", "uppercase") 
 					        .style("opacity", "0.7") 
@@ -342,7 +348,7 @@
 	    width: 100%;
 	    vertical-align: middle;
 	    overflow: hidden;
-	    margin-top: 9%;
+	    margin-top: 2%;
 	}
 
 	#timeline svg {

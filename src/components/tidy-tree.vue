@@ -36,7 +36,7 @@
                         <div class="form-group">
                             <label for="margin-y" class="control-label">Y-margin :  {{Marginy}}px</label>
                             <div class="">
-                                <input id="margin-y" class="form-control" type="range" min="-200" max="400" v-model.number="Marginy">
+                                <input id="margin-y" class="form-control" type="range" min="-400" max="400" v-model.number="Marginy">
                             </div>
                         </div>   
 
@@ -91,7 +91,7 @@
 
             <b-col xs ="12" sm="8" md="9" lg="10" xl="10" class="panel panel-default">
                 <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/> 
-                <p>Real time logical mapping of a network composed of web portal, devices, sensors; using <a href="https://github.com/mqtt/mqtt.github.io/wiki/topic_format" >MQTT</a> protocol.
+                <p>
                 </br>TODO : unify transport protocol using <a href="#/aloes-protocol"  > IPSO</a> references.
                 </p>
             </b-col>
@@ -143,7 +143,6 @@
         mounted() {
             // make object.assign here ?
             this.pageTopic = "getlarge" + this.$route.path;
-     
             //this.div = select(this.$refs['tree'].$el).append("div").attr("class", "tooltip").style("opacity", 0);
             this.div = select(this.$el).append("div").attr("class", "tooltip").style("opacity", 0);
             EventBus.$emit("sub:mqtt", "#");
@@ -152,9 +151,9 @@
                 return this.addNode(topic, payload.toString());
             });
             EventBus.$on("start:tutorial", i => {
-                var text = "You can select each circles to navigate in the tree,\n click on the text next to light grey circles to display messages";
-                var tags = "tototo";
-                var img = "static/img/dashboard.gif";
+                var text = "Real time logical mapping of a network composed of web portal, devices, sensors; using MQTTprotocol. \nYou can select each circles to navigate in the tree, click on the text next to light grey circles to display messages";
+                var tags = "";
+                var img = "static/img/tuto-mqtt-tree.gif";
                 EventBus.$emit('update:tutorial', this.$route.name, text, tags, img ); 
                 EventBus.$emit("tx:mqtt", "getlarge"+this.$route.path,"started");
                 return this.tutorial = true;    
@@ -175,6 +174,7 @@
             //     EventBus.$emit("mqtt-tx", (this.pageTopic, "ended"));            
             // }
             EventBus.$off("rx:mqtt");
+            EventBus.$emit("stop:tutorial");
             EventBus.$off("start:tutorial");
         },
 
