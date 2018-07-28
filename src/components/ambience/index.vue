@@ -46,7 +46,7 @@
 </template>
 
 <script>
-
+/// todo : add params in the url to share boards
   	import config from '@/config.json'
 	import { rgb } from "d3-color"
 	import { easeLinear } from "d3-ease"
@@ -156,9 +156,9 @@
 
 	  	mounted() {
 	  		EventBus.$on("start:tutorial", i => {
-                var text = "Create your own sound ambiance with this small application.\nClick on each icons to play a sound and use the slider to update volume, you can create your own widget too, just add audio and image files.\nAll icons are hand drawn by Isabella Kohout";
+                var text = "Create your own sound ambiance with this small application.\nClick on each icons to play a sound and use the slider to update volume, you can create your own widget too, just add audio and image files.\n All icons are hand drawn by Isabella Kohout";
                 var tags = "";
-                var img = "static/img/tuto-ambiance.gif";
+                var img = "static/img/tuto-ambience.gif";
                 EventBus.$emit('update:tutorial', "Tutorial", text, tags, img );     
             });  
 	  		EventBus.$on("start:audio-slider", (id, value) => {

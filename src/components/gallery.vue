@@ -2,22 +2,17 @@
     <div id="vis">
         <b-container fluid >
             <b-row align-h="center">
- <cards
-                        v-if="currentNode"
-                        :title="currentNode.id"
-                        :description="currentNode.description"
-                        :tags="currentNode.tags"
-                        :img="currentNode.img"
-                        />
-              <b-col sm="9" md="9" lg="9" >               
-                
-                <div class="svg-container" :style="{width: settings.width + '%'}">
-                    
-                    <svg id="svg" pointer-events="all" viewBox="0 0 1200 800" preserveAspectRatio="xMinYMin meet">
-                        <g :id="links"></g>
-                        <g :id="nodes"></g>
-                    </svg>
-                </div>
+                <b-col sm="4" md="4" lg="4" >               
+                    <div id="gallery">
+                    </div>
+                </b-col>  
+                <b-col xs="8" sm="8" md="8" lg="8" >               
+                    <div class="svg-container" :style="{width: settings.width + '%'}">
+                        <svg id="svg" pointer-events="all" viewBox="0 0 800 800" preserveAspectRatio="xMinYMin meet">
+                            <g :id="links"></g>
+                            <g :id="nodes"></g>
+                        </svg>
+                    </div>
                 </b-col>  
             </b-row>
           </b-container>
@@ -36,7 +31,6 @@
 	import { scaleOrdinal } from "d3-scale"
 	import { event, select, selectAll } from "d3-selection"
 	import { active, transition } from "d3-transition"
-    import cards from "@/components/utils/cards"
     import { EventBus } from '@/main'
     import ToneSynth from '@/tone-components/synth'
 
@@ -44,15 +38,16 @@
 		data() {
 		    return {
                 serverURL: config.httpServerURL,
-                dataPath : 'static/data/portfolio.json',
+                dataPath : 'static/data/gallery.json',
                 graph: null,
                 simulation: null,
                 colorPalette : scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#9adfb0", "#6ed659", "#417c52", "#56a46f" ]),
-                currentNode: undefined,
                 settings: {
+                    width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+                    height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
                     strokeColor: "#29B5FF",
                     width: 100,
-                    svgWigth: 1200,
+                    svgWidth: 800,
                     svgHeight: 800,
                     circles: {
                         levels: 6,
@@ -62,12 +57,9 @@
                     },
                 },
                 synth: new(ToneSynth),
+                gallery: false,
             };
 	  	},
-
-        components: {
-            cards: cards,
-        },
 
         created() {
 
@@ -76,18 +68,12 @@
         mounted() {
             this.initPortfolio();
 
-            EventBus.$on("stop:cards", i => {
-                this.currentNode = undefined;
-            });
-
             this.$on("nodeSelected", i => {
               //console.log("nodeSelected", this.graph.nodes[i].data);
-              //this.currentNode = this.graph.nodes[i].data;
             }); 
 
             this.$on("nodeDeselected", () => {
               //console.log("nodeDeselected");
-              //this.currentNode = undefined;
             });  
 
             EventBus.$on("start:tutorial", i => {
@@ -97,20 +83,17 @@
                 EventBus.$emit("update:tutorial", this.$route.name, text, tags, img );     
             });
 
-            //select(".svg-container").on("click", this.currentNode = null);
    
         },
 
         updated() {
-            var that = this;
-            that.simulation.nodes(that.graph.nodes).on('tick', that.ticked);
-            //console.log(that.graph.nodes)
+            this.simulation.nodes(this.graph.nodes).on('tick', this.ticked);
+            //console.log(this.graph.nodes)
         },
 
         beforeDestroy() { 
             EventBus.$off("start:tutorial");               
             EventBus.$emit("stop:tutorial");     
-
         },
 
         computed: {
@@ -137,7 +120,7 @@
                         .selectAll("path.link")
                         .data(that.graph.links, (d) => d.target.id )
                         .enter().insert("path")
-                        .style("stroke-width", (d) => (d.source.data.size / d.source.data.group*0.1).toString() + "px")
+                        .style("stroke-width", (d) => (d.source.data.size / d.source.data.group*0.05).toString() + "px")
                         .style("stroke", "black")
                         //.style("stroke", d => that.colorPalette(d.target.data.category))
                         .style("opacity", d => d.source.data.group > 2 ? "0" : "0.6")
@@ -179,11 +162,9 @@
                         //.attr("height", (d) => 1.5 * d.data.size)
                         .attr("height", d => d.data.group > 2 ? (1.5 * d.data.size) : (2 * d.data.size) )
                         .attr("width", d => d.data.group > 2 ? (1.5 * d.data.size) : (2 * d.data.size) )
-
-                        .attr("opacity", d => d.data.group > 2 ? "01" : "1")
+                        .attr("opacity", d => d.data.group < 2 ? "0" : "1")
                         .on( 'click', this.mouseClick)
                         .on( 'mouseenter', this.mouseEnter)
-                        // set back
                         .on( 'mouseleave', this.mouseLeave)
                         .call(drag()
                             .on("start", this.dragstarted)
@@ -216,7 +197,7 @@
                         .alpha(0.2)
                         .force("link", forceLink(that.graph.links).id((d, i) => d.id ).distance((d, i) => d.source.data.size / d.source.data.group * 3).strength((l, i) => 0.2 ).iterations(2))
                         .force("charge", forceManyBody(that.graph.nodes).strength(-100))
-                        .force("center", forceCenter(that.settings.svgWigth / 2, that.settings.svgHeight / 2))
+                        .force("center", forceCenter(that.settings.svgWidth / 2, that.settings.svgHeight / 2))
                         .force("collisionForce", forceCollide(5).strength(-250).iterations(1))
                         .alphaTarget(0.4)
                          // .force("x", forceX((d, i) => d.x ))
@@ -226,7 +207,7 @@
 
             nodeTransform(d) {
                 var maxNodeSize = 50;
-                d.x = Math.max(maxNodeSize, Math.min(this.settings.svgWigth - (d.data.size || 16), d.x));
+                d.x = Math.max(maxNodeSize, Math.min(this.settings.svgWidth - (d.data.size || 16), d.x));
                 d.y = Math.max(maxNodeSize, Math.min(this.settings.svgHeight - (d.data.size || 16), d.y));
                 return "translate(" + d.x + "," + d.y + ")";
             },
@@ -250,7 +231,6 @@
                 self.nodes.attr("transform", self.nodeTransform);
                 self.texts.attr("transform", self.nodeTransform);
                 self.images.attr("transform", self.nodeTransform);
-               
                 // that.texts.attr("transform", function(d, i) {
                 //     var rotate = angleSlice * i > Math.PI / 2 ?
                 //         (angleSlice * i * 180 / Math.PI) - 270 :
@@ -261,21 +241,56 @@
                 // })
             },
 
+            createGallery(d, i) {
+                if (d.data.group >2) {
+                    select("#gallery")
+                        .attr("class", "gallery-open")
+                        .html("<p class='title'>"+d.data.title+"</br>"+d.data.description+"</br><a href="+d.data.link+">link</a></p>")
+                        .append("img")
+                        .attr("class", "img-open")
+                        .attr("src", d.data.group === 3 ? this.serverURL+d.data.img[0] : "")
+                        .attr("x", -1 * d.data.size)
+                        .attr("y", -1 * d.data.size)
+                        .attr("opacity", d.data.link ? "0.8" : "0")
+                        //.on("clickwindow", this.removeGallery("#gallery",".gallery-open"))
+                }
+                else  {
+                    select("#gallery").select(".img-open").remove(); 
+                    select("#gallery").select(".title").remove(); 
+                }
+                
+            },
+
+            removeGallery(parent, child) {
+                if ( this.gallery === false) {
+                    this.gallery = true;
+                    //console.log("don't remove")
+                }
+                else {
+                    this.gallery = false;
+                    //console.log("remove")
+                    //select(parent).select(child).remove(); 
+                    return;
+                }
+            },
             mouseClick(d, i) {
-                this.currentNode = d.data;
+                //this.$emit('nodeClicked', i);
+                // select("#gallery")
+                //     .select(".img-open").remove();
+                this.createGallery(d, i)
             },
 
             mouseEnter(d, i) {
-                //this.currentNode = d.data;
                 this.$emit('nodeSelected', i);
             },
 
             mouseLeave(d, i) {
                 if ( this.currentNode !== null ) {
-                    //this.currentNode = null;
                     this.$emit('nodeDeselected');                    
                 }
-
+                else {
+                    return;
+                }
             },
             
             dragstarted(d) {
@@ -283,7 +298,6 @@
                 if (!event.active) this.simulation.alphaTarget(0.3).restart();
                 d.fx = d.x;
                 d.fy = d.y;
-
             },
 
             dragged(d) {
@@ -306,7 +320,7 @@
 
 </script>
 
-<style scoped>
+<style lang="scss">
 	#vis {
         width: 100%;
         height: 100%;
@@ -318,11 +332,60 @@
         box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);*/
     }
 
-
     .texts text {
-      display: none;
       font-size: 12px;
     }
 
+    #gallery {
+        position: relative;
+        top: 5%;
+        z-index: 1000;
+    }
 
+    .title {
+        text-align: center;
+        text-transform: uppercase;
+        color: #686868;
+        font-size: 110%;
+    }
+
+    .img-open {
+        position: relative;
+        border-radius: 4px;
+        height: 60%;
+        width: 100%;
+    }
+
+/* Smartphones (portrait and landscape) ----------- */
+    @media only screen and (min-device-width : 320px) and (max-device-width : 580px) {
+        .img-open {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+
+            border-radius: 4px;
+            max-height: 180px;
+            width: auto;
+            max-width: 100%;
+        }
+    } 
+/* Smartphones (portrait) ----------- */
+    @media only screen and (max-device-height : 850px) and (max-device-width : 440px)  and (min-device-width : 300px){
+        .img-open {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 4px;
+            max-height: 180px;
+            max-width: 100%;
+        }
+    }    
+    /* iPads (portrait and landscape) ----------- */
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        .img-open {
+            position: relative;
+            max-height: 50%;
+            max-width: 100%;
+        }
+    }
 </style>

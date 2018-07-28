@@ -8,8 +8,8 @@
                 <b-nav class="w-50">
                     <b-navbar-nav >
                         <b-nav-item-dropdown class="nav-link" text="Latest works" left>
-                            <b-dropdown-item v-for="item in items" :key="item.path">
-                            <router-link :to="item.path">{{ item.name }}</router-link>
+                            <b-dropdown-item v-for="item in items" :key="item.path" :to="item.path">{{ item.name }}
+                            <!-- <router-link :to="item.path">{{ item.name }}</router-link> -->
                             </b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
@@ -167,7 +167,6 @@
 
     #holder {
         position: relative;
-        /*border-top: 1px dashed gray;*/
         padding-top: 0px;
         margin-top: 10%;
     }
@@ -177,6 +176,13 @@
         width: 300px;
         height: 40px;
         position: relative;
+    }
+
+    .dropdown-item {
+        background-color: transparent;
+        border: 0px;
+        border-color: #f9b23e;
+        color: #686868;
     }
 
     .dropdown-item:active {
@@ -191,13 +197,11 @@
         border-color: #f9b23e;
     }
 
-    a {
-        color: #686868;
-    }
-
-    a:hover{
+    .dropdown-item:hover {
+        background-color: transparent;
+        border: 1px;
+        border-color: #f9b23e;
         color: #33b277;
-        text-decoration: none;
     }
 
     .logo {

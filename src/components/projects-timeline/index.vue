@@ -59,7 +59,7 @@
 				},
 				I: null,
 				D: null,
-				Q: null,
+				waves: null,
 			}
 	  	},
 
@@ -82,7 +82,7 @@
               	//this.currentProject = undefined;
             });		    
             EventBus.$on("start:tutorial", i => {
-            	var text = "You'll find here a resume of my work experiences. \nTo get a description, you can select an event on hovering a wave,\n you can also click on text flags to read more about each project.";
+            	var text = "You'll find here a resume of my work experiences. \n To get a description, you can select an event on hovering a wave, you can also click on text flags to read more about each project.";
             	var tags = "";
             	var img = "static/img/tuto-timeline.gif";
             	EventBus.$emit("update:tutorial", "Tutorial", text, tags, img );     
@@ -187,7 +187,7 @@
 			        
 			        self.dataSet = null;
 			        var L = P(O);
-			        self.Q = (self.timeline.selectAll("path").data(L).enter()
+			        self.waves = (self.timeline.selectAll("path").data(L).enter()
 		        			.append("path").attr("d", N)
 				        	.on("click", (d, i) =>self.t(self.node[i], !0))
 				        	.on("mouseover", self.extend)
@@ -220,27 +220,27 @@
 					        .style("font-size","13px")
 					        .attr("fill", "#ededed")
 					        .style("text-transform", "uppercase") 
-					        .style("opacity", "0.7") 
-					        .style("cursor", "pointer") 
+					        .style("opacity", "0.6") 
+					        .style("cursor", (d, i) => self.node[i].link !== null ? "pointer" : "default") 
 		    				.text((d, i) => self.node[i].name);
 
-			        self.Q = flagsLinks.nodes().map(function(d) {
+			        self.waves = flagsLinks.nodes().map(function(d) {
 			            var n = d.children[1].getBBox();
 			            return {
 			                bbox: n,
 			                width: Math.ceil(n.width) + 6
 			            }
 			        });
-			        flagsLinks.select("rect").attr("width", (d, i) => self.Q[i].width);
+			        flagsLinks.select("rect").attr("width", (d, i) => self.waves[i].width);
 
 			        self.q = range(10).map(function() {
 			            return null
 			        });
-			        flagsLinks.attr("transform", self.i),
+			        flagsLinks.attr("transform", self.i);
 			        self.q = range(10).map(function() {
 			            return null
-			        }),
-			        flags.select("line").attr("y1", self.o),
+			        });
+			        flags.select("line").attr("y1", self.o);
 			        flags.exit().remove();
 			        self.update(); //
 
@@ -257,15 +257,22 @@
 
 			update() {
 				var self = this;
-		        self.timeline.selectAll("path").transition().attr("fill", self.coloring),
+		        self.timeline.selectAll("path")
+		        	.transition()
+		        	.attr("opacity", "0.9")
+		        	.attr("fill", self.coloring),
 		        //timeline.selectAll(".flag rect").transition().attr("fill", coloring),
 		        //timeline.selectAll(".flag line").transition().attr("stroke", coloring),	        
-		        self.timeline.selectAll(".flag text").transition().attr("fill", function(d, i) {
-		            return self.dataSet && self.node[i] !== self.dataSet || !d ? "transparent" : "#686868"
-		        });
-		        self.timeline.selectAll(".flag line").transition().attr("opacity", function(d, i) {
-		            return self.dataSet && self.node[i] !== self.dataSet || !d ? "0" : "0.6"
-		        });
+		        self.timeline.selectAll(".flag text")
+		        	.transition()
+		        	.attr("fill", function(d, i) {
+		            	return self.dataSet && self.node[i] !== self.dataSet || !d ? "transparent" : "#686868"
+		        	});
+		        self.timeline.selectAll(".flag line")
+		        	.transition()
+		        	.attr("opacity", function(d, i) {
+		            	return self.dataSet && self.node[i] !== self.dataSet || !d ? "0" : "0.6"
+		        	});
 		    },
 
 			a(d, i) {
@@ -276,7 +283,7 @@
 			o(d, i) {
 				var self = this;
 		        var e = 0,
-		          	r = self.Q[i];
+		          	r = self.waves[i];
 		        if (r) {
 		            var o = self.a(d, i),
 		            u = o + r.width;
@@ -295,7 +302,7 @@
 
 		    i(d, i) {
 		        var e = this.a(d, i),
-		           r = this.Q[i];
+		           r = this.waves[i];
 		        return r && e + r.width > this.settings.width && (e -= r.width),
 		        "translate(" + e + " " + this.o(d, i) + ")"
 		    },
@@ -315,14 +322,12 @@
 		    extend(d, i) { 
 		        this.t(this.node[i], !0);
 		        this.$emit('projectSelected', i);
-
 		    },
 
 		    reduce() { 
 		        event.stopPropagation();
 		        this.$emit('projectDeselected');
 		    },
-
 
 		    coloring(d, i) {
 		        var e = this.node[i];
@@ -364,13 +369,7 @@
 	    stroke-width: 0px;
 	}
 
-	.timeline-tooltip.hidden {
-	    visibility: hidden
-	}
 
-	a:hover {
-	    color: #6ad1a4;
-	}
 
 /*	.axis text {
 	    font-size: 10px;

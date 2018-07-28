@@ -128,7 +128,6 @@
     import { rgb } from "d3-color"
     import { easeLinear } from "d3-ease"
     import { interpolateHcl, interpolateHclLong } from "d3-interpolate"
-    import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale"
     import { event, mouse, select, selectAll } from "d3-selection"
     import { interval, now, timeout, timer } from "d3-timer"
     import { active, transition } from "d3-transition"
@@ -186,9 +185,7 @@
             var self = this;
             this.g = select("#svg").append("g");
             this.color = interpolateHclLong(rgb(this.colorSet[0].color1),rgb(this.colorSet[0].color2));
-            //this.initialize();
             this.update(this.letters);
-            //this.transitionBG();
             this.interv = interval(function() {
                 /// Once the counter hit a multiple of 3, show "normal" title
                 self.updateCounter % 3 === 0 ? self.update("edouard maleix".split("")) : self.update(shuffle(self.letters))
@@ -217,18 +214,9 @@
         },
 
         methods: {
-            initialize() {
-                var self = this;
-                select(this.$el)
-                    //.style("background-color", this.color("0.1"))
-                    .style("background-color", "#FFF")
-                    //.style("opacity", "0.1" ); 
-            },
-
             toggleCard() {
                 if (this.contactCard === false) {
                     this.contactCard = true;
-                    //this.available = true;
                     //console.log("card-on")
                 }
                 else { 
@@ -275,28 +263,6 @@
                     .style("fill-opacity", 1);
             },
 
-            transitionBG() {
-                var self = this;
-                select(this.$el)
-                    .transition()
-                    .style("background-color", self.color("0.1"))       
-                    .duration(self.settings.duration)
-                    .ease(easeLinear) 
-                    .style("background-color", self.color("0.3"))
-                    .transition()        
-                    .duration(self.settings.duration)
-                    .ease(easeLinear)       
-                    .style("background-color", self.color("0.5"))
-                    .transition()       
-                    .duration(self.settings.duration)
-                    .ease(easeLinear)  
-                    .style("background-color", self.color("0.7"))
-                    .transition()       
-                    .duration(self.settings.duration)
-                    .ease(easeLinear)  
-                    .style("background-color", self.color("0.9"))
-                    .on("end", self.transitionBG);  
-            },
         }
           
     }

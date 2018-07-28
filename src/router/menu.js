@@ -13,10 +13,10 @@ export const routes = [
         alias: '/projects-timeline/*',
         component: loadView('projects-timeline/index')
     },{
-        name: 'Portfolio',
-        title: 'Portfolio',
-        path: '/portfolio',
-        component: loadView('portfolio')
+        name: 'Gallery',
+        title: 'Gallery',
+        path: '/gallery',
+        component: loadView('gallery')
     },{
         name: 'Ambience',
         title: 'Ambience',

@@ -40,7 +40,7 @@
             return {
               pageTopic: "getlarge" + this.$route.path,
               serverURL: config.httpServerURL,
-              icon: "static/img/asplenium-nidus.jpeg",
+              icon: "static/img/print-asplenium-nidus.jpeg",
               lineArr: [],
               MAX_LENGTH: 100,
               duration: 2000,
@@ -73,7 +73,7 @@
                 return this.y = y;
             });
             EventBus.$on("start:tutorial", i => {
-                var text = "Click the play icon to regenerate the tree";
+                var text = "This plant print is extracted from homemade series. \nYou can zoom on the graph by selecting a zone.";
                 var tags = "";
                 var img = "static/img/dashboard.gif";
                 //EventBus.$emit('update:tutorial', this.$route.name, text, tags, img );     

@@ -1,8 +1,7 @@
 <template>
-    <div >  
-        <mq-layout class="controls-mobile" mq="mobile">
-            <!-- v-if="settings.dragBoxWidth > settings.dragBoxHeight  " -->
-            <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.5)" class="">
+    <div id="cards" >  
+        <mq-layout class="cards-mobile" mq="mobile">
+            <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.3)" class="">
                 <vue-draggable-resizable   id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.6"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container  >
@@ -34,7 +33,7 @@
             </div>
         </mq-layout>
 
-        <mq-layout class="controls-tablet" mq="tablet">
+        <mq-layout class="cards-tablet" mq="tablet">
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.1)" class="">
                 <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
@@ -77,14 +76,14 @@
             </div>
         </mq-layout>
     
-        <mq-layout class="controls-laptop" mq="laptop">
+        <mq-layout class="cards-laptop" mq="laptop">
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.1)">
             <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/3"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :maximize="true" :resizable="false" v-on:resizing="onResize" >
                 <div id="tooltip">
                     <b-container fluid class="bv-example-row">
                         <div class="title">{{title}}</div>
-                        <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> </button>
-                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="lg" /> </button>
+                        <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
+                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
                         <b-row >
                             <b-col  md="5" lg="5" >
                                 <div class="description">{{description}}</div>
@@ -103,8 +102,8 @@
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
-                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> </button>
-                            <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="lg" /> </button>
+                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
+                            <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
                             <b-row >
                                 <b-col sm="5"  >
                                     <div class="description">{{description}}</div>
@@ -120,13 +119,13 @@
             </div>
         </mq-layout>
 
-        <mq-layout class="controls-desktop" mq="desktop">
+        <mq-layout class="cards-desktop" mq="desktop">
              <vue-draggable-resizable id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/4"  :minw="settings.dragBoxWidth" :minh="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag" :resizable="false" v-on:resizing="onResize" :handles="['tr']">
                 <div id="tooltip">
                     <b-container  fluid >
                         <div class="title">{{title}}</div>              
-                        <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> </button>
-                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="lg" /> </button>
+                        <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
+                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
                         <b-row >
                             <b-col lg="5" >
                                 <div class="description">{{description}}</div>
@@ -141,7 +140,7 @@
             </vue-draggable-resizable>
         </mq-layout>
 
-        <mq-layout class="controls-xxl" mq="xxl">
+        <mq-layout class="cards-xxl" mq="xxl">
             <vue-draggable-resizable id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/4"  :minw="settings.dragBoxWidth" :minh="settings.dragBoxHeight" :drag-handle="'.drag-button'" v-on:dragging="onDrag"  :resizable="false" v-on:resizing="onResize" :handles="['tr']">
                 <div id="tooltip">
                     <b-container  fluid >
@@ -227,8 +226,9 @@
 
     #tooltipContainer {
         border-radius: 3px;
-        background: rgba(255,255,255,0.9);
+        background: rgba(255,255,255,01);
         color: #000;
+        z-index: 1000 !important;
         box-shadow: 0 1px 5px rgba(0,0,0,0.4);
         -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
         border:1px solid rgba(200,200,200,0.85);
@@ -266,7 +266,10 @@
         text-transform: lowercase;
     }
 
-    .controls-mobile {
+    .cards-mobile {
+
+        background-color: rgba(0,0,0,0.5);
+        z-index: 2000;
         #tooltipContainer {
             font-size: 0.65rem;
             line-height: 7px;
@@ -284,7 +287,10 @@
  
     }
 
-    .controls-tablet {
+    .cards-tablet {
+
+        background-color: rgba(0,0,0,0.5);
+        z-index: 2000;
         #tooltipContainer {
             font-size: 0.65rem;
             line-height: 9px;
@@ -301,7 +307,7 @@
         } 
     }
 
-    .controls-laptop {
+    .cards-laptop {
         #tooltipContainer {
             font-size: 0.9rem;
             line-height: 15px;
@@ -319,7 +325,10 @@
 
     }
 
-    .controls-desktop {
+    .cards-desktop {
+
+        background-color: rgba(0,0,0,0.5);
+        z-index: 2000;
         #tooltipContainer {
             font-size: 1rem;
             line-height: 20px;
@@ -336,20 +345,23 @@
         }
     }
 
-    .controls-xxl {
+    .cards-xxl {
+
+        background-color: rgba(0,0,0,0.5);
+        z-index: 2000;
         #tooltipContainer {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             line-height: 25px;
             padding: 13px;
         }
 
         #tooltip .description {
             margin-top: 3%;
-            font-size: 1.1rem;
+            font-size: 1rem;
         } 
 
         #tooltip .tags {
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
     }
 
