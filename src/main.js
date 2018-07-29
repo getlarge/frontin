@@ -1,15 +1,16 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import store from '@/services/store.js'
-import router from './router'
-//import i18n from './i18n'
+import Vue from "vue"
+import App from "./App"
+import store from "@/services/store.js"
+import router from "./router"
+//import i18n from "./i18n"
 import * as axios from "axios"
 import VueResource from "vue-resource"
 import VueAuthImage from "vue-auth-image"
 
 import VueMq from "vue-mq"
+import VueTouch from "vue-touch"
 import BootstrapVue from "bootstrap-vue"
 import "bootstrap/dist/css/bootstrap.css"
 import "bootstrap-vue/dist/bootstrap-vue.css"
@@ -32,6 +33,7 @@ var authHeader = "Basic dXNlcjptb3RkZXBhc3Nl";
 //Vue.http.headers.common['Authorization'] = authHeader;
 axios.defaults.headers.common['Authorization'] = authHeader;
 
+Vue.use(VueTouch, {name: 'v-touch'})
 
 Vue.use(VueMq, {
 	breakpoints: {

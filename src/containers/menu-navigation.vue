@@ -5,36 +5,38 @@
   
             <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
             <b-collapse is-nav id="nav_collapse">
-                <b-nav class="w-50">
+                <b-nav class="h-10">
                     <b-navbar-nav >
                         <b-nav-item-dropdown class="nav-link" text="Latest works" left>
-                            <b-dropdown-item v-for="item in items" :key="item.path" :to="item.path">{{ item.name }}
-                            <!-- <router-link :to="item.path">{{ item.name }}</router-link> -->
+                            <b-dropdown-item v-for="item in items" :key="item.path" :to="item.path">
+                                {{ item.name }}
                             </b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-nav>
-                <b-navbar-nav class="ml-auto">
-           <!--  <b-nav-item-dropdown :class="{'nav-link': true, show: showLocale}" @click.prevent="onLocale(true)" @focus="onLocale(true)" @blur="onLocale(false)" :text="{{$t('header.locale')}}" right>
-              <b-dropdown-item class="dropdown-menu"  v-for="(value, name) in locale" :key="name">
-                <router-link class="dropdown-item" :to="'/' + name + ($route.params.locale ? $route.fullPath.substr($route.params.locale.length + 1) : $route.fullPath)">{{value}}</router-link>
-              </b-dropdown-item>
-            </b-nav-item-dropdown> --> 
-                    <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank" title="Linkedin"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" alt="linkedin icon"/></b-nav-item>
-                    <b-nav-item href="https://framagit.org/getlarge" target="_blank" title="Gitlab"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg" alt="git icon"/></b-nav-item>
-                    <b-nav-item @click="chatHandler()" title="Chat" >
-                        <font-awesome-icon v-if="chat === true" class="on" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-on icon"/>
-                        <font-awesome-icon v-else class="off" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-off icon"/>
-                    </b-nav-item>
-                    <b-nav-item  @click="help()" title="Tutorial">
-                        <font-awesome-icon v-if="tutorial === true" class="on" :icon="['fas', 'question-circle']" size="lg" alt="tuto-on"/>
-                        <font-awesome-icon v-else class="off" :icon="['fas', 'question-circle']" size="lg" alt="tuto-off"/>
-                    </b-nav-item>
-                    <b-nav-item title="MQTT status" disabled>
-                        <font-awesome-icon v-if="connStatus === 'Connected'" class="on" :icon="['fas', 'circle']" size="lg" alt="mqtt-on icon"/>
-                        <font-awesome-icon v-else class="off" :icon="['fas', 'circle']" size="lg" alt="mqtt-off icon"/>
-                    </b-nav-item>
+                <b-nav class="ml-auto">
+                    <b-navbar-nav >
+                       <!--  <b-nav-item-dropdown :class="{'nav-link': true, show: showLocale}" @click.prevent="onLocale(true)" @focus="onLocale(true)" @blur="onLocale(false)" :text="{{$t('header.locale')}}" right>
+                          <b-dropdown-item class="dropdown-menu"  v-for="(value, name) in locale" :key="name">
+                            <router-link class="dropdown-item" :to="'/' + name + ($route.params.locale ? $route.fullPath.substr($route.params.locale.length + 1) : $route.fullPath)">{{value}}</router-link>
+                          </b-dropdown-item>
+                        </b-nav-item-dropdown> --> 
+                        <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank" title="Linkedin"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" alt="linkedin icon"/></b-nav-item>
+                        <b-nav-item href="https://framagit.org/getlarge" target="_blank" title="Gitlab"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg" alt="git icon"/></b-nav-item>
+                        <b-nav-item @click="chatHandler()" title="Chat" >
+                            <font-awesome-icon v-if="chat === true" class="on" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-on icon"/>
+                            <font-awesome-icon v-else class="off" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-off icon"/>
+                        </b-nav-item>
+                        <b-nav-item  @click="help()" title="Tutorial">
+                            <font-awesome-icon v-if="tutorial === true" class="on" :icon="['fas', 'question-circle']" size="lg" alt="tuto-on"/>
+                            <font-awesome-icon v-else class="off" :icon="['fas', 'question-circle']" size="lg" alt="tuto-off"/>
+                        </b-nav-item>
+                        <b-nav-item title="MQTT status" disabled>
+                            <font-awesome-icon v-if="connStatus === 'Connected'" class="on" :icon="['fas', 'circle']" size="lg" alt="mqtt-on icon"/>
+                            <font-awesome-icon v-else class="off" :icon="['fas', 'circle']" size="lg" alt="mqtt-off icon"/>
+                        </b-nav-item>
                     </b-navbar-nav>
+                </b-nav>
             </b-collapse>
         </b-navbar>
                 <cards
@@ -49,11 +51,12 @@
 
 <script>
 
-    import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-    import config from '@/config.json'
-    import { routes } from '@/router/menu'
+    import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
+    import config from "@/config.json"
+    import liveRocketChat  from "@/services/live-rocketchat"
+    import { routes } from "@/router/menu"
     import cards from "@/components/utils/cards"
-    import { EventBus } from '@/main'
+    import { EventBus } from "@/main"
 
     export default {
         props: { }, 
@@ -61,6 +64,7 @@
         data() {
             return {
                 items: routes,
+                chat: new(liveRocketChat),
                 serverURL: config.httpServerURL,
                 icon1: "static/icons/braille-E.png",
                 icon2: "static/icons/braille-M.png",
@@ -68,7 +72,7 @@
                 pageTopic: "getlarge" + this.$route.path + "main",
                 currentPage: null, 
                 tutorial : false,
-                chat : false,
+                chatInit : false,
             }
         },
         
@@ -90,7 +94,7 @@
                 this.tutorial = false;
                 return this.currentPage = null;
             });
-            EventBus.$on("stop:cards", i => {
+            EventBus.$on("stop:cards", () => {
                 this.tutorial = false;
                 return this.currentPage = null;
             }); 
@@ -123,12 +127,12 @@
             // },
 
             chatHandler() {
-                if ( this.chat === false ) {
-                    this.chat = true;
+                if ( this.chatInit === false ) {
+                    this.chatInit = true;
                     return EventBus.$emit('start:chat');
                 }
-                else if ( this.chat === true ) {
-                    this.chat = false;
+                else if ( this.chatInit === true ) {
+                    this.chatInit = false;
                     return EventBus.$emit('stop:chat');
                 }
             },
@@ -163,7 +167,7 @@
 
 </script>
 
-<style scoped>
+<style lang="scss">
 
     #holder {
         position: relative;
@@ -179,22 +183,24 @@
     }
 
     .dropdown-item {
-        background-color: transparent;
+        background-color: white;
         border: 0px;
         border-color: #f9b23e;
         color: #686868;
     }
 
-    .dropdown-item:active {
-        background-color: transparent;
+    .dropdown-item.active {
+        background-color: white;
         border: 1px;
         border-color: #f9b23e;
+        color: #33b277;
     }
 
     .dropdown-item:focus {
-        background-color: transparent;
+        background-color: white;
         border: 1px;
         border-color: #f9b23e;
+        color: #686868;
     }
 
     .dropdown-item:hover {

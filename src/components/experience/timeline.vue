@@ -1,5 +1,5 @@
 <template>
-	<div id="project-timeline" >
+	<div id="interactive-timeline" >
 	    <cards
 			v-if="currentProject"
 			:title="currentProject.name"
@@ -32,6 +32,7 @@
 	import { EventBus } from '@/main'
 
 	export default {
+        name: 'timeline',
 
 		data() {
 		    return {
@@ -217,10 +218,8 @@
 			        	// }),
 			        flagsLinks.append("text").attr("x", 2)
 					        //.style("font-size", (self.width/50-self.height/100)+"px")
-					        .style("font-size","13px")
-					        .attr("fill", "#ededed")
-					        .style("text-transform", "uppercase") 
-					        .style("opacity", "0.6") 
+					        .attr("class", "flagsText")
+
 					        .style("cursor", (d, i) => self.node[i].link !== null ? "pointer" : "default") 
 		    				.text((d, i) => self.node[i].name);
 
@@ -339,9 +338,9 @@
 </script>
 
 
-<style scoped>
+<style lang="scss">
 
-	#project-timeline {
+	#interactive-timeline {
 		color: #686868;
 	    margin-top: 3%;
 	    margin-bottom: 0% !important;
@@ -354,34 +353,34 @@
 	    vertical-align: middle;
 	    overflow: hidden;
 	    margin-top: 2%;
+
+    	
+		svg {
+		    display: inline-block;
+		    position: absolute;
+		    top: 0;
+		    left: 0
+		}
+
+		path {
+		    cursor: pointer;
+		    stroke: #ededed;
+		    stroke-width: 0px;
+		}
+
+		.axis path {
+			stroke-width: 1px;
+		    fill: none;
+		    stroke: #686868;
+		    shape-rendering: geometricPrecision;
+		}
+
+		.flagsText {
+			font-size: 13px;
+			text-transform: uppercase; 
+			opacity: 0.9;
+			z-index: 1200; 
+		}
 	}
-
-	#timeline svg {
-	    display: inline-block;
-	    position: absolute;
-	    top: 0;
-	    left: 0
-	}
-
-	#timeline path {
-	    cursor: pointer;
-	    stroke: #FFF;
-	    stroke-width: 0px;
-	}
-
-
-
-/*	.axis text {
-	    font-size: 10px;
-	    fill: #686868
-	}
-
-	.axis path {
-	    fill: none;
-	    stroke: #686868;
-	    shape-rendering: geometricPrecision;
-	}*/
-
-
 
 </style>

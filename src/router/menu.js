@@ -6,12 +6,12 @@ function loadView(view) {
 
 export const routes = [
     {
-        name: 'Projects Timeline',
-        title: 'Projects Timeline',
-        path: '/projects-timeline',
+        name: 'Experiences',
+        title: 'Experiences',
+        path: '/experience',
         folder: true,
-        alias: '/projects-timeline/*',
-        component: loadView('projects-timeline/index')
+        alias: '/experience/*',
+        component: loadView('experience/index')
     },{
         name: 'Gallery',
         title: 'Gallery',
@@ -40,9 +40,9 @@ export const routes = [
     },{
         name: 'Network Topology',
         title: 'Realtime Network Mapping',
-        path: '/tidy-tree',
-        alias: '/tidy-tree/*',
-        component: loadView('tidy-tree')
+        path: '/network-tree',
+        alias: '/network-tree/*',
+        component: loadView('network-tree')
     },{
         name: 'IPSO protocol',
         title: 'IPSO protocol',

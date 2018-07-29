@@ -8,13 +8,13 @@
 
 <script>
 
-    import config from '@/config.json'
-    import mqttClient  from '@/services/mqtt-client'
-    import liveRocketChat  from '@/services/live-rocketchat'
-    import topNav from '@/containers/menu-navigation'
+    import config from "@/config.json"
+    import mqttClient  from "@/services/mqtt-client"
+    import liveRocketChat  from "@/services/live-rocketchat"
+    import topNav from "@/containers/menu-navigation"
     import { select, selectAll } from "d3-selection"
-    import bottomNav from '@/containers/footer-navigation'
-    import { EventBus } from '@/main'
+    import bottomNav from "@/containers/footer-navigation"
+    import { EventBus } from "@/main"
 
     export default {
         name: "App",
@@ -27,7 +27,7 @@
             return {
                 appName: config.inTopic,
                 client: new(mqttClient),
-                chat: new(liveRocketChat),
+                //chat: new(liveRocketChat),
                 showLocale: false,
                 showNav: false,
             }
@@ -54,7 +54,7 @@
          
         mounted() {
             EventBus.$on("stop:chat", i => {
-                chat = new(liveRocketChat);
+                //chat = new(liveRocketChat);
             });
             selectAll("img").on('contextmenu', function(){ 
                 event.preventDefault();

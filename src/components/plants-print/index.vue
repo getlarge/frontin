@@ -1,17 +1,16 @@
 <template>
-    <b-container id="plant-life" fluid >
+    <b-container id="plant-print" fluid >
         <b-row align-h="center">
-            <b-col  xs="4" sm="4" md="4" lg="4" >
-                </div>
+            <b-col  xs="6" sm="6" md="6" lg="6" >
+                <b-img class="specimen" :src="serverURL+icon" fluid />
             </b-col>
-            <b-col xs="8" sm="8" md="8" lg="8" >
+            <b-col xs="6" sm="6" md="6" lg="6" >
                 <h1 class="title">Asplenium nidus</h1>
                 <p class="subtitle"> welcoming you with her long curvy bordered leaves, from the ground to the sky. </p>
             </b-col>
         </b-row>
         <b-row align-h="center">
             <b-col  xs="4" sm="4" md="4" lg="4" >
-                <b-img class="specimen" :src="serverURL+icon" fluid />
                 <div class="description" > Measuring conductivity signals from 2 specimens living in my  garden ( represented as X & Y ), compared in real time. 
                     </br> The aim of this experiment is to map plant's sensitivity and finally create an id card based on its vital print. 
                     </br><small># In Progress</small>
@@ -53,8 +52,11 @@
           }
         },
 
-        mounted() {
+        created() {
             this.seedData();
+        },
+        
+        mounted() {
             select("#chart").datum(this.lineArr).call(this.chart);
             select(window).on('resize', this.resize);
                         this.interv = interval(this.updateData, this.duration);
@@ -181,55 +183,59 @@
 
 <style lang="scss">
 
-  #plant-life {
-    margin-top: 3%;
-    margin-bottom: 2%;
-    color: #a0a0a0; 
-    font-family: "MarketDeco";
-  }
+    #plant-print {
+        margin-top: 3%;
+        margin-bottom: 2%;
+        color: #a0a0a0; 
+        font-family: "MarketDeco";
+    
+        .specimen {
+            opacity: 0.8;
+            margin-top: 0%;
+            margin-bottom: 1%;
+          }
+          
+        path.domain {
+            stroke: #a0a0a0; 
+            stroke-width: 1.5px;
+        }
 
-  .specimen {
-    opacity: 0.8;
-    margin-top: 0%;
-    margin-bottom: 6%;
-    max-height: 60%;
-  }
+        .title {
+            font-family: "MarketDeco";
+            opacity: 0.8;
+            font-size: 2.5rem;
+            text-align: left;
+            color: #26a826;
+            margin-left: 2%;
+            margin-top: 8%;
+            margin-bottom: 2%;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            margin-left: 2%;
+            margin-top: 4%;
+            margin-bottom: 4%;
+        }
+
+        g.tick {
+            opacity: 0.8;
+            stroke: #a0a0a0 ; 
+            stroke-width: 0.5px;
+        }
+
+        .description {
+            font-size: 0.9rem; 
+            text-align: justify;
+            padding-top: 5%;
+            padding-right: 2%;
+            padding-left: 2%;
+        }
+    }
+
   
-  path.domain {
-    stroke: #a0a0a0; 
-    stroke-width: 1.5px;
-  }
+   
 
-  h1.title {
-    font-family: "MarketDeco";
-        opacity: 0.8;
-
-    font-size: 2.5rem;
-    text-align: left;
-    color: #449425;
-    margin-left: 5%;
-    margin-top: 2%;
-    margin-bottom: 2%;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-    margin-left: 5%;
-    margin-top: 2%;
-    margin-bottom: 4%;
-  }
-
-  g.tick {
-    opacity: 0.8;
-    stroke: #a0a0a0 ; 
-    stroke-width: 0.5px;
-  }
-
-  .description {
-    font-size: 0.9rem; 
-    text-align: justify;
-    padding-right: 2%;
-    padding-left: 2%;
-  }
+  
 
 </style>

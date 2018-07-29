@@ -151,7 +151,7 @@
                 return this.addNode(topic, payload.toString());
             });
             EventBus.$on("start:tutorial", i => {
-                var text = "Real time logical mapping of a network composed of web portal, devices, sensors; using MQTTprotocol. \nYou can select each circles to navigate in the tree, click on the text next to light grey circles to display messages";
+                var text = "Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol. \nYou can select each circles to navigate in the tree, click on the text next to light grey circles to display messages";
                 var tags = "";
                 var img = "static/img/tuto-mqtt-tree.gif";
                 EventBus.$emit('update:tutorial', this.$route.name, text, tags, img ); 

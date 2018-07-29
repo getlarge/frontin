@@ -11,11 +11,10 @@
             <b-row align-h="center">
                 <b-col xs="10" sm="10" md="8" lg="7" xl="6">
                     <p class="desc">
-                    Previous and present crafts, from UI/UX design to frontend/backend development, until embedded system prototyping. For more information, visit the website or contact me.
+                    This portfolio shows a selected portion of my work. Every project on this site is done by myself, from design to engineering. I hope you'll have a good time passing by.
                     </p>
                 </b-col>
             </b-row>
-
             <b-row  v-if="contactCard === false" align-h="center">
                 <b-col xs="4" sm="4" lg="3">
                     <a class="doors"  href="#/projects-timeline" title="Enter" >
@@ -31,20 +30,24 @@
             <b-row v-else-if="contactCard === true && available === false" align-h="center">
                  <b-col  class="card" xs="8" sm="8" md="6" lg="5" xl="4">
                     <mq-layout class="card-mobile" mq="mobile">
-                        <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
-                              :frontTitle="front.title"
-                              :frontData="front.text1"
-                              :backTitle="back.title"
-                              :backData="back.text" >
-                        </info-card>
+                        <v-touch v-on:pressup="toggleCard"  v-on:press="contactCard = false"  >
+                            <info-card   :frontType="'text'"
+                                  :frontTitle="front.title"
+                                  :frontData="front.text1"
+                                  :backTitle="back.title"
+                                  :backData="back.text" >
+                            </info-card>
+                        </v-touch>
                     </mq-layout>
                     <mq-layout class="card-tablet" mq="tablet">
-                        <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
-                              :frontTitle="front.title"
-                              :frontData="front.text1"
-                              :backTitle="back.title"
-                              :backData="back.text" >
-                        </info-card>
+                        <v-touch v-on:tap="toggleCard"  v-on:press="contactCard = false"  >
+                            <info-card :frontType="'text'"
+                                  :frontTitle="front.title"
+                                  :frontData="front.text1"
+                                  :backTitle="back.title"
+                                  :backData="back.text" >
+                            </info-card>
+                        </v-touch>
                     </mq-layout>
                     <mq-layout class="card-laptop" mq="laptop">
                         <info-card  @click.native="toggleCard()"  :frontType="'text'"
@@ -75,20 +78,24 @@
             <b-row v-else   align-h="center">
                  <b-col  class="card" xs="8" sm="8" md="6" lg="5" xl="4">
                     <mq-layout class="card-mobile" mq="mobile">
-                        <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
+                        <v-touch v-on:press="toggleCard" >
+                            <info-card  :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text2"
                               :backTitle="back.title"
                               :backData="back.text" >
-                        </info-card>
+                            </info-card>
+                        </v-touch>
                     </mq-layout>
                     <mq-layout class="card-tablet" mq="tablet">
-                        <info-card   @mouseout.native="toggleCard()"  :frontType="'text'"
+                        <v-touch v-on:tap="toggleCard" >
+                            <info-card   :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text2"
                               :backTitle="back.title"
                               :backData="back.text" >
-                        </info-card>
+                            </info-card>
+                        </v-touch>
                     </mq-layout>
                     <mq-layout class="card-laptop" mq="laptop">
                         <info-card  @click.native="toggleCard()"  :frontType="'text'"
@@ -134,14 +141,15 @@
     import InfoCard from "vue-info-card"
     import { EventBus } from "@/main"
 
+    const tel= "+33624297761";
     const icon3 = "static/img/ed2.jpg";
     const icon4 = "static/icons/available.png";
     const icon5 = "static/icons/notavailable.png";
     const rectangle = "<img class='square' src="+config.httpServerURL+"static/icons/rectangle.png />";
     const rectangleFlipped = "<img class='square' src="+config.httpServerURL+"static/icons/rectangle-flipped.png />";
-    const frontCard2 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon4+"></img><p class='text'></br>And you need a web designer/developper ?</br>Why not talking about your project now.</p></div>";
+    const frontCard2 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon4+"></img><p class='text'></br>Your project requires UI/UX design, frontend / backend development, or embedded system prototyping ?</br>Why not talking about it now.</p></div>";
     const frontCard1 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon5+"></img><p class='text'></br>...on a mission, but you can send me your request anyway!</p></div>";
-    const backCard =rectangleFlipped+"<div><img class='trombi' style='opacity:0.8;' src="+config.httpServerURL+icon3+"></img><p class='text'></br><a href=mailto:ed@"+config.mailDomain+">ed at getlarge dot eu</a></br>+33624297761</br>Nantes</br>References on request</p></div>";
+    const backCard =rectangleFlipped+"<div><img class='trombi' style='opacity:0.8;' src="+config.httpServerURL+icon3+"></img><p class='text'>Edouard Maleix</br><a href=mailto:ed@"+config.domain+">ed@"+config.domain+"</a></br><a href=tel:"+config.tel+">"+config.tel+"</a></br>Nantes</br>References on request</p></div>";
 
     export default {
         data() {
@@ -192,10 +200,10 @@
             }, self.settings.duration/2);
             //select('.context-menu').remove();
             EventBus.$on("start:tutorial", i => {
-                var text = "Click the left button to read my resume, or the right button to contact me.\nAll icons are hand drawn by Isabella Kohout";
+                var text = "This portfolio is a selection of recent work, that i want to share. it represents the path of ";
                 var tags = "";
                 var img = "static/img/tuto-home.gif";
-                EventBus.$emit('update:tutorial', "Tutorial", text, tags, img );     
+                EventBus.$emit('update:tutorial', "Home", text, tags, img );     
             });  
         },
 
@@ -295,9 +303,6 @@
     }
 
     .signs {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         width: 80%;
         height: 80%;
         opacity: 1 !important;
@@ -342,6 +347,7 @@
         height: 60%;
         border: 0px !important;
         font-size: 1.2rem;
+        z-index:1500;
     }
 
     .with-shadow {
@@ -357,6 +363,7 @@
     }
 
     .info-card .title {
+        text-transform: uppercase;
        color:  #029ea8 !important;
        opacity: 0.8;
     }
@@ -364,6 +371,7 @@
     .trombi {
         position: absolute;
         left: 5%;
+        top: 30%;
         width: 38%;
         border-radius: 3px !important;
     }
@@ -384,13 +392,45 @@
 
     .card-tablet {
         font-size: 75%!important;
+
+        .text {
+            top: 30%;
+            height: 280px;
+        }
+
     }
 
     .card-laptop {
         font-size: 80%!important;
+        .text {
+            top: 30%;
+            height: 280px;
+        }
     }
 
     .card-desktop {
         font-size: 85%!important;
+        .text {
+            top: 35%;
+            height: 280px;
+        }
+        .trombi {
+            position: absolute;
+            left: 5%;
+            top: 35%;
+        }
+    }
+
+    .card-xxl {
+        font-size: 100%;
+        .text {
+            top: 45%;
+            height: 280px;
+        }
+        .trombi {
+            position: absolute;
+            left: 5%;
+            top: 40%;
+        }
     }
 </style>

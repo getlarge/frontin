@@ -105,7 +105,7 @@
             else {
                 select(this.$el)
                   .style("opacity", "0" )
-                console.log("this", this)
+                //console.log("this", this)
                 return ;
             }
         },

@@ -9,6 +9,7 @@
   	"username": "",
   	"password": ""
   },
-  "mailDomain": "getlarge.eu",
+  "domain": "",
+  "tel": "",
   "inTopic": "logs/#"
 }

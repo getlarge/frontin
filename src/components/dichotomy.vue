@@ -26,14 +26,15 @@
 
 </template>
 <script>
-	import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+	
+	import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
 	import { rgb } from "d3-color"
 	import { easeLinear } from "d3-ease"
 	import { interpolateHclLong } from "d3-interpolate"
 	import { event, select, selectAll } from "d3-selection"
 	import { interval } from "d3-timer"
 	import { active, transition } from "d3-transition"
-	import { EventBus } from '@/main'
+	import { EventBus } from "@/main"
 
 	export default {
 		data() {
@@ -80,7 +81,7 @@
                 var img = "static/icons/wald.png";
                 //EventBus.$emit("update:tutorial", "En savoir plus", text, tags, img );     
             });
- 
+ 			this.updateTimer();
 		},
 
 		updated() {
@@ -186,7 +187,6 @@
 			},
 
 			createBranches() {
-				console.log("createBranches")
 				var color = interpolateHclLong(rgb(this.colorSet[1].color1),rgb(this.colorSet[1].color2));
 				var that = this;
 				select('#branches')
@@ -214,7 +214,6 @@
 			},
 
 			updateBranches() {
-				console.log("updateBranches")
 				select('#branches')
 					.selectAll('line')
 					.data(this.branches)
@@ -233,7 +232,6 @@
 			},
 
 			regenerate(initialise) {
-				console.log("regenerate", initialise)
 				this.branches = [];
 				this.branch(this.seed);
 				switch (initialise) {

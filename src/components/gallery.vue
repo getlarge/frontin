@@ -8,7 +8,7 @@
                 </b-col>  
                 <b-col xs="8" sm="8" md="8" lg="8" >               
                     <div class="svg-container" :style="{width: settings.width + '%'}">
-                        <svg id="svg" pointer-events="all" viewBox="0 0 800 800" preserveAspectRatio="xMinYMin meet">
+                        <svg id="svg" pointer-events="all" viewBox="0 0 900 700" preserveAspectRatio="xMinYMin meet">
                             <g :id="links"></g>
                             <g :id="nodes"></g>
                         </svg>
@@ -31,8 +31,8 @@
 	import { scaleOrdinal } from "d3-scale"
 	import { event, select, selectAll } from "d3-selection"
 	import { active, transition } from "d3-transition"
-    import { EventBus } from '@/main'
-    import ToneSynth from '@/tone-components/synth'
+    import { EventBus } from "@/main"
+    import ToneSynth from "@/tone-components/synth"
 
 	export default {
 		data() {
@@ -47,8 +47,8 @@
                     height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
                     strokeColor: "#29B5FF",
                     width: 100,
-                    svgWidth: 800,
-                    svgHeight: 800,
+                    svgWidth: 900,
+                    svgHeight: 700,
                     circles: {
                         levels: 6,
                         maxValue: 100,
@@ -77,9 +77,9 @@
             });  
 
             EventBus.$on("start:tutorial", i => {
-                var text = "Click the play icon to regenerate the tree";
+                var text = "Another way to browse into a portfolio ... \nAccess pictures by clicking on circles containing images.";
                 var tags = "";
-                var img = "static/img/tuto-portfolio.gif";
+                var img = "static/img/tuto-gallery.gif";
                 EventBus.$emit("update:tutorial", this.$route.name, text, tags, img );     
             });
 
@@ -245,10 +245,11 @@
                 if (d.data.group >2) {
                     select("#gallery")
                         .attr("class", "gallery-open")
-                        .html("<p class='title'>"+d.data.title+"</br>"+d.data.description+"</br><a href="+d.data.link+">link</a></p>")
+                        .html("<p class='title'>"+d.data.title+"</p><p class='desc'>"+d.data.description+"</br><a href="+d.data.link+">link</a></p>")
                         .append("img")
                         .attr("class", "img-open")
                         .attr("src", d.data.group === 3 ? this.serverURL+d.data.img[0] : "")
+                        .attr("target", "blank")
                         .attr("x", -1 * d.data.size)
                         .attr("y", -1 * d.data.size)
                         .attr("opacity", d.data.link ? "0.8" : "0")
@@ -257,6 +258,7 @@
                 else  {
                     select("#gallery").select(".img-open").remove(); 
                     select("#gallery").select(".title").remove(); 
+                    select("#gallery").select(".desc").remove(); 
                 }
                 
             },
@@ -330,6 +332,7 @@
         display: table;
        /* border: 1px solid #f8f8f8;
         box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);*/
+        margin-top: 5%;
     }
 
     .texts text {
@@ -340,22 +343,30 @@
         position: relative;
         top: 5%;
         z-index: 1000;
+        .title {
+            text-align: center;
+            text-transform: uppercase;
+            color: #686868;
+            font-size: 100%;
+            margin-bottom: 1%;
+        }
+        .desc {
+            text-align: center;
+            text-transform: lowercase;
+            color: #686868;
+            font-size: 90%;
+        }
+        
+        .img-open {
+            position: relative;
+            border-radius: 4px;
+            height: 60%;
+            width: 100%;
+        }
+
     }
 
-    .title {
-        text-align: center;
-        text-transform: uppercase;
-        color: #686868;
-        font-size: 110%;
-    }
-
-    .img-open {
-        position: relative;
-        border-radius: 4px;
-        height: 60%;
-        width: 100%;
-    }
-
+    
 /* Smartphones (portrait and landscape) ----------- */
     @media only screen and (min-device-width : 320px) and (max-device-width : 580px) {
         .img-open {

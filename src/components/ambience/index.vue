@@ -47,19 +47,19 @@
 
 <script>
 /// todo : add params in the url to share boards
-  	import config from '@/config.json'
+  	import config from "@/config.json"
 	import { rgb } from "d3-color"
 	import { easeLinear } from "d3-ease"
 	import { interpolateHcl, interpolateHclLong } from "d3-interpolate"
 	import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale"
 	import { event, select, selectAll } from "d3-selection"
 	import { active, transition } from "d3-transition"
-	import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+	import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
 	import draggable from "vuedraggable"
-	import { mapState } from 'vuex'
-	import { EventBus } from '@/main'
-	import audioSlider from './audio-slider'
-	import fileUploader from '@/components/utils/file-upload'
+	import { mapState } from "vuex"
+	import { EventBus } from "@/main"
+	import audioSlider from "./audio-slider"
+	import fileUploader from "@/components/utils/file-upload"
 
     const serverURL = config.httpServerURL;
 
@@ -156,7 +156,7 @@
 
 	  	mounted() {
 	  		EventBus.$on("start:tutorial", i => {
-                var text = "Create your own sound ambiance with this small application.\nClick on each icons to play a sound and use the slider to update volume, you can create your own widget too, just add audio and image files.\n All icons are hand drawn by Isabella Kohout";
+                var text = "Create your own sound ambiance.\nEach icons can play a sound and the slider updates the volume, you can create your own widget too, just add audio and image files.\n Icons hand drawn by Isabella Kohout";
                 var tags = "";
                 var img = "static/img/tuto-ambience.gif";
                 EventBus.$emit('update:tutorial', "Tutorial", text, tags, img );     
@@ -263,7 +263,7 @@
 			},
 
 			startDrag: function (evt) {
-				console.log(evt)
+				//console.log(evt)
 			},
 
 			addItem(){
@@ -392,7 +392,6 @@
 
 	.colzy {
 		padding-bottom: 2%;
-	
 		padding-top: 5%;
 	}
 

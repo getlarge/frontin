@@ -7,9 +7,9 @@
                         <b-container  >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
-                            <button class="close-button"  @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="xs" /> </button>
+                            <v-touch class="close-button" v-on:tap="close()">  <font-awesome-icon :icon="['fas', 'times']" size="xs" /></v-touch>
                             <b-row >
-                                <b-col xs="5" >
+                                <b-col xs="6" >
                                     <div v-if="settings.dragBoxWidth > settings.dragBoxHeight*2.2 ">
                                         <div class="description">{{description}}</div>
                                         <div class="tags">{{tags}}</div>
@@ -19,7 +19,7 @@
                                         <div class="tags">{{tags}}</div>
                                     </div>
                                 </b-col>
-                                <b-col xs="7" >
+                                <b-col xs="6" >
                                     <a v-if="settings.dragBoxWidth > settings.dragBoxHeight*1.5"  :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
                                     <a v-else :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2.5" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
                                 </b-col>  
@@ -28,26 +28,49 @@
                     </div>
                 </vue-draggable-resizable>
             </div>
-            <div v-else  class="pop">
-                please rotate your screen 
+            <div v-else  >
+                 <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth*1.8" :h="settings.dragBoxHeight*0.5" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                    <div id="tooltip">
+                        <b-container >
+                            <div class="title">{{title}}</div>
+                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
+                            <v-touch class="close-button" v-on:tap="close()">  <font-awesome-icon :icon="['fas', 'times']" size="xs" /></v-touch>
+                            <b-row >
+                                <b-col xs="6"  >
+                                    <div class="description">{{description}}</div>
+                                    <div class="tags">{{tags}}</div>
+                                </b-col>
+                                <b-col xs="6"   >
+                                    <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/3" :src="serverURL+img" /></a>
+                                </b-col>  
+                            </b-row>
+                        </b-container>
+                    </div>
+                </vue-draggable-resizable>    
             </div>
         </mq-layout>
 
         <mq-layout class="cards-tablet" mq="tablet">
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.1)" class="">
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth*1.4" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
-                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
-                            <button class="close-button" @mouseover="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
+                            <button class="drag-button"> 
+                                <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> 
+                            </button>
+                            <v-touch class="close-button" v-on:tap="close">  
+                                <font-awesome-icon :icon="['fas', 'times']" size="sm" />
+                            </v-touch>
                             <b-row >
                                 <b-col sm="5"  >
                                     <div class="description">{{description}}</div>
                                     <div class="tags">{{tags}}</div>
                                 </b-col>
                                 <b-col sm="7"   >
-                                    <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
+                                    <a :href="serverURL+img" target="_blank">
+                                        <b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" />
+                                    </a>
                                 </b-col>  
                             </b-row>
                         </b-container>
@@ -59,15 +82,21 @@
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
-                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
-                            <button class="close-button" @mouseout="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
+                            <button class="drag-button"> 
+                                <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> 
+                            </button>
+                            <v-touch class="close-button" v-on:tap="close">  
+                                <font-awesome-icon :icon="['fas', 'times']" size="sm" />
+                            </v-touch>
                             <b-row >
                                 <b-col sm="5"  >
                                     <div class="description">{{description}}</div>
                                     <div class="tags">{{tags}}</div>
                                 </b-col>
                                 <b-col sm="7"   >
-                                    <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/3" :src="serverURL+img" /></a>
+                                    <a :href="serverURL+img" target="_blank">
+                                        <b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/3" :src="serverURL+img" />
+                                    </a>
                                 </b-col>  
                             </b-row>
                         </b-container>
@@ -82,15 +111,21 @@
                 <div id="tooltip">
                     <b-container fluid class="bv-example-row">
                         <div class="title">{{title}}</div>
-                        <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
-                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
+                        <button class="drag-button" >
+                            <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" />
+                        </button>
+                        <v-touch class="close-button" @click="close()" v-on:tap="close()">  
+                            <font-awesome-icon :icon="['fas', 'times']" size="sm" />
+                        </v-touch>
                         <b-row >
                             <b-col  md="5" lg="5" >
                                 <div class="description">{{description}}</div>
                                 <div class="tags">{{tags}}</div>
                             </b-col>
                             <b-col md="7" lg="7" >
-                                <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
+                                <a :href="serverURL+img" target="_blank">
+                                    <b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" />
+                                </a>
                             </b-col>  
                         </b-row>
                     </b-container>
@@ -102,15 +137,21 @@
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
-                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
-                            <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
+                            <button class="drag-button">
+                                <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" />
+                            </button>
+                            <button class="close-button" @click="close()">
+                                <font-awesome-icon :icon="['fas', 'times']" size="sm" />
+                            </button>
                             <b-row >
                                 <b-col sm="5"  >
                                     <div class="description">{{description}}</div>
                                     <div class="tags">{{tags}}</div>
                                 </b-col>
                                 <b-col sm="7"   >
-                                    <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/3" :src="serverURL+img" /></a>
+                                    <a :href="serverURL+img" target="_blank">
+                                        <b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/3" :src="serverURL+img" />
+                                    </a>
                                 </b-col>  
                             </b-row>
                         </b-container>
@@ -124,15 +165,21 @@
                 <div id="tooltip">
                     <b-container  fluid >
                         <div class="title">{{title}}</div>              
-                        <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> </button>
-                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="sm" /> </button>
+                        <button class="drag-button" > 
+                            <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> 
+                        </button>
+                        <button class="close-button" @click="close()"> 
+                            <font-awesome-icon :icon="['fas', 'times']" size="lg" /> 
+                        </button>
                         <b-row >
                             <b-col lg="5" >
                                 <div class="description">{{description}}</div>
                                 <div class="tags">{{tags}}</div>                
                             </b-col>
                             <b-col lg="7" >
-                                <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img"/></a>
+                                <a :href="serverURL+img" target="_blank">
+                                    <b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img"/>
+                                </a>
                             </b-col>  
                         </b-row>
                     </b-container>
@@ -145,15 +192,21 @@
                 <div id="tooltip">
                     <b-container  fluid >
                         <div class="title">{{title}}</div>
-                        <button class="drag-button" > <font-awesome-icon :icon="['fas', 'arrows-alt']" size="2x" /> </button>
-                        <button class="close-button" @click="close()"> <font-awesome-icon :icon="['fas', 'times']" size="2x" /> </button>
+                        <button class="drag-button" > 
+                            <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> 
+                        </button>
+                        <button class="close-button" @click="close()"> 
+                            <font-awesome-icon :icon="['fas', 'times']" size="lg" /> 
+                        </button>
                         <b-row >
                             <b-col xl="5" >
                                 <div class="description">{{description}}</div>
                                 <div class="tags">{{tags}}</div>
                             </b-col>
                             <b-col xl="7" >
-                                <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" /></a>
+                                <a :href="serverURL+img" target="_blank">
+                                    <b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/1.5" :src="serverURL+img" />
+                                </a>
                             </b-col>  
                         </b-row>
                     </b-container>
@@ -165,9 +218,10 @@
 
 <script>
   
-    import config from '@/config.json'
-    import VueDraggableResizable from 'vue-draggable-resizable'
-    import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+    import config from "@/config.json"
+    import VueDraggableResizable from "vue-draggable-resizable"
+    import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
+    import { event, select } from "d3-selection"
     import { EventBus } from '@/main'
 
     export default {
@@ -196,7 +250,7 @@
         },
 
         mounted() {
-              
+            select(window).on('resize', this.updateSettings);
         },
 
         methods: {
@@ -210,6 +264,15 @@
             onDrag: function (x, y) {
                 this.x = x
                 this.y = y
+            },
+
+            updateSettings() {
+                this.settings = {
+                    dragBoxX: Math.max(document.documentElement.clientWidth, window.innerWidth || 0)/20,
+                    dragBoxY: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)/2,
+                    dragBoxHeight: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)/2.2,
+                    dragBoxWidth: Math.max(document.documentElement.clientWidth, window.innerWidth || 0)/2,
+                }
             },
 
             close: () => {
@@ -228,7 +291,7 @@
         border-radius: 3px;
         background: rgba(255,255,255,01);
         color: #000;
-        z-index: 1000 !important;
+        z-index: 2000 !important;
         box-shadow: 0 1px 5px rgba(0,0,0,0.4);
         -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
         border:1px solid rgba(200,200,200,0.85);
@@ -266,25 +329,34 @@
         text-transform: lowercase;
     }
 
+    #tooltip .description {
+        margin-top: 3%;
+        font-size: 90%;
+    } 
+
+    #tooltip .tags {
+        font-size: 85%;
+    }
+
     .cards-mobile {
 
         background-color: rgba(0,0,0,0.5);
         z-index: 2000;
         #tooltipContainer {
-            font-size: 0.65rem;
-            line-height: 7px;
+            font-size: 100%;
+            line-height: 11px;
             padding: 6px;
         }
-
+ 
         #tooltip .description {
-            font-size: 0.55rem !important;
-        }
+            margin-top: 0%;
+            font-size: 75%;
+        } 
 
         #tooltip .tags {
-            font-size: 0.5rem;
+            font-size: 75%;
         }
 
- 
     }
 
     .cards-tablet {
@@ -292,36 +364,33 @@
         background-color: rgba(0,0,0,0.5);
         z-index: 2000;
         #tooltipContainer {
-            font-size: 0.65rem;
-            line-height: 9px;
-            padding: 10px;
+            font-size: 100%;
+            line-height: 12px;
+            padding: 3px;
         }
 
         #tooltip .description {
-            margin-top: 1%;
-            font-size: 0.55rem;
-        }
+            margin-top: 0%;
+            font-size: 80%;
+        } 
 
         #tooltip .tags {
-            font-size: 0.5rem;
-        } 
+            font-size: 80%;
+        }
     }
 
     .cards-laptop {
         #tooltipContainer {
-            font-size: 0.9rem;
+            font-size: 100%;
             line-height: 15px;
             padding: 12px;
         }
 
         #tooltip .description {
             margin-top: 2%;
-            font-size: 0.8rem;
+            font-size: 90%;
         } 
 
-        #tooltip .tags {
-            font-size: 0.7rem;
-        }
 
     }
 
@@ -330,19 +399,11 @@
         background-color: rgba(0,0,0,0.5);
         z-index: 2000;
         #tooltipContainer {
-            font-size: 1rem;
+            font-size: 100%;
             line-height: 20px;
             padding: 13px;         
         }
 
-        #tooltip .description {
-            margin-top: 3%;
-            font-size: 0.9rem;
-        } 
-
-        #tooltip .tags {
-            font-size: 0.8rem;
-        }
     }
 
     .cards-xxl {
@@ -353,15 +414,6 @@
             font-size: 1.1rem;
             line-height: 25px;
             padding: 13px;
-        }
-
-        #tooltip .description {
-            margin-top: 3%;
-            font-size: 1rem;
-        } 
-
-        #tooltip .tags {
-            font-size: 0.9rem;
         }
     }
 

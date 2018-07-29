@@ -158,8 +158,34 @@
         max-width: 150px;
     }
 
-    .player-audio {
+    #file-upload {
+        .dropbox {
+            outline-offset: -10px;
+            height: 40%;
+            max-height: 130px;
+            border-radius: 3px;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+        }
 
+        .dropbox:hover {
+            background: lightblue; 
+        }
+
+        .dropbox p {
+            font-size: 1em;
+            text-align: justify;
+        }
+        
+        .input-file {
+            opacity: 0; 
+            width: 100%;
+            height: 100%;
+            left:0px !important;
+            cursor: pointer;
+            position: absolute;
+        }
     }
 
     .vue-sound__player {
@@ -217,37 +243,10 @@
         cursor: pointer; 
     }
 
-    .dropbox {
-        outline-offset: -10px;
-        height: 40%;
-        max-height: 130px;
-        align-items: center;
-        position: relative;
-        cursor: pointer;
-    }
 
-    .input-file {
-        opacity: 0; 
-        width: 100%;
-        height: 100%;
-        left:0px !important;
-        cursor: pointer;
-        position: absolute;
-    }
 
-    .dropbox:hover {
-        background: lightblue; 
-    }
+   
 
-    .dropbox p {
-        font-size: 1em;
-        text-align: justify;
-    }
-
-    p {
-        font-size: 0.8em;
-        text-align: justify;
-        margin-bottom: 1% !important;
-    }
+   
 
 </style>
