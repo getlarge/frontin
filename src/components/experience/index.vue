@@ -138,6 +138,7 @@
 	    .selector:focus {
 	        background-color: white;
 	        border: 1px;
+	        border-radius: 2px;
 	        border-color: #f9b23e;
 	        color: #686868;
 	        box-shadow: 0 0 0 0.2rem  #f9b23e;
@@ -146,6 +147,7 @@
 	    .selector:hover {
 	        background-color: white;
 	        border: 1px;
+	        border-radius: 2px;
 	        border-color: #f9b23e;
 	        color: #33b277;
 	    }

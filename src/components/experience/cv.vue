@@ -60,10 +60,10 @@
                     <h2>Résumé des compétences</h2>
                     <div>
                         <ul>
+                            <li>Visualisation données en temps réel - UI/UX design - Création graphique</li>
+                            <li>Développement embarqué ( logiciel et électronique )</li>
                             <li>Agile - Scrum - Lean Startup</li>
-                            <li>Data visualization - gestion du temps réel </li>
-                            <li>Analyse de marché - développement client - campagne de tests</li>
-                            <li>UI/UX design - création graphique</li>
+                            <li>Analyse de marché - Design produit - Campagne de tests</li>
                         </ul>             
                     </div>
                 </b-col>
@@ -78,7 +78,7 @@
                         </ul>
                         <h5>Environnement technique :</h5>
                         <ul>
-                            <li>D3JS, VueJS, Webpack, Inkscape</li>
+                            <li>ExpressJS, D3JS, VueJS, Webpack, Inkscape</li>
                         </ul>      
                     </div>
                     <div>
@@ -89,11 +89,11 @@
                             <li>Suivi de projets clients </li>
                             <li>Conception de PCB pour prototypage rapide d'objet connecté </li>
                             <li>Conception de gateway et node LoRaWAN ( open source ) </li>
-                            <li>Développement et apprentissage d’un bot, assistant les utilisateurs; en interaction avec le backend Aloes</li>
+                            <li>Développement et apprentissage d’un bot, assistant les utilisateurs; en interaction avec une plateforme IoT</li>
                         </ul>
                         <h5>Environnement technique :</h5>
                         <ul>
-                            <li>HTML, CSS, NodeJS, CoffeeJS, Git, Redis, ExpressJS, React, MQTT, Lora </li>
+                            <li>HTML, CSS, NodeJS, CoffeeJS, Git, Redis, React, MQTT, Lora </li>
                         </ul>      
                     </div>
                     <div>
@@ -103,7 +103,7 @@
                             <li>Création d'un logiciel embarqué pour connecter rapidement et simplement des capteurs sur Internet </li>
                             <li>Contributions à des librairies open source </li>
                             <li>Animation d'un réseau d'amateurs d'électronique, impression 3d et développement web</li>
-                            <li>Conception et impression de pièces en 3D</li>
+                            <li>Conception de pièces en 3D</li>
                         </ul>
                         <h5>Environnement technique :</h5>
                         <ul>
@@ -239,6 +239,7 @@
         .pdfExport:focus {
             background-color: white;
             border: 1px;
+            border-radius: 2px;
             border-color: #f9b23e;
             color: #686868;
             box-shadow: 0 0 0 0.2rem  #f9b23e;
@@ -248,12 +249,14 @@
         .pdfExport:hover {
             background-color: transparent;
             border: 1px;
+            border-radius: 2px;
             border-color: #f9b23e;
             color: #33b277;
         }
 
         .titles {
             h1 {
+                text-align: left;
                 font-size: 26px;
             }
             h2 {
@@ -309,7 +312,7 @@
 
             }
             li {
-                display: list-items;
+                display: list-item;
                 text-align: -webkit-match-parent;
             }
         }
