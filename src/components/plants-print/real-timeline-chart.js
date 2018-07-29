@@ -13,12 +13,19 @@ import { zoom, zoomIdentity } from "d3-zoom"
 export const realTimeLineChart = function () {
     //var margin = {top: 25, right: 25, bottom: 25, left: 25},
     var margin = {top: 25, right: 25, bottom: 25, left: 25},
-        width = Math.max(document.documentElement.clientWidth/1.6, window.innerWidth/1.6 || 0) - margin.left - margin.right,
-        height = Math.max(document.documentElement.clientHeight/1.5, window.innerHeight/1.5 || 0) - margin.top - margin.bottom,
+        //width = Math.max(document.documentElement.clientWidth/1.6, window.innerWidth/1.6 || 0) - margin.left - margin.right,
+        //height = Math.max(document.documentElement.clientHeight/1.5, window.innerHeight/1.5 || 0) - margin.top - margin.bottom,
+
+        width = Math.max(document.documentElement.clientWidth/1.6, window.innerWidth/1.6 || 0),
+        height = Math.max(document.documentElement.clientHeight/1.5, window.innerHeight/1.5 || 0),
         duration = 2000,
         color = ["#b4d785", "#3d991c"],
         x1 = [],
-        y1 = [];
+        y1 = [],
+        x1save = [],
+        y1save = [];
+
+    var zoomed = false;
 
     function chart(selection) {
         // Based on https://bl.ocks.org/mbostock/3884955
@@ -46,10 +53,9 @@ export const realTimeLineChart = function () {
             var t = transition().duration(duration).ease(easeLinear),
                 x = scaleTime().domain(x0).rangeRound([0, width-margin.left-margin.right]),
                 //x = scaleTime().rangeRound([0, width]),
-                y = scaleLinear().domain(y0).rangeRound([height, 0]),
-                //y = scaleLinear().rangeRound([height-margin.top-margin.bottom, 0]),
+                //y = scaleLinear().domain(y0).rangeRound([height, 0]),
+                y = scaleLinear().rangeRound([height-margin.top-margin.bottom, 0]),
                 z = scaleOrdinal(color);
-
 
 
             // x.domain(x0);
@@ -61,7 +67,7 @@ export const realTimeLineChart = function () {
 
             var brushing = brush().on("end", brushended),
                 idleTimeout,
-                idleDelay = duration/2;
+                idleDelay = duration;
 
             var line1 = line()
                 .curve(curveNatural)
@@ -108,7 +114,8 @@ export const realTimeLineChart = function () {
                 .attr("x", 5)
                 .attr("fill", function(d) { return z(d.label); });
 
-            var svg = selection.select("svg");
+                // todo : change dirty hack to kill zoom
+            var svg = selection.select("svg").on("click", zoomed = false);
             svg.attr('width', width).attr('height', height);
             var g = svg.select("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -149,58 +156,60 @@ export const realTimeLineChart = function () {
             function tick() {
                 //console.log("tick", x1)
                 if ( x1.length > 0 ) {
-                    //console.log("tick0", y1[0])
-                    zoom();
+                    console.log("tickzom1")
+                    zoomed = true;
+                    x.domain(x1save);
+                    y.domain(y1save);
+                    //var t = g.transition().duration(750);
                     // g.select(".axis--x").call(xAxis);
-                    // g.select(".axis--y").call(yAxis);                    
-                    // select(this)
-                    //     .attr("d", function(d) { return area1(d.values); })
-                    //     .attr("transform", null);
-                        // .attr("transform", "translate(" + x(x1[0]) + ", "+  y(y1[0]) + ")")
-                        //  .transition()
-                        //  .on("start", tick);
-
-                    // active(this)
-                    //     .attr("transform", "translate(" + x(x1[0]) + ", "+  y(y1[0]) + ")")
-                    //     .transition()
-                    //     .on("start", tick);
-                }
-
-                else {
+                    // g.select(".axis--y").call(yAxis);
                     select(this)
-                        //.transition()
                         .attr("d", function(d) { return area1(d.values); })
                         .attr("transform", null);
+                    var xMinLess = new Date(new Date(x1save[0]).getTime() - duration);                   
+                    active(this)
+                        .attr("transform", "translate(" + x(xMinLess) + ","+ y1save[0] +")")
+                        //.transition()
+                        //on("start", tick);
+                }
 
+                else if ( zoomed === false ) {
+                    x.domain(x0);
+                    y.domain(y0);
+                    select(this)
+                        .attr("d", function(d) { return area1(d.values); })
+                        .attr("transform", null);
                     var xMinLess = new Date(new Date(xMin).getTime() - duration);
                     //console.log("tick1", xMinLess)
                     active(this)
                         .attr("transform", "translate(" + x(xMinLess) + ",0)")
                         .transition()
-                        .on("start", tick);
+                        //.on("start", tick);
                 }
                 
             }
 
             function brushended() {
-              var s = event.selection;
-              if (!s) {
-                if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                console.log("unclicked")
-                x1 = [];
-                y1 = [];
-                x.domain(x0);
-                y.domain(y0);
+                var s = event.selection;
+                if (!s) {
+                    if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+                    //console.log("unclicked")
+                    x1 = [];
+                    y1 = [];
+                    x.domain(x0);
+                    y.domain(y0);
 
-              } else {
-                x1 = [s[0][0], s[1][0]].map(x.invert, x);
-                y1 = [s[1][1], s[0][1]].map(y.invert, y);
-                console.log("s1", x1)
-                x.domain(x1);
-                y.domain(y1);
-                g.select(".brush").call(brushing.move, null);
-              }
-              zoom();
+                } else {
+                    x1 = [s[0][0], s[1][0]].map(x.invert, x);
+                    y1 = [s[1][1], s[0][1]].map(y.invert, y);
+                    x1save = x1;
+                    y1save = y1;
+                    x.domain(x1);
+                    y.domain(y1);
+                    g.select(".brush").call(brushing.move, null);
+                }
+                zoom();
+
             }
 
             function idled() {

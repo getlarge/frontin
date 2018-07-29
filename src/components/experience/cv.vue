@@ -89,7 +89,7 @@
                             <li>Suivi de projets clients </li>
                             <li>Conception de PCB pour prototypage rapide d'objet connecté </li>
                             <li>Conception de gateway et node LoRaWAN ( open source ) </li>
-                            <li>Développement et apprentissage d’un bot, assistant les utilisateurs; en interaction avec une plateforme IoT</li>
+                            <li>Développement et entraînement d’un bot assistant les utilisateurs; en interaction avec une plateforme IoT</li>
                         </ul>
                         <h5>Environnement technique :</h5>
                         <ul>
@@ -102,7 +102,7 @@
                         <ul>
                             <li>Création d'un logiciel embarqué pour connecter rapidement et simplement des capteurs sur Internet </li>
                             <li>Contributions à des librairies open source </li>
-                            <li>Animation d'un réseau d'amateurs d'électronique, impression 3d et développement web</li>
+                            <li>Animation d'un réseau d'amateurs d'électronique, impression 3D et développement web</li>
                             <li>Conception de pièces en 3D</li>
                         </ul>
                         <h5>Environnement technique :</h5>

@@ -53,25 +53,24 @@
         },
 
         created() {
+            EventBus.$emit("sub:mqtt", this.protocol[0] +"/"+ this.endpoints[1] +"/rx/"+ this.nodes[0] +"/#");
+            EventBus.$emit("sub:mqtt", this.protocol[0] +"/"+ this.endpoints[1] +"/rx/"+ this.nodes[1] +"/#");
             this.seedData();
         },
         
         mounted() {
+
             select("#chart").datum(this.lineArr).call(this.chart);
             select(window).on('resize', this.resize);
-                        this.interv = interval(this.updateData, this.duration);
-
-            EventBus.$emit("sub:mqtt", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.nodes[0] +"/#");
-            EventBus.$emit("sub:mqtt", this.protocol[0] +"/"+ this.endpoints[1] +"/"+ this.nodes[1] +"/#");
             EventBus.$on("rx:mqtt", (topic, payload) => {
                 return this.selectMessage(topic, payload);
             }),
             this.$on("got-x", x => {
-              //console.log("x", x)
+                //console.log("x", x)
                 return this.x = x;
             });
             this.$on("got-y", y => {
-              //console.log("y", y)
+                //console.log("y", y)
                 return this.y = y;
             });
             EventBus.$on("start:tutorial", i => {
@@ -79,7 +78,10 @@
                 var tags = "";
                 var img = "static/img/dashboard.gif";
                 //EventBus.$emit('update:tutorial', this.$route.name, text, tags, img );     
-            });  
+            });
+
+            this.interv = interval(this.updateData, this.duration);
+  
         },
 
         updated() {

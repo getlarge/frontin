@@ -45,7 +45,7 @@
         // },
 
         created() {
-            console.log('%c Getlarge - 2018 ', 'background: #33b277; color: white; display: block; border-radius: 5px; font-size: 16px;');
+            console.log('%c getlarge.eu - 2018 ', 'background: #33b277; color: white; display: block; border-radius: 5px; font-size: 16px;');
             this.client.openStream();
             this.client.sub(this.appName + "/#")
             //this.client.sendMessage( this.appName + "/logs", "Getlarge : frontin connected")
