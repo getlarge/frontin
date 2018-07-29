@@ -36,14 +36,14 @@
                         <h2>Développeur - Consultant</h2>
                     </div>
                     <div class='infos'>
-                        <h3><a href="tel:0624297761">
+                        <h3><a :href="'tel:'+tel">
                             <font-awesome-icon :icon="['fas', 'phone']" size="sm" /> {{tel}} 
                         </a></h3>
-                        <h3><a href="mailto:ed@{domain}">
+                        <h3><a :href="'mailto:ed@'+domain">
                             <font-awesome-icon :icon="['fas', 'envelope-open']" size="sm" /> ed@{{domain}}
                         </a></h3>
-                        <h3><a href="https://getlarge.eu.com" target='_blank'>
-                            <font-awesome-icon :icon="['fas', 'link']" size="sm" />{{domain}}
+                        <h3><a :href="'https://'+domain" target='_blank'>
+                            <font-awesome-icon :icon="['fas', 'link']" size="sm" /> {{domain}}
                         </a></h3>
                         <h3><a>
                             <font-awesome-icon :icon="['fas', 'home']" size="sm" /> 95 rue Paul Bellamy 44000 NANTES
@@ -307,6 +307,10 @@
                 margin-top: 1%;
                 margin-bottom: 2%;
 
+            }
+            li {
+                display: list-items;
+                text-align: -webkit-match-parent;
             }
         }
 

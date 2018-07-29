@@ -3,7 +3,7 @@
   "gitLink": "https://framagit.org/getlarge/frontin/",
   "ComponentsPath": "tree/master/src/components",
   "wsServerURL": "mqtt://localhost:4000",
-  "httpServerURL": "http://localhost:3000",
+  "httpServerURL": "http://localhost:3000/",
   "options": {
   	"clientId": "frontin",
   	"username": "",
