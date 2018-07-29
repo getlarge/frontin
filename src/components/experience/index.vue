@@ -13,23 +13,23 @@
             </v-touch>
         </mq-layout>        
         <mq-layout class="selector-laptop" mq="laptop">
-			<b-button class="selector" @click="changePage">
+			<button class="selector" @click="changePage">
 				<font-awesome-icon v-if="interactive === true" :icon="['fas', 'toggle-on']" size="2x" />
 				<font-awesome-icon v-else-if="interactive === false" :icon="['fas', 'toggle-off']" size="2x" /> 
-	      	</b-button>
+	      	</button>
         </mq-layout>
 		<mq-layout class="selector-desktop" mq="desktop">
-			<b-button class="selector" @click="changePage">
+			<button class="selector" @click="changePage">
 				<font-awesome-icon v-if="interactive === true" :icon="['fas', 'toggle-on']" size="2x" />
 				<font-awesome-icon v-else-if="interactive === false" :icon="['fas', 'toggle-off']" size="2x" /> 
-	      	</b-button>
+	      	</button>
         </mq-layout>
         <mq-layout class="selector-xxl" mq="xxl">
-			<b-button class="selector" @click="changePage">
+			<button class="selector" @click="changePage">
 				<font-awesome-icon v-if="interactive === true" :icon="['fas', 'toggle-on']" size="3x" />
 				<font-awesome-icon v-else-if="interactive === false" :icon="['fas', 'toggle-off']" size="3x" /> 
 
-	      	</b-button>
+	      	</button>
         </mq-layout>
 
 

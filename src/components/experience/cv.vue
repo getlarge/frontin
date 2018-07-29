@@ -13,19 +13,19 @@
             </v-touch>
         </mq-layout>        
         <mq-layout class="pdfExport-laptop" mq="laptop">
-            <b-button class="pdfExport" @click="transformPdf">
+            <button class="pdfExport" @click="transformPdf">
                 <font-awesome-icon :icon="['fas', 'download']" size="2x" />
-            </b-button>
+            </button>
         </mq-layout>
         <mq-layout class="pdfExport-desktop" mq="desktop">
-            <b-button class="pdfExport" @click="transformPdf">
+            <button class="pdfExport" @click="transformPdf">
                 <font-awesome-icon :icon="['fas', 'download']" size="2x" />
-            </b-button>
+            </button>
         </mq-layout>
         <mq-layout class="pdfExport-xxl" mq="xxl">
-            <b-button class="pdfExport" @click="transformPdf">
+            <button class="pdfExport" @click="transformPdf">
                 <font-awesome-icon :icon="['fas', 'download']" size="3x" />
-            </b-button>
+            </button>
         </mq-layout>
 
         <b-container class="container" fluid >
@@ -58,18 +58,18 @@
                 </b-col>
                 <b-col class="articles" xs="12" sm="12" md="12"  >
                     <h2>Résumé des compétences</h2>
-                    <article>
+                    <div>
                         <ul>
                             <li>Agile - Scrum - Lean Startup</li>
                             <li>Data visualization - gestion du temps réel </li>
                             <li>Analyse de marché - développement client - campagne de tests</li>
                             <li>UI/UX design - création graphique</li>
                         </ul>             
-                    </article>
+                    </div>
                 </b-col>
                 <b-col class="articles" xs="12" sm="12" md="12" >
                     <h2>Expériences</h2>
-                    <article>
+                    <div>
                         <h3>Développeur / Consultant - Free</h3>
                         <h4>juin 2018 à maintenant</h4>
                         <ul>
@@ -80,8 +80,8 @@
                         <ul>
                             <li>D3JS, VueJS, Webpack, Inkscape</li>
                         </ul>      
-                    </article>
-                    <article>
+                    </div>
+                    <div>
                         <h3>Développeur / Consultant - Exostic</h3>
                         <h4>novembre 2017 à juin 2018</h4>
                         <ul>
@@ -95,8 +95,8 @@
                         <ul>
                             <li>HTML, CSS, NodeJS, CoffeeJS, Git, Redis, ExpressJS, React, MQTT, Lora </li>
                         </ul>      
-                    </article>
-                    <article>
+                    </div>
+                    <div>
                         <h3>Reconversion pro</h3>
                         <h4>avril 2017 à novembre 2017</h4>
                         <ul>
@@ -109,8 +109,8 @@
                         <ul>
                             <li>Arduino, Raspberry Pi, Nginx, Node-red, Linux, Kicad, Cura</li>
                         </ul>   
-                    </article>
-                    <article>
+                    </div>
+                    <div>
                         <h3>Entrepreneur / Artisan - IVI</h3>
                         <h4>avril 2014 à avril 2017</h4>
                         <ul>
@@ -118,7 +118,7 @@
                             <li>Conseil en aménagement paysager</li>
                             <li>Innovation et développement produit</li>
                         </ul>
-                    </article>
+                    </div>
                 </b-col>
                 <b-col class="articles" xs="12" sm="12" md="12"  >
                     <h2>Centres d'intérêts</h2>

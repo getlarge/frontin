@@ -17,7 +17,7 @@
             </b-row>
             <b-row  v-if="contactCard === false" align-h="center">
                 <b-col xs="4" sm="4" lg="3">
-                    <a class="doors"  href="#/projects-timeline" title="Enter" >
+                    <a class="doors"  href="#/experience" title="Enter" >
                         <img  class="signs" @mouseover="icon1='static/icons/info2.png'" @mouseout="icon1='static/icons/info.png'" :src="serverURL+icon1" alt="info icon" />
                     </a>
                 </b-col>
