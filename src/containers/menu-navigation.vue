@@ -7,7 +7,7 @@
             <b-collapse is-nav id="nav_collapse">
                 <b-nav class="h-10">
                     <b-navbar-nav >
-                        <b-nav-item-dropdown class="nav-link" text="Latest works" left>
+                        <b-nav-item-dropdown class="nav-link my-menu" text="Latest works" left>
                             <b-dropdown-item v-for="item in items" :key="item.path" :to="item.path">
                                 {{ item.name }}
                             </b-dropdown-item>
@@ -169,10 +169,59 @@
 
 <style lang="scss">
 
-    #holder {
-        position: relative;
-        padding-top: 0px;
-        margin-top: 10%;
+    #top-nav {
+       
+        .dropdown-item {
+            background-color: white;
+            border: 0px;
+            border-color: #f9b23e;
+            color: #686868;
+        }
+
+        .dropdown-item.active {
+            background-color: transparent;
+            border: 1px;
+            border-color: #f9b23e;
+            color: #33b277;
+        }
+
+        .dropdown-item:focus {
+            background-color: white;
+            border: 1px;
+            border-color: #f9b23e;
+        }
+
+        .dropdown-item:hover {
+            background-color: transparent;
+            border: 1px;
+            border-color: #f9b23e;
+        }
+
+        .logo {
+            height: 45px !important;
+            opacity: 0.8;
+        }
+
+
+        .page-title {
+            position: relative;
+            width: 100%;
+            vertical-align: middle;
+            margin-top: 8%;
+            margin-bottom: -5%;
+            text-align: center;
+        }
+
+        .on path {
+            fill : #01c669 !important;
+            opacity: 0.7;
+        }
+
+        .off path{
+            fill : #ff830f !important;
+            opacity: 0.6;
+        }
+
     }
 
     #links {
@@ -182,57 +231,6 @@
         position: relative;
     }
 
-    .dropdown-item {
-        background-color: white;
-        border: 0px;
-        border-color: #f9b23e;
-        color: #686868;
-    }
-
-    .dropdown-item.active {
-        background-color: white;
-        border: 1px;
-        border-color: #f9b23e;
-        color: #33b277;
-    }
-
-    .dropdown-item:focus {
-        background-color: white;
-        border: 1px;
-        border-color: #f9b23e;
-        color: #686868;
-    }
-
-    .dropdown-item:hover {
-        background-color: transparent;
-        border: 1px;
-        border-color: #f9b23e;
-        color: #33b277;
-    }
-
-    .logo {
-        height: 45px;
-        opacity: 0.8;
-    }
-
-
-    .page-title {
-        position: relative;
-        width: 100%;
-        vertical-align: middle;
-        margin-top: 8%;
-        margin-bottom: -5%;
-        text-align: center;
-    }
-
-    .on path {
-        fill : #01c669 !important;
-        opacity: 0.7;
-    }
-
-    .off path{
-        fill : #ff830f !important;
-        opacity: 0.6;
-    }
+    
 
 </style>
