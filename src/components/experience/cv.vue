@@ -102,7 +102,7 @@
                         <ul>
                             <li>Création d'un logiciel embarqué pour connecter rapidement et simplement des capteurs sur Internet </li>
                             <li>Contributions à des librairies open source </li>
-                            <li>Animation d'un réseau d'amateurs d'électronique, impression 3D et développement web</li>
+                            <li>Animation d'un réseau d'amateurs d'électronique, impression 3D et développement web ( DIY )</li>
                             <li>Conception de pièces en 3D</li>
                         </ul>
                         <h5>Environnement technique :</h5>
@@ -114,9 +114,9 @@
                         <h3>Entrepreneur / Artisan - IVI</h3>
                         <h4>avril 2014 à avril 2017</h4>
                         <ul>
-                            <li>Conception et réalisation de supports de culture</li>
+                            <li>Conception et réalisation de supports de culture innovants</li>
                             <li>Conseil en aménagement paysager</li>
-                            <li>Innovation et développement produit</li>
+                            <li>Définition d'une stratégie commerciale</li>
                         </ul>
                     </div>
                 </b-col>
@@ -125,7 +125,7 @@
                     <ul>
                         <li>Botanique</li>
                         <li>Philosophie</li>
-                        <li>DIY</li>
+                        <li>Open source</li>
                         <li>Innovation</li>
                     </ul>
                 </b-col>

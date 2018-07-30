@@ -2,12 +2,12 @@
     <div id="cards" >  
         <mq-layout class="cards-mobile" mq="mobile">
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.3)" class="">
-                <vue-draggable-resizable   id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.6"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.15" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable   id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.6"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.15" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="closeCard" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container  >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
-                            <v-touch class="close-button" v-on:tap="close()">  <font-awesome-icon :icon="['fas', 'times']" size="xs" /></v-touch>
+                            <v-touch class="close-button" v-on:tap="closeCard">  <font-awesome-icon :icon="['fas', 'times']" size="xs" /></v-touch>
                             <b-row >
                                 <b-col xs="6" >
                                     <div v-if="settings.dragBoxWidth > settings.dragBoxHeight*2.2 ">
@@ -27,12 +27,12 @@
                 </vue-draggable-resizable>
             </div>
             <div v-else  >
-                 <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth*1.8" :h="settings.dragBoxHeight*0.6" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                 <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth*1.8" :h="settings.dragBoxHeight*0.6" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="closeCard" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
-                            <v-touch class="close-button" v-on:tap="close()">  <font-awesome-icon :icon="['fas', 'times']" size="xs" /></v-touch>
+                            <v-touch class="close-button" v-on:tap="closeCard">  <font-awesome-icon :icon="['fas', 'times']" size="xs" /></v-touch>
                             <b-row >
                                 <b-col xs="6"  >
                                     <div class="description">{{description}}</div>
@@ -49,14 +49,14 @@
 
         <mq-layout class="cards-tablet" mq="tablet">
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.1)" class="">
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth*1.4" :h="settings.dragBoxHeight*1.15" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth*1.4" :h="settings.dragBoxHeight*1.15" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="closeCard" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> 
                                 <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> 
                             </button>
-                            <v-touch class="close-button" v-on:tap="close">  
+                            <v-touch class="close-button" v-on:tap="closeCard">  
                                 <font-awesome-icon :icon="['fas', 'times']" size="sm" />
                             </v-touch>
                             <b-row >
@@ -74,14 +74,14 @@
                 </vue-draggable-resizable>
             </div>
             <div v-else >
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.8" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.8" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="closeCard" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> 
                                 <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> 
                             </button>
-                            <v-touch class="close-button" v-on:tap="close">  
+                            <v-touch class="close-button" v-on:tap="closeCard">  
                                 <font-awesome-icon :icon="['fas', 'times']" size="sm" />
                             </v-touch>
                             <b-row >
@@ -109,7 +109,7 @@
                         <button class="drag-button" >
                             <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" />
                         </button>
-                        <v-touch class="close-button" @click="close()" v-on:tap="close()">  
+                        <v-touch class="close-button" @click="closeCard" v-on:tap="closeCard">  
                             <font-awesome-icon :icon="['fas', 'times']" size="sm" />
                         </v-touch>
                         <b-row >
@@ -135,7 +135,7 @@
                             <button class="drag-button">
                                 <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" />
                             </button>
-                            <button class="close-button" @click="close()">
+                            <button class="close-button" @click="closeCard">
                                 <font-awesome-icon :icon="['fas', 'times']" size="sm" />
                             </button>
                             <b-row >
@@ -163,7 +163,7 @@
                         <button class="drag-button" > 
                             <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> 
                         </button>
-                        <button class="close-button" @click="close()"> 
+                        <button class="close-button" @click="closeCard"> 
                             <font-awesome-icon :icon="['fas', 'times']" size="lg" /> 
                         </button>
                         <b-row >
@@ -190,7 +190,7 @@
                         <button class="drag-button" > 
                             <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> 
                         </button>
-                        <button class="close-button" @click="close()"> 
+                        <button class="close-button" @click="closeCard"> 
                             <font-awesome-icon :icon="['fas', 'times']" size="lg" /> 
                         </button>
                         <b-row >
@@ -270,8 +270,9 @@
                 }
             },
 
-            close: () => {
-                //console.log(this.a)
+            closeCard() {
+                //console.log("remove-card");
+                select(this).remove();
                 EventBus.$emit("stop:cards");
             }
         }

@@ -82,6 +82,11 @@
                 EventBus.$emit("update:tutorial", "En savoir plus", text, tags, img );     
             });
  			this.updateTimer();
+
+
+ 			EventBus.$on("stop:cards", i => {
+                //this.currentProject = undefined;
+            });
 		},
 
 		updated() {

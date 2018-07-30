@@ -79,7 +79,7 @@
 	  				return this.interactive === state; 
 	  			}
             });  
-		
+  
         },
 
 		updated() {
