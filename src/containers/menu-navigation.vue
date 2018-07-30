@@ -217,7 +217,7 @@
             opacity: 0.7;
         }
 
-        .off path{
+        .off path {
             fill : #ff830f !important;
             opacity: 0.6;
         }
