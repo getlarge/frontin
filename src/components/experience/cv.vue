@@ -37,19 +37,19 @@
                     </div>
                     <div class='infos'>
                         <h3><a :href="'tel:'+tel">
-                            <font-awesome-icon :icon="['fas', 'phone']" size="sm" /> {{tel}} 
+                            <font-awesome-icon class="icons" :icon="['fas', 'phone']" size="sm" /> {{tel}} 
                         </a></h3>
                         <h3><a :href="'mailto:ed@'+domain">
-                            <font-awesome-icon :icon="['fas', 'envelope-open']" size="sm" /> ed@{{domain}}
+                            <font-awesome-icon class="icons" :icon="['fas', 'envelope-open']" size="sm" /> ed@{{domain}}
                         </a></h3>
                         <h3><a :href="'https://'+domain" target='_blank'>
-                            <font-awesome-icon :icon="['fas', 'link']" size="sm" /> {{domain}}
+                            <font-awesome-icon class="icons" :icon="['fas', 'link']" size="sm" /> {{domain}}
                         </a></h3>
                         <h3><a>
-                            <font-awesome-icon :icon="['fas', 'home']" size="sm" /> 95 rue Paul Bellamy 44000 NANTES
+                            <font-awesome-icon class="icons" :icon="['fas', 'home']" size="sm" /> 95 rue Paul Bellamy 44000 NANTES
                         </a></h3>
                         <h3><a>
-                            <font-awesome-icon :icon="['fas', 'language']" size="sm" /> Français (<font-awesome-icon  v-for="item in fr" :key="item.id" :icon="['fas', 'star']" size="xs" />) Anglais (<font-awesome-icon  v-for="item in en" :key="item.id" :icon="['fas', 'star']" size="xs" />) Allemand (<font-awesome-icon  v-for="item in de" :key="item.id" :icon="['fas', 'star']" size="xs" />)
+                            <font-awesome-icon class="icons" :icon="['fas', 'language']" size="sm" /> Français (<font-awesome-icon class="icons" v-for="item in fr" :key="item.id" :icon="['fas', 'star']" size="xs" />) Anglais (<font-awesome-icon class="icons" v-for="item in en" :key="item.id" :icon="['fas', 'star']" size="xs" />) Allemand (<font-awesome-icon class="icons" v-for="item in de" :key="item.id" :icon="['fas', 'star']" size="xs" />)
                         </a></h3>             
                     </div>
                 </b-col>
@@ -151,8 +151,6 @@
 
         data() {
             return {
-                pdf: new jsPDF('p','pt', 'letter'),
-                //pdf: new jsPDF(),
                 serverURL: config.httpServerURL,
                 domain: config.domain,
                 tel: config.tel,
@@ -176,19 +174,67 @@
         },
 
         methods: {
+
+
+            // Get the string representation of a DOM node (removes the node)
+            domNodeToString(domNode) {
+                var element = document.createElement("div");
+                element.appendChild(domNode);
+                return element.innerHTML;
+            },
+
+            svgToCanvas (className) {
+                var canvas = select(".container").append("canvas").attr("class", "screenShotTempCanvas");
+                var svg = select(".container").select(className)
+                var context = canvas.node().getContext("2d");
+                var svgElems = document.getElementsByTagName("svg");
+                // Convert SVG to Canvas
+                // see: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_DOM_objects_into_a_canvas
+                var DOMURL = window.URL || window.webkitURL || window;
+
+                var svgString = this.domNodeToString(svg.node());
+                
+                var image = new Image();
+                var svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+                var url = DOMURL.createObjectURL(svgBlob);
+
+                image.onload = function() {
+                    context.drawImage(image, 0, 0);
+                    DOMURL.revokeObjectURL(url);
+                }
+                image.src = url;
+            },
+
+
             transformPdf() {
-                var pdf = new jsPDF('p','pt', 'letter');
+                // for each svg .icons =>
+                //this.svgToCanvas(".icons");
+                var pdf = new jsPDF('p','pt', 'letter', 'img', 'svg', 'path');
                 pdf.internal.scaleFactor = 1.7;
                 var options = {
-                    pagesplit: true
+                    pagesplit: true,
+                    profile: true,
+                    letterRendering: 1,
+                    useCORS: true,
+                    allowTaint : false                
                 };
+     
                 html2canvas(document.querySelector('.block .container'), options).then(canvas => {
-                    //document.body.appendChild(canvas);
+                    //document.body.appendChild(canvas)
+                    //select(canvas).attr("class", "screenShotTempCanvas2");
+                    //var imgData = canvas.toDataURL(); 
                     var imgData = canvas.toDataURL('image/png'); 
                     pdf.addImage(imgData, 'PNG', 10, 10);
                     pdf.save('edouard_maleix_cv.pdf');
                 });
+
+                //select('.screenShotTempCanvas2').remove();
+                //select('.tempHide').enter().remove('tempHide');
+                //select('.tempHide').enter().remove('tempHide');
+
             },
+
+
         },
     }
 
@@ -199,8 +245,8 @@
 
     #cv {
         .container {
-            margin-top: 5%;
-            margin-bottom: 5%;
+            margin-top: 4%;
+            margin-bottom: 4%;
             margin-left: 3%;
             margin-left: 3%;
             border-radius: 5px;
@@ -256,7 +302,7 @@
             h2 {
                 font-size: 22px;
             }
-            padding-top: 4%;
+            padding-top: 3%;
         }
 
         .face {
@@ -268,24 +314,31 @@
         }
 
         .infos {
-            margin-top: 5%;
-            margin-bottom: 5%;
+            margin-top: 4%;
+            margin-bottom: 0%;
             h3 {
-                font-size: 16px;
+                font-size: 18px;
             }
             a {
                 color: #686868;
             }
+           
+        }
+
+        .icons path {
+            fill: #01c669 !important;
+            opacity: 0.8;
         }
 
         .articles {
             h2 {
+                margin-top: 0%;
                 color: #029ea8; 
                 font-size: 22px;
             }            
             h3 {
                 font-size: 20px;
-                margin-top: 3%;
+                margin-top: 2%;
                 margin-left: 2%;
                 text-transform: uppercase;
             }
@@ -302,7 +355,7 @@
                 font-size: 18px;
                 margin-left: 6%;
                 margin-top: 1%;
-                margin-bottom: 2%;
+                margin-bottom: 1%;
 
             }
             li {

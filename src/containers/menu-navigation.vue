@@ -21,7 +21,7 @@
                             <router-link class="dropdown-item" :to="'/' + name + ($route.params.locale ? $route.fullPath.substr($route.params.locale.length + 1) : $route.fullPath)">{{value}}</router-link>
                           </b-dropdown-item>
                         </b-nav-item-dropdown> --> 
-                        <b-nav-item href="https://fr.linkedin.com/in/edouard-maleix-a0a390b1" target="_blank" title="Linkedin"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" alt="linkedin icon"/></b-nav-item>
+                        <b-nav-item href="https://www.linkedin.com/in/edouard-maleix" target="_blank" title="Linkedin"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" alt="linkedin icon"/></b-nav-item>
                         <b-nav-item href="https://framagit.org/getlarge" target="_blank" title="Gitlab"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg" alt="git icon"/></b-nav-item>
                         <b-nav-item @click="chatHandler()" title="Chat" >
                             <font-awesome-icon v-if="chat === true" class="on" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-on icon"/>
