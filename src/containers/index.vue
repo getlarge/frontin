@@ -147,7 +147,7 @@
     const icon5 = "static/icons/notavailable.png";
     const rectangle = "<img class='square' src="+config.httpServerURL+"static/icons/rectangle.png />";
     const rectangleFlipped = "<img class='square' src="+config.httpServerURL+"static/icons/rectangle-flipped.png />";
-    const frontCard2 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon4+"></img><p class='text'></br>Your project requires UI/UX design, frontend / backend development, or embedded system prototyping ?</br>Why not talking about it now.</p></div>";
+    const frontCard2 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon4+"></img><p class='text'>Your project requires UI/UX design, frontend / backend development, or embedded system prototyping ?</br>Why not talking about it now.</p></div>";
     const frontCard1 =rectangle+"<div><img class='trombi' src="+config.httpServerURL+icon5+"></img><p class='text'></br>...on a mission, but you can send me your request anyway!</p></div>";
     const backCard =rectangleFlipped+"<div><img class='trombi' style='opacity:0.8;' src="+config.httpServerURL+icon3+"></img><p class='text'>Edouard Maleix</br><a href=mailto:ed@"+config.domain+">ed@"+config.domain+"</a></br><a href=tel:"+config.tel+">"+config.tel+"</a></br>Nantes</br>References on request</p></div>";
 

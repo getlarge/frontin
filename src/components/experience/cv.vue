@@ -53,7 +53,7 @@
                         </a></h3>             
                     </div>
                 </b-col>
-                <b-col class="articles" xs="12" sm="5" md="5"  >
+                <b-col class="pics" xs="12" sm="5" md="5"  >
                     <img :src="serverURL+img1" class="face" alt="">
                 </b-col>
                 <b-col class="articles" xs="12" sm="12" md="12"  >
@@ -159,7 +159,7 @@
                 img1 : "static/img/ed2.jpg",
                 fr: [1,2,3],
                 en: [1,2,3],
-                de:[1],
+                de: [1],
             };
         },
 
@@ -177,23 +177,17 @@
 
         methods: {
             transformPdf() {
-                var self = this;
-                    //var pdf = new jsPDF('p','pt', 'letter');
-                    this.pdf.internal.scaleFactor = 1.9;
-                    var options = {
-                        pagesplit: true
-                    };
-
-                    html2canvas(document.querySelector('.block .container'), options, function(output) {
-                        self.pdf.output(output);
-                        //this.pdf.save('test.pdf');
-                    });
-
-                    // html2canvas(document.querySelector('.block .container'), options).then(function(canvas) {
-                    //     //document.body.appendChild(canvas);
-                    //     self.pdf.output(canvas);
-
-                    // });
+                var pdf = new jsPDF('p','pt', 'letter');
+                pdf.internal.scaleFactor = 1.7;
+                var options = {
+                    pagesplit: true
+                };
+                html2canvas(document.querySelector('.block .container'), options).then(canvas => {
+                    //document.body.appendChild(canvas);
+                    var imgData = canvas.toDataURL('image/png'); 
+                    pdf.addImage(imgData, 'PNG', 10, 10);
+                    pdf.save('edouard_maleix_cv.pdf');
+                });
             },
         },
     }

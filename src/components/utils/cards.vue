@@ -2,7 +2,7 @@
     <div id="cards" >  
         <mq-layout class="cards-mobile" mq="mobile">
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.3)" class="">
-                <vue-draggable-resizable   id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.6"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable   id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/1.6"  :w="settings.dragBoxWidth*1.2" :h="settings.dragBoxHeight*1.15" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container  >
                             <div class="title">{{title}}</div>
@@ -12,11 +12,9 @@
                                 <b-col xs="6" >
                                     <div v-if="settings.dragBoxWidth > settings.dragBoxHeight*2.2 ">
                                         <div class="description">{{description}}</div>
-                                        <div class="tags">{{tags}}</div>
                                     </div>
                                     <div v-else>
                                         <div  class="description">{{description}}</div>
-                                        <div class="tags">{{tags}}</div>
                                     </div>
                                 </b-col>
                                 <b-col xs="6" >
@@ -29,7 +27,7 @@
                 </vue-draggable-resizable>
             </div>
             <div v-else  >
-                 <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth*1.8" :h="settings.dragBoxHeight*0.5" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                 <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth*1.8" :h="settings.dragBoxHeight*0.6" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
@@ -38,7 +36,6 @@
                             <b-row >
                                 <b-col xs="6"  >
                                     <div class="description">{{description}}</div>
-                                    <div class="tags">{{tags}}</div>
                                 </b-col>
                                 <b-col xs="6"   >
                                     <a :href="serverURL+img" target="_blank"><b-img class="pics" :width="settings.dragBoxWidth/2" :height="settings.dragBoxY/3" :src="serverURL+img" /></a>
@@ -52,7 +49,7 @@
 
         <mq-layout class="cards-tablet" mq="tablet">
             <div v-if="settings.dragBoxWidth >= (settings.dragBoxHeight*1.1)" class="">
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth*1.4" :h="settings.dragBoxHeight*1.05" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX" :y="settings.dragBoxY/2.2"  :w="settings.dragBoxWidth*1.4" :h="settings.dragBoxHeight*1.15" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
@@ -65,7 +62,6 @@
                             <b-row >
                                 <b-col sm="5"  >
                                     <div class="description">{{description}}</div>
-                                    <div class="tags">{{tags}}</div>
                                 </b-col>
                                 <b-col sm="7"   >
                                     <a :href="serverURL+img" target="_blank">
@@ -78,7 +74,7 @@
                 </vue-draggable-resizable>
             </div>
             <div v-else >
-                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.5" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
+                <vue-draggable-resizable  id="tooltipContainer" :x="settings.dragBoxX/1.2" :y="settings.dragBoxY/4"  :w="settings.dragBoxWidth" :h="settings.dragBoxHeight*0.8" :drag-handle="'.drag-button'" v-on:dragging="onDrag" @deactivated="close" :resizable="false" v-on:resizing="onResize" >
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
@@ -91,7 +87,6 @@
                             <b-row >
                                 <b-col sm="5"  >
                                     <div class="description">{{description}}</div>
-                                    <div class="tags">{{tags}}</div>
                                 </b-col>
                                 <b-col sm="7"   >
                                     <a :href="serverURL+img" target="_blank">
@@ -343,14 +338,14 @@
         background-color: rgba(0,0,0,0.5);
         z-index: 2000;
         #tooltipContainer {
-            font-size: 100%;
+            font-size: 90%;
             line-height: 11px;
             padding: 6px;
         }
  
         #tooltip .description {
             margin-top: 0%;
-            font-size: 75%;
+            font-size: 65%;
         } 
 
         #tooltip .tags {
@@ -371,11 +366,11 @@
 
         #tooltip .description {
             margin-top: 0%;
-            font-size: 80%;
+            font-size: 70%;
         } 
 
         #tooltip .tags {
-            font-size: 80%;
+            font-size: 70%;
         }
     }
 

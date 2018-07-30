@@ -79,7 +79,7 @@
                 var text = "This work is based on Peter Cook's algorithm reproducing plant's branching mechanism. I tried to push realism further by observing their growing patterns, and playing with variables like vertical/horizontal proportion - angle and length growing's ratio - maximum number of branching, etc ... \nClick the play icon to regenerate the tree";
                 var tags = "";
                 var img = "static/icons/wald.png";
-                //EventBus.$emit("update:tutorial", "En savoir plus", text, tags, img );     
+                EventBus.$emit("update:tutorial", "En savoir plus", text, tags, img );     
             });
  			this.updateTimer();
 		},
