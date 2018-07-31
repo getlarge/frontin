@@ -1,4 +1,5 @@
 <template>
+
     <div id="hello">
         <b-container  fluid >
             <b-row align-h="center">
@@ -125,6 +126,7 @@
             </b-row>
         </b-container>
     </div>
+
 </template>
 
 <script>
@@ -433,4 +435,5 @@
             top: 40%;
         }
     }
+    
 </style>

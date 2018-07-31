@@ -1,6 +1,7 @@
 <template >
+
+	<!--   		Updating Peter Cook version -->		
   	<b-container id="tree-holder" fluid>
-		<!--   		Updating Peter Cook version -->		
 		<b-row align-h="center">      	
 			<b-col id="tree" sm="10" md="10" lg="10" >
 		        <svg id="branches" pointer-events="all" viewBox="0 20 800 450" preserveAspectRatio="xMinYMin meet"> 
@@ -12,8 +13,8 @@
 			<b-col class="infos" xs="4" sm="7" md="8" lg="5">
 				<p>:  is a mode of branching by repeated bifurcation - thus a focus on branching rather than on division.
 	      		</p>
-	      		<!-- <p></br>Todo :  using advanced image analytic tool ( machine learning involved ), it could be possible to extract parameters from species pictures and then synthesize plant's flow structure. 
-	      		</p> -->
+	      		<!-- Todo :  using image analytic tool ( ml5js maybe ) browser side, it could be possible to extract parameters from species pictures and then synthesize plant's flow structure. 
+	      		-->
 			</b-col>
 			<b-col id="regenerate" xs="2" sm="1" md="1" lg="1">
 				<button @click="updateTimer()">
@@ -25,6 +26,7 @@
     </b-container>
 
 </template>
+
 <script>
 	
 	import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
@@ -82,8 +84,6 @@
                 EventBus.$emit("update:tutorial", "En savoir plus", text, tags, img );     
             });
  			this.updateTimer();
-
-
  			EventBus.$on("stop:cards", i => {
                 //this.currentProject = undefined;
             });
@@ -279,7 +279,6 @@
 		}
 	}
 
-	
 </script>
 
 <style scoped>

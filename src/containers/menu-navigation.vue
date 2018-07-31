@@ -1,8 +1,8 @@
 <template>
+    
     <div id="top-nav">
         <b-navbar toggleable="sm" type="light" variant="light" sticky>
             <b-navbar-brand href="/"><b-img class="logo" :src="serverURL+icon1" fluid/><b-img class="logo" :src="serverURL+icon2" fluid /> </b-navbar-brand>
-  
             <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
             <b-collapse is-nav id="nav_collapse">
                 <b-nav class="h-10">
@@ -39,14 +39,15 @@
                 </b-nav>
             </b-collapse>
         </b-navbar>
-                <cards
-            v-if="currentPage"
-            :title="currentPage.name"
-            :description="currentPage.tutorial"
-            :tags="currentPage.tags"
-            :img="currentPage.img"
+            <cards
+                v-if="currentPage"
+                :title="currentPage.name"
+                :description="currentPage.tutorial"
+                :tags="currentPage.tags"
+                :img="currentPage.img"
             />
     </div>
+
 </template>
 
 <script>
@@ -230,7 +231,5 @@
         height: 40px;
         position: relative;
     }
-
-    
 
 </style>

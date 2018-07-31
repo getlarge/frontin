@@ -44,13 +44,13 @@
 
 <script>
 
-    import VueAudio from 'vue-audio'
-    import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-    import { mapState } from 'vuex'
+    import VueAudio from "vue-audio"
+    import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
+    import { mapState } from "vuex"
     import { EventBus } from "@/main"
-    import { upload } from '@/services/file-upload.service'
-    //import { wait } from '@/services/utils';
-    //import { upload } from '@/services/file-upload.fake.service'; // fake service
+    import { upload } from "@/services/file-upload.service"
+    //import { wait } from "@/services/utils"
+    //import { upload } from "@/services/file-upload.fake.service"; // fake service, might be used to decode image on the brower
 
     const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3;
 

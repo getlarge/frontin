@@ -1,4 +1,5 @@
 <template>
+
     <b-container id="plant-print" fluid >
         <b-row align-h="center">
             <b-col  xs="6" sm="6" md="6" lg="6" >
@@ -21,16 +22,17 @@
             </b-col>
         </b-row>
     </b-container>
+
 </template>
 
 <script>
 
-    import config from '@/config.json'
+    import config from "@/config.json"
     import { min, max } from "d3-array"
     import { event, select, selectAll } from "d3-selection"
     import { interval } from "d3-timer"
     import { active, transition } from "d3-transition"
-    import { EventBus } from '@/main'
+    import { EventBus } from "@/main"
     import { realTimeLineChart } from "./real-timeline-chart"
 
     export default {
@@ -85,7 +87,7 @@
         },
 
         updated() {
-          //this.updateData;
+          this.updateData;
           //console.log(this)
         },
 
@@ -137,16 +139,16 @@
             selectMessage(topic, payload) {
                 //var newPayload = topic + ">" + payload.toString();       
                 var topicSplit = topic.split("/");
-                if (topicSplit[3] == this.nodes[0] ) {
+                if (topicSplit[3] === this.nodes[0] ) {
                     var obj = JSON.parse(payload.toString());
                     if ( obj.subType === "48" && topicSplit[4] === "1") {
-                        this.formatIncomingMessage("json", obj, "got-x");
+                        return this.formatIncomingMessage("json", obj, "got-x");
                     }
                 }
-                if (topicSplit[3] == this.nodes[1]) {
+                if (topicSplit[3] === this.nodes[1]) {
                     var obj = JSON.parse(payload.toString());
                     if ( obj.subType === "48" && topicSplit[4] === "1" ) {
-                        this.formatIncomingMessage("json", obj, "got-y");
+                        return this.formatIncomingMessage("json", obj, "got-y");
                     }
                 }
             },
@@ -164,7 +166,7 @@
                         y: y,
                         type: message.subType
                     }; 
-                    this.$emit(event.toString(), y);
+                    return this.$emit(event.toString(), y);
                 //this.buffer.push(formatedPayload);
                 }
             },
@@ -234,10 +236,5 @@
             padding-left: 2%;
         }
     }
-
-  
-   
-
-  
 
 </style>

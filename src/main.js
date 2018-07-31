@@ -26,12 +26,11 @@ Vue.config.devtools = true
 Vue.use(VueResource);
 Vue.use(VueAuthImage);
 
-//Basic"+btoa(config.options.username + ":" + config.options.password)
 //var authHeader = 'Bearer ' + localStorage.getItem('id_token');
 //var authHeader = "Basic "+btoa(config.options.username + ":" + config.options.password);
-var authHeader = "Basic dXNlcjptb3RkZXBhc3Nl";
+//var authHeader = "Basic qmzf";
 //Vue.http.headers.common['Authorization'] = authHeader;
-axios.defaults.headers.common['Authorization'] = authHeader;
+//axios.defaults.headers.common['Authorization'] = authHeader;
 
 Vue.use(VueTouch, {name: 'v-touch'})
 
@@ -46,7 +45,7 @@ Vue.use(VueMq, {
 });
 Vue.use(BootstrapVue);
 
-Vue.filter('formatSize', function (size) {
+Vue.filter("formatSize", function (size) {
     if (size > 1024 * 1024 * 1024 * 1024) {
         return (size / 1024 / 1024 / 1024 / 1024).toFixed(2) + ' TB'
     } else if (size > 1024 * 1024 * 1024) {

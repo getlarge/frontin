@@ -14,7 +14,7 @@
 <script>
      
     export default {
-        name: 'stream-viewer',
+        name: "stream-viewer",
         data() {
             return {
                 img: {},

@@ -1,13 +1,8 @@
 <!--
 
-It would be great if you color the map by population using data from index.vue
-
 Based on:
   http://bl.ocks.org/rveciana/a2a1c21ca1c71cd3ec116cc911e5fce9
   http://bl.ocks.org/mapsam/6083585
-
-
-Links:
 
 -->
 
@@ -17,12 +12,11 @@ Links:
 
 <script>
 
-    import config from '@/config.json'
-    //import * as d3 from 'd3'
+    import config from "@/config.json"
     import { json } from "d3-fetch"
     import { geoAlbersUsa, geoPath } from "d3-geo"
     import { append, attr, event, select, selectAll, style } from "d3-selection"
-    import * as topojson from 'topojson'
+    import * as topojson from "topojson"
 
     export default {
         data() {
@@ -35,11 +29,10 @@ Links:
         },
 
         mounted() {
-          var v = this;
+          var self = this;
           // var svg = d3.select(this.$el);
           // var width = +svg.attr('width');
           // var height = +svg.attr('height');
-          
           var svg = select(this.$el)
                 .attr("width", this.width)
                 .attr("height", this.height);
@@ -56,10 +49,10 @@ Links:
               .attr("class", "state")
               .attr("d", path)
               .on('mouseover', function(d) {
-                v.$emit('stateSelected', d.properties.STATE_ABBR)
+                self.$emit('stateSelected', d.properties.STATE_ABBR)
           		})
               .on('mouseout', function(d) {
-                v.$emit('stateDeselected', d.properties.STATE_ABBR)
+                self.$emit('stateDeselected', d.properties.STATE_ABBR)
               })
             g.attr('transform', 'scale(0.8)')
           });

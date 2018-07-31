@@ -11,11 +11,9 @@ import { zoom, zoomIdentity } from "d3-zoom"
 
 
 export const realTimeLineChart = function () {
-    //var margin = {top: 25, right: 25, bottom: 25, left: 25},
     var margin = {top: 25, right: 25, bottom: 25, left: 25},
         //width = Math.max(document.documentElement.clientWidth/1.6, window.innerWidth/1.6 || 0) - margin.left - margin.right,
         //height = Math.max(document.documentElement.clientHeight/1.5, window.innerHeight/1.5 || 0) - margin.top - margin.bottom,
-
         width = Math.max(document.documentElement.clientWidth/1.6, window.innerWidth/1.6 || 0),
         height = Math.max(document.documentElement.clientHeight/1.5, window.innerHeight/1.5 || 0),
         duration = 2000,
@@ -52,14 +50,12 @@ export const realTimeLineChart = function () {
 
             var t = transition().duration(duration).ease(easeLinear),
                 x = scaleTime().domain(x0).rangeRound([0, width-margin.left-margin.right]),
-                //x = scaleTime().rangeRound([0, width]),
                 //y = scaleLinear().domain(y0).rangeRound([height, 0]),
-                y = scaleLinear().rangeRound([height-margin.top-margin.bottom, 0]),
+                y = scaleLinear().domain(y0).rangeRound([height-margin.top-margin.bottom, 0]),
                 z = scaleOrdinal(color);
-
-
             // x.domain(x0);
-            // y.domain(y0);
+            //y.domain(y0);
+
             z.domain(data.map(function(c) { return c.label; }));
 
             var xAxis = axisBottom(x).ticks(5),
@@ -80,7 +76,6 @@ export const realTimeLineChart = function () {
                 .y0(height)
                 .y1(function(d) { return y(d.value); });
 
-
             var svg = select(this).selectAll("svg").data([data]);
             
             var gEnter = svg.enter().append("svg").append("g");
@@ -90,8 +85,8 @@ export const realTimeLineChart = function () {
             gEnter.append("defs").append("clipPath")
                 .attr("id", "clip")
                 .append("rect")
-                .attr("width", width)
-                .attr("height", height);
+                .attr("width", width - margin.left - margin.right)
+                .attr("height", height - margin.bottom - margin.top );
             gEnter.append("g")
                 .attr("class", "lines")
                 .attr("clip-path", "url(#clip)")
@@ -101,12 +96,13 @@ export const realTimeLineChart = function () {
 
             var legendEnter = gEnter.append("g")
                 .attr("class", "legend")
-                .attr("transform", "translate(" + (width) + ",15)");
+                .attr("transform", "translate(" + (margin.left) + ",15)");
             legendEnter.append("rect")
-                .attr("width", 50)
-                .attr("height", 75)
-                .attr("fill", "#ffffff")
-                .attr("fill-opacity", 0.7);
+                .attr("width", 65)
+                .attr("height", 60)
+                .attr("rx", 4)
+                .attr("fill", "#dedede")
+                .attr("fill-opacity", 0.7)
             legendEnter.selectAll("text")
                 .data(data).enter()
                 .append("text")
@@ -119,7 +115,6 @@ export const realTimeLineChart = function () {
             svg.attr('width', width).attr('height', height);
             var g = svg.select("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
             g.select("g.axis.axis--x")
                 .attr("transform", "translate(0," + (height - margin.bottom - margin.top) + ")")
                 .transition(t)
@@ -139,7 +134,7 @@ export const realTimeLineChart = function () {
                 .style("stroke", function(d) { return z(d.label); })
                 .style("stroke-width", 2)
                 .style("fill", function(d) { return z(d.label); })
-                .style("fill-opacity", "0.4")
+                .style("fill-opacity", "0.2")
                 .transition()
                 .duration(duration)
                 .ease(easeLinear)
@@ -158,6 +153,7 @@ export const realTimeLineChart = function () {
                 if ( x1.length > 0 ) {
                     console.log("tickzom1")
                     zoomed = true;
+                    //x.scaleTime().domain(x1save).rangeRound([0, width-margin.left-margin.right]),
                     x.domain(x1save);
                     y.domain(y1save);
                     //var t = g.transition().duration(750);

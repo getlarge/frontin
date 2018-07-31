@@ -1,4 +1,5 @@
 <template>
+
     <div id="cam-viewer">
         <div><video ref="video" id="video" width="640" height="480" autoplay></video></div>
         <div><button id="snap" v-on:click="capture()">Snap Photo</button></div>
@@ -9,11 +10,13 @@
             </li>
         </ul>
     </div>
+
 </template>
 
 <script>
+
     export default {
-        name: 'app',
+        name: "cam-viewer",
         data() {
             return {
                 video: {},
@@ -54,10 +57,6 @@
 </script>
 
 <style scoped>
-
-/*    body: {
-        background-color: #F0F0F0;
-    }*/
 
     #cam-viewer {
         text-align: center;

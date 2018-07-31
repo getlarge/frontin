@@ -1,4 +1,5 @@
 <template>
+
     <div id="vis">
         <b-container fluid >
             <b-row align-h="center">
@@ -17,11 +18,12 @@
             </b-row>
           </b-container>
     </div>
+
 </template>
 
 <script>
 
-    import config from '@/config.json'
+    import config from "@/config.json"
 	import { range } from "d3-array"
 	import { drag } from "d3-drag"
 	import { json } from "d3-fetch"
@@ -38,7 +40,7 @@
 		data() {
 		    return {
                 serverURL: config.httpServerURL,
-                dataPath : 'static/data/gallery.json',
+                dataPath : "static/data/gallery.json",
                 graph: null,
                 simulation: null,
                 colorPalette : scaleOrdinal().range([ "#28693e", "#3f9e5e", "#60c780", "#5ca775", "#84c899", "#9adfb0", "#6ed659", "#417c52", "#56a46f" ]),
@@ -67,15 +69,12 @@
 
         mounted() {
             this.initPortfolio();
-
             this.$on("nodeSelected", i => {
               //console.log("nodeSelected", this.graph.nodes[i].data);
             }); 
-
             this.$on("nodeDeselected", () => {
               //console.log("nodeDeselected");
             });  
-
             EventBus.$on("start:tutorial", i => {
                 var text = "Another way to browse into a portfolio ... \nAccess pictures by clicking on circles containing images.";
                 var tags = "";
@@ -83,7 +82,6 @@
                 EventBus.$emit("update:tutorial", this.$route.name, text, tags, img );     
             });
 
-   
         },
 
         updated() {
@@ -323,6 +321,7 @@
 </script>
 
 <style lang="scss">
+
 	#vis {
         width: 100%;
         height: 100%;
@@ -366,8 +365,7 @@
 
     }
 
-    
-/* Smartphones (portrait and landscape) ----------- */
+    /* Smartphones (portrait and landscape) ----------- */
     @media only screen and (min-device-width : 320px) and (max-device-width : 580px) {
         .img-open {
             margin-left: auto;
@@ -380,7 +378,7 @@
             max-width: 100%;
         }
     } 
-/* Smartphones (portrait) ----------- */
+    /* Smartphones (portrait) ----------- */
     @media only screen and (max-device-height : 850px) and (max-device-width : 440px)  and (min-device-width : 300px){
         .img-open {
             display: block;
@@ -399,4 +397,5 @@
             max-width: 100%;
         }
     }
+
 </style>

@@ -1,4 +1,5 @@
 <template>
+
     <div id="tables">
         <b-container  fluid>
             <b-row >        
@@ -17,16 +18,17 @@
         <div id="aloes-table">
         </div> 
     </div>
+
 </template>
 
 <script>
 
-    import config from '@/config.json'
+    import config from "@/config.json"
     import { keys } from "d3-collection"
     import { json } from "d3-fetch"
     import { hierarchy, tree } from "d3-hierarchy"
     import { event, select, selectAll } from "d3-selection"
-    import { EventBus } from '@/main'
+    import { EventBus } from "@/main"
 
     export default {
         data() {
@@ -245,9 +247,7 @@
     This query will take effect for any screen smaller than 760px
     and also iPads specifically.
     */
-    @media 
-    only screen and (max-width: 760px),
-    (min-device-width: 768px) and (max-device-width: 1024px)  {
+    @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px)  {
     
         /* Force table to not be like tables anymore */
         #aloes-table table, thead, tbody, th, td, tr { 
@@ -294,9 +294,7 @@
     }
     
     /* Smartphones (portrait and landscape) ----------- */
-    @media only screen
-    and (min-device-width : 320px)
-    and (max-device-width : 480px) {
+    @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
         #aloes-table { 
             padding: 0; 
             margin: 0; 

@@ -1,5 +1,5 @@
-import config from '@/config.json'
-import { EventBus } from '@/main'
+import config from "@/config.json"
+import { EventBus } from "@/main"
 import { select, selectAll } from "d3-selection"
 
 //import ToneSynth from '@/tone-components/synth'
@@ -7,10 +7,10 @@ import { select, selectAll } from "d3-selection"
 export default class liveRocketChat {
     constructor() {
         this.ready = false;
-        EventBus.$on('start:chat', () => {
+        EventBus.$on("start:chat", () => {
             this._initClient();
         });
-        EventBus.$on('stop:chat', () => {
+        EventBus.$on("stop:chat", () => {
             this.stopClient();
         });     
         //this.synth = new(ToneSynth);
@@ -38,10 +38,10 @@ export default class liveRocketChat {
                 //this.setCustomField('name', this.chatId);
                 // this.setCustomField('mail', 'A value set just once', false); // you can pass false as the third parameter to not overwrite an already set value
                 this.setTheme({
-                    color: 'rgba(51, 178, 119, 0.7)', // widget title background color
+                    color: "rgba(51, 178, 119, 0.7)", // widget title background color
                     //registrationForm: true,
-                    offlineColor: 'rgba(51, 178, 119, 0.7)',
-                    fontColor: '#FFF' // widget title font color
+                    offlineColor: "rgba(51, 178, 119, 0.7)",
+                    fontColor: "#FFF" // widget title font color
                 });
 
                 // this.onChatMaximized(function() {

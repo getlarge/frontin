@@ -1,9 +1,9 @@
-import mqtt from 'mqtt'
-import levelStore from 'mqtt-level-store'
+import mqtt from "mqtt"
+import levelStore from "mqtt-level-store"
 import { AsyncClient } from "async-mqtt"
-import moment from 'moment'
-import config from '@/config.json'
-import { EventBus } from '@/main'
+import moment from "moment"
+import config from "@/config.json"
+import { EventBus } from "@/main"
 
 var MQTTStore = require("mqtt-store");
  

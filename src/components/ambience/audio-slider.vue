@@ -1,18 +1,21 @@
 <template>
+
     <div id="audio-slider" ref="audioSlider">
         <button class="player" @click="togglePlayback"  >
             <b-img class="iconic" :src="icon" fluid />
         </button>
         <vue-slider ref="slider1" v-model="value" v-bind="options"></vue-slider>
     </div>
+
 </template>
 
 <script>
+    
     import { rgb } from "d3-color"
     import { interpolateHclLong } from "d3-interpolate"
     import { select, selectAll } from "d3-selection"
     import vueSlider from "vue-slider-component"
-    import VueHowler from 'vue-howler'
+    import VueHowler from "vue-howler"
     import { EventBus } from "@/main"
 
     export default {

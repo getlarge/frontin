@@ -1,30 +1,29 @@
 <template>
      
     <div class="block" id="cv">
-
         <mq-layout class="pdfExport-mobile" mq="mobile">
-            <v-touch class="pdfExport" v-on:tap="transformPdf" >
-                <font-awesome-icon :icon="['fas', 'download']" size="2x" />
+            <v-touch title="export pdf" class="pdfExport" v-on:tap="transformPdf" >
+                <font-awesome-icon :icon="['fas', 'download']" size="2x" alt="download"/>
             </v-touch>
         </mq-layout>
         <mq-layout class="pdfExport-tablet" mq="tablet">
-            <v-touch class="pdfExport" v-on:tap="transformPdf" >
-                <font-awesome-icon :icon="['fas', 'download']" size="2x" />
+            <v-touch title="export pdf" class="pdfExport" v-on:tap="transformPdf" >
+                <font-awesome-icon :icon="['fas', 'download']" size="2x" alt="download"/>
             </v-touch>
         </mq-layout>        
         <mq-layout class="pdfExport-laptop" mq="laptop">
-            <button class="pdfExport" @click="transformPdf">
-                <font-awesome-icon :icon="['fas', 'download']" size="2x" />
+            <button title="export pdf" class="pdfExport" @click="transformPdf">
+                <font-awesome-icon :icon="['fas', 'download']" size="2x" alt="download"/>
             </button>
         </mq-layout>
         <mq-layout class="pdfExport-desktop" mq="desktop">
-            <button class="pdfExport" @click="transformPdf">
-                <font-awesome-icon :icon="['fas', 'download']" size="2x" />
+            <button title="export pdf" class="pdfExport" @click="transformPdf">
+                <font-awesome-icon :icon="['fas', 'download']" size="2x" alt="download"/>
             </button>
         </mq-layout>
         <mq-layout class="pdfExport-xxl" mq="xxl">
-            <button class="pdfExport" @click="transformPdf">
-                <font-awesome-icon :icon="['fas', 'download']" size="3x" />
+            <button title="export pdf" class="pdfExport" @click="transformPdf">
+                <font-awesome-icon :icon="['fas', 'download']" size="3x" alt="download"/>
             </button>
         </mq-layout>
 
@@ -61,6 +60,7 @@
                     <div>
                         <ul>
                             <li>Visualisation données en temps réel - UI/UX design - Création graphique</li>
+                            <li>Architecture évenementielle et microservices</li>
                             <li>Développement embarqué ( logiciel et électronique )</li>
                             <li>Agile - Scrum - Lean Startup</li>
                             <li>Analyse de marché - Design produit - Campagne de tests</li>
@@ -74,7 +74,7 @@
                         <h4>juin 2018 à maintenant</h4>
                         <ul>
                             <li>Développement d'un portfolio web</li>
-                            <li>Contributions au projet Aloes et d'autres libraires open source</li>
+                            <li>Contributions à plusieurs libraires open source ( aloes, rocketchat, ipso, mysensors ) </li>
                         </ul>
                         <h5>Environnement technique :</h5>
                         <ul>
@@ -101,7 +101,7 @@
                         <h4>avril 2017 à novembre 2017</h4>
                         <ul>
                             <li>Création d'un logiciel embarqué pour connecter rapidement et simplement des capteurs sur Internet </li>
-                            <li>Contributions à des librairies open source </li>
+                            <li>Contributions à des librairies open source ( mysensors ) </li>
                             <li>Animation d'un réseau d'amateurs d'électronique, impression 3D et développement web ( DIY )</li>
                             <li>Conception de pièces en 3D</li>
                         </ul>
@@ -123,17 +123,14 @@
                 <b-col class="articles" xs="12" sm="12" md="12"  >
                     <h2>Centres d'intérêts</h2>
                     <ul>
-                        <li>Botanique</li>
-                        <li>Philosophie</li>
-                        <li>Open source</li>
+                        <li>Botanique</li>                        
                         <li>Innovation</li>
+                        <li>Open source</li>
+                        <li>Philosophie</li>
                     </ul>
                 </b-col>
             </b-row>
         </b-container>
-
-
- 
     </div>
 
 </template>

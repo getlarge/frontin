@@ -1,4 +1,5 @@
 <template>
+
     <div id="bubbles">
        <div class="svg-container" >
         <cards
@@ -12,13 +13,13 @@
               <g :id="nodes"></g>
           </svg>
       </div>
-
     </div>
+
 </template>
 
 <script>
 
-    import config from '@/config.json'
+    import config from "@/config.json"
     import { range } from "d3-array"
     import { rgb, interpolateRgb } from "d3-color"
     import { drag } from "d3-drag"
@@ -69,11 +70,9 @@
       mounted() {
           this.initFilter();
           this.initBubbles();
-         
           this.$on("bubbleSelected", ( d , i ) => {
             //console.log(this.graph.nodes)
           }); 
-
           this.$on("bubbleDeselected", () => {
             //console.log("nodeDeselected");
           });         

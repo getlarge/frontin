@@ -1,4 +1,5 @@
 <template>
+	
 	<div id="interactive-timeline" >
 	    <cards
 			v-if="currentProject"
@@ -6,7 +7,7 @@
 			:description="currentProject.description"
 			:tags="currentProject.tags"
 			:img="currentProject.img"
-			/>
+		/>
 		<div id="timeline" >
 			<svg></svg>
 		</div>
@@ -16,7 +17,7 @@
 
 <script>
 
-	import config from '@/config.json'
+	import config from "@/config.json"
 	import { min, max, range, sum } from "d3-array"
 	import { axisBottom } from "d3-axis"
 	import { easeLinear, easeQuadInOut } from "d3-ease"
@@ -28,8 +29,8 @@
 	import { timeFormat } from "d3-time-format"
 	import { active, transition } from "d3-transition"
 	import cards from "@/components/utils/cards"
-	import moment from 'moment'
-	import { EventBus } from '@/main'
+	import moment from "moment"
+	import { EventBus } from "@/main"
 
 	export default {
         name: 'timeline',

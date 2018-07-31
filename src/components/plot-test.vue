@@ -6,8 +6,9 @@
 </template>
 
 <script>
-  //import VuePlotly from '@statnett/vue-plotly'
-  //import Plotly from 'plotly.js/dist/plotly'
+  
+  //import VuePlotly from "@statnett/vue-plotly"
+  //import Plotly from "plotly.js/dist/plotly"
 
 
   // export default {
@@ -23,4 +24,5 @@
   //     }
   //   }
   // }
+
 </script>

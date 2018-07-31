@@ -1,5 +1,6 @@
 <template >
-  	<b-container ref="slider-master" id="audio-slider-holder" fluid class="bv-example-row">
+
+  	<b-container ref="slider-master" id="ambience" fluid class="bv-example-row">
       	<b-row >
 			<b-col class="colzy" id="control-col" sm="3" md="3" lg="3" >
 				<div id="edit-container" v-for="item in format">
@@ -43,9 +44,11 @@
             </small>
         </div> -->
     </b-container>
+
 </template>
 
 <script>
+
 /// todo : add params in the url to share boards
   	import config from "@/config.json"
 	import { rgb } from "d3-color"
@@ -71,51 +74,51 @@
 		    			id: 1,
 		    			name: "vent",
 			    		audioSource:[serverURL+"static/sounds/wind.mp3"],
-				        iconFile: serverURL+'static/icons/blaetter.png',
+				        iconFile: serverURL+"static/icons/blaetter.png",
 			    	},{
 		    			id: 2,
 		    			name: "feu",
 			    		audioSource:[serverURL+"static/sounds/fire.mp3"],
-				        iconFile: serverURL+'static/icons/feuer.png',
+				        iconFile: serverURL+"static/icons/feuer.png",
 				    },{
 		    			id: 3,
 		    			name: "eau",
 			    		audioSource:[serverURL+"static/sounds/water-stream.mp3"],
-				        iconFile: serverURL+'static/icons/meer.png',
+				        iconFile: serverURL+"static/icons/meer.png",
 			    	}
 		    	],
 		    	as2: [{
 		    			id: 4,
 		    			name: "pluie",
 			    		audioSource:[serverURL+"/static/sounds/rain.mp3"],
-				        iconFile: serverURL+'static/icons/wolke.png',
+				        iconFile: serverURL+"static/icons/wolke.png",
 				    },{
 		    			id: 5,
 		    			name: "foret",
 			    		audioSource:[serverURL+"static/sounds/forrest.mp3"],
-				        iconFile: serverURL+'static/icons/wald.png',
+				        iconFile: serverURL+"static/icons/wald.png",
 			    	},{
 		    			id: 6,
 		    			name: "tempete",
 			    		audioSource:[serverURL+"static/sounds/storm.mp3"],
-				        iconFile: serverURL+'static/icons/sturm.png',
+				        iconFile: serverURL+"static/icons/sturm.png",
 			    	},
 		    	],
 		    	as3: [{
 		    			id: 7,
 		    			name: "café",
 			    		audioSource:[serverURL+"static/sounds/cafe.mp3"],
-				        iconFile: serverURL+'static/icons/koffee.png',
+				        iconFile: serverURL+"static/icons/koffee.png",
 				    },{
 		    			id: 8,
 		    			name: "livre",
 			    		audioSource:[serverURL+"static/sounds/book.mp3"],
-				        iconFile: serverURL+'static/icons/buch.png',
+				        iconFile: serverURL+"static/icons/buch.png",
 				    },{
 		    			id: 9,
 		    			name: "trophée",
 			    		audioSource:[serverURL+"static/sounds/champion.mp3"],
-				        iconFile: serverURL+'static/icons/trophae.png',
+				        iconFile: serverURL+"static/icons/trophae.png",
 				    }
 				],
 		        colorSet: [
@@ -241,7 +244,7 @@
 					.style("background-color", self.color(value))
 			},
 
-			privateCheckMove: function(evt){
+			privateCheckMove(evt){
 				this.targetElement = evt.relatedContext.element
 				if ( evt.relatedContext.list.length === 5 ){
 					return false
@@ -249,20 +252,20 @@
 				return true;
 			},
 
-			checkMove: function(evt){
+			checkMove(evt){
 				var res = this.privateCheckMove(evt)
 				this.canDrag = res;
 				this.futureIndex = evt.draggedContext.futureIndex;
 				return res;
 			},
 
-			endDrag: function () {
+			endDrag() {
 				this.canDrag = null;
 				this.targetElement = null;
 				this.futureIndex = null;
 			},
 
-			startDrag: function (evt) {
+			startDrag(evt) {
 				//console.log(evt)
 			},
 
@@ -311,70 +314,65 @@
 
 <style lang="scss">
 
-	#audio-slider-holder {
+	#ambience {
 		text-align: center;
 		font-size: 16px;
 		padding: 3%;
 		color: grey;
+
+		.colzy {
+			padding-bottom: 2%;
+			padding-top: 5%;
+		}
+
+		#control-col {
+			background-color: #aaf7d3;
+			color: white;
+			opacity: 1;
+			width: 100%;
+			min-height: 500px;
+			border-radius: 50px;
+
+			#edit-container {
+				height: 30%;
+				margin-top: 2%;
+				margin-bottom: 2%;
+			}
+
+			button.create-button {
+				display: flex;
+				align-items: center;
+				background-color: transparent;
+				border: none;
+				font-size: 16px;
+				padding-top: 1%;
+				padding-bottom: 2%;
+				color: white;
+				position: relative;
+			}
+
+			button.create-button:hover {
+				display: flex;
+				align-items: center;
+				color: #e8e8e8;
+				background-color: transparent;
+				border: none;
+				cursor: pointer; 
+			}
+		}
+
+		h1 {
+	    	font-family: 'Aloes-Bd';
+	    	font-size: 28px; 
+	    	text-transform: uppercase;
+	    	text-align: center; 
+			color: white;
+		}
+
 	}
 
 	#audio-slider {
 		max-width: 95%;
-	}
-
-	#edit-container {
-		height: 30%;
-		margin-top: 2%;
-		margin-bottom: 2%;
-	}
-
-	.create-button {
-		display: flex;
-		align-items: center;
-		background-color: transparent;
-		border: none;
-		font-size: 16px;
-		padding-top: 1%;
-		padding-bottom: 2%;
-		color: white;
-		position: relative;
-	}
-
-	.create-button :hover {
-		display: flex;
-		align-items: center;
-		color: #e8e8e8;
-		background-color: transparent;
-		border: none;
-		cursor: pointer; 
-	}
-
-	.del-button {
-		display: flex;
-		align-items: center;
-		background-color: transparent;
-		border: none;
-		font-size: 16px;
-		padding-left: 10%;
-		padding-top: 0%;
-		padding-bottom: 10%;
-		color: white;
-		position: absolute;
-		top : 2%;
-		right: 10%;
-	}
-
-	.help-button {
-		display: flex;
-		align-items: center;
-		background-color: transparent;
-		border: none;
-		padding-top: 0%;
-		padding-bottom: 10%;
-		top : 1%;
-		position: absolute;
-		color: white;
-		cursor: pointer; 
 	}
 
 	.log-button {
@@ -390,25 +388,4 @@
 		cursor: pointer; 
 	}
 
-	.colzy {
-		padding-bottom: 2%;
-		padding-top: 5%;
-	}
-
-	#control-col {
-		background-color: #aaf7d3;
-		color: white;
-		opacity: 1;
-		width: 100%;
-		min-height: 500px;
-		border-radius: 50px;
-	}
-
-	h1 {
-    	font-family: 'Aloes-Bd';
-    	font-size: 28px; 
-    	text-transform: uppercase;
-    	text-align: center; 
-		color: white;
-	}
 </style>
