@@ -1,16 +1,12 @@
 # Getlarge Portfolio Frontin'
 
-**frontin** is a **Vue.js - D3.js - Socket.io** client application, which works in conjunction with [bareback](https://framagit.org:getlarge/portfolio-server).
+**frontin** is a **Vue.js - D3.js - MQTT** client application, which works in conjunction with [http server](https://framagit.org:getlarge/bareback) & [mqtt broker](https://framagit.org:getlarge/broka-billy).
 
 ## Table of Contents
 - [Features](#features)
 - [Setup](#setup)
 - [Installation](#installation)
 - [Usage](#usage)
-
-## Features
-### Client
-+ real-time data visualization with a multi-series line chart
 
 
 ## Setup
@@ -76,23 +72,9 @@ npm test
 
 ## TODO
 
-+ ergonomy :
-	+ add tutorial on portfolio, synchronized with chat ?
-
-+ create text contents :
-	+ modals describing each articles on the portfolio
-	+ modals describing each projects on the timeline
-
-+ styling :
-	+ define color's scheme - 4 colors + nuances ( ? ) --> coherence between logo/navigation/portfolio/timeline
-	+ portofolio links appearance ?
-	+ tweak D3js force simulation parameters
-
 + animations :
 	+ MQTT tree --> display IoT devices network--> 
 		+ style interpolation based on incoming message properties 
 	+ what plants talk about ? :
-		+ add a second line on the line chart ( sounds voltage and conductivity ), tooltips on the graph, 
-		+ piece of text (intentions ) - show several situations ( leaves getting burned, cut, hugged, )
-		+ live streaming of plants getting recorded 
+		+ live streaming of plants getting recorded ( audio ) 
 

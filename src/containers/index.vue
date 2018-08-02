@@ -12,7 +12,7 @@
             <b-row align-h="center">
                 <b-col xs="10" sm="10" md="8" lg="7" xl="6">
                     <p class="desc">
-                    This portfolio shows a selected portion of my work. Every project on this site is done by myself, from design to engineering. I hope you'll have a good time passing by.
+                    This portfolio shows a selection of my work. Each project on this site is done by myself, from design to engineering and the source code can be found <a href="https://framagit.org/getlarge/frontin" target="_blank">here</a>. I hope you'll have a good time passing by.
                     </p>
                 </b-col>
             </b-row>
@@ -202,7 +202,7 @@
             }, self.settings.duration/2);
             //select('.context-menu').remove();
             EventBus.$on("start:tutorial", i => {
-                var text = "This portfolio is a selection of recent work, that i want to share. it represents the path of ";
+                var text = "Don't forget to flip the card to get my contact ;)";
                 var tags = "";
                 var img = "static/img/tuto-home.gif";
                 EventBus.$emit('update:tutorial', "Home", text, tags, img );     

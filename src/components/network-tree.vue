@@ -25,13 +25,13 @@
                             </div>
                         </div> 
                         <div class="form-group">
-                            <label for="margin-x" class="control-label">X-margin :  {{Marginx}}px</label>  
+                            <label for="margin-x" class="control-label">X-offset :  {{Marginx}}px</label>  
                             <div class="">
                                 <input id="margin-x" class="form-control" type="range" min="-100" max="600" v-model.number="Marginx">
                             </div> 
                         </div>        
                         <div class="form-group">
-                            <label for="margin-y" class="control-label">Y-margin :  {{Marginy}}px</label>
+                            <label for="margin-y" class="control-label">Y-offset :  {{Marginy}}px</label>
                             <div class="">
                                 <input id="margin-y" class="form-control" type="range" min="-400" max="400" v-model.number="Marginy">
                             </div>
@@ -81,10 +81,11 @@
                 </div>
               </div> -->
             </b-col>
-            <b-col xs ="12" sm="8" md="9" lg="10" xl="10" class="panel panel-default">
+            <b-col id="tree-container" xs ="12" sm="8" md="9" lg="10" xl="10" class="panel panel-default">
+       
                 <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/> 
                 <p>
-                </br>TODO : unify transport protocol using <a href="#/aloes-protocol"  > IPSO</a> references.
+                </br>TODO : unify transport protocol using <a href="#/aloes-protocol" > IPSO</a> references.
                 </p>
             </b-col>
         </b-row>
@@ -134,10 +135,12 @@
         },
 
         mounted() {
+            console.log(this.$el.children[0])
             // make object.assign here ?
             this.pageTopic = "getlarge" + this.$route.path;
             //this.div = select(this.$refs['tree'].$el).append("div").attr("class", "tooltip").style("opacity", 0);
-            this.div = select(this.$el).append("div").attr("class", "tooltip").style("opacity", 0);
+            //this.div = select(this.$el.children[0]).append("div").attr("class", "payloadContainer").style("opacity", 0);
+            this.div = select("#tree-container").append("div").attr("class", "payloadContainer").style("opacity", 0);
             EventBus.$emit("sub:mqtt", "#");
             EventBus.$on("rx:mqtt", (topic, payload) => {
                 //console.log(topic, payload.toString())
@@ -178,34 +181,34 @@
         },
 
         methods: {
-            do (action) {
+            do(action) {
                 if (this.currentNode) {
                   this.isLoading = true
                   this.$refs['tree'][action](this.currentNode).then(() => { this.isLoading = false })
                 }
             },
 
-            getId (node) {
+            getId(node) {
                 return node.id
             },
 
-            expandAll () {
+            expandAll() {
                 this.do('expandAll')
             },
 
-            collapseAll () {
+            collapseAll() {
                 this.do('collapseAll')
             },
 
-            showOnly () {
+            showOnly() {
                 this.do('showOnly')
             },
 
-            show () {
+            show() {
                 this.do('show')
             },
 
-            onClick (evt) {
+            onClick(evt) {
                 this.currentNode = evt.element;
                 if ( evt.element.data.dirty ) {
                     this.openTooltip(evt.element);
@@ -218,20 +221,20 @@
                 this.onEvent('onClick', evt);
             },
 
-            onExpand (evt) {
+            onExpand(evt) {
                 this.onEvent('onExpand', evt);
             },
 
-            onRetract (evt) {
+            onRetract(evt) {
                 this.onEvent('onRetract', evt);
             },
 
-            onEvent (eventName, data) {
+            onEvent(eventName, data) {
                 this.events.push({eventName, data: data.data});
                 console.log({eventName, data: data})
             },
 
-            resetZoom () {
+            resetZoom() {
                 this.isLoading = true
                 this.$refs['tree'].resetZoom().then(() => { this.isLoading = false })
             },
@@ -242,20 +245,20 @@
                 // console.log("component", this.$refs['tree'])
                 var parts = topic.split("/");
                 if (data.Graph.tree.children[0] === undefined){
-                newnode = {"text": parts.shift(), "children":[]};
-                data.Graph.tree.children = [newnode];
-                this.walk(parts,newnode,body);
+                    newnode = {"text": parts.shift(), "children":[]};
+                    data.Graph.tree.children = [newnode];
+                    this.walk(parts,newnode,body);
                 } else {
-                this.walk(parts,data.Graph.tree,body);
+                    this.walk(parts,data.Graph.tree,body);
                 }
             },
 
             walk(parts, node, body) {
-                var that = this;
+                /// parsing mqtt topic
                 if (parts.length !== 0) {
                     var current = parts.shift();
                     if (node.children && node.children.length !== 0) {
-                    //console.log("walking old");
+                        //console.log("walking old");
                         var z=0;
                         for(z=0; z < node.children.length; z++) {
                           //console.log(node.children[z].text + " - " + current);
@@ -266,7 +269,7 @@
                                 break;
                             }
                         }
-                    //console.log("done loop - " + z + ", " + node.children.length);
+                        //console.log("done loop - " + z + ", " + node.children.length);
                         if (z === node.children.length) {
                             //console.log("adding new");
                             //var newId = data.each(d => { d.id = this.identifier(d.data) })
@@ -313,32 +316,35 @@
             },
 
             openTooltip(data) {
-                var self = this;       
                 this.div.transition()
                     .duration(200)
                     .style("opacity", .8)
                     .style("fill", "#33b277");
 
-                this.div.html("Payload :" + data.data.payload)
-                    .style("width", ( Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/1.7 + "px")
-                    .style("height", (Math.max(document.documentElement.clientHeight, window.innerHeight || 0))/13 + "px")
-                    // .style("left", ( Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/5 + "px")
-                    // .style("top", 50 + "px");
-                    .style("left", data.y + "px")
-                    .style("top", data.x+ (Math.max(document.documentElement.clientHeight, window.innerHeight || 0))/13 +"px");
+                console.log(JSON.parse(data.data.payload));
+                var payloadElem = JSON.parse(data.data.payload);
+                //this.div.html("<p class='payload'>"+data.data.payload+"</p>")
+                this.div.html("<p class='payload'>"+payloadElem.data+" - "+payloadElem.time+"</p>")
+                    //.attr("class", "payload")
+                    //.style("width", (Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/3 + "px")
+                    //.style("left", "30%")
+                    //.style("bottom", "15%")
+                    //.style("height", "auto")
+                    .style("left", data.x + "px")
+                    .style("top", data.y+"px");
+                    //.style("top", data.x+ (Math.max(document.documentElement.clientHeight, window.innerHeight || 0))/6 +"px");
             },
 
             updateTooltip(data) {
                 //console.log("data", data);
-                var self = this;       
                 this.div.transition()
                     .duration(200)
                     .style("opacity", .8)
                     .style("fill", "#33b277");
-
-                this.div.html("Payload :" + data.payload)
-                    .style("width", ( Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/1.7 + "px")
-                    .style("height", (Math.max(document.documentElement.clientHeight, window.innerHeight || 0))/13 + "px")
+                var payloadElem = JSON.parse(data.payload);
+                this.div.html("<p class='payload'>"+payloadElem.data+" - "+payloadElem.time+"</p>")
+                    .style("height", "auto")
+                    .style("max-width", "40%")
             },
 
             closeTooltip() {
@@ -370,6 +376,38 @@
             background-color: transparent;
             border: 1px;
             border-color: #f9b23e;
+        }
+
+        .panel-body {
+            padding-left: 3%;
+        }
+
+        div.payloadContainer {
+            position: relative;
+            max-width: 40%;
+            height: auto;
+            text-align: center;
+            padding: 3%;
+            z-index: 1200;
+            color: white;
+            background: #33b277;
+            border-radius: 8px;
+            pointer-events: none;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            border:1px solid rgba(200,200,200,0.85);
+        }
+
+        .payload {
+            position: relative;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+
+        .form-group {
+            text-align: left;
+            padding-right: 0px;
         }
 
         .control-label {
@@ -505,32 +543,7 @@
 
     .linktree {
         stroke: url(#gradient);
-    }
-
-    .panel-body {
-        padding-left: 3%;
-    }
-
-    div.tooltip {
-        position: absolute;
-        text-align: center;
-        padding: 2px;
-        font: 14px;
-        color: white;
-        background: #33b277;
-        border: 0px;
-        border-radius: 8px;
-        pointer-events: none;
-    }
-
-    .form-group {
-        text-align: left;
-        padding-right: 0px;
-    }
-
-    
-
-
+    } 
 
     .log  {
         height: 500px;

@@ -74,11 +74,11 @@
                         <h4>juin 2018 à maintenant</h4>
                         <ul>
                             <li>Développement d'un portfolio web</li>
-                            <li>Contributions à plusieurs libraires open source ( aloes, rocketchat, ipso, mysensors ) </li>
+                            <li>Contributions à plusieurs librairies open source ( aloes, rocketchat, ipso, mysensors ) </li>
                         </ul>
                         <h5>Environnement technique :</h5>
                         <ul>
-                            <li>ExpressJS, D3JS, VueJS, Webpack, Inkscape</li>
+                            <li>ExpressJS, D3JS, VueJS, Webpack, Inkscape, Gimp</li>
                         </ul>      
                     </div>
                     <div>
@@ -101,7 +101,7 @@
                         <h4>avril 2017 à novembre 2017</h4>
                         <ul>
                             <li>Création d'un logiciel embarqué pour connecter rapidement et simplement des capteurs sur Internet </li>
-                            <li>Contributions à des librairies open source ( mysensors ) </li>
+                            <li>Contribution à des librairies open source ( mysensors ) </li>
                             <li>Animation d'un réseau d'amateurs d'électronique, impression 3D et développement web ( DIY )</li>
                             <li>Conception de pièces en 3D</li>
                         </ul>
@@ -116,7 +116,7 @@
                         <ul>
                             <li>Conception et réalisation de supports de culture innovants</li>
                             <li>Conseil en aménagement paysager</li>
-                            <li>Définition d'une stratégie commerciale</li>
+                            <li>Projets sur mesure - design produits</li>
                         </ul>
                     </div>
                 </b-col>
