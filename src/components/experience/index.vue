@@ -87,12 +87,7 @@
 			//console.log("this", this)
 		},
 
-		beforeUnmout() {
-
-		},
-
 		beforeDestroy() {
-            EventBus.$off("stop:cards");
 		},
 
 		watch: { 

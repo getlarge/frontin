@@ -1,5 +1,7 @@
 {
   "homeLink": "/",
+  "localhost": "localhost",
+  "vueDevtoolsPort": "8098",
   "gitLink": "https://framagit.org/getlarge/frontin/",
   "ComponentsPath": "tree/master/src/components",
   "wsServerURL": "mqtt://localhost:4000",

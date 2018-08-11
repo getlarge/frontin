@@ -23,24 +23,24 @@
                         </b-nav-item-dropdown> --> 
                         <b-nav-item href="https://www.linkedin.com/in/edouard-maleix" target="_blank" title="Linkedin"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" alt="linkedin icon"/></b-nav-item>
                         <b-nav-item href="https://framagit.org/getlarge" target="_blank" title="Gitlab"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg" alt="git icon"/></b-nav-item>
-                        <b-nav-item @click="chatHandler()" title="Chat" >
-                            <font-awesome-icon v-if="chat === true" class="on" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-on icon"/>
-                            <font-awesome-icon v-else class="off" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-off icon"/>
+                        <b-nav-item @click="chatHandler" title="Chat" >
+                            <font-awesome-icon v-if="chatInit === true" class="on" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-on icon"/>
+                            <font-awesome-icon v-else-if="chatInit === false" class="off" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-off icon"/>
                         </b-nav-item>
-                        <b-nav-item  @click="help()" title="Tutorial">
+                        <b-nav-item  @click="help" title="Tutorial">
                             <font-awesome-icon v-if="tutorial === true" class="on" :icon="['fas', 'question-circle']" size="lg" alt="tuto-on"/>
-                            <font-awesome-icon v-else class="off" :icon="['fas', 'question-circle']" size="lg" alt="tuto-off"/>
+                            <font-awesome-icon v-else-if="tutorial === false" class="off" :icon="['fas', 'question-circle']" size="lg" alt="tuto-off"/>
                         </b-nav-item>
                         <b-nav-item title="MQTT status" disabled>
                             <font-awesome-icon v-if="connStatus === 'Connected'" class="on" :icon="['fas', 'circle']" size="lg" alt="mqtt-on icon"/>
-                            <font-awesome-icon v-else class="off" :icon="['fas', 'circle']" size="lg" alt="mqtt-off icon"/>
+                            <font-awesome-icon v-else-if="connStatus === 'Disconnected'" class="off" :icon="['fas', 'circle']" size="lg" alt="mqtt-off icon"/>
                         </b-nav-item>
                     </b-navbar-nav>
                 </b-nav>
             </b-collapse>
         </b-navbar>
             <cards
-                v-if="currentPage"
+                v-if="currentPage !== null"
                 :title="currentPage.name"
                 :description="currentPage.tutorial"
                 :tags="currentPage.tags"
@@ -52,184 +52,178 @@
 
 <script>
 
-    import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
-    import config from "@/config.json"
-    import liveRocketChat  from "@/services/live-rocketchat"
-    import { routes } from "@/router/menu"
-    import cards from "@/components/utils/cards"
-    import { EventBus } from "@/main"
+import { mapState } from "vuex";
+import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
+import liveRocketChat from "@/services/live-rocketchat";
+import cards from "@/components/utils/cards";
+import { EventBus } from "@/main";
 
-    export default {
-        props: { }, 
+export default {
+    props: {},
 
-        data() {
-            return {
-                items: routes,
-                chat: new(liveRocketChat),
-                serverURL: config.httpServerURL,
-                icon1: "static/icons/braille-E.png",
-                icon2: "static/icons/braille-M.png",
-                connStatus: "Disconnected",
-                pageTopic: "getlarge" + this.$route.path + "main",
-                currentPage: null, 
-                tutorial : false,
-                chatInit : false,
+    data() {
+        return {
+            chat: new liveRocketChat(),
+        };
+    },
+
+    components: {
+        cards: cards,
+        FontAwesomeIcon
+    },
+
+    created() {
+        EventBus.$on("status:mqtt", status => {
+            //console.log(`mqtt status : ${status}`)
+            return this.$store.commit("updateMqttStatus", status);
+        });
+        EventBus.$on("update:tutorial", (name, text, tags, img) => {
+            //console.log(`ready : ${name}, ${text}, ${tags}, ${img}`)
+            const payload = {
+                name: name,
+                tutorial: text,
+                tags: tags,
+                img: img
+            }
+            return this.$store.commit("updateCurrentPage", payload);
+        });
+        EventBus.$on("stop:cards", () => {
+            this.$store.commit("updateTutorialStatus", false);
+            return this.$store.commit("updateCurrentPage", null);
+        });
+        EventBus.$on("stop:tutorial", () => {
+            this.$store.commit("updateTutorialStatus", false);
+            return this.$store.commit("updateCurrentPage", null);
+        });
+    },
+
+    updated() {},
+
+    beforeDestroy() {},
+
+    watch: {},
+
+    computed: {
+        ...mapState({
+            items: state => state.menu.items,
+            serverURL: state => state.base.config.serverURL,
+            connStatus: state => state.menu.mqttStatus,
+            currentPage: state => state.menu.currentPage,
+            icon1: state => state.menu.icon1,
+            icon2: state => state.menu.icon2,
+            chatInit: state => state.menu.chat,
+            tutorial: state => state.menu.tutorial,
+            // to access local state with `this`, a normal function must be used
+            // countPlusLocalState (state) {
+            //   return state.count + this.localCount
+            // }
+        }),
+    },
+
+    methods: {
+        // onLocale(show) {
+        //   if (show) {
+        //     this.showLocale = show
+        //   } else {
+        //     setTimeout(() => {
+        //       this.showLocale = show
+        //     }, 128)
+        //   }
+        // },
+
+        chatHandler() {
+            if (this.chatInit === false) {
+                this.$store.commit("updateChatStatus", true);
+                return EventBus.$emit("start:chat");
+            } else if (this.chatInit === true) {
+                this.$store.commit("updateChatStatus", false);
+                return EventBus.$emit("stop:chat");
             }
         },
-        
-        components: {
-            cards: cards,
-            FontAwesomeIcon
+
+        subs: event => {
+            if (event) {
+                alert(event.target.tagName);
+            }
         },
 
-        created() {
-            EventBus.$on("status:mqtt", status => {
-                //console.log(`mqtt status : ${status}`)
-                return this.connStatus = status
-            });
-            EventBus.$on("update:tutorial", (name, text, tags, img) => {
-                //console.log(`ready : ${name}, ${text}, ${tags}, ${img}`)
-                return this.currentPage = { name: name, tutorial: text, tags: tags, img: img };
-            });
-            EventBus.$on("stop:tutorial", () => {
-                this.tutorial = false;
-                return this.currentPage = null;
-            });
-            EventBus.$on("stop:cards", () => {
-                this.tutorial = false;
-                return this.currentPage = null;
-            }); 
-
+        help() {
+            if (this.tutorial === true) {
+                //console.log("help-off")
+                this.$store.commit("updateTutorialStatus", false);
+                return this.$store.commit("updateCurrentPage", null);
+            } else if (this.tutorial === false) {
+                //console.log("help-on")
+                this.$store.commit("updateTutorialStatus", true);
+                return EventBus.$emit("start:tutorial");
+            }
         },
 
-        updated() {
-
-        },
-
-        beforeDestroy() {
-        },
-
-        watch: {
-        },
-
-        computed: {
-          
-        },
-
-        methods: {
-            // onLocale(show) {
-            //   if (show) {
-            //     this.showLocale = show
-            //   } else {
-            //     setTimeout(() => {
-            //       this.showLocale = show
-            //     }, 128)
-            //   }
-            // },
-
-            chatHandler() {
-                if ( this.chatInit === false ) {
-                    this.chatInit = true;
-                    return EventBus.$emit('start:chat');
-                }
-                else if ( this.chatInit === true ) {
-                    this.chatInit = false;
-                    return EventBus.$emit('stop:chat');
-                }
-            },
-
-            subs : event => {
-                if (event) {
-                    alert(event.target.tagName)
-                }      
-            },
-
-            help() {
-                if ( this.tutorial === true ) {
-                    //console.log("help-off")
-                    this.tutorial = false;
-                    EventBus.$emit('stop:tutorial');     
-                    return this.currentPage = null;
-                }
-                else if ( this.tutorial === false ) {
-                    //console.log("help-on")
-                    this.tutorial = true;
-                    return EventBus.$emit('start:tutorial');
-                }
-
-            },
-
-            findIndex() {
-                var me = this.$route.name;
-                return routes.findIndex(r => r.name === me);
-            },
-        },
-    } 
-
+        findIndex() {
+            let me = this.$route.name;
+            return routes.findIndex(r => r.name === me);
+        }
+    }
+};
 </script>
 
 <style lang="scss">
-
-    #top-nav {
-       
-        .dropdown-item {
-            background-color: white;
-            border: 0px;
-            border-color: #f9b23e;
-            color: #686868;
-        }
-
-        .dropdown-item.active {
-            background-color: transparent;
-            border: 1px;
-            border-color: #f9b23e;
-            color: #33b277;
-        }
-
-        .dropdown-item:focus {
-            background-color: white;
-            border: 1px;
-            border-color: #f9b23e;
-        }
-
-        .dropdown-item:hover {
-            background-color: transparent;
-            border: 1px;
-            border-color: #f9b23e;
-        }
-
-        .logo {
-            height: 45px !important;
-            opacity: 0.8;
-        }
-
-
-        .page-title {
-            position: relative;
-            width: 100%;
-            vertical-align: middle;
-            margin-top: 8%;
-            margin-bottom: -5%;
-            text-align: center;
-        }
-
-        .on path {
-            fill : #01c669 !important;
-            opacity: 0.7;
-        }
-
-        .off path {
-            fill : #ff830f !important;
-            opacity: 0.6;
-        }
-
+#top-nav {
+    .dropdown-item {
+        background-color: white;
+        border: 0px;
+        border-color: #f9b23e;
+        color: #686868;
     }
 
-    #links {
-        display: block;
-        width: 300px;
-        height: 40px;
+    .dropdown-item.active {
+        background-color: transparent;
+        border: 1px;
+        border-color: #f9b23e;
+        color: #33b277;
+    }
+
+    .dropdown-item:focus {
+        background-color: white;
+        border: 1px;
+        border-color: #f9b23e;
+    }
+
+    .dropdown-item:hover {
+        background-color: transparent;
+        border: 1px;
+        border-color: #f9b23e;
+    }
+
+    .logo {
+        height: 45px !important;
+        opacity: 0.8;
+    }
+
+    .page-title {
         position: relative;
+        width: 100%;
+        vertical-align: middle;
+        margin-top: 8%;
+        margin-bottom: -5%;
+        text-align: center;
     }
 
+    .on path {
+        fill: #01c669 !important;
+        opacity: 0.7;
+    }
+
+    .off path {
+        fill: #ff830f !important;
+        opacity: 0.6;
+    }
+}
+
+#links {
+    display: block;
+    width: 300px;
+    height: 40px;
+    position: relative;
+}
 </style>

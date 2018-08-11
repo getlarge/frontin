@@ -1,6 +1,6 @@
-import config from "@/config.json"
-import { EventBus } from "@/main"
-import { select, selectAll } from "d3-selection"
+import config from "@/config.json";
+import { EventBus } from "@/main";
+import { select, selectAll } from "d3-selection";
 
 //import ToneSynth from '@/tone-components/synth'
 
@@ -12,26 +12,32 @@ export default class liveRocketChat {
         });
         EventBus.$on("stop:chat", () => {
             this.stopClient();
-        });     
+        });
         //this.synth = new(ToneSynth);
         this.chatId = "guest32";
     }
 
-
-     eventListener() {
+    eventListener() {
         // EventBus.$on('start-chat', () => {
         //     this._initClient();
         // });
     }
 
     _initClient() {
-        if ( this.ready === false ) {
+        if (this.ready === false) {
             (function(w, d, s, u) {
-                w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
-                var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
-                j.async = true; j.src = 'https://chat.aloes.io/packages/rocketchat_livechat/assets/rocketchat-livechat.min.js?_=201702160944';
+                w.RocketChat = function(c) {
+                    w.RocketChat._.push(c);
+                };
+                w.RocketChat._ = [];
+                w.RocketChat.url = u;
+                var h = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s);
+                j.async = true;
+                j.src =
+                    "https://chat.aloes.io/packages/rocketchat_livechat/assets/rocketchat-livechat.min.js?_=201702160944";
                 h.parentNode.insertBefore(j, h);
-            })(window, document, 'script', 'https://chat.aloes.io/livechat');
+            })(window, document, "script", "https://chat.aloes.io/livechat");
 
             RocketChat(function() {
                 //this.setDepartment('Accueil');
@@ -67,7 +73,7 @@ export default class liveRocketChat {
             //EventBus.$emit("chat-id", this.chatId);
             //this.eventListener();
         } else {
-          return;
+            return;
         }
     }
 
@@ -76,16 +82,7 @@ export default class liveRocketChat {
             select("#rocketchat-iframe").remove();
             this.ready = false;
         } else {
-          return;
+            return;
         }
     }
-
 }
-
-
-
-
-
-  
-
-    

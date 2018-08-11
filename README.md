@@ -58,6 +58,10 @@ npm run unit
 
 # run all tests
 npm test
+
+# launch Vue devtools 
+./node_modules/.bin/vue-devtools
+
 ```
 
 

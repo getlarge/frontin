@@ -10,7 +10,6 @@
 
     import config from "@/config.json"
     import mqttClient  from "@/services/mqtt-client"
-    import liveRocketChat  from "@/services/live-rocketchat"
     import topNav from "@/containers/menu-navigation"
     import { select, selectAll } from "d3-selection"
     import bottomNav from "@/containers/footer-navigation"
@@ -27,7 +26,6 @@
             return {
                 appName: config.inTopic,
                 client: new(mqttClient),
-                //chat: new(liveRocketChat),
                 showLocale: false,
                 showNav: false,
             }
@@ -53,19 +51,11 @@
         },
          
         mounted() {
-            EventBus.$on("stop:chat", i => {
-                //chat = new(liveRocketChat);
-            });
-            selectAll("img").on('contextmenu', function(){ 
-                event.preventDefault();
-            //menu(mouse(this)[0], mouse(this)[1]);
-            });  
+            this.rightClickPrevent();
         },
 
         updated() {
-            selectAll("img").on('contextmenu', function(){ 
-                event.preventDefault();
-            });  
+            this.rightClickPrevent();
         },
 
         beforeDestroy() {
@@ -86,11 +76,17 @@
         },
 
         methods: {
-            login() {
-                const { username, password } = this;
-                this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
-                    this.$router.push('/')
-                })
+            // login() {
+            //     const { username, password } = this;
+            //     this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
+            //         this.$router.push('/')
+            //     })
+            // },
+            
+            rightClickPrevent() {
+                selectAll("img").on('contextmenu', function(){ 
+                    event.preventDefault();
+                });  
             },
 
         },

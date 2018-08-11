@@ -48,6 +48,7 @@
 </template>
 
 <script>
+//store.getters.getASById(2) // 
 
 /// todo : add params in the url to share boards
   	import config from "@/config.json"
@@ -59,7 +60,7 @@
 	import { active, transition } from "d3-transition"
 	import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
 	import draggable from "vuedraggable"
-	import { mapState } from "vuex"
+	import { mapState, mapGetters } from "vuex"
 	import { EventBus } from "@/main"
 	import audioSlider from "./audio-slider"
 	import fileUploader from "@/components/utils/file-upload"
@@ -99,7 +100,7 @@
 				        iconFile: serverURL+"static/icons/wald.png",
 			    	},{
 		    			id: 6,
-		    			name: "tempete",
+		    			name: "tempête",
 			    		audioSource:[serverURL+"static/sounds/storm.mp3"],
 				        iconFile: serverURL+"static/icons/sturm.png",
 			    	},
@@ -121,19 +122,8 @@
 				        iconFile: serverURL+"static/icons/trophae.png",
 				    }
 				],
-		        colorSet: [
-			        {
-			          color1: "#01c669",
-			          color2: "#ff830f", //"#48725e"
-		        	},
-	        	],
 	        	format: ["audio", "image"],
-	        	duration : 7000,
-	        	dragging: false,
-				targetElement: null,
-				canDrag: null,
-				futureIndex: null,
-				audioSource : [],
+	        	audioSource : [],
 				iconFile : "",
 				counter: 0,
 	        	model: {
@@ -142,6 +132,17 @@
 		        	audioSource: ["null"],
 		        	iconFile: "null",
 	        	},
+	        	colorSet: [
+			        {
+			          color1: "#01c669",
+			          color2: "#ff830f", //"#48725e"
+		        	},
+	        	],
+	        	duration : 7000,
+	        	dragging: false,
+				targetElement: null,
+				canDrag: null,
+				futureIndex: null,
 	        	sliderValue: 0,
 	  		}
 	  	},
