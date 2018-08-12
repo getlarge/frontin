@@ -1,4 +1,4 @@
-import config from "@/config.json"
+import { config } from "@/configFile";
 
 function loadView(view) {
     return () => import(/* webpackChunkName: "components-[request]" */ `@/components/${view}.vue`)

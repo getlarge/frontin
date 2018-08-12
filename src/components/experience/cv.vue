@@ -137,20 +137,17 @@
 
 <script >
 
-    import config from "@/config.json"
-    import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
-    import { select, selectAll } from "d3-selection"
-    import * as html2canvas from "html2canvas"
-    import * as jsPDF from "jspdf"
+    import { mapState } from "vuex";
+    import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
+    import { select, selectAll } from "d3-selection";
+    import * as html2canvas from "html2canvas";
+    import * as jsPDF from "jspdf";
 
     export default {
         name: 'cv',
 
         data() {
             return {
-                serverURL: config.httpServerURL,
-                domain: config.domain,
-                tel: config.tel,
                 img1 : "static/img/ed2.jpg",
                 fr: [1,2,3],
                 en: [1,2,3],
@@ -168,6 +165,14 @@
 
         mounted() {
 
+        },
+
+        computed: {
+            ...mapState({
+                serverURL: state => state.base.serverURL,
+                domain: state => state.base.domain,
+                tel: state => state.base.tel,
+            }),
         },
 
         methods: {
@@ -239,127 +244,122 @@
 </script>
 
 <style lang="scss">
+#cv {
+    .container {
+        margin-top: 4%;
+        margin-bottom: 4%;
+        margin-left: 3%;
+        margin-left: 3%;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 1);
+        color: #686868;
+        z-index: 1000 !important;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+        border: 2px solid rgba(200, 200, 200, 0.85);
+    }
 
-    #cv {
-        .container {
-            margin-top: 4%;
-            margin-bottom: 4%;
-            margin-left: 3%;
-            margin-left: 3%;
-            border-radius: 5px;
-            background: rgba(255,255,255,1);
-            color: #686868;
-            z-index: 1000 !important;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-            -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-            border:2px solid rgba(200,200,200,0.85);
+    .content {
+        margin-top: 2%;
+        margin-left: 2%;
+        margin-right: 2%;
+        margin-bottom: 2%;
+    }
+
+    .pdfExport {
+        margin-top: 1%;
+        margin-left: 5%;
+        z-index: 1500;
+        background-color: white;
+        fill: #01c669 !important;
+        border: 0px;
+        border-color: #f9b23e;
+        color: #686868;
+    }
+
+    .pdfExport:focus {
+        background-color: white;
+        border: 1px;
+        border-radius: 2px;
+        border-color: #f9b23e;
+        color: #686868;
+        box-shadow: 0 0 0 0.2rem #f9b23e;
+    }
+
+    .pdfExport:hover {
+        background-color: transparent;
+        border: 1px;
+        border-radius: 2px;
+        border-color: #f9b23e;
+        color: #33b277;
+    }
+
+    .titles {
+        h1 {
+            text-align: left;
+            font-size: 26px;
         }
+        h2 {
+            font-size: 22px;
+        }
+        padding-top: 3%;
+    }
 
-        .content {
+    .face {
+        max-width: 60%;
+        height: auto;
+        margin-top: 5%;
+        margin-left: 20%;
+        border-radius: 4px;
+    }
+
+    .infos {
+        margin-top: 4%;
+        margin-bottom: 0%;
+        h3 {
+            font-size: 18px;
+        }
+        a {
+            color: #686868;
+        }
+    }
+
+    .icons path {
+        fill: #01c669 !important;
+        opacity: 0.8;
+    }
+
+    .articles {
+        h2 {
+            margin-top: 0%;
+            color: #029ea8;
+            font-size: 22px;
+        }
+        h3 {
+            font-size: 20px;
             margin-top: 2%;
             margin-left: 2%;
-            margin-right: 2%;
-            margin-bottom: 2%;
+            text-transform: uppercase;
         }
-
-        .pdfExport {
-            margin-top: 1%;
+        h4 {
+            color: #01c669;
+            font-size: 18px;
+            margin-left: 2%;
+        }
+        h5 {
+            font-size: 18px;
             margin-left: 5%;
-            z-index: 1500;
-            background-color: white;
-            fill : #01c669 !important;
-            border: 0px;
-            border-color: #f9b23e;
-            color: #686868;
         }
-        
-        .pdfExport:focus {
-            background-color: white;
-            border: 1px;
-            border-radius: 2px;
-            border-color: #f9b23e;
-            color: #686868;
-            box-shadow: 0 0 0 0.2rem  #f9b23e;
-
+        ul {
+            font-size: 18px;
+            margin-left: 6%;
+            margin-top: 1%;
+            margin-bottom: 1%;
         }
-
-        .pdfExport:hover {
-            background-color: transparent;
-            border: 1px;
-            border-radius: 2px;
-            border-color: #f9b23e;
-            color: #33b277;
+        li {
+            display: list-item;
+            text-align: -webkit-match-parent;
         }
-
-        .titles {
-            h1 {
-                text-align: left;
-                font-size: 26px;
-            }
-            h2 {
-                font-size: 22px;
-            }
-            padding-top: 3%;
-        }
-
-        .face {
-            max-width : 60%;
-            height: auto;
-            margin-top: 5%;
-            margin-left: 20%;
-            border-radius: 4px;
-        }
-
-        .infos {
-            margin-top: 4%;
-            margin-bottom: 0%;
-            h3 {
-                font-size: 18px;
-            }
-            a {
-                color: #686868;
-            }
-           
-        }
-
-        .icons path {
-            fill: #01c669 !important;
-            opacity: 0.8;
-        }
-
-        .articles {
-            h2 {
-                margin-top: 0%;
-                color: #029ea8; 
-                font-size: 22px;
-            }            
-            h3 {
-                font-size: 20px;
-                margin-top: 2%;
-                margin-left: 2%;
-                text-transform: uppercase;
-            }
-            h4 {
-                color: #01c669;
-                font-size: 18px;
-                margin-left: 2%;
-            }
-            h5 {
-                font-size: 18px;
-                margin-left: 5%;
-            }
-            ul {
-                font-size: 18px;
-                margin-left: 6%;
-                margin-top: 1%;
-                margin-bottom: 1%;
-
-            }
-            li {
-                display: list-item;
-                text-align: -webkit-match-parent;
-            }
-        }
-
     }
+}
 </style>

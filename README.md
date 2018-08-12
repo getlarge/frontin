@@ -24,7 +24,9 @@ To get started with this project, follow the 3-step installation, described here
 
 ### 1. frontin *client*
 
-*Before running the client, be sure you have already completed steps 1 and 2, and have both Moquette and mqtt-realtime-chart-server running in separate terminal windows.*
+*Before running the client, be sure you have already completed steps 1 and 2, and have both MQTT Broker and HTTP Server running in separate terminal windows.*
+
+Configure your instance by copying and editing config/local.env.sample.js in a new config/local.env.js file.
 
 Open a new terminal window and navigate inside the root folder of the client application, then run:
 
@@ -33,8 +35,7 @@ npm install
 npm start
 ```
 
-After compilation, you will see the link in the terminal *(e.g. http://localhost:8081)* where the application is currently running. Use your browser to navigate to that link. 
-
+After compilation, you will see the link in the terminal *(e.g. http://localhost:8080)* where the application is currently running. Use your browser to navigate to that link. 
 
 
 ## Usage
@@ -46,6 +47,9 @@ npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
+
+# launch Vue devtools 
+npm run devtools
 
 # build for production with minification
 npm run build
@@ -59,8 +63,7 @@ npm run unit
 # run all tests
 npm test
 
-# launch Vue devtools 
-./node_modules/.bin/vue-devtools
+
 
 ```
 

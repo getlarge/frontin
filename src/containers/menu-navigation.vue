@@ -106,7 +106,7 @@ export default {
     computed: {
         ...mapState({
             items: state => state.menu.items,
-            serverURL: state => state.base.config.serverURL,
+            serverURL: state => state.base.serverURL,
             connStatus: state => state.menu.mqttStatus,
             currentPage: state => state.menu.currentPage,
             icon1: state => state.menu.icon1,

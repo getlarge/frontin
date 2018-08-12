@@ -1,25 +1,22 @@
+import { config } from "@/configFile";
 import mqtt from "mqtt";
 import { AsyncClient } from "async-mqtt";
 import moment from "moment";
-import config from "@/config.json";
 import { EventBus } from "@/main";
 
 export default class mqttClient {
     constructor() {
         this.options = {
             clientId:
-                config.options.clientId +
+                config.mqttClient.options.clientId +
                 "_" +
                 Math.random()
                     .toString(16)
                     .substr(2, 8),
-            username: config.options.username,
-            password: new Buffer(config.options.password),
-            incomingStore: null,
-            outgoingStore: null
+            username: config.mqttClient.options.username,
+            password: config.mqttClient.options.password,
         };
         this.client;
-
         this._initClient();
         this.asyncClient;
         this.buffer = [];
@@ -30,7 +27,7 @@ export default class mqttClient {
 
     _initClient() {
         this.client = mqtt.connect(
-            config.wsServerURL,
+            config.mqttClient.url,
             this.options
         );
         this.asyncClient = new AsyncClient(this.client);
@@ -81,12 +78,10 @@ export default class mqttClient {
     }
 
     sendAsyncMessage(topic, message) {
-        this.asyncClient
-            .publish(topic, message, { retain: false, qos: 1 })
-            .then(function() {
-                console.log("send message :", message, "to", topic);
-                return this.asyncClient.end();
-            });
+        this.asyncClient.publish(topic, message, { retain: false, qos: 1 }).then(function() {
+            console.log("send message :", message, "to", topic);
+            return this.asyncClient.end();
+        });
     }
 
     sendMessage(topic, message) {
@@ -99,11 +94,9 @@ export default class mqttClient {
     }
 
     addSubscribe(path, topic) {
-        this.asyncClient
-            .subscribe(topic, { retain: false, qos: 1 })
-            .then(function() {
-                //console.log("subscribed to :", topic)
-            });
+        this.asyncClient.subscribe(topic, { retain: false, qos: 1 }).then(function() {
+            //console.log("subscribed to :", topic)
+        });
 
         var pathList = path + "/" + topic;
         this.subscribeList.push(pathList);
@@ -117,10 +110,7 @@ export default class mqttClient {
             //console.log("unsubscribed from :", topic)
         });
         var pathList = path + "/" + topic;
-        console.log(
-            "index subscribe list :",
-            this.subscribeList.indexOf(pathList)
-        );
+        console.log("index subscribe list :", this.subscribeList.indexOf(pathList));
     }
 
     getStore(methods, topic) {

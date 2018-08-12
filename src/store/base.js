@@ -1,13 +1,11 @@
-import config from "@/config.json";
+import { config } from "@/configFile";
 
 export const base = {
 	state: {
-		config: {
-			serverURL: config.httpServerURL,
-			domain : config.domain,
-			tel: config.tel,
-			gitLink: config.gitLink
-		},
+		serverURL: config.httpClient.url,
+		domain : config.domain,
+		tel: config.tel,
+		gitLink: config.gitLink,
 		files: []
 	},
 	mutations: {

@@ -18,7 +18,7 @@
             </b-row>
             <b-row  v-if="contactCard === false" align-h="center">
                 <b-col xs="4" sm="4" lg="3">
-                    <a class="doors"  href="#/experience" title="Enter" >
+                    <a class="doors" href="#/experience" title="Enter" >
                         <img  class="signs" @mouseover="$store.commit('updateHomeIcons', {id:0, path:'static/icons/info2.png'})"  @mouseout="$store.commit('updateHomeIcons', {id:0, path:'static/icons/info.png'})" :src="serverURL+icon1" alt="info icon" />
                     </a>
                 </b-col>
@@ -31,7 +31,7 @@
             <b-row v-else-if="contactCard === true && available === false" align-h="center">
                  <b-col  class="card" xs="8" sm="8" md="6" lg="5" xl="4">
                     <mq-layout class="card-mobile" mq="mobile">
-                        <v-touch v-on:pressup="toggleCard"  v-on:press="contactCard = false"  >
+                        <v-touch v-on:pressup="toggleCard" v-on:press="contactCard = false"  >
                             <info-card :frontType="'text'"
                                 :frontTitle="front.title"
                                 :frontData="front.text1"
@@ -41,7 +41,7 @@
                         </v-touch>
                     </mq-layout>
                     <mq-layout class="card-tablet" mq="tablet">
-                        <v-touch v-on:tap="toggleCard"  v-on:press="contactCard = false"  >
+                        <v-touch v-on:tap="toggleCard" v-on:press="contactCard = false"  >
                             <info-card :frontType="'text'"
                                 :frontTitle="front.title"
                                 :frontData="front.text1"
@@ -51,7 +51,7 @@
                         </v-touch>
                     </mq-layout>
                     <mq-layout class="card-laptop" mq="laptop">
-                        <info-card @click.native="toggleCard"  :frontType="'text'"
+                        <info-card @click.native="toggleCard" :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text1"
                               :backTitle="back.title"
@@ -59,7 +59,7 @@
                         </info-card>
                     </mq-layout>
                     <mq-layout class="card-desktop" mq="desktop">
-                        <info-card @click.native="toggleCard"  :frontType="'text'"
+                        <info-card @click.native="toggleCard" :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text1"
                               :backTitle="back.title"
@@ -67,7 +67,7 @@
                         </info-card>
                     </mq-layout>
                     <mq-layout class="card-xxl" mq="xxl">
-                        <info-card @click.native="toggleCard"  :frontType="'text'"
+                        <info-card @click.native="toggleCard" :frontType="'text'"
                               :frontTitle="front.title"
                               :frontData="front.text1"
                               :backTitle="back.title"
@@ -155,7 +155,7 @@ export default {
     },
 
     created() {
-        console.log(this.$store)
+        //console.log(this.$store)
     },
 
     mounted() {
@@ -170,13 +170,7 @@ export default {
         }, self.settings.duration / 2);
 
         EventBus.$on("start:tutorial", i => {
-            EventBus.$emit(
-                "update:tutorial",
-                "Home",
-                this.tutorialText,
-                this.tutorialTags,
-                this.tutorialImg
-            );
+            EventBus.$emit("update:tutorial", "Home", this.tutorialText, this.tutorialTags, this.tutorialImg);
         });
     },
 
@@ -184,7 +178,7 @@ export default {
 
     beforeDestroy() {
         EventBus.$off("start:tutorial");
-        if ( this.tutorial === true ) {
+        if (this.tutorial === true) {
             EventBus.$emit("stop:tutorial");
         }
         this.interv.stop();
@@ -192,7 +186,7 @@ export default {
 
     computed: {
         ...mapState({
-            serverURL: state => state.base.config.serverURL,
+            serverURL: state => state.base.serverURL,
             tutorial: state => state.menu.tutorial,
             letters: state => state.home.letters,
             updatedLetters: state => state.home.updatedLetters,
@@ -213,7 +207,7 @@ export default {
         // ]),
         ...mapGetters({
             front: "frontCard",
-            back: "backCard",
+            back: "backCard"
         })
     },
 
@@ -255,7 +249,6 @@ export default {
                 .attr("x", (d, i) => i * 35)
                 .style("fill-opacity", 1e-6)
                 .style("fill", "#686868")
-                //.style("font-size", "30px")
                 .style("font-size", this.settings.height / 3 + "px")
                 .text(d => d)
                 .transition(t)

@@ -8,6 +8,7 @@ yarn-error.log*
 
 # personal config files 
 config.json
+/config/local.env.js
 
 # Editor directories and files
 .idea

@@ -36,7 +36,7 @@ export default {
     computed: {
         ...mapState({
             routes: state => state.menu.items,
-            gitLink: state => state.base.config.gitLink
+            gitLink: state => state.base.gitLink
         }),
 
         prev() {

@@ -48,7 +48,6 @@
 
 <script>
 
-	import config from "@/config.json"
 	import FontAwesomeIcon from "@fortawesome/vue-fontawesome"
 	import cv from "./cv"
 	import timeline from "./timeline"
@@ -59,7 +58,6 @@
 		data() {
 		    return {
 		    	pageTopic: "getlarge" + this.$route.path,
-        		serverURL: config.httpServerURL,
         		interactive: false,
 			}
 		},

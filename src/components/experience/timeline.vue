@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import config from "@/config.json";
+
+import { mapState } from "vuex";
 import { min, max, range, sum } from "d3-array";
 import { axisBottom } from "d3-axis";
 import { easeLinear, easeQuadInOut } from "d3-ease";
@@ -37,15 +38,8 @@ export default {
 	data() {
 		return {
 			pageTopic: "getlarge" + this.$route.path,
-			serverURL: config.httpServerURL,
-			width: Math.max(
-				document.documentElement.clientWidth,
-				window.innerWidth || 0
-			),
-			height: Math.max(
-				document.documentElement.clientHeight,
-				window.innerHeight || 0
-			),
+			width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+			height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 			colorPalette: scaleOrdinal().range([
 				"#28693e",
 				"#3f9e5e",
@@ -121,22 +115,24 @@ export default {
 	beforeUnmout() {},
 
 	beforeDestroy() {
-		if (this.$store.menu.tutorial === true) {
-			EventBus.$emit("stop:tutorial");
-		}
+		// if (this.$store.menu.tutorial === true) {
+		// 	EventBus.$emit("stop:tutorial");
+		// }
 		EventBus.$off("start:tutorial");
 		EventBus.$off("stop:cards");
 	},
 
-	watch: {},
-
-	computed: {},
+    computed: {
+        ...mapState({
+            serverURL: state => state.base.serverURL
+        }),
+    },
 
 	methods: {
 		initTimeLine() {
 			var self = this;
-			self.settings.m = self.settings.f + self.settings.lineHeight;
-			self.settings.height = self.settings.m + self.settings.s;
+			this.settings.m = this.settings.f + this.settings.lineHeight;
+			this.settings.height = this.settings.m + this.settings.s;
 
 			json(this.serverURL + this.dataPath).then(projects => {
 				const root = hierarchy(projects);
@@ -145,8 +141,7 @@ export default {
 
 				const timestamp = new Date().getTime();
 				this.node.forEach((d, i) => {
-					0 === d.ended_at && (d.ended_at = timestamp),
-						(d.color = self.colorPalette(d.category));
+					0 === d.ended_at && (d.ended_at = timestamp), (d.color = self.colorPalette(d.category));
 				});
 
 				const startTime = min(this.node, d => d.started_at);
@@ -167,11 +162,7 @@ export default {
 						c < a;
 						c++
 					)
-						(k =
-							c < o
-								? easeQuadInOut(c / o)
-								: 1 - easeQuadInOut(Math.abs(c - o) / o)),
-							(n[i + c] = k);
+						(k = c < o ? easeQuadInOut(c / o) : 1 - easeQuadInOut(Math.abs(c - o) / o)), (n[i + c] = k);
 					return {
 						midpoint: i + o,
 						project: d,
@@ -180,12 +171,7 @@ export default {
 				});
 				const O = range(b).map(d => {
 					const n = {};
-					return (
-						self.I.forEach(
-							(e, r) => (n[self.node[r].name] = e.values[d])
-						),
-						n
-					);
+					return self.I.forEach((e, r) => (n[self.node[r].name] = e.values[d])), n;
 				});
 				const P = stack()
 					.keys(self.node.map(d => d.name))
@@ -204,18 +190,9 @@ export default {
 					.y0(d => F(d[0]))
 					.y1(d => F(d[1]));
 
-				select("#timeline").style(
-					"padding-bottom",
-					(self.settings.height / self.settings.width) * 100 + "%"
-				);
+				select("#timeline").style("padding-bottom", (self.settings.height / self.settings.width) * 100 + "%");
 				var frame = select("#timeline > svg")
-					.attr(
-						"viewBox",
-						"0 0 " +
-							self.settings.width +
-							" " +
-							self.settings.height
-					)
+					.attr("viewBox", "0 0 " + self.settings.width + " " + self.settings.height)
 					.attr("preserveAspectRatio", "xMinYMin meet")
 					.on("mouseout", self.n);
 				self.timeline = frame
@@ -283,12 +260,7 @@ export default {
 					.attr("x", 2)
 					//.style("font-size", (self.width/50-self.height/100)+"px")
 					.attr("class", "flagsText")
-
-					.style(
-						"cursor",
-						(d, i) =>
-							self.node[i].link !== null ? "pointer" : "default"
-					)
+					.style("cursor", (d, i) => (self.node[i].link !== null ? "pointer" : "default"))
 					.text((d, i) => self.node[i].name);
 
 				self.waves = flagsLinks.nodes().map(function(d) {
@@ -298,9 +270,7 @@ export default {
 						width: Math.ceil(n.width) + 6
 					};
 				});
-				flagsLinks
-					.select("rect")
-					.attr("width", (d, i) => self.waves[i].width);
+				flagsLinks.select("rect").attr("width", (d, i) => self.waves[i].width);
 
 				self.q = range(10).map(function() {
 					return null;
@@ -334,10 +304,7 @@ export default {
 					frame
 						.append("g")
 						.attr("class", "axis")
-						.attr(
-							"transform",
-							"translate(0," + self.settings.m + ")"
-						)
+						.attr("transform", "translate(0," + self.settings.m + ")")
 						.call(S);
 				}
 			});
@@ -355,21 +322,14 @@ export default {
 				self.timeline
 					.selectAll(".flag text")
 					.transition()
-					.attr("fill", function(d, i) {
-						return (self.dataSet &&
-							self.node[i] !== self.dataSet) ||
-							!d
-							? "transparent"
-							: "#686868";
-					});
+					.attr(
+						"fill",
+						(d, i) => ((self.dataSet && self.node[i] !== self.dataSet) || !d ? "transparent" : "#686868")
+					);
 			self.timeline
 				.selectAll(".flag line")
 				.transition()
-				.attr("opacity", function(d, i) {
-					return (self.dataSet && self.node[i] !== self.dataSet) || !d
-						? "0"
-						: "0.6";
-				});
+				.attr("opacity", (d, i) => ((self.dataSet && self.node[i] !== self.dataSet) || !d ? "0" : "0.6"));
 		},
 
 		a(d, i) {
@@ -385,9 +345,7 @@ export default {
 				var o = self.a(d, i),
 					u = o + r.width;
 				u > self.settings.width && ((o -= r.width), (u -= r.width)),
-					(e = self.q.findIndex(function(d) {
-						return !d || d.u === i || d.x < o;
-					})),
+					(e = self.q.findIndex(d => !d || d.u === i || d.x < o)),
 					-1 === e
 						? (e = 0)
 						: (self.q[e] = {
@@ -402,8 +360,7 @@ export default {
 			var e = this.a(d, i),
 				r = this.waves[i];
 			return (
-				r && e + r.width > this.settings.width && (e -= r.width),
-				"translate(" + e + " " + this.o(d, i) + ")"
+				r && e + r.width > this.settings.width && (e -= r.width), "translate(" + e + " " + this.o(d, i) + ")"
 			);
 		},
 
@@ -432,9 +389,7 @@ export default {
 
 		coloring(d, i) {
 			var e = this.node[i];
-			return (this.dataSet && e !== this.dataSet) || !d
-				? "#f4f4f4"
-				: e.color;
+			return (this.dataSet && e !== this.dataSet) || !d ? "#f4f4f4" : e.color;
 		}
 	}
 };

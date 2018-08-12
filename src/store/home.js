@@ -1,4 +1,4 @@
-import config from "@/config.json";
+import { config } from "@/configFile";
 
 export const home = {
   	state: { 
@@ -55,14 +55,14 @@ export const home = {
 		frontCard: state => {
 			return { title: "Hey, i'm ...",
 		        text1: "<img class='square' src=" +
-					config.httpServerURL +
+					config.httpClient.url +
 					"static/icons/rectangle.png /><div><img class='trombi' src="
-					+config.httpServerURL+home.state.icons[4].path+
+					+config.httpClient.url+home.state.icons[4].path+
 					"></img><p class='text'></br>...on a mission, but you can send me your request anyway!</p></div>",
 		        text2: "<img class='square' src=" +
-					config.httpServerURL +
+					config.httpClient.url +
 					"static/icons/rectangle.png /><div><img class='trombi' src="
-		        	+config.httpServerURL+home.state.icons[3].path+
+		        	+config.httpClient.url+home.state.icons[3].path+
 		        	"></img><p class='text'>Your project requires UI/UX design, frontend / backend development, or embedded system prototyping ?</br>Why not talking about it now.</p></div>",
 	    	}
 		},
@@ -70,9 +70,9 @@ export const home = {
 		backCard: state => {
 			return { title: "contact",
 		        text: "<img class='square' src=" +
-					config.httpServerURL +
+					config.httpClient.url +
 					"static/icons/rectangle-flipped.png /><div><img class='trombi' style='opacity:0.8;' src="+
-					config.httpServerURL+home.state.icons[2].path+
+					config.httpClient.url+home.state.icons[2].path+
 					"></img><p class='text'>Edouard Maleix</br><a href=mailto:ed@"+
 					config.domain+">ed@"+config.domain+"</a></br><a href=tel:"+config.tel+">"+config.tel+
 					"</a></br>Nantes</br>References on request</p></div>"

@@ -1,15 +1,13 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import config from "@/config.json";
+import { config } from "@/configFile";
 import devtools from "@vue/devtools";
-
 import Vue from "vue";
-import App from "./App";
-//import store from "@/services/store.js";
+import App from "@/containers/App";
 import store from "@/store";
 import router from "@/router";
 //import i18n from "./i18n"
-import * as axios from "axios";
+//import * as axios from "axios";
 import VueResource from "vue-resource";
 import VueAuthImage from "vue-auth-image";
 import VueMq from "vue-mq";
@@ -21,7 +19,7 @@ import fontawesome from "@fortawesome/fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
 import solid from "@fortawesome/fontawesome-free-solid";
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development" && config.vueDevtools === true) {
     devtools.connect(
         config.localhost,
         config.vueDevtoolsPort

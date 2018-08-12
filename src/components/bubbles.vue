@@ -19,7 +19,7 @@
 
 <script>
 
-    import config from "@/config.json"
+    import { mapState } from "vuex";
     import { range } from "d3-array"
     import { rgb, interpolateRgb } from "d3-color"
     import { drag } from "d3-drag"
@@ -95,6 +95,10 @@
       },
 
       computed: {
+        ...mapState({
+            serverURL: state => state.base.serverURL
+        }),
+
           nodes () {
               var that = this;
               if (this.graph) {
