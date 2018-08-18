@@ -14,7 +14,7 @@ export default class mqttClient {
                     .toString(16)
                     .substr(2, 8),
             username: config.mqttClient.options.username,
-            password: config.mqttClient.options.password,
+            password: new Buffer(config.mqttClient.options.password),
         };
         this.client;
         this._initClient();

@@ -150,13 +150,7 @@ export default {
                 "Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol. \nYou can select each circles to navigate in the tree, click on the text next to light grey circles to display messages";
             var tags = "";
             var img = "static/img/tuto-mqtt-tree.gif";
-            EventBus.$emit(
-                "update:tutorial",
-                this.$route.name,
-                text,
-                tags,
-                img
-            );
+            EventBus.$emit("update:tutorial", this.$route.name, text, tags, img);
             EventBus.$emit("tx:mqtt", "getlarge" + this.$route.path, "started");
             return (this.tutorial = true);
         });
@@ -305,6 +299,9 @@ export default {
                         var newnode = { text: current, _children: [] };
                         node._children.push(newnode);
                         this.$refs["tree"].onData(data.Graph.tree);
+
+                        //localStorage.setItem("testJSON", data.Graph.tree);
+
                         this.walk(parts, node._children[z], body);
                     }
                 } else {
@@ -324,13 +321,17 @@ export default {
         },
 
         openTooltip(data) {
+            // var text = localStorage.getItem("testJSON");
+            // var obj = JSON.parse(text);
+            // console.log(obj)
+
             this.div
                 .transition()
                 .duration(200)
                 .style("opacity", 0.8)
                 .style("fill", "#33b277");
 
-            console.log(JSON.parse(data.data.payload));
+            //console.log(JSON.parse(data.data.payload));
             //var payloadElem = JSON.parse(data.data.payload);
             this.div
                 .html("<p class='payload'>" + data.data.payload + "</p>")

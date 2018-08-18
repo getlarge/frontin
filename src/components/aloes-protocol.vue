@@ -103,12 +103,47 @@ export default {
                 .on("click", function(d) {
                     headers.attr("class", "header");
                     if (sortAscending) {
-                        rows.sort((a, b) => b[d] < a[d]);
-                        console.log(rows.sort((a, b) => b[d].toString() < a[d].toString()));
+                        // var test = rows._groups[0].forEach(myFunction);
+                        // function myFunction(value, index, array) {
+                        //     if ( typeof(value) === Number ) {
+                        //}
+                        // }
+                        // var aKeys = Object.keys(test[0]).sort();
+                        //console.log(JSON.stringify(aKeys));
+                        // todo : create dynamic type detection
+                        if (d === "name" || d === "description") {
+                            rows.sort(function(a, b) {
+                                var x = a[d].toLowerCase();
+                                var y = b[d].toLowerCase();
+                                if (x < y) {
+                                    return -1;
+                                }
+                                if (x > y) {
+                                    return 1;
+                                }
+                                return 0;
+                            });
+                        } else if (d === "ipsoId" || d === "mySensorsId" || d === "aloesId") {
+                            rows.sort((a, b) => a[d] - b[d]);
+                        }
                         sortAscending = false;
                         this.className = "aes";
                     } else {
-                        rows.sort((a, b) => b[d].toString() > a[d].toString());
+                        if (d === "name" || d === "description") {
+                            rows.sort(function(a, b) {
+                                var x = a[d].toLowerCase();
+                                var y = b[d].toLowerCase();
+                                if (x > y) {
+                                    return -1;
+                                }
+                                if (x < y) {
+                                    return 1;
+                                }
+                                return 0;
+                            });
+                        } else if (d === "ipsoId" || d === "mySensorsId" || d === "aloesId") {
+                            rows.sort((a, b) => b[d] - a[d]);
+                        }
                         sortAscending = true;
                         this.className = "des";
                     }
@@ -147,7 +182,9 @@ export default {
                 .style(
                     "background",
                     d =>
-                        d.colors ? "linear-gradient(to right," + d.colors[0] + "," + d.colors[1] + ")" : "transparent"
+                        d.colors
+                            ? "linear-gradient(to right," + d.colors[0] + "," + d.colors[1] + ")"
+                            : "transparent"
                 )
                 .style("opacity", d => (d.colors ? "0.7" : "1"))
                 .append("img")
@@ -257,7 +294,8 @@ th {
     This query will take effect for any screen smaller than 760px
     and also iPads specifically.
     */
-@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+@media only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
     /* Force table to not be like tables anymore */
     #aloes-table table,
     thead,

@@ -60,7 +60,7 @@
                     <div>
                         <ul>
                             <li>Visualisation données en temps réel - UI/UX design - Création graphique</li>
-                            <li>Architecture évenementielle et microservices</li>
+                            <li>Architecture évènementielle et microservices</li>
                             <li>Développement embarqué ( logiciel et électronique )</li>
                             <li>Agile - Scrum - Lean Startup</li>
                             <li>Analyse de marché - Design produit - Campagne de tests</li>
@@ -183,6 +183,20 @@
                 var element = document.createElement("div");
                 element.appendChild(domNode);
                 return element.innerHTML;
+            },
+
+            serialize(svg) {
+                const xmlns = "http://www.w3.org/2000/xmlns/";
+                const xlinkns = "http://www.w3.org/1999/xlink";
+                const svgns = "http://www.w3.org/2000/svg";
+                return function serialize(svg) {
+                    svg = svg.cloneNode(true);
+                    svg.setAttributeNS(xmlns, "xmlns", svgns);
+                    svg.setAttributeNS(xmlns, "xmlns:xlink", xlinkns);
+                    const serializer = new window.XMLSerializer;
+                    const string = serializer.serializeToString(svg);
+                    return new Blob([string], {type: "image/svg+xml"});
+              };
             },
 
             svgToCanvas (className) {

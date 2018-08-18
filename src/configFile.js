@@ -3,7 +3,6 @@ const config = {
     prefix: process.env.PREFIX || "getlarge",
     homeLink: "/",
     localhost: process.env.HOST || "localhost",
-    vueDevtools: process.env.VUE_DEVTOOLS || false,
     vueDevtoolsPort: process.env.VUE_DEVTOOLS_PORT || "8098",
     gitLink: process.env.GIT_LINK || "https://framagit.org/getlarge/frontin/",
     ComponentsPath: process.env.COMPONENTS_PATH || "tree/master/src/components",
@@ -20,18 +19,19 @@ const config = {
             host: process.env.MQTT_CLIENT_HOST || "localhost",
             port: Number(process.env.MQTT_CLIENT_PORT) || 3001,
             clientId:
-                process.env.MQTT_CLIENT_CLIENT_ID || "frontin" +
-                "_" +
-                Math.random()
-                    .toString(16)
-                    .substr(2, 8),
+                process.env.MQTT_CLIENT_CLIENT_ID ||
+                "frontin" +
+                    "_" +
+                    Math.random()
+                        .toString(16)
+                        .substr(2, 8),
             username: process.env.MQTT_CLIENT_USER || "",
-            password: new Buffer(process.env.MQTT_CLIENT_PASS) || ""
+            password: process.env.MQTT_CLIENT_PASS || ""
         }
     },
     chatClient: {
         url: process.env.CHAT_CLIENT_URL || "https://chat.aloes.io/livechat",
-        scriptUrl: process.env.CHAT_CLIENT_SCRIPT_URL || "",
+        scriptUrl: process.env.CHAT_CLIENT_SCRIPT_URL || ""
     }
 };
 

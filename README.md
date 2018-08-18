@@ -1,6 +1,7 @@
-# Getlarge Portfolio Frontin'
+# Getlarge Portfolio - Frontin'
 
 **frontin** is a **Vue.js - D3.js - MQTT** client application, which works in conjunction with [http server](https://framagit.org:getlarge/bareback) & [mqtt broker](https://framagit.org:getlarge/broka-billy).
+See it in [action](https://getlarge.eu).
 
 ## Table of Contents
 - [Features](#features)
@@ -20,11 +21,9 @@ Once installed in your machine, you can simply run the commands listed in the st
 
 ## Installation
 
-To get started with this project, follow the 3-step installation, described here.
-
 ### 1. frontin *client*
 
-*Before running the client, be sure you have already completed steps 1 and 2, and have both MQTT Broker and HTTP Server running in separate terminal windows.*
+*Before running the client, be sure you have both MQTT Broker and HTTP Server running in separate terminal windows.*
 
 Configure your instance by copying and editing config/local.env.sample.js in a new config/local.env.js file.
 
@@ -85,3 +84,6 @@ npm test
 	+ what plants talk about ? :
 		+ live streaming of plants getting recorded ( audio ) 
 
++ refactor with vuex
+
++ add unit tests

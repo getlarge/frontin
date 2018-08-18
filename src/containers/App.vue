@@ -126,6 +126,17 @@ export default {
         url("../assets/fonts/MarketDeco/MarketDeco.ttf") format("truetype");
 }
 
+@font-face {
+    /* Garamond Regular - latin */
+    font-family: "GaramondNo8-Regular";
+    font-weight: normal;
+    font-style: normal;
+    src: url("../assets/fonts/Garamond/GaramondNo8-Regular.woff2") format("woff2"),
+        url("../assets/fonts/Garamond/GaramondNo8-Regular.woff") format("woff"),
+        url("../assets/fonts/Garamond/GaramondNo8-Regular.eot") format("embedded-opentype"),
+        url("../assets/fonts/Garamond/GaramondNo8-Regular.ttf") format("truetype");
+}
+
 #app {
     font-family: "Aloes-Rg";
     font-size: 16px;

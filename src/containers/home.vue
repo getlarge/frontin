@@ -16,10 +16,10 @@
                     </p>
                 </b-col>
             </b-row>
-            <b-row  v-if="contactCard === false" align-h="center">
+            <b-row v-if="contactCard === false" align-h="center">
                 <b-col xs="4" sm="4" lg="3">
                     <a class="doors" href="#/experience" title="Enter" >
-                        <img  class="signs" @mouseover="$store.commit('updateHomeIcons', {id:0, path:'static/icons/info2.png'})"  @mouseout="$store.commit('updateHomeIcons', {id:0, path:'static/icons/info.png'})" :src="serverURL+icon1" alt="info icon" />
+                        <img class="signs" @mouseover="$store.commit('updateHomeIcons', {id:0, path:'static/icons/info2.png'})"  @mouseout="$store.commit('updateHomeIcons', {id:0, path:'static/icons/info.png'})" :src="serverURL+icon1" alt="info icon" />
                     </a>
                 </b-col>
                 <b-col xs="4" sm="4" lg="3" >
@@ -269,6 +269,137 @@ export default {
     min-height: 700px;
     text-align: center;
     overflow: hidden;
+
+    .introduction {
+        margin-top: 2%;
+        margin-bottom: 1%;
+        font-size: 1.2rem;
+        text-align: justify;
+    }
+
+    .signs {
+        width: 80%;
+        height: 80%;
+        opacity: 1 !important;
+        background-color: white;
+    }
+
+    .doors {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background-color: white;
+        opacity: 1;
+    }
+
+    .doors:hover {
+        opacity: 1;
+        background-color: white;
+        cursor: pointer;
+    }
+
+    .doors:active {
+        opacity: 1;
+        background-color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .doors:focus {
+        opacity: 1;
+        background-color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .card {
+        margin-top: 2%;
+        height: 60%;
+        border: 0px !important;
+        font-size: 1.2rem;
+        z-index: 1500;
+
+        .square {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            min-height: 95%;
+        }
+
+        .info-card .title {
+            text-transform: uppercase;
+            color: #029ea8 !important;
+            opacity: 0.8;
+        }
+
+        .trombi {
+            position: absolute;
+            left: 5%;
+            top: 30%;
+            width: 38%;
+            border-radius: 3px !important;
+        }
+
+        .text {
+            text-align: justify;
+            position: absolute;
+            left: 50%;
+            padding-right: 3%;
+            width: 45%;
+            height: 280px;
+            font-size: 85%;
+        }
+        
+        .card-mobile {
+            font-size: 70% !important;
+        }
+
+        .card-tablet {
+            font-size: 75% !important;
+
+            .text {
+                top: 30%;
+                height: 280px;
+            }
+        }
+
+        .card-laptop {
+            font-size: 80% !important;
+            .text {
+                top: 30%;
+                height: 280px;
+            }
+        }
+
+        .card-desktop {
+            font-size: 85% !important;
+            .text {
+                top: 35%;
+                height: 280px;
+            }
+            .trombi {
+                position: absolute;
+                left: 5%;
+                top: 35%;
+            }
+        }
+
+        .card-xxl {
+            font-size: 100%;
+            .text {
+                top: 45%;
+                height: 280px;
+            }
+            .trombi {
+                position: absolute;
+                left: 5%;
+                top: 40%;
+            }
+        }
+    }
+
 }
 
 #svg {
@@ -276,137 +407,11 @@ export default {
     margin-left: 12%;
 }
 
-.introduction {
-    margin-top: 2%;
-    margin-bottom: 1%;
-    font-size: 1.2rem;
-    text-align: justify;
-}
-
-.signs {
-    width: 80%;
-    height: 80%;
-    opacity: 1 !important;
-    background-color: white;
-}
-
-.doors {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background-color: white;
-    opacity: 1;
-}
-
-.doors:hover {
-    opacity: 1;
-    background-color: white;
-    cursor: pointer;
-}
-
-.doors:active {
-    opacity: 1;
-    background-color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.doors:focus {
-    opacity: 1;
-    background-color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.card {
-    margin-top: 2%;
-    height: 60%;
-    border: 0px !important;
-    font-size: 1.2rem;
-    z-index: 1500;
-}
 
 .with-shadow {
     box-shadow: 0 0 0 0 !important;
 }
 
-.square {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    min-height: 95%;
-}
 
-.info-card .title {
-    text-transform: uppercase;
-    color: #029ea8 !important;
-    opacity: 0.8;
-}
 
-.trombi {
-    position: absolute;
-    left: 5%;
-    top: 30%;
-    width: 38%;
-    border-radius: 3px !important;
-}
-
-.text {
-    text-align: justify;
-    position: absolute;
-    left: 50%;
-    padding-right: 3%;
-    width: 45%;
-    height: 280px;
-    font-size: 85%;
-}
-
-.card-mobile {
-    font-size: 70% !important;
-}
-
-.card-tablet {
-    font-size: 75% !important;
-
-    .text {
-        top: 30%;
-        height: 280px;
-    }
-}
-
-.card-laptop {
-    font-size: 80% !important;
-    .text {
-        top: 30%;
-        height: 280px;
-    }
-}
-
-.card-desktop {
-    font-size: 85% !important;
-    .text {
-        top: 35%;
-        height: 280px;
-    }
-    .trombi {
-        position: absolute;
-        left: 5%;
-        top: 35%;
-    }
-}
-
-.card-xxl {
-    font-size: 100%;
-    .text {
-        top: 45%;
-        height: 280px;
-    }
-    .trombi {
-        position: absolute;
-        left: 5%;
-        top: 40%;
-    }
-}
 </style>

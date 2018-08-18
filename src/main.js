@@ -1,3 +1,4 @@
+"use strict";
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import { config } from "@/configFile";
@@ -9,7 +10,7 @@ import router from "@/router";
 //import i18n from "./i18n"
 //import * as axios from "axios";
 import VueResource from "vue-resource";
-import VueAuthImage from "vue-auth-image";
+//import VueAuthImage from "vue-auth-image";
 import VueMq from "vue-mq";
 import VueTouch from "vue-touch";
 import BootstrapVue from "bootstrap-vue";
@@ -18,29 +19,32 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import fontawesome from "@fortawesome/fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
 import solid from "@fortawesome/fontawesome-free-solid";
+require("froala-editor/js/froala_editor.pkgd.min");
+// Require Froala Editor css files.
+require("froala-editor/css/froala_editor.pkgd.min.css");
+require("font-awesome/css/font-awesome.css");
+require("froala-editor/css/froala_style.min.css");
+import VueFroala from "vue-froala-wysiwyg";
 
-if (process.env.NODE_ENV === "development" && config.vueDevtools === true) {
+Vue.config.silent = false;
+Vue.config.devtools = true;
+Vue.config.productionTip = false;
+
+if (process.env.NODE_ENV === "development" && Vue.config.devtools === true) {
     devtools.connect(
         config.localhost,
         config.vueDevtoolsPort
     );
 }
-
-// Vue.config.silent = false
-Vue.config.devtools = true;
-Vue.config.productionTip = true;
-
-Vue.use(VueResource);
-Vue.use(VueAuthImage);
-
 //var authHeader = 'Bearer ' + localStorage.getItem('id_token');
 //var authHeader = "Basic "+btoa(config.options.username + ":" + config.options.password);
 //var authHeader = "Basic qmzf";
 //Vue.http.headers.common['Authorization'] = authHeader;
 //axios.defaults.headers.common['Authorization'] = authHeader;
 
+Vue.use(VueResource);
+//Vue.use(VueAuthImage);
 Vue.use(VueTouch, { name: "v-touch" });
-
 Vue.use(VueMq, {
     breakpoints: {
         mobile: 600,
@@ -50,8 +54,8 @@ Vue.use(VueMq, {
         xxl: Infinity
     }
 });
-
 Vue.use(BootstrapVue);
+Vue.use(VueFroala);
 
 Vue.filter("formatSize", function(size) {
     if (size > 1024 * 1024 * 1024 * 1024) {
