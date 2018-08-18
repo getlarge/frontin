@@ -3,39 +3,26 @@
     <div id="qr-post" ref="qrPost">
 <!--         <img class="iconic" :src="icon" fluid />
  -->        
-        <froala :tag="'textarea'" :config="config" v-model="model">Init text</froala>
+        <textarea id="editor" ref="editor" :placeholder="text" :name="name" :value="text" autofocus></textarea> 
         <div id="qr-holder" ref="qrHolder"></div>
     </div>
 
 </template>
 
 <script>
-import VueFroala from 'vue-froala-wysiwyg';
+require("simditor/styles/simditor.css");
+
+import Simditor from "simditor";
 import * as qrcode from "qrcode-generator";
 import { select, selectAll } from "d3-selection";
 import { EventBus } from "@/main";
 
 export default {
-    props: ["icon", "id", "text"],
+    props: ["icon", "id", "text", "name"],
 
     data() {
         return {
-            config: {
-                toolbarInline: true,
-                //initOnCLick: true,
-                charCounterCount: false,
-                toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'color', 'emoticons', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo'],
-                heightMin: 300,
-                heightMax: 600,
-                events: {
-                    'froalaEditor.initialized': function () {
-                        console.log('initialized')
-                    },
-                    'froalaEditor.focus' : (e, editor) => {
-                        console.log(editor.selection.get());
-                    }   
-                }
-            },
+            editor: {},
             model: this.$props.text,
             typeNumber: 0,
             errorCorrectionLevel: "L",
@@ -48,8 +35,22 @@ export default {
     },
 
     mounted() {
-        //console.log(this);
-        this.onPush(this.$props.text);
+        this.editor = new Simditor({
+            textarea: $(this.$refs.editor),
+            toolbarHidden: true,
+            toolbar: ["title", "bold", "italic", "underline", "fontScale"],
+            params: {}
+        });
+        //this.onPush(this.$props.text);
+        this.editor.on("valuechanged", (e, src) => {
+            console.log(this.editor.getValue());
+            //console.log('valuechanged', e)
+            this.onPush(this.editor.getValue());
+        });
+    },
+
+    updated() {
+        console.log(this.$props.text);
     },
 
     beforeDestroy() {},
@@ -64,6 +65,7 @@ export default {
         },
 
         onPush(data) {
+            this.qr = qrcode(this.typeNumber, this.errorCorrectionLevel);
             this.qr.addData(data);
             this.qr.make();
             //select(this.$el)
@@ -77,10 +79,7 @@ export default {
 </script>
 
 <style lang="scss">
-
-
 #qr-post {
-
     #qr-holder {
         display: block;
         align-items: center;
@@ -88,9 +87,30 @@ export default {
         width: auto;
         opacity: 1 !important;
         margin-left: 20%;
+        img {
+            max-height: 70px;
+            max-width: 70px;
+            z-index: 5000;
+        }
         path {
             fill: green;
         }
+    }
+
+    textarea {
+        border-color: #d8d8d8;
+        border-radius: 6px;
+        height: 250px;
+        width: 90%;
+    }
+
+    .simditor {
+        border-color: #d8d8d8;
+        border-radius: 6px;
+    }
+
+    .simditor-body {
+        height: 280px;
     }
 
     .iconic {

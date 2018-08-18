@@ -19,12 +19,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import fontawesome from "@fortawesome/fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
 import solid from "@fortawesome/fontawesome-free-solid";
-require("froala-editor/js/froala_editor.pkgd.min");
-// Require Froala Editor css files.
-require("froala-editor/css/froala_editor.pkgd.min.css");
-require("font-awesome/css/font-awesome.css");
-require("froala-editor/css/froala_style.min.css");
-import VueFroala from "vue-froala-wysiwyg";
+
 
 Vue.config.silent = false;
 Vue.config.devtools = true;
@@ -55,7 +50,7 @@ Vue.use(VueMq, {
     }
 });
 Vue.use(BootstrapVue);
-Vue.use(VueFroala);
+
 
 Vue.filter("formatSize", function(size) {
     if (size > 1024 * 1024 * 1024 * 1024) {

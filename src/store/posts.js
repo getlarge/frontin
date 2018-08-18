@@ -30,7 +30,16 @@ const state = {
             name: "discipline",
             text: "La discipline est mère du succès. - Eschyle",
             iconFile: serverURL + "static/icons/meer.png"
-        }]
+        }],
+        [{
+            id: 5,
+            text: "",
+        },
+        {
+            id: 6,
+            text: "e",
+        }],
+        []
     ],
     arrowRight: "static/icons/arrow-right.png",
     arrowLeft: "static/icons/arrow-left.png",
@@ -60,7 +69,7 @@ const mutations = {
 
 const getters = {
     checkAuth: state => {
-        console.log(state.digicode.reduce(getters.getDigicode));
+        //console.log(state.digicode.reduce(getters.getDigicode));
         if (state.digicode.reduceRight(getters.getDigicode) === state.solution) {
             return true;
         } else {

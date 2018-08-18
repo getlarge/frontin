@@ -17,7 +17,7 @@
         </b-row>
         <b-row v-else-if="journalEvent === 'opened'">
             <div class="posts" v-for="(element, index) in qrPosts[pageNumber]" :key="element.id" >
-                <qr-post :icon="element.iconFile" :text="element.text" ></qr-post>
+                <qr-post :icon="element.iconFile" :text="element.text" :name="element.name"></qr-post>
             </div>
             <button v-if="pageNumber < qrPosts.length-1" class="change-page-right" @click="changePage(1)"><img :src="serverURL + 'static/icons/arrow-right.png'"/></button>
             <button v-if="pageNumber >= 0" class="change-page-left" @click="changePage(-1)"><img :src="serverURL + 'static/icons/arrow-left.png'"/></button>
@@ -86,7 +86,6 @@ export default {
             setTimeout(function() {
                 self.pageNumber += number;
                 self.$store.commit("updateJournalStatus", "opening");
-                //document.getElementByClassName("posts").style.opacity = 0;
                 self.$store.commit("updateJournalFrame", "static/icons/eundI2.png");
             }, 500);
             setTimeout(function() {
@@ -150,10 +149,11 @@ export default {
 
     .posts {
         position: relative;
-        top: -420px;
-        margin-left: 60px;
+        top: -440px;
+        margin-left: 55px;
         margin-right: 0px;
         width: 250px;
+        height: 250px;
     }
 
     .change-page-right {
@@ -167,6 +167,7 @@ export default {
         cursor: pointer;
         img {
             width: 100%;
+            z-index: 3000;
         }
     }
     .change-page-left {
