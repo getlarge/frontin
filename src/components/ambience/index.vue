@@ -133,6 +133,8 @@ export default {
     },
 
     beforeDestroy() {
+        EventBus.$off("start:audio-slider");
+        EventBus.$off("file-uploader");
         EventBus.$off("start:tutorial");
         EventBus.$emit("stop:tutorial");
     },

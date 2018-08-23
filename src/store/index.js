@@ -4,7 +4,7 @@ import { base } from "./base";
 import { menu } from "./menu";
 import { home } from "./home";
 import { ambience } from "./ambience";
-import { posts } from "./posts";
+import { journal } from "./journal";
 
 Vue.use(Vuex);
 
@@ -14,6 +14,6 @@ export default new Vuex.Store({
         menu: menu,
         home: home,
         ambience: ambience,
-        posts: posts
+        journal: journal
     }
 });

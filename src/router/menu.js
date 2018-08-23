@@ -59,9 +59,10 @@ export const routes = [
     {
         name: "Coded journal",
         title: "Coded journal",
-        path: "/qr-journal",
+        path: "/journal",
         folder: true,
-        component: loadView("qr-journal/index")
+        alias: "/journal/*",
+        component: loadView("journal/index")
     }
 ].map(r => {
     var res = r;

@@ -47,7 +47,7 @@ import VueAudio from "vue-audio";
 import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import { mapState } from "vuex";
 import { EventBus } from "@/main";
-import { upload } from "@/services/file-upload.service";
+import { upload } from "@/services/bareback";
 //import { wait } from "@/services/utils"
 //import { upload } from "@/services/file-upload.fake.service"; // fake service, might be used to decode image on the brower
 
@@ -60,11 +60,9 @@ export default {
     props: ["mimetype", "fieldName", "size"],
     data() {
         return {
-            formats: "image",
             uploadedFiles: [],
             uploadError: null,
             currentStatus: null,
-            uploadFieldName: "photos"
         };
     },
 
@@ -108,20 +106,18 @@ export default {
             this.uploadError = null;
         },
 
-        save(format, formData) {
+        save(resource, formData, name) {
             // upload data to the server
             this.currentStatus = STATUS_SAVING;
-            upload(format, formData)
+            upload(resource, formData, "name/"+name)
                 //.then(wait(1500)) // DEV ONLY: wait for 1.5s
                 .then(x => {
                     //this.$store.state.uploadedFiles = [].concat(x);
                     this.uploadedFiles = [].concat(x);
                     this.currentStatus = STATUS_SUCCESS;
                     //this.inputUpdate(this.$store.state.uploadedFiles);
-                    //var uploadedFile = this.uploadedFiles.slice().reverse().find(x ==> x.)
-                    //var uploadedFile = this.uploadedFile.pop();
-                    console.log("uploaded : ", this.uploadedFiles);
-                    EventBus.$emit("file-uploader", format, this.uploadedFiles);
+                    // console.log("uploaded : ", this.uploadedFiles);
+                    EventBus.$emit("file-uploader", resource, this.uploadedFiles);
                 })
                 .catch(err => {
                     this.uploadError = err.response;
@@ -133,14 +129,14 @@ export default {
             this.$store.commit("updateFiles", files);
         },
 
-        filesChange(format, fieldName, fileList) {
+        filesChange(resource, fieldName, fileList) {
             const formData = new FormData();
             if (!fileList.length) return;
             Array.from(Array(fileList.length).keys()).map(x => {
                 formData.append(fieldName, fileList[x], fileList[x].name);
             });
             //console.log("formData", formData)
-            this.save(format, formData);
+            this.save(resource, formData, fileList[0].name);
         }
     }
 };

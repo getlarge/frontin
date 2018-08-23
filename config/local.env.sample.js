@@ -16,6 +16,6 @@ module.exports = {
 	MQTT_CLIENT_ID: '"frontin"',
 	MQTT_CLIENT_USER: '""',
   	MQTT_CLIENT_PASS: '""',
-  	CHAT_CLIENT_URL: '"https://chat.aloes.io/livechat"',
-  	CHAT_CLIENT_SCRIPT_URL: '"https://chat.aloes.io/packages/rocketchat_livechat/assets/rocketchat-livechat.min.js?_=201702160944"'
+  	CHAT_CLIENT_URL: '""',
+  	CHAT_CLIENT_SCRIPT_URL: '""'
 }
