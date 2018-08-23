@@ -111,7 +111,7 @@ export default {
                         // var aKeys = Object.keys(test[0]).sort();
                         //console.log(JSON.stringify(aKeys));
                         // todo : create dynamic type detection
-                        if (d === "name" || d === "description") {
+                        if (d === "name" || d === "description" || d === "resource" ) {
                             rows.sort(function(a, b) {
                                 var x = a[d].toLowerCase();
                                 var y = b[d].toLowerCase();
@@ -123,13 +123,13 @@ export default {
                                 }
                                 return 0;
                             });
-                        } else if (d === "ipsoId" || d === "mySensorsId" || d === "aloesId") {
+                        } else if (d === "ipsoId" || d === "mySensorsId" || d === "aloesId" || d === "resourceId") {
                             rows.sort((a, b) => a[d] - b[d]);
                         }
                         sortAscending = false;
                         this.className = "aes";
                     } else {
-                        if (d === "name" || d === "description") {
+                        if (d === "name" || d === "description" || d === "resource") {
                             rows.sort(function(a, b) {
                                 var x = a[d].toLowerCase();
                                 var y = b[d].toLowerCase();
@@ -141,7 +141,7 @@ export default {
                                 }
                                 return 0;
                             });
-                        } else if (d === "ipsoId" || d === "mySensorsId" || d === "aloesId") {
+                        } else if (d === "ipsoId" || d === "mySensorsId" || d === "aloesId" || d === "resourceId") {
                             rows.sort((a, b) => b[d] - a[d]);
                         }
                         sortAscending = true;
