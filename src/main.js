@@ -10,6 +10,7 @@ import router from "@/router";
 //import i18n from "./i18n"
 //import * as axios from "axios";
 import VueResource from "vue-resource";
+import VueLocalStorage from "vue-localstorage";
 //import VueAuthImage from "vue-auth-image";
 import VueMq from "vue-mq";
 import VueTouch from "vue-touch";
@@ -19,7 +20,6 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import fontawesome from "@fortawesome/fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
 import solid from "@fortawesome/fontawesome-free-solid";
-
 
 Vue.config.silent = false;
 Vue.config.devtools = true;
@@ -38,6 +38,17 @@ if (process.env.NODE_ENV === "development" && Vue.config.devtools === true) {
 //axios.defaults.headers.common['Authorization'] = authHeader;
 
 Vue.use(VueResource);
+Vue.use(VueLocalStorage);
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
+Vue.localStorage.set("sessionId", getRandomInt(1000, 9000));
+Vue.localStorage.set("userAgent", window.navigator.appName);
+
 //Vue.use(VueAuthImage);
 Vue.use(VueTouch, { name: "v-touch" });
 Vue.use(VueMq, {
@@ -50,7 +61,6 @@ Vue.use(VueMq, {
     }
 });
 Vue.use(BootstrapVue);
-
 
 Vue.filter("formatSize", function(size) {
     if (size > 1024 * 1024 * 1024 * 1024) {

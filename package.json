@@ -79,6 +79,7 @@
     "vue-howler": "^0.7.0",
     "vue-i18n": "^8.0.0",
     "vue-info-card": "^0.1.1",
+    "vue-localstorage": "^0.6.2",
     "vue-mq": "^0.2.1",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",

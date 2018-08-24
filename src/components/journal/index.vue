@@ -3,7 +3,6 @@
        <img id="journal" :src="serverURL + journalFrame">
             </img> 
         <b-row v-if="journalEvent === 'closed'" >
-      
                 <form id="digicode">
                     <input id="authButton" type="button" @click="auth" value=" ">
                     <input id="index1" class="digit-inputs" type="text" v-model="digicode[0]" required>    
@@ -12,7 +11,6 @@
                     <input id="index4" class="digit-inputs" type="text" v-model="digicode[3]" required>
                 </form>
         </b-row>
-
         <b-row v-else-if="journalEvent === 'opening' || journalEvent === 'opened'">
             <post v-if="pageNumber > 0" class="posts" :journalId="0" :id="posts[pageNumber].id" :text="posts[pageNumber].text" :name="posts[pageNumber].name" :page="posts[pageNumber].id"></post>
             <post v-if="pageNumber > 0" class="posts" :journalId="0" :id="posts[pageNumber+1].id" :text="posts[pageNumber+1].text" :name="posts[pageNumber+1].name" :page="posts[pageNumber+1].id"></post>
@@ -50,7 +48,10 @@ export default {
     },
 
     beforeDestroy() {
-        //this.$store.commit("updateJournalStatus", "closed");
+        this.$store.commit("updateJournalStatus", "closed");
+        this.$store.commit("updateJournalFrame", "static/icons/eundI1.png");
+        this.posts = null;
+        this.digicode = null;
     },
 
     computed: {

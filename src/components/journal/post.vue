@@ -1,8 +1,6 @@
 <template>
 
     <div id="post" ref="post">
-<!--         <img class="iconic" :src="icon" fluid />
- -->        
         <input id="post-title" type="text" v-model="post.name" required>    
         <textarea id="post-editor" ref="editor" :placeholder="text" :name="name" autofocus></textarea> 
         <button id="post-button" @click="addPost('text', post)"> Save</button>
@@ -34,7 +32,6 @@ export default {
                 id: this.id || 0,
                 name: this.name || "",
                 text: this.text || "",
-                //textUrl: this.$props.textUrl || "",
                 page: this.page || 0
             },
             typeNumber: 0,

@@ -41,13 +41,18 @@ export default {
     // },
 
     created() {
+        const sessionId = this.$localStorage.get("sessionId");
+        const userAgent = this.$localStorage.get("userAgent");
         console.log(
             "%c getlarge.eu - 2018 ",
             "background: #33b277; color: white; display: block; border-radius: 5px; font-size: 16px;"
         );
+        console.log("guest_" + userAgent + " connected")
+        console.log("session #" + sessionId)
         this.client.openStream();
         this.client.sub(this.appName + "/#");
-        //this.client.sendMessage( this.appName + "/logs", "Getlarge : frontin connected")
+        this.client.sendMessage(this.appName + "/" + this.$route.name + "/sessions", sessionId);
+        //this.client.sendMessage(this.appName + "/logs", userAgent + "_" + sessionId + " connected");
         this.client.sendMessage(this.appName + "/stat", "connected");
     },
 
@@ -63,6 +68,7 @@ export default {
         this.client.sendMessage(this.appName + "/stat", "disconnected");
         this.client.close();
         EventBus.$off();
+        this.$localStorage.remove("sessionId")
     },
 
     watch: {},
@@ -121,8 +127,7 @@ export default {
     font-style: normal;
     src: url("../assets/fonts/MarketDeco/MarketDeco.woff2") format("woff2"),
         url("../assets/fonts/MarketDeco/MarketDeco.woff") format("woff"),
-        url("../assets/fonts/MarketDeco/MarketDeco.eot")
-            format("embedded-opentype"),
+        url("../assets/fonts/MarketDeco/MarketDeco.eot") format("embedded-opentype"),
         url("../assets/fonts/MarketDeco/MarketDeco.ttf") format("truetype");
 }
 

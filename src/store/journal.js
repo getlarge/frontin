@@ -49,15 +49,73 @@ const state = {
             id: 5,
             journalId: 0,
             name: "langage",
-            text: "Le langage est-il l'expression adéquate de toutes les réalités ? - Friedrich Nietzsche",
+            text:
+                "Le langage est-il l'expression adéquate de toutes les réalités ? - Friedrich Nietzsche",
             textUrl: serverURL + "texts/page/5"
         },
         {
             id: 6,
             journalId: 0,
             name: "détermination",
-            text: "Tout obstacle renforce la détermination. Celui qui s'est fixé un but n'en change pas. - Leonard de Vinci",
+            text:
+                "Tout obstacle renforce la détermination. Celui qui s'est fixé un but n'en change pas. - Leonard de Vinci",
             textUrl: serverURL + "texts/page/6"
+        },
+        {
+            id: 7,
+            journalId: 0,
+            name: "page7",
+            text: "this is the page 7",
+            textUrl: serverURL + "texts/page/7"
+        },
+        {
+            id: 8,
+            journalId: 0,
+            name: "page8",
+            text: "this is the page 8",
+            textUrl: serverURL + "texts/page/8"
+        },
+        {
+            id: 9,
+            journalId: 0,
+            name: "page9",
+            text: "this is the page 9",
+            textUrl: serverURL + "texts/page/9"
+        },
+        {
+            id: 10,
+            journalId: 0,
+            name: "page10",
+            text: "this is the page 10",
+            textUrl: serverURL + "texts/page/10"
+        },
+        {
+            id: 11,
+            journalId: 0,
+            name: "page11",
+            text: "this is the page 11",
+            textUrl: serverURL + "texts/page/11"
+        },
+        {
+            id: 12,
+            journalId: 0,
+            name: "page12",
+            text: "this is the page 12",
+            textUrl: serverURL + "texts/page/12"
+        },
+        {
+            id: 13,
+            journalId: 0,
+            name: "page13",
+            text: "this is the page 13",
+            textUrl: serverURL + "texts/page/13"
+        },
+        {
+            id: 14,
+            journalId: 0,
+            name: "page14",
+            text: "this is the page 14",
+            textUrl: serverURL + "texts/page/14"
         }
     ],
     arrowRight: "static/icons/arrow-right.png",
