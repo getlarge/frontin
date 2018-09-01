@@ -43,6 +43,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: "babel-loader",
+                //exclude: /node_modules(?!\/quill-image-drop-module|quill-image-resize-module)/,
                 //loaders: ["babel-loader", "ify-loader", 'transform-loader?plotly.js/tasks/util/compress_attributes.js',],
                 include: [
                     resolve("src"),

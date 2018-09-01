@@ -1,19 +1,18 @@
 <template>
     <b-container id="qr-journal" fluid >
-       <img id="journal" :src="serverURL + journalFrame">
-            </img> 
+        <img id="journal" :src="serverURL + journalFrame" />
         <b-row v-if="journalEvent === 'closed'" >
-                <form id="digicode">
-                    <input id="authButton" type="button" @click="auth" value=" ">
-                    <input id="index1" class="digit-inputs" type="text" v-model="digicode[0]" required>    
-                    <input id="index2" class="digit-inputs" type="text" v-model="digicode[1]" required>
-                    <input id="index3" class="digit-inputs" type="text" v-model="digicode[2]" required>
-                    <input id="index4" class="digit-inputs" type="text" v-model="digicode[3]" required>
-                </form>
+            <form id="digicode">
+                <input id="authButton" type="button" @click="auth" value=" ">
+                <input id="index1" class="digit-inputs" type="text" v-model="digicode[0]" autofocus required>    
+                <input id="index2" class="digit-inputs" type="text" v-model="digicode[1]" required>
+                <input id="index3" class="digit-inputs" type="text" v-model="digicode[2]" required>
+                <input id="index4" class="digit-inputs" type="text" v-model="digicode[3]" required>
+            </form>
         </b-row>
-        <b-row v-else-if="journalEvent === 'opening' || journalEvent === 'opened'">
-            <post v-if="pageNumber > 0" class="posts" :journalId="0" :id="posts[pageNumber].id" :text="posts[pageNumber].text" :name="posts[pageNumber].name" :page="posts[pageNumber].id"></post>
-            <post v-if="pageNumber > 0" class="posts" :journalId="0" :id="posts[pageNumber+1].id" :text="posts[pageNumber+1].text" :name="posts[pageNumber+1].name" :page="posts[pageNumber+1].id"></post>
+        <b-row v-else-if="journalEvent !== 'closed'">
+            <post v-if="pageNumber > 0" class="left-post" :journalId="0" :id="posts[pageNumber].id" :text="posts[pageNumber].text" :name="posts[pageNumber].name" :page="posts[pageNumber].id"></post>
+            <post v-if="pageNumber > 0" class="right-post" :journalId="0" :id="posts[pageNumber+1].id" :text="posts[pageNumber+1].text" :name="posts[pageNumber+1].name" :page="posts[pageNumber+1].id"></post>
             <button v-if="pageNumber < posts.length-2" class="change-page-right" @click="changePage(2)"><img :src="serverURL + 'static/icons/arrow-right.png'"/></button>
             <button v-if="pageNumber >= 0" class="change-page-left" @click="changePage(-2)"><img :src="serverURL + 'static/icons/arrow-left.png'"/></button>   
         </b-row>
@@ -24,7 +23,6 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import { getFileByParam } from "@/services/bareback";
-import { select, selectAll } from "d3-selection";
 import Post from "./post";
 
 export default {
@@ -49,9 +47,7 @@ export default {
 
     beforeDestroy() {
         this.$store.commit("updateJournalStatus", "closed");
-        this.$store.commit("updateJournalFrame", "static/icons/eundI1.png");
-        this.posts = null;
-        this.digicode = null;
+        this.$store.commit("updateJournalFrame", "static/icons/eundi1.png");
     },
 
     computed: {
@@ -85,25 +81,28 @@ export default {
             //selectAll(".posts").style("opacity", this.journalStatus === "opened" ? "1" : "0");
             if (this.pageNumber > 0) {
                 setTimeout(() => {
-                    this.$store.commit("updateJournalStatus", "opening");
-                    this.$store.commit("updateJournalFrame", "static/icons/eundI2.png");
-                    selectAll(".posts").style("opacity", "0");
                     this.loadHtmlFile(this.pageNumber);
+                    this.$store.commit("updateJournalStatus", "opening");
+                    this.$store.commit("updateJournalFrame", "static/icons/eundi2.png");
+                    this.$el.querySelector(".left-post").style.opacity = 0;
+                    this.$el.querySelector(".right-post").style.opacity = 0;
                 }, 500);
                 setTimeout(() => {
-                    this.$store.commit("updateJournalFrame", "static/icons/eundI3.png");
-                    this.$store.commit("updateJournalStatus", "opened");
-                    selectAll(".posts").style("opacity", "1");
                     this.loadHtmlFile(this.pageNumber + 1);
+                    this.$store.commit("updateJournalFrame", "static/icons/eundi3.png");
+                    this.$store.commit("updateJournalStatus", "opened");
+                    this.$el.querySelector(".left-post").style.opacity = 1;
+                    this.$el.querySelector(".right-post").style.opacity = 1;
                 }, 1000);
             } else {
                 setTimeout(() => {
                     this.$store.commit("updateJournalStatus", "opening");
-                    this.$store.commit("updateJournalFrame", "static/icons/eundI2.png");
-                    selectAll(".posts").style("opacity", "0");
-                }, 200);
+                    this.$store.commit("updateJournalFrame", "static/icons/eundi2.png");
+                    this.$el.querySelector(".left-post").style.opacity = 0;
+                    this.$el.querySelector(".right-post").style.opacity = 0;
+                }, 300);
                 setTimeout(() => {
-                    this.$store.commit("updateJournalFrame", "static/icons/eundI1.png");
+                    this.$store.commit("updateJournalFrame", "static/icons/eundi1.png");
                     this.$store.commit("updateJournalStatus", "closed");
                 }, 600);
             }
@@ -136,24 +135,82 @@ export default {
 </script>
 
 <style lang="scss">
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    #qr-journal {
+
+        #journal {
+            height: 500px !important;
+        }
+
+        #digicode {
+            position: absolute;
+            top: 332px !important;
+            left: 115px !important;
+            input {
+                height: 30px !important;
+                width: 10px !important;
+                font-size: 1.1rem !important;
+                margin-left: 2px;
+                margin-right: 2px !important;
+            }
+            #authButton {
+                width: 25px !important;
+                height: 20px !important;
+                margin-right: 5px !important;
+            }
+        }
+
+        .left-post {
+            top: 170px !important;
+            left: 40px !important;
+        }
+
+        .right-post {
+            top: 170px !important;
+            left: 350px !important;
+        }
+
+        .change-page-right {
+            position: absolute;
+            height: 30px !important;
+            width: 50px !important;
+            top: 570px !important;
+            left: 595px !important;
+        }
+
+        .change-page-left {
+            position: absolute;
+            height: 30px !important;
+            width: 50px !important;
+            top: 570px !important;
+            left: 50px !important;
+        }
+
+        #post-editor {
+            font-size: 90% !important;
+            height: 350px !important;
+        }
+    }
+}
+
 #qr-journal {
     margin-top: 50px;
     font-family: "GaramondNo8-Regular";
 
     #journal {
-        img {
-            width: auto;
-            max-height: 100%;
-        }
+        width: auto;
+        height: 800px;
     }
-
     #digicode {
         position: absolute;
-        top: 350px;
-        left: 125px;
+        top: 464px;
+        left: 176px;
         input {
             height: 40px;
-            width: 13px;
+            width: 23px;
+            font-size: 1.5rem;
             margin-left: 2px;
             margin-right: 2px;
             background-color: transparent;
@@ -161,10 +218,10 @@ export default {
             border: 0px;
         }
         #authButton {
-            width: 27px;
-            height: 20px;
+            width: 40px;
+            height: 30px;
             background-color: #029ea8;
-            margin-right: 5px;
+            margin-right: 12px;
             border-radius: 25px;
             cursor: pointer;
         }
@@ -176,19 +233,23 @@ export default {
             cursor: pointer;
         }
         input:focus {
-            border: 1px;
+            border: 0px;
             border-color: blue !important;
         }
     }
 
-    .posts {
+    .left-post {
         opacity: 0;
-        position: relative;
-        top: -440px;
-        margin-left: 55px;
-        margin-right: 0px;
-        width: 250px;
-        height: 250px;
+        position: absolute;
+        top: 200px;
+        left: 65px;
+    }
+
+    .right-post {
+        opacity: 0;
+        position: absolute;
+        top: 200px;
+        left: 565px;
     }
 
     .change-page-right {
@@ -197,12 +258,12 @@ export default {
         border: none;
         height: 35px;
         width: 60px;
-        top: 550px;
-        left: 555px;
+        top: 850px;
+        left: 955px;
         cursor: pointer;
         img {
             width: 100%;
-            z-index: 3000;
+            z-index: 2000;
         }
     }
     .change-page-left {
@@ -211,12 +272,18 @@ export default {
         border: none;
         height: 35px;
         width: 60px;
-        top: 550px;
-        left: 50px;
+        top: 850px;
+        left: 60px;
         cursor: pointer;
         img {
             width: 100%;
+            z-index: 2000;
         }
+    }
+
+    #post-editor {
+        font-size: 100%;
+        height: 590px;
     }
 }
 </style>

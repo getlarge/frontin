@@ -112,11 +112,7 @@ export default {
             icon1: state => state.menu.icon1,
             icon2: state => state.menu.icon2,
             chatInit: state => state.menu.chat,
-            tutorial: state => state.menu.tutorial,
-            // to access local state with `this`, a normal function must be used
-            // countPlusLocalState (state) {
-            //   return state.count + this.localCount
-            // }
+            tutorial: state => state.menu.tutorial
         }),
     },
 

@@ -18,12 +18,12 @@
             </b-row>
             <b-row v-if="contactCard === false" align-h="center">
                 <b-col xs="4" sm="4" lg="3">
-                    <a class="doors" href="#/experience" title="Enter" >
+                    <a class="doors" accesskey="E" href="#/experience" title="Enter" >
                         <img class="signs" @mouseover="$store.commit('updateHomeIcons', {id:0, path:'static/icons/info2.png'})"  @mouseout="$store.commit('updateHomeIcons', {id:0, path:'static/icons/info.png'})" :src="serverURL+icon1" alt="info icon" />
                     </a>
                 </b-col>
                 <b-col xs="4" sm="4" lg="3" >
-                    <a class="doors" @click="toggleCard" title="Contact" >  
+                    <a class="doors" accesskey="C" @click="toggleCard" title="Contact" >  
                         <img @mouseover="$store.commit('updateHomeIcons', {id:1, path:'static/icons/letter2.png'})" @mouseout="$store.commit('updateHomeIcons', {id:1, path:'static/icons/letter.png'})" class="signs" :src="serverURL+icon2" alt="hi icon" />
                     </a>
                 </b-col>
@@ -159,18 +159,23 @@ export default {
     },
 
     mounted() {
-        var self = this;
         this.g = select("#svg").append("g");
         this.updateTitle(this.letters);
-        this.interv = interval(function() {
+        this.interv = interval(() => {
             /// Once the counter hits a multiple of 3, show initial title
-            self.updateCounter % 3 === 0
-                ? self.updateTitle(self.letters)
-                : self.updateTitle(shuffle(self.updatedLetters));
-        }, self.settings.duration / 2);
+            this.updateCounter % 3 === 0
+                ? this.updateTitle(this.letters)
+                : this.updateTitle(shuffle(this.updatedLetters));
+        }, this.settings.duration / 2);
 
         EventBus.$on("start:tutorial", i => {
-            EventBus.$emit("update:tutorial", "Home", this.tutorialText, this.tutorialTags, this.tutorialImg);
+            EventBus.$emit(
+                "update:tutorial",
+                "Home",
+                this.tutorialText,
+                this.tutorialTags,
+                this.tutorialImg
+            );
         });
     },
 
@@ -351,7 +356,7 @@ export default {
             height: 280px;
             font-size: 85%;
         }
-        
+
         .card-mobile {
             font-size: 70% !important;
         }
@@ -399,7 +404,6 @@ export default {
             }
         }
     }
-
 }
 
 #svg {
@@ -407,11 +411,7 @@ export default {
     margin-left: 12%;
 }
 
-
 .with-shadow {
     box-shadow: 0 0 0 0 !important;
 }
-
-
-
 </style>

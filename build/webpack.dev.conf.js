@@ -67,9 +67,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
                 ignore: [".*"]
             }
         ]),
+        // new webpack.ProvidePlugin({
+        //     $: "jquery",
+        //     jQuery: "jquery"
+        // }),
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
+            "window.Quill": "quill/dist/quill.js",
+            "quill": "quill/dist/quill.js"
         })
     ]
 });

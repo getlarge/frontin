@@ -252,13 +252,12 @@ export default {
     margin: 20px 0;
 }
 
-/* 
-    Generic Styling, for Desktops/Laptops 
-    */
+/* Generic Styling, for Desktops/Laptops */
 #aloes-table table {
     width: 100%;
     border-collapse: collapse;
 }
+
 /* Zebra striping */
 #aloes-table tr:nth-of-type(odd) {
     background: #eee;
@@ -336,9 +335,7 @@ th {
         white-space: nowrap;
     }
 
-    /*
-        Label the data
-        */
+    /* Label the data */
     #aloes-table td:before {
         content: attr(data-th) ": ";
         font-weight: bold;

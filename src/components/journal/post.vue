@@ -1,19 +1,49 @@
 <template>
 
-    <div id="post" ref="post">
-        <input id="post-title" type="text" v-model="post.name" required>    
-        <textarea id="post-editor" ref="editor" :placeholder="text" :name="name" autofocus></textarea> 
-        <button id="post-button" @click="addPost('text', post)"> Save</button>
-        <div id="qr-holder" ref="qrHolder"></div>
-    </div>
+    <b-container id="post" ref="post">
+        <vue-editor
+            id="post-editor" 
+            :placeholder="text"
+            :customModules="customModulesForEditor"
+            :editorToolbar="customToolbar"
+            :editorOptions="editorSettings"
+            v-model="post.text"
+            @text-change=""    
+            useCustomImageHandler
+            @imageAdded="addImage">
+        </vue-editor> 
+        <b-row v-if="post.page % 2 !== 0">
+            <b-col xs="1" sm="1" lg="1" >
+                <button id="post-button" @click="addPost('text', post)"> Save</button>
+            </b-col >
+            <b-col xs="3" sm="3" lg="3" >
+                <input id="post-title" type="text" v-model="post.name" required>
+            </b-col >
+            <b-col  xs="2" sm="2" lg="1" >
+                <div id="qr-holder" ref="qrHolder"></div> 
+            </b-col>
+        </b-row>
+        <b-row v-if="post.page % 2 === 0">
+            <b-col xs="2" sm="2" lg="1" >
+                <div id="qr-holder" ref="qrHolder"></div> 
+            </b-col>
+            <b-col xs="3" sm="3" lg="3" >
+                <input id="post-title" type="text" v-model="post.name" required>
+            </b-col >
+            <b-col xs="1" sm="1" lg="1" >
+                <button id="post-button" @click="addPost('text', post)"> Save</button>
+            </b-col >
+        </b-row>
+    </b-container>
 
 </template>
 
 <script>
-require("simditor/styles/simditor.css");
-import Simditor from "simditor";
-import * as qrcode from "qrcode-generator";
-import { select, selectAll } from "d3-selection";
+//import { VueEditor, Quill } from "vue2-editor";
+import { VueEditor } from "vue2-editor";
+import { ImageDrop } from "quill-image-drop-module";
+import ImageResize from "quill-image-resize-module";
+import qrcode from "qrcode-generator";
 import { upload } from "@/services/bareback";
 import { mapState, mapActions } from "vuex";
 
@@ -22,12 +52,25 @@ const STATUS_INITIAL = 0,
     STATUS_SUCCESS = 2,
     STATUS_FAILED = 3;
 
+// Quill.register("modules/imageDrop", ImageDrop);
+// Quill.register('modules/imageResize', ImageResize)
+
 export default {
     props: ["journalId", "id", "text", "textUrl", "name", "page"],
-
     data() {
         return {
-            editor: {},
+            editorSettings: {
+                modules: {
+                    toolbar: false,
+                    imageDrop: true,
+                    imageResize: {}
+                }
+            },
+            customModulesForEditor: [
+                { alias: 'imageDrop', module: ImageDrop },
+                { alias: 'imageResize', module: ImageResize }
+            ],
+            customToolbar: [["bold", "italic", "underline", "image"]],
             post: {
                 id: this.id || 0,
                 name: this.name || "",
@@ -39,17 +82,21 @@ export default {
         };
     },
 
+    components: {
+        VueEditor
+    },
+
     created() {},
 
     mounted() {
         //console.log(this)
-        this.createQR(this.typeNumber, this.errorCorrectionLevel);
-        this.initEditor();
+
     },
 
     updated() {
         console.log("post " + this.page + " updated");
-        //selectAll("#qr-holder").remove();
+        this.$el.querySelector("#qr-holder").innerHTML = "";
+
     },
 
     beforeDestroy() {},
@@ -57,41 +104,25 @@ export default {
     watch: {},
 
     computed: {
-        ...mapState({
-            serverURL: state => state.base.serverURL
-            //post: state => state.journal.posts[this.page]
-        }),
         ...mapActions({
             savePost: "save"
         })
     },
 
     methods: {
-        initEditor() {
-            this.editor = new Simditor({
-                textarea: $(this.$refs.editor),
-                toolbarHidden: true,
-                toolbar: ["title", "bold", "italic", "underline", "fontScale"],
-                params: {}
-            });
-            this.editor.on("valuechanged", (e, src) => {
-                //console.log('valuechanged', src)
-                this.post.text = this.editor.getValue();
-            });
-        },
 
         setTextArea(text) {
-            this.editor.setValue(text);
+            //this.editor.setValue(text);
+            this.post.text = text;
         },
 
         setTitle(text) {
             this.post.name = text;
         },
-        /// move the two next methods to state actions
+        /// todo : move the two next methods to state actions
         addPost(resource, post) {
             //console.log("addItem", resource, post);
             var data = new File([post.text], post.name + ".html", { type: "text/html" });
-            //console.log(data);
             if (!data.size) return;
             const formData = new FormData();
             formData.append(resource, data, post.name + ".html");
@@ -99,20 +130,19 @@ export default {
             formData.append("page", this.page);
             // this.$store.commit("updateFormData", formData);
             // this.$store.dispatch('save')
-            this.save(resource, formData);
+            this.saveText(resource, formData, "page/" + this.page);
         },
 
-        save(resource, formData) {
+        saveText(resource, formData, filter) {
             this.currentStatus = STATUS_SAVING;
-            upload(resource, formData, "page/" + this.page)
+            upload(resource, formData, filter)
                 //.then(wait(1500)) // DEV ONLY: wait for 1.5s
                 .then(res => {
                     //console.log("uploaded : ", this.uploadedFiles);
                     this.uploadedFiles = [].concat(res);
                     this.currentStatus = STATUS_SUCCESS;
-                    this.pushQRCode(this.uploadedFiles[0].url);
+                    this.createQRCode(this.uploadedFiles[0].url);
                     /// commit response id in the corresponding page ( in the store )
-                    //EventBus.$emit("file-uploader", resource, this.uploadedFiles);
                 })
                 .catch(err => {
                     //console.log("uploaded : ", err);
@@ -121,18 +151,52 @@ export default {
                 });
         },
 
-        createQR(typeNumber, errorCorrectionLevel) {
-            this.qr = qrcode(typeNumber, errorCorrectionLevel);
+        addImage(file, Editor, cursorLocation) {
+            const formData = new FormData();
+            //console.log(file)
+            if (!file.size) return;
+            formData.append("images", file, file.name);
+            console.log(file.name);
+            //console.log(formData);
+            upload("image", formData, "name/" + file.name)
+                .then(res => {
+                    console.log(res);
+                    this.uploadedFiles = [].concat(res);
+                    this.currentStatus = STATUS_SUCCESS;
+                    let url = this.uploadedFiles[0].url; 
+                    Editor.insertEmbed(cursorLocation, "image", url);
+                    // resetUploader();
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.uploadError = err.response;
+                    this.currentStatus = STATUS_FAILED;
+                });
         },
 
-        pushQRCode(data) {
+        saveImage(resource, formData, filter) {
+            this.currentStatus = STATUS_SAVING;
+            upload(resource, formData, filter)
+                .then(res => {
+                    console.log(res);
+                    this.uploadedFiles = [].concat(res);
+                    this.currentStatus = STATUS_SUCCESS;
+                    let url = this.uploadedFiles[0].url; // Get url from response
+                    // Editor.insertEmbed(cursorLocation, "image", url);
+                    // resetUploader();
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.uploadError = err.response;
+                    this.currentStatus = STATUS_FAILED;
+                });
+        },
+
+        createQRCode(data) {
             this.qr = qrcode(this.typeNumber, this.errorCorrectionLevel);
             this.qr.addData(data);
             this.qr.make();
-            select(this.$refs.qrHolder)
-                .attr("class", "qrCode")
-                //.html(this.qr.createSvgTag());
-                .html(this.qr.createImgTag());
+            this.$el.querySelector("#qr-holder").innerHTML = this.qr.createImgTag();
         }
     }
 };
@@ -159,30 +223,17 @@ export default {
 
     #post-title {
         border: 0px !important;
-        text-align: center;
+
     }
 
     #post-button {
-        align-items: center;
     }
 
-    .simditor {
-        border-color: #d8d8d8;
-        border-radius: 6px;
-        border: 0px;
-    }
-
-    .simditor-body {
+    #post-editor {
         font-family: "GaramondNo8-Regular" !important;
-        font-size: 90%;
-        height: 320px;
+        width: 100%;
+        border: 0px !important;
     }
 
-    textarea {
-        border-color: #d8d8d8;
-        border-radius: 6px;
-        height: 250px;
-        width: 90%;
-    }
 }
 </style>

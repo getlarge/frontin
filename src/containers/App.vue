@@ -11,7 +11,7 @@ import mqttClient from "@/services/mqtt-client";
 import topNav from "@/containers/menu-navigation";
 import bottomNav from "@/containers/footer-navigation";
 import { EventBus } from "@/main";
-import { select, selectAll } from "d3-selection";
+import { localStore } from "@/services/localStore";
 
 export default {
     name: "App",
@@ -23,6 +23,9 @@ export default {
     data() {
         return {
             appName: "getlarge",
+            path: this.$route.name,
+            agent: "",
+            sessionId: 0,
             client: new mqttClient(),
             showLocale: false,
             showNav: false
@@ -41,34 +44,55 @@ export default {
     // },
 
     created() {
-        const sessionId = this.$localStorage.get("sessionId");
-        const userAgent = this.$localStorage.get("userAgent");
         console.log(
             "%c getlarge.eu - 2018 ",
-            "background: #33b277; color: white; display: block; border-radius: 5px; font-size: 16px;"
+            "background: #33b277; color: white; display: block; width: 140px; border-radius: 5px; font-size: 12px;"
         );
-        console.log("guest_" + userAgent + " connected")
-        console.log("session #" + sessionId)
+        //console.log(this)
         this.client.openStream();
-        this.client.sub(this.appName + "/#");
-        this.client.sendMessage(this.appName + "/" + this.$route.name + "/sessions", sessionId);
-        //this.client.sendMessage(this.appName + "/logs", userAgent + "_" + sessionId + " connected");
-        this.client.sendMessage(this.appName + "/stat", "connected");
+        const id = localStore.getRandomInt(1000, 5000);
+        this.checkNavigator();
+        localStore.initStorage(this.agent, id);
+        this.sessionId = localStore.getStorage("sessionId");
+        // console.log(this.agent);
+        // console.log("session #" + this.sessionId);
     },
 
     mounted() {
-        this.rightClickPrevent();
+        this.client.sub(this.appName + "/#");
+        this.client.sendMessage(
+            this.appName +
+                "/sessions/" +
+                this.agent +
+                "_" +
+                this.sessionId +
+                "/" +
+                this.$route.name,
+            "opened"
+        );
+        this.client.sendMessage(this.appName + "/stat", "connected");
+        //this.rightClickPrevent();
     },
 
     updated() {
-        this.rightClickPrevent();
+        this.client.sendMessage(
+            this.appName +
+                "/sessions/" +
+                this.agent +
+                "_" +
+                this.sessionId +
+                "/" +
+                this.$route.name,
+            "opened"
+        );
+        this.client.sendMessage(this.appName + "/stat", "connected");
     },
 
     beforeDestroy() {
         this.client.sendMessage(this.appName + "/stat", "disconnected");
         this.client.close();
         EventBus.$off();
-        this.$localStorage.remove("sessionId")
+        this.$localStorage.remove("sessionId");
     },
 
     watch: {},
@@ -88,11 +112,37 @@ export default {
         //     })
         // },
 
-        rightClickPrevent() {
-            selectAll("img").on("contextmenu", function() {
-                event.preventDefault();
-            });
+        checkNavigator() {
+            var sBrowser,
+                sUsrAg = navigator.userAgent;
+            if (sUsrAg.indexOf("Firefox") > -1) {
+                sBrowser = "Firefox";
+                //"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
+            } else if (sUsrAg.indexOf("Opera") > -1) {
+                sBrowser = "Opera";
+            } else if (sUsrAg.indexOf("Trident") > -1) {
+                sBrowser = "Internet Explorer";
+                //"Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; Zoom 3.6.0; wbx 1.0.0; rv:11.0) like Gecko"
+            } else if (sUsrAg.indexOf("Edge") > -1) {
+                sBrowser = "Edge";
+                //"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299"
+            } else if (sUsrAg.indexOf("Chrome") > -1) {
+                sBrowser = "Chrome";
+                //"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/66.0.3359.181 Chrome/66.0.3359.181 Safari/537.36"
+            } else if (sUsrAg.indexOf("Safari") > -1) {
+                sBrowser = "Safari";
+                //"Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1 980x1306"
+            } else {
+                sBrowser = "unknown";
+            }
+            this.agent = sBrowser;
         }
+
+        // rightClickPrevent() {
+        //     selectAll("img").on("contextmenu", function() {
+        //         event.preventDefault();
+        //     });
+        // }
     }
 };
 </script>

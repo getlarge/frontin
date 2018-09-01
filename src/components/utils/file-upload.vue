@@ -76,9 +76,9 @@ export default {
     },
 
     updated() {
-        if (this.currentStatus === STATUS_FAILED) {
-            console.log("error", this.uploadError);
-        }
+        // if (this.currentStatus === STATUS_FAILED) {
+        //     console.log("error", this.uploadError);
+        // }
     },
 
     computed: {
@@ -111,9 +111,9 @@ export default {
             this.currentStatus = STATUS_SAVING;
             upload(resource, formData, "name/"+name)
                 //.then(wait(1500)) // DEV ONLY: wait for 1.5s
-                .then(x => {
+                .then(res => {
                     //this.$store.state.uploadedFiles = [].concat(x);
-                    this.uploadedFiles = [].concat(x);
+                    this.uploadedFiles = [].concat(res);
                     this.currentStatus = STATUS_SUCCESS;
                     //this.inputUpdate(this.$store.state.uploadedFiles);
                     // console.log("uploaded : ", this.uploadedFiles);
@@ -136,6 +136,7 @@ export default {
                 formData.append(fieldName, fileList[x], fileList[x].name);
             });
             //console.log("formData", formData)
+            //console.log("file", fileList[0])
             this.save(resource, formData, fileList[0].name);
         }
     }

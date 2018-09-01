@@ -118,9 +118,12 @@ const webpackConfig = merge(baseWebpackConfig, {
             }
         ]),
 
+        // new webpack.ProvidePlugin({
+        //     $: "jquery",
+        //     jQuery: "jquery"
+        // }),
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
+            "window.Quill": "quill/dist/quill.js"
         })
     ]
 });

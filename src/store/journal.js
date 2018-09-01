@@ -121,7 +121,7 @@ const state = {
     arrowRight: "static/icons/arrow-right.png",
     arrowLeft: "static/icons/arrow-left.png",
     journalEvent: "closed",
-    journalFrame: "static/icons/eundI1.png",
+    journalFrame: "static/icons/eundi1.png",
     counter: 0,
     pageNumber: 0,
     digicode: ["0", "0", "0", "0"],
@@ -214,4 +214,4 @@ const journal = {
     actions: actions
 };
 
-export { state, mutations, getters, action, journal };
+export { state, mutations, getters, actions, journal };

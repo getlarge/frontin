@@ -98,10 +98,13 @@ import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import { event, select, selectAll } from "d3-selection";
 import { active, transition } from "d3-transition";
 import { tree } from "vued3tree";
-import data from "@/../static/data/mqtt"; /// todo: fetch the json from the http server or the broker storage ?
+import data from "@/../static/data/mqtt"; 
 import { EventBus } from "@/main";
 
+/// todo: fetch the json from the http server or the broker storage ?
 /// todo: assign marginY & x values based on window size
+/// add tree viz in child component
+/// stop animation propag on selected node's children
 Object.assign(data, {
     type: "tree",
     layoutType: "euclidean",

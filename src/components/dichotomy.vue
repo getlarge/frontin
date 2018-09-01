@@ -74,7 +74,6 @@ export default {
     created() {},
 
     mounted() {
-        var self = this;
         this.regenerate("createTree");
         EventBus.$on("start:tutorial", i => {
             var text =
@@ -104,7 +103,6 @@ export default {
     methods: {
         // Tree creation functions
         branch(b) {
-            var self = this;
             var end = this.endPt(b),
                 daR,
                 newB;
@@ -121,7 +119,7 @@ export default {
                 d: b.d + 1,
                 parent: b.i
             };
-            self.branch(newB);
+            this.branch(newB);
             // Right branch
             daR = this.ar * Math.random() - this.ar * 0.5;
             newB = {
@@ -133,7 +131,7 @@ export default {
                 d: b.d + 1,
                 parent: b.i
             };
-            self.branch(newB);
+            this.branch(newB);
         },
 
         // D3 functions
@@ -168,7 +166,10 @@ export default {
             var colour =
                 event.type === "mouseover"
                     ? "#17a2b8"
-                    : interpolateHclLong(rgb(this.colorSet[0].color1), rgb(this.colorSet[0].color2));
+                    : interpolateHclLong(
+                          rgb(this.colorSet[0].color1),
+                          rgb(this.colorSet[0].color2)
+                      );
             var depth = d.d;
             for (var i = 0; i <= depth; i++) {
                 select("#branch-" + parseInt(d.i)).style("stroke", colour);
@@ -190,8 +191,14 @@ export default {
                         .attr("opacity", this.opacity)
                         .attr("x1", this.x1)
                         .attr("y1", this.y1)
-                        .attr("x2", d.d >= this.maxDepth - 2 ? d.x + d.l * Math.sin(d.a - 0.1) : this.x2)
-                        .attr("y2", d.d >= this.maxDepth - 2 ? d.y + d.l * Math.sin(d.a - 0.1) : this.y2);
+                        .attr(
+                            "x2",
+                            d.d >= this.maxDepth - 2 ? d.x + d.l * Math.sin(d.a - 0.1) : this.x2
+                        )
+                        .attr(
+                            "y2",
+                            d.d >= this.maxDepth - 2 ? d.y + d.l * Math.sin(d.a - 0.1) : this.y2
+                        );
                     d = this.branches[d.parent];
                 }
             } else {
@@ -208,7 +215,10 @@ export default {
         },
 
         createBranches() {
-            var color = interpolateHclLong(rgb(this.colorSet[1].color1), rgb(this.colorSet[1].color2));
+            var color = interpolateHclLong(
+                rgb(this.colorSet[1].color1),
+                rgb(this.colorSet[1].color2)
+            );
             var that = this;
             select("#branches")
                 .selectAll("line")
@@ -216,9 +226,7 @@ export default {
                 .enter()
                 .append("line")
                 // curve effect
-                .style("stroke", function(d) {
-                    return color(d.l / 40);
-                })
+                .style("stroke", d => color(d.l / 40))
                 .attr("class", "branches")
                 .style("stroke-width", this.stroke)
                 //.style("stroke", "#C6C6C6")
@@ -227,9 +235,7 @@ export default {
                 .attr("y1", this.y1)
                 .attr("x2", this.x2)
                 .attr("y2", this.y2)
-                .attr("id", function(d) {
-                    return "branch-" + d.i;
-                })
+                .attr("id", d => "branch-" + d.i )
                 //.attr('parent-id', function(d) {return 'id-'+d.parent;})
                 .on("mouseover", this.highlightParents)
                 .on("mouseout", this.highlightParents);
@@ -271,15 +277,14 @@ export default {
         },
 
         updateTimer() {
-            var self = this;
             if (this.timer === false) {
                 this.timer = true;
-                self.regenerate("updateTree");
-                this.interv = interval(function() {
-                    self.regenerate("updateTree");
-                }, self.settings.duration);
+                this.regenerate("updateTree");
+                this.interv = interval(() => {
+                    this.regenerate("updateTree");
+                }, this.settings.duration);
             } else {
-                self.interv.stop();
+                this.interv.stop();
                 this.timer = false;
             }
         },

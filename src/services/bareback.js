@@ -10,8 +10,16 @@ const auth = "Basic " + new Buffer(username + ":" + password).toString("base64")
 //axios.defaults.headers.common['Authorization'] = auth;
 //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
+// upload: load a collection via bareback API
+//   params:
+//       resource <string>  : collection name to load
+//       formData <object>  : database instance
+//       filter <string>  : filter applied to result
+//   returns:
+//       <object> : return saved file
 function upload(resource, formData, filter) {
     const url = `${BASE_URL}${resource}s`;
+    //console.log(resource,formData, filter);
     //console.log("url",url);
     return (
         axios
@@ -22,7 +30,6 @@ function upload(resource, formData, filter) {
             .then(res =>
                 res.map(file =>
                     Object.assign({}, file, {
-                        //url: `${BASE_URL}${resource}s/name/${file.originalName}`
                         url: `${BASE_URL}${resource}s/${filter}`
                     })
                 )
@@ -43,16 +50,6 @@ function getFilesByFormat(resource) {
             console.log(error);
         });
 }
-
-// function getFileByParam(resource, param, name) {
-//     const url = `${BASE_URL}${resource}s/${param}/${name}`;
-//     return new Promise((resolve) => {
-//         db.loadDatabase({}, () => {
-//             const _collection = db.getCollection(colName) || db.addCollection(colName);
-//             resolve(_collection);
-//         });
-//     });
-// };
 
 function getFileByParam(resource, param, name) {
     const url = `${BASE_URL}${resource}s/${param}/${name}`;
