@@ -3,27 +3,27 @@
     <div class="block" id="cv">
         <mq-layout class="pdfExport-mobile" mq="mobile">
             <v-touch title="export pdf" class="pdfExport" v-on:tap="transformPdf" >
-                <font-awesome-icon :icon="['fas', 'download']" size="2x" alt="download"/>
+                <font-awesome-icon icon="download" size="2x" alt="download"/>
             </v-touch>
         </mq-layout>
         <mq-layout class="pdfExport-tablet" mq="tablet">
             <v-touch title="export pdf" class="pdfExport" v-on:tap="transformPdf" >
-                <font-awesome-icon :icon="['fas', 'download']" size="2x" alt="download"/>
+                <font-awesome-icon icon="download" size="2x" alt="download"/>
             </v-touch>
         </mq-layout>        
         <mq-layout class="pdfExport-laptop" mq="laptop">
             <button title="export pdf" class="pdfExport" @click="transformPdf">
-                <font-awesome-icon :icon="['fas', 'download']" size="2x" alt="download"/>
+                <font-awesome-icon icon="download" size="2x" alt="download"/>
             </button>
         </mq-layout>
         <mq-layout class="pdfExport-desktop" mq="desktop">
             <button title="export pdf" class="pdfExport" @click="transformPdf">
-                <font-awesome-icon :icon="['fas', 'download']" size="2x" alt="download"/>
+                <font-awesome-icon icon="download" size="2x" alt="download"/>
             </button>
         </mq-layout>
         <mq-layout class="pdfExport-xxl" mq="xxl">
             <button title="export pdf" class="pdfExport" @click="transformPdf">
-                <font-awesome-icon :icon="['fas', 'download']" size="3x" alt="download"/>
+                <font-awesome-icon icon="download" size="3x" alt="download"/>
             </button>
         </mq-layout>
 
@@ -36,19 +36,19 @@
                     </div>
                     <div class='infos'>
                         <h3><a :href="'tel:'+tel">
-                            <font-awesome-icon class="icons" :icon="['fas', 'phone']" size="sm" /> {{tel}} 
+                            <font-awesome-icon class="icons" icon="phone" size="sm" /> {{tel}} 
                         </a></h3>
                         <h3><a :href="'mailto:ed@'+domain">
-                            <font-awesome-icon class="icons" :icon="['fas', 'envelope-open']" size="sm" /> ed@{{domain}}
+                            <font-awesome-icon class="icons" icon="envelope-open" size="sm" /> ed@{{domain}}
                         </a></h3>
                         <h3><a :href="'https://'+domain" target='_blank'>
-                            <font-awesome-icon class="icons" :icon="['fas', 'link']" size="sm" /> {{domain}}
+                            <font-awesome-icon class="icons" icon="link" size="sm" /> {{domain}}
                         </a></h3>
                         <h3><a>
-                            <font-awesome-icon class="icons" :icon="['fas', 'home']" size="sm" /> 95 rue Paul Bellamy 44000 NANTES
+                            <font-awesome-icon class="icons" icon="home" size="sm" /> 95 rue Paul Bellamy 44000 NANTES
                         </a></h3>
                         <h3><a>
-                            <font-awesome-icon class="icons" :icon="['fas', 'language']" size="sm" /> Français (<font-awesome-icon class="icons" v-for="item in fr" :key="item.id" :icon="['fas', 'star']" size="xs" />) Anglais (<font-awesome-icon class="icons" v-for="item in en" :key="item.id" :icon="['fas', 'star']" size="xs" />) Allemand (<font-awesome-icon class="icons" v-for="item in de" :key="item.id" :icon="['fas', 'star']" size="xs" />)
+                            <font-awesome-icon class="icons" icon="language" size="sm" /> Français (<font-awesome-icon class="icons" v-for="item in fr" :key="item.id" icon="star" size="xs" />) Anglais (<font-awesome-icon class="icons" v-for="item in en" :key="item.id" icon="star" size="xs" />) Allemand (<font-awesome-icon class="icons" v-for="item in de" :key="item.id" icon="star" size="xs" />)
                         </a></h3>             
                     </div>
                 </b-col>
@@ -138,7 +138,6 @@
 <script >
 
     import { mapState } from "vuex";
-    import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
     import { select, selectAll } from "d3-selection";
     import * as html2canvas from "html2canvas";
     import * as jsPDF from "jspdf";
@@ -153,10 +152,6 @@
                 en: [1,2,3],
                 de: [1],
             };
-        },
-
-        components: {
-            FontAwesomeIcon,
         },
 
         created() {

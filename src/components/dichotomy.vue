@@ -18,8 +18,8 @@
             </b-col>
             <b-col id="regenerate" xs="2" sm="1" md="1" lg="1">
                 <button @click="updateTimer()">
-                    <font-awesome-icon v-if="timer === false" :icon="['fas', 'play']" size="2x" />
-                    <font-awesome-icon v-else :icon="['fas', 'stop']" size="2x" /> 
+                    <font-awesome-icon v-if="timer === false" icon="play" size="2x"></font-awesome-icon>
+                    <font-awesome-icon v-else icon="stop" size="2x"></font-awesome-icon> 
                 </button>
             </b-col>
         </b-row>
@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import { rgb } from "d3-color";
 import { easeLinear } from "d3-ease";
 import { interpolateHclLong } from "d3-interpolate";
@@ -65,10 +64,6 @@ export default {
             ],
             timer: false
         };
-    },
-
-    components: {
-        FontAwesomeIcon
     },
 
     created() {},
@@ -235,7 +230,7 @@ export default {
                 .attr("y1", this.y1)
                 .attr("x2", this.x2)
                 .attr("y2", this.y2)
-                .attr("id", d => "branch-" + d.i )
+                .attr("id", d => "branch-" + d.i)
                 //.attr('parent-id', function(d) {return 'id-'+d.parent;})
                 .on("mouseover", this.highlightParents)
                 .on("mouseout", this.highlightParents);

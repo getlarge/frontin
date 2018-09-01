@@ -5,18 +5,18 @@
                 <div class="dropbox">
                     <input type="file" multiple :name="`${mimetype}s`" :disabled="isSaving" @change="filesChange(mimetype, $event.target.name, $event.target.files); fileCount = $event.target.files.length" :accept="`${mimetype}/*`" class="input-file">
                     <p v-if="isInitial">
-                        <font-awesome-icon :icon="['fas', 'plus']" size="2x" />
+                        <font-awesome-icon icon="plus" size="2x" />
                         {{ mimetype }} file(s) here to begin
                     </p>
                     <p v-if="isSaving">
-                        <font-awesome-icon :icon="['fas', 'spinner']" size="2x" />
+                        <font-awesome-icon icon="spinner" size="2x" />
                         Uploading {{ fileCount }} files...
                     </p>
                 </div>
             </form>
             <div v-if="isSuccess">
-                <p><font-awesome-icon :icon="['fas', 'smile']" size="xs" /> Success!</p>
-                <p><font-awesome-icon :icon="['fas', 'arrow-up']" size="xs" />
+                <p><font-awesome-icon icon="smile" size="xs" /> Success!</p>
+                <p><font-awesome-icon icon="arrow-up" size="xs" />
                     <a href="javascript:void(0)" @click="reset()">Upload again</a>
                 </p>
                 <div v-if="mimetype == 'audio'" v-for="item in uploadedFiles" >
@@ -32,9 +32,9 @@
             </div>
 
             <div v-if="isFailed">
-                <h2><font-awesome-icon :icon="['fas', 'frown']" size="xs" /> Failed.</h2>
+                <h2><font-awesome-icon icon="frown" size="xs" /> Failed.</h2>
                 <p>
-                    <font-awesome-icon :icon="['fas', 'arrow-up']" size="xs" />
+                    <font-awesome-icon icon="arrow-up" size="xs" />
                     <a href="javascript:void(0)" @click="reset()">Try again</a>
                 </p>
             </div>  
@@ -44,7 +44,6 @@
 
 <script>
 import VueAudio from "vue-audio";
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import { mapState } from "vuex";
 import { EventBus } from "@/main";
 import { upload } from "@/services/bareback";
@@ -67,8 +66,7 @@ export default {
     },
 
     components: {
-        VueAudio,
-        FontAwesomeIcon
+        VueAudio
     },
 
     mounted() {

@@ -6,8 +6,8 @@
                     <div id="tooltip">
                         <b-container  >
                             <div class="title">{{title}}</div>
-                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
-                            <v-touch class="close-button" v-on:tap="closeCard">  <font-awesome-icon :icon="['fas', 'times']" size="xs" /></v-touch>
+                            <button class="drag-button"> <font-awesome-icon icon="arrows-alt" size="xs" /> </button>
+                            <v-touch class="close-button" v-on:tap="closeCard">  <font-awesome-icon icon="times" size="xs" /></v-touch>
                             <b-row >
                                 <b-col xs="6" >
                                     <div v-if="settings.dragBoxWidth > settings.dragBoxHeight*2.2 ">
@@ -31,8 +31,8 @@
                     <div id="tooltip">
                         <b-container >
                             <div class="title">{{title}}</div>
-                            <button class="drag-button"> <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" /> </button>
-                            <v-touch class="close-button" v-on:tap="closeCard">  <font-awesome-icon :icon="['fas', 'times']" size="xs" /></v-touch>
+                            <button class="drag-button"> <font-awesome-icon icon="arrows-alt" size="xs" /> </button>
+                            <v-touch class="close-button" v-on:tap="closeCard">  <font-awesome-icon icon="times" size="xs" /></v-touch>
                             <b-row >
                                 <b-col xs="6"  >
                                     <div class="description">{{description}}</div>
@@ -54,10 +54,10 @@
                         <b-container >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> 
-                                <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> 
+                                <font-awesome-icon icon="arrows-alt" size="sm" /> 
                             </button>
                             <v-touch class="close-button" v-on:tap="closeCard">  
-                                <font-awesome-icon :icon="['fas', 'times']" size="sm" />
+                                <font-awesome-icon icon="times" size="sm" />
                             </v-touch>
                             <b-row >
                                 <b-col sm="5"  >
@@ -79,10 +79,10 @@
                         <b-container >
                             <div class="title">{{title}}</div>
                             <button class="drag-button"> 
-                                <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" /> 
+                                <font-awesome-icon icon="arrows-alt" size="sm" /> 
                             </button>
                             <v-touch class="close-button" v-on:tap="closeCard">  
-                                <font-awesome-icon :icon="['fas', 'times']" size="sm" />
+                                <font-awesome-icon icon="times" size="sm" />
                             </v-touch>
                             <b-row >
                                 <b-col sm="5"  >
@@ -107,10 +107,10 @@
                     <b-container fluid class="bv-example-row">
                         <div class="title">{{title}}</div>
                         <button class="drag-button" >
-                            <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" />
+                            <font-awesome-icon icon="arrows-alt" size="sm" />
                         </button>
                         <v-touch class="close-button" @click="closeCard" v-on:tap="closeCard">  
-                            <font-awesome-icon :icon="['fas', 'times']" size="sm" />
+                            <font-awesome-icon icon="times" size="sm" />
                         </v-touch>
                         <b-row >
                             <b-col  md="5" lg="5" >
@@ -133,10 +133,10 @@
                         <b-container >
                             <div class="title">{{title}}</div>
                             <button class="drag-button">
-                                <font-awesome-icon :icon="['fas', 'arrows-alt']" size="sm" />
+                                <font-awesome-icon icon="arrows-alt" size="sm" />
                             </button>
                             <button class="close-button" @click="closeCard">
-                                <font-awesome-icon :icon="['fas', 'times']" size="sm" />
+                                <font-awesome-icon icon="times" size="sm" />
                             </button>
                             <b-row >
                                 <b-col sm="5"  >
@@ -161,10 +161,10 @@
                     <b-container  fluid >
                         <div class="title">{{title}}</div>              
                         <button class="drag-button" > 
-                            <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> 
+                            <font-awesome-icon icon="arrows-alt" size="lg" /> 
                         </button>
                         <button class="close-button" @click="closeCard"> 
-                            <font-awesome-icon :icon="['fas', 'times']" size="lg" /> 
+                            <font-awesome-icon icon="times" size="lg" /> 
                         </button>
                         <b-row >
                             <b-col lg="5" >
@@ -188,10 +188,10 @@
                     <b-container  fluid >
                         <div class="title">{{title}}</div>
                         <button class="drag-button" > 
-                            <font-awesome-icon :icon="['fas', 'arrows-alt']" size="lg" /> 
+                            <font-awesome-icon icon="arrows-alt" size="lg" /> 
                         </button>
                         <button class="close-button" @click="closeCard"> 
-                            <font-awesome-icon :icon="['fas', 'times']" size="lg" /> 
+                            <font-awesome-icon icon="times" size="lg" /> 
                         </button>
                         <b-row >
                             <b-col xl="5" >
@@ -214,7 +214,6 @@
 <script>
 import { mapState } from "vuex";
 import VueDraggableResizable from "vue-draggable-resizable";
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import { event, select } from "d3-selection";
 import { EventBus } from "@/main";
 
@@ -238,8 +237,7 @@ export default {
     },
 
     components: {
-        VueDraggableResizable,
-        FontAwesomeIcon
+        VueDraggableResizable
     },
 
     mounted() {

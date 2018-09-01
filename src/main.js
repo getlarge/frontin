@@ -14,9 +14,44 @@ import VueTouch from "vue-touch";
 import BootstrapVue from "bootstrap-vue";
 require("bootstrap/dist/css/bootstrap.css");
 require("bootstrap-vue/dist/bootstrap-vue.css");
-import fontawesome from "@fortawesome/fontawesome";
-import brands from "@fortawesome/fontawesome-free-brands";
-import solid from "@fortawesome/fontawesome-free-solid";
+import { library, dom } from "@fortawesome/fontawesome-svg-core";
+import {
+    faCoffee,
+    faQuestionCircle,
+    faCircle,
+    faSpinner,
+    faExpand,
+    faCompress,
+    faSearchPlus,
+    faBinoculars,
+    faArrowsAlt,
+    faArrowUp,
+    faStop,
+    faPlay,
+    faTimes,
+    faSmile,
+    faPlus,
+    faFrown,
+    faToggleOn,
+    faToggleOff,
+    faDownload,
+    faPhone,
+    faEnvelopeOpen,
+    faLink,
+    faHome,
+    faLanguage,
+    faStar,
+    faPlusCircle,
+    faInfoCircle
+} from "@fortawesome/free-solid-svg-icons";
+
+import {
+    faTwitter,
+    faGitlab,
+    faLinkedinIn,
+    faRocketchat
+} from "@fortawesome/fontawesome-free-brands";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 Vue.config.silent = false;
 Vue.config.devtools = true;
@@ -47,7 +82,44 @@ Vue.use(VueMq, {
 });
 Vue.use(BootstrapVue);
 
-fontawesome.library.add(brands, solid);
+//fontawesome.library.add(brands, solid);
+library.add(
+    faTwitter,
+    faGitlab,
+    faLinkedinIn,
+    faRocketchat,
+    faCoffee,
+    faCircle,
+    faQuestionCircle,
+    faSpinner,
+    faExpand,
+    faCompress,
+    faSearchPlus,
+    faBinoculars,
+    faArrowsAlt,
+    faArrowUp,
+    faStop,
+    faPlay,
+    faTimes,
+    faSmile,
+    faPlus,
+    faFrown,
+    faToggleOn,
+    faToggleOff,
+    faDownload,
+    faPhone,
+    faEnvelopeOpen,
+    faLink,
+    faHome,
+    faLanguage,
+    faStar,
+    faPlusCircle,
+    faInfoCircle
+);
+
+dom.watch();
+
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.filter("formatSize", function(size) {
     if (size > 1024 * 1024 * 1024 * 1024) {
@@ -65,7 +137,6 @@ Vue.filter("formatSize", function(size) {
 // Vue.filter('toLocale', function (to) {
 //   return '/' + i18n.locale + to
 // })
-
 
 export const EventBus = new Vue();
 

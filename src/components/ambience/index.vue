@@ -6,7 +6,7 @@
                 <div id="edit-container" v-for="item in format">
                     <file-uploader :mimetype="item" > </file-uploader>
                 </div>
-                <button class="create-button" @click="addItem"><font-awesome-icon :icon="['fas', 'plus-circle']" size="3x" /> Create a new widget</button>
+                <button class="create-button" @click="addItem"><font-awesome-icon icon="plus-circle" size="3x" /> Create a new widget</button>
                 <!-- <div v-if="$refs.fileUploader.isSuccess">
                 </div> -->
                 <div v-if="as0.length > 0" >
@@ -32,7 +32,7 @@
                 <draggable  :list="as3" tag="div" class="dragArea" :options="{group:'sliders'}"  :move="checkMove" @end="endDrag" @start="startDrag">
                     <audio-slider  v-for="(element, index) in as3" :class="{'target': element===targetElement, 'ok':canDrag, 'ko':!canDrag}" :key="element.id" :icon="element.iconFile" :sources="element.audioSource" :loop="true" :draggable="true"  ></audio-slider>
                 </draggable>
-                <button class="log-button" @click="getBuffer"><font-awesome-icon :icon="['fas', 'info-circle']" size="lg" /> Logger</button>
+                <button class="log-button" @click="getBuffer"><font-awesome-icon icon="info-circle" size="lg" /> Logger</button>
             </b-col>
         </b-row>
         <!-- <div class="status">
@@ -57,7 +57,6 @@ import { interpolateHcl, interpolateHclLong } from "d3-interpolate";
 import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale";
 import { event, select, selectAll } from "d3-selection";
 import { active, transition } from "d3-transition";
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import draggable from "vuedraggable";
 import { EventBus } from "@/main";
 import audioSlider from "./audio-slider";
@@ -94,8 +93,7 @@ export default {
     components: {
         draggable,
         audioSlider,
-        fileUploader,
-        FontAwesomeIcon
+        fileUploader
     },
 
     created() {},

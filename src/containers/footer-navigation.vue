@@ -3,21 +3,17 @@
     <div id="bottom-nav">
         <hr class="my-4">
         <router-link class="prev" v-if="prev" :to="prev.path" >< {{ prev.title }}  -  </router-link>
-        <a class="source" :href="sourceHref" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']" /> {{ $route.name }}</a>
+        <a class="source" :href="sourceHref" target="_blank"><font-awesome-icon :icon="['fab', 'gitlab']"></font-awesome-icon> {{ $route.name }}</a>
         <router-link class="next" v-if="next" :to="next.path" >  -  {{ next.title }} > </router-link>
     </div>
     
 </template>
 
 <script>
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import { mapState } from "vuex";
 import { EventBus } from "@/main";
 
 export default {
-    components: {
-        FontAwesomeIcon
-    },
 
     data() {
         return {

@@ -3,33 +3,32 @@
     <div id="project-timeline" >
         <mq-layout class="selector-mobile" mq="mobile">
             <v-touch title="change display" class="selector" v-on:tap="changePage" >
-                <font-awesome-icon v-if="interactive === true" :icon="['fas', 'toggle-on']" size="2x" alt="switch"/>
-                <font-awesome-icon v-else-if="interactive === false" :icon="['fas', 'toggle-off']" size="2x" alt="switch"/> 
+                <font-awesome-icon v-if="interactive === true" icon="toggle-on" size="2x" alt="switch"/>
+                <font-awesome-icon v-else-if="interactive === false" icon="toggle-off" size="2x" alt="switch"/> 
             </v-touch>
         </mq-layout>
         <mq-layout class="selector-tablet" mq="tablet">
             <v-touch title="change display" class="selector" v-on:tap="changePage" >
-                <font-awesome-icon v-if="interactive === true" :icon="['fas', 'toggle-on']" size="2x" alt="switch"/>
-                <font-awesome-icon v-else-if="interactive === false" :icon="['fas', 'toggle-off']" size="2x" alt="switch"/> 
+                <font-awesome-icon v-if="interactive === true" icon="toggle-on" size="2x" alt="switch"/>
+                <font-awesome-icon v-else-if="interactive === false" icon="toggle-off" size="2x" alt="switch"/> 
             </v-touch>
         </mq-layout>        
         <mq-layout class="selector-laptop" mq="laptop">
             <button title="change display" class="selector" @click="changePage">
-                <font-awesome-icon v-if="interactive === true" :icon="['fas', 'toggle-on']" size="2x" alt="switch"/>
-                <font-awesome-icon v-else-if="interactive === false" :icon="['fas', 'toggle-off']" size="2x" alt="switch" /> 
+                <font-awesome-icon v-if="interactive === true" icon="toggle-on" size="2x" alt="switch"/>
+                <font-awesome-icon v-else-if="interactive === false" icon="toggle-off" size="2x" alt="switch"/> 
             </button>
         </mq-layout>
         <mq-layout class="selector-desktop" mq="desktop">
             <button title="change display" class="selector" @click="changePage">
-                <font-awesome-icon v-if="interactive === true" :icon="['fas', 'toggle-on']" size="2x" alt="switch"/>
-                <font-awesome-icon v-else-if="interactive === false" :icon="['fas', 'toggle-off']" size="2x" alt="switch"/> 
+                <font-awesome-icon v-if="interactive === true" icon="toggle-on" size="2x" alt="switch"/>
+                <font-awesome-icon v-else-if="interactive === false" icon="toggle-off" size="2x" alt="switch"/> 
             </button>
         </mq-layout>
         <mq-layout class="selector-xxl" mq="xxl">
             <button title="change display" class="selector" @click="changePage">
-                <font-awesome-icon v-if="interactive === true" :icon="['fas', 'toggle-on']" size="3x" alt="switch"/>
-                <font-awesome-icon v-else-if="interactive === false" :icon="['fas', 'toggle-off']" size="3x" alt="switch"/> 
-
+                <font-awesome-icon v-if="interactive === true" icon="toggle-on" size="3x" alt="switch"/>
+                <font-awesome-icon v-else-if="interactive === false" icon="toggle-off" size="3x" alt="switch"/> 
             </button>
         </mq-layout>
 
@@ -47,7 +46,6 @@
 </template>
 
 <script>
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import cv from "./cv";
 import timeline from "./timeline";
 import { EventBus } from "@/main";
@@ -61,7 +59,6 @@ export default {
     },
 
     components: {
-        FontAwesomeIcon,
         cv: cv,
         timeline: timeline
     },

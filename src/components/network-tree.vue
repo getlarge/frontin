@@ -51,26 +51,26 @@
                         <div class="form-group">
                             <span v-if="currentNode">Current Node: {{currentNode.data.text}}</span>
                             <span v-else>No Node selected.</span>
-                            <font-awesome-icon v-if="isLoading" :icon="['fas', 'spinner']" :transform="{ rotate: 42 }" size="xs" />
+                            <font-awesome-icon v-if="isLoading" icon="spinner" :transform="{ rotate: 42 }" size="xs" />
                         </div> 
                         <button type="button" :disabled="!currentNode" class="btn" @click="expandAll" data-toggle="tooltip" data-placement="top" title="Expand All from current">
-                            <font-awesome-icon :icon="['fas', 'expand']" size="xs" />
+                            <font-awesome-icon icon="expand" size="xs" />
                         </button>
 
                         <button type="button" :disabled="!currentNode" class="btn" @click="collapseAll" data-toggle="tooltip" data-placement="top" title="Collapse All from current">
-                            <font-awesome-icon :icon="['fas', 'compress']" size="xs" />
+                            <font-awesome-icon icon="compress" size="xs" />
                         </button>
 
                         <button type="button" :disabled="!currentNode" class="btn" @click="showOnly" data-toggle="tooltip" data-placement="top" title="Show Only from current">
-                            <font-awesome-icon :icon="['fas', 'search-plus']" size="xs" />
+                            <font-awesome-icon icon="search-plus" size="xs" />
                         </button>
 
                         <button type="button" :disabled="!currentNode" class="btn" @click="show" data-toggle="tooltip" data-placement="top" title="Show current">
-                            <font-awesome-icon :icon="['fas', 'binoculars']" size="xs" />
+                            <font-awesome-icon icon="binoculars" size="xs" />
                         </button>
 
                         <button v-if="zoomable" type="button" class="btn " @click="resetZoom" data-toggle="tooltip" data-placement="top" title="Reset Zoom">
-                            <font-awesome-icon :icon="['fas', 'arrows-alt']" size="xs" />
+                            <font-awesome-icon icon="arrows-alt" size="xs" />
                         </button>
                     </div>
                 </div>
@@ -82,7 +82,6 @@
               </div> -->
             </b-col>
             <b-col id="tree-container" xs ="12" sm="8" md="9" lg="10" xl="10" class="panel panel-default">
-       
                 <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/> 
                 <p>
                 </br>TODO : unify transport protocol layers using <a href="#/aloes-protocol" > IPSO</a> references.
@@ -94,7 +93,6 @@
 </template>
 
 <script>
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import { event, select, selectAll } from "d3-selection";
 import { active, transition } from "d3-transition";
 import { tree } from "vued3tree";
@@ -128,8 +126,7 @@ export default {
     },
 
     components: {
-        tree,
-        FontAwesomeIcon
+        tree
     },
 
     created() {},

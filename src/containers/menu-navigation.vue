@@ -21,19 +21,19 @@
                             <router-link class="dropdown-item" :to="'/' + name + ($route.params.locale ? $route.fullPath.substr($route.params.locale.length + 1) : $route.fullPath)">{{value}}</router-link>
                           </b-dropdown-item>
                         </b-nav-item-dropdown> --> 
-                        <b-nav-item href="https://www.linkedin.com/in/edouard-maleix" target="_blank" title="Linkedin"><font-awesome-icon :icon="['fab', 'linkedin-in']" size="lg" alt="linkedin icon"/></b-nav-item>
-                        <b-nav-item href="https://framagit.org/getlarge" target="_blank" title="Gitlab"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg" alt="git icon"/></b-nav-item>
+                        <b-nav-item href="https://www.linkedin.com/in/edouard-maleix" target="_blank" title="Linkedin"><font-awesome-icon  :icon="['fab', 'linkedin-in']" size="lg" alt="linkedin icon"></font-awesome-icon></b-nav-item>
+                        <b-nav-item href="https://framagit.org/getlarge" target="_blank" title="Gitlab"><font-awesome-icon :icon="['fab', 'gitlab']" size="lg" alt="git icon"></font-awesome-icon></b-nav-item>
                         <b-nav-item @click="chatHandler" title="Chat" >
                             <font-awesome-icon v-if="chatInit === true" class="on" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-on icon"/>
-                            <font-awesome-icon v-else-if="chatInit === false" class="off" :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-off icon"/>
+                            <font-awesome-icon v-else-if="chatInit === false" class="off"  :icon="['fab', 'rocketchat']" size="lg" alt="rocketchat-off icon"/>
                         </b-nav-item>
                         <b-nav-item  @click="help" title="Tutorial">
-                            <font-awesome-icon v-if="tutorial === true" class="on" :icon="['fas', 'question-circle']" size="lg" alt="tuto-on"/>
-                            <font-awesome-icon v-else-if="tutorial === false" class="off" :icon="['fas', 'question-circle']" size="lg" alt="tuto-off"/>
+                            <font-awesome-icon v-if="tutorial === true" class="on" icon="question-circle" size="lg" alt="tuto-on"></font-awesome-icon>
+                            <font-awesome-icon v-else-if="tutorial === false" class="off" icon="question-circle" size="lg" alt="tuto-off"></font-awesome-icon>
                         </b-nav-item>
                         <b-nav-item title="MQTT status" disabled>
-                            <font-awesome-icon v-if="connStatus === 'Connected'" class="on" :icon="['fas', 'circle']" size="lg" alt="mqtt-on icon"/>
-                            <font-awesome-icon v-else-if="connStatus === 'Disconnected'" class="off" :icon="['fas', 'circle']" size="lg" alt="mqtt-off icon"/>
+                            <font-awesome-icon v-if="connStatus === 'Connected'" class="on" icon="circle" size="lg" alt="mqtt-on icon"></font-awesome-icon>
+                            <font-awesome-icon v-else-if="connStatus === 'Disconnected'" class="off" icon="circle" size="lg" alt="mqtt-off icon"></font-awesome-icon>
                         </b-nav-item>
                     </b-navbar-nav>
                 </b-nav>
@@ -53,7 +53,6 @@
 <script>
 
 import { mapState } from "vuex";
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import liveRocketChat from "@/services/live-rocketchat";
 import cards from "@/components/utils/cards";
 import { EventBus } from "@/main";
@@ -68,8 +67,7 @@ export default {
     },
 
     components: {
-        cards: cards,
-        FontAwesomeIcon
+        cards: cards
     },
 
     created() {
