@@ -39,16 +39,7 @@ function upload(resource, formData, filter) {
 
 function getFilesByFormat(resource) {
     const url = `${BASE_URL}${resource}s`;
-    return axios
-        .get(url)
-        .then(response => {
-            this.files = response.data;
-            console.log(response.data);
-        })
-        .catch(error => {
-            this.errors.push(error);
-            console.log(error);
-        });
+    return axios.get(url).then(res => res);
 }
 
 function getFileByParam(resource, param, name) {

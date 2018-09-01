@@ -1,18 +1,16 @@
 <template>
 
     <b-container id="post" ref="post" fluid>
-        <b-row >
-        <vue-editor
-            id="post-editor" 
-            :placeholder="text"
-            :customModules="customModulesForEditor"
-            :editorToolbar="customToolbar"
-            :editorOptions="editorSettings"
-            v-model="post.text"
-            @text-change=""    
-            useCustomImageHandler
-            @imageAdded="addImage">
-        </vue-editor> 
+        <b-row  >
+            <vue-editor
+                id="post-editor"
+                ref="postEditor"
+                :placeholder="text"
+                :customModules="customModulesForEditor"
+                :editorOptions="editorSettings"
+                v-model="post.text"
+                @imageAdded="addImage">
+            </vue-editor> 
         </b-row>
         <b-row class="post-footer" v-if="post.page % 2 !== 0" >
             <b-col cols="3" >
@@ -73,10 +71,11 @@ export default {
                 { alias: 'imageResize', module: ImageResize }
             ],
             customToolbar: [["bold", "italic", "underline", "image"]],
+            content: "",
             post: {
                 id: this.id || 0,
                 name: this.name || "",
-                text: this.text || "",
+                text: "",
                 page: this.page || 0
             },
             typeNumber: 0,
@@ -100,7 +99,8 @@ export default {
 
     beforeDestroy() {},
 
-    watch: {},
+    watch: {
+    },
 
     computed: {
         ...mapActions({
@@ -111,16 +111,21 @@ export default {
     methods: {
 
         setTextArea(text) {
-            //this.editor.setValue(text);
             this.post.text = text;
         },
 
         setTitle(text) {
             this.post.name = text;
         },
+
+        onTextChange(delta, oldDelta, source) {
+            //console.log("text change!", delta);
+        },
+
         /// todo : move the two next methods to state actions
         addPost(resource, post) {
-            //console.log("addItem", resource, post);
+            //post.text = this.$el.querySelector(".ql-editor").innerHTML;
+            console.log("addItem", resource, post.text);
             var data = new File([post.text], post.name + ".html", { type: "text/html" });
             if (!data.size) return;
             const formData = new FormData();
