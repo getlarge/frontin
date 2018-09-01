@@ -44,7 +44,6 @@ import {
     faPlusCircle,
     faInfoCircle
 } from "@fortawesome/free-solid-svg-icons";
-
 import {
     faTwitter,
     faGitlab,
@@ -82,7 +81,6 @@ Vue.use(VueMq, {
 });
 Vue.use(BootstrapVue);
 
-//fontawesome.library.add(brands, solid);
 library.add(
     faTwitter,
     faGitlab,
@@ -116,9 +114,7 @@ library.add(
     faPlusCircle,
     faInfoCircle
 );
-
 dom.watch();
-
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.filter("formatSize", function(size) {

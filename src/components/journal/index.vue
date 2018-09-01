@@ -165,11 +165,13 @@ export default {
         .left-post {
             top: 170px !important;
             left: 40px !important;
+            width: 300px !important;
         }
 
         .right-post {
             top: 170px !important;
             left: 350px !important;
+            width: 300px !important;
         }
 
         .change-page-right {
@@ -191,6 +193,10 @@ export default {
         #post-editor {
             font-size: 90% !important;
             height: 350px !important;
+        }
+
+        #post-title {
+            font-size: 80%;
         }
     }
 }
@@ -242,14 +248,16 @@ export default {
         opacity: 0;
         position: absolute;
         top: 200px;
-        left: 65px;
+        left: 60px;
+        width: 485px;
     }
 
     .right-post {
         opacity: 0;
         position: absolute;
         top: 200px;
-        left: 565px;
+        left: 550px;
+        width: 490px;
     }
 
     .change-page-right {
@@ -258,7 +266,7 @@ export default {
         border: none;
         height: 35px;
         width: 60px;
-        top: 850px;
+        top: 860px;
         left: 955px;
         cursor: pointer;
         img {
@@ -272,8 +280,8 @@ export default {
         border: none;
         height: 35px;
         width: 60px;
-        top: 850px;
-        left: 60px;
+        top: 860px;
+        left: 70px;
         cursor: pointer;
         img {
             width: 100%;
@@ -283,7 +291,7 @@ export default {
 
     #post-editor {
         font-size: 100%;
-        height: 590px;
+        height: 610px;
     }
 }
 </style>

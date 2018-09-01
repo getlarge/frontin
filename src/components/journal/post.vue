@@ -1,6 +1,7 @@
 <template>
 
-    <b-container id="post" ref="post">
+    <b-container id="post" ref="post" fluid>
+        <b-row >
         <vue-editor
             id="post-editor" 
             :placeholder="text"
@@ -12,25 +13,26 @@
             useCustomImageHandler
             @imageAdded="addImage">
         </vue-editor> 
-        <b-row v-if="post.page % 2 !== 0">
-            <b-col xs="1" sm="1" lg="1" >
+        </b-row>
+        <b-row class="post-footer" v-if="post.page % 2 !== 0" >
+            <b-col cols="3" >
                 <button id="post-button" @click="addPost('text', post)"> Save</button>
             </b-col >
-            <b-col xs="3" sm="3" lg="3" >
+            <b-col cols="6">
                 <input id="post-title" type="text" v-model="post.name" required>
             </b-col >
-            <b-col  xs="2" sm="2" lg="1" >
-                <div id="qr-holder" ref="qrHolder"></div> 
+            <b-col cols="3" >
+                <div id="qr-holder" width="50px" ref="qrHolder"></div> 
             </b-col>
         </b-row>
-        <b-row v-if="post.page % 2 === 0">
-            <b-col xs="2" sm="2" lg="1" >
-                <div id="qr-holder" ref="qrHolder"></div> 
+        <b-row class="post-footer" v-if="post.page % 2 === 0" >
+            <b-col cols="3" >
+                <div id="qr-holder"  ref="qrHolder"></div> 
             </b-col>
-            <b-col xs="3" sm="3" lg="3" >
+            <b-col cols="6" >
                 <input id="post-title" type="text" v-model="post.name" required>
             </b-col >
-            <b-col xs="1" sm="1" lg="1" >
+            <b-col cols="3" >
                 <button id="post-button" @click="addPost('text', post)"> Save</button>
             </b-col >
         </b-row>
@@ -89,14 +91,11 @@ export default {
     created() {},
 
     mounted() {
-        //console.log(this)
-
     },
 
     updated() {
         console.log("post " + this.page + " updated");
-        this.$el.querySelector("#qr-holder").innerHTML = "";
-
+        this.createQRCode(this.$store.state.base.serverURL + "texts/page/" + this.page);
     },
 
     beforeDestroy() {},
@@ -206,15 +205,12 @@ export default {
 #post {
     #qr-holder {
         display: block;
-        align-items: center;
-        justify-content: center;
-        width: auto;
         opacity: 1 !important;
-        margin-left: 20%;
+        z-index: 2000;
+
         img {
-            max-height: 70px;
-            max-width: 70px;
-            z-index: 5000;
+            max-height: 60px;
+            max-width: 60px;    
         }
         path {
             fill: green;
@@ -227,13 +223,14 @@ export default {
     }
 
     #post-button {
+        max-width: 50px;
     }
 
     #post-editor {
         font-family: "GaramondNo8-Regular" !important;
-        width: 100%;
         border: 0px !important;
     }
+
 
 }
 </style>
