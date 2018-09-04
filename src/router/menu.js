@@ -63,9 +63,16 @@ export const routes = [
         folder: true,
         alias: "/journal/*",
         component: loadView("journal/index")
+    },
+    {
+        name: "Cam stream",
+        title: "Cam stream",
+        path: "/utils/stream-viewer",
+        component: loadView("utils/stream-viewer")
     }
 ].map(r => {
     var res = r;
-    res.source = config.gitLink + config.ComponentsPath + r.path + (r.folder ? "/index.vue" : ".vue");
+    res.source =
+        config.gitLink + config.ComponentsPath + r.path + (r.folder ? "/index.vue" : ".vue");
     return res;
 });

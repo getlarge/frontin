@@ -14,67 +14,62 @@
 </template>
 
 <script>
+export default {
+    name: "cam-viewer",
+    data() {
+        return {
+            video: {},
+            canvas: {},
+            captures: []
+        };
+    },
 
-    export default {
-        name: "cam-viewer",
-        data() {
-            return {
-                video: {},
-                canvas: {},
-                captures: []
-            }
-        },
+    mounted() {
+        this.video = this.$refs.video;
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                try {
+                    this.video.srcObject = stream;
+                } catch (error) {
+                    this.video.src = window.URL.createObjectURL(stream);
+                }
+                this.video.play();
+            });
+        }
+    },
 
-        mounted() {
-            this.video = this.$refs.video;
-            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-                    try {
-                        this.video.srcObject = stream;
-                    } catch (error) {
-                        this.video.src = window.URL.createObjectURL(stream);
-                    }
-                    this.video.play();
-                });
-            }
-        },        
-        
-        beforeDestroy() {
-            var track = this.video.srcObject.getTracks()[0];  // if only one media track
-            track.stop();
-        },
+    beforeDestroy() {
+        var track = this.video.srcObject.getTracks()[0]; // if only one media track
+        track.stop();
+    },
 
-        methods: {
-            capture() {
-                this.canvas = this.$refs.canvas;
-                var context = this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
-                this.captures.push(canvas.toDataURL("image/png"));
-            }
-        },    
-    
+    methods: {
+        capture() {
+            this.canvas = this.$refs.canvas;
+            var context = this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
+            this.captures.push(canvas.toDataURL("image/png"));
+        }
     }
-
+};
 </script>
 
 <style scoped>
+#cam-viewer {
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+}
 
-    #cam-viewer {
-        text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
-    }
+#video {
+    background-color: #000000;
+}
 
-    #video {
-        background-color: #000000;
-    }
+#canvas {
+    display: none;
+}
 
-    #canvas {
-        display: none;
-    }
-
-    li {
-        display: inline;
-        padding: 5px;
-    }
-
+li {
+    display: inline;
+    padding: 5px;
+}
 </style>

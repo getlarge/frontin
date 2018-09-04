@@ -42,7 +42,8 @@ import {
     faLanguage,
     faStar,
     faPlusCircle,
-    faInfoCircle
+    faInfoCircle,
+    faSearch
 } from "@fortawesome/free-solid-svg-icons";
 import {
     faTwitter,
@@ -112,7 +113,8 @@ library.add(
     faLanguage,
     faStar,
     faPlusCircle,
-    faInfoCircle
+    faInfoCircle,
+    faSearch
 );
 dom.watch();
 Vue.component("font-awesome-icon", FontAwesomeIcon);

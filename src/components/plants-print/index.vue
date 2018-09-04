@@ -65,10 +65,10 @@ export default {
         EventBus.$on("rx:mqtt", (topic, payload) => {
             return this.selectMessage(topic, payload);
         }),
-            this.$on("got-x", x => {
-                //console.log("x", x)
-                return (this.x = x);
-            });
+        this.$on("got-x", x => {
+            //console.log("x", x)
+            return (this.x = x);
+        });
         this.$on("got-y", y => {
             //console.log("y", y)
             return (this.y = y);

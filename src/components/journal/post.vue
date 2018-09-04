@@ -39,7 +39,6 @@
 </template>
 
 <script>
-//import { VueEditor, Quill } from "vue2-editor";
 import { VueEditor } from "vue2-editor";
 import { ImageDrop } from "quill-image-drop-module";
 import ImageResize from "quill-image-resize-module";
@@ -51,9 +50,6 @@ const STATUS_INITIAL = 0,
     STATUS_SAVING = 1,
     STATUS_SUCCESS = 2,
     STATUS_FAILED = 3;
-
-// Quill.register("modules/imageDrop", ImageDrop);
-// Quill.register('modules/imageResize', ImageResize)
 
 export default {
     props: ["journalId", "id", "text", "textUrl", "name", "page"],
@@ -71,7 +67,6 @@ export default {
                 { alias: 'imageResize', module: ImageResize }
             ],
             customToolbar: [["bold", "italic", "underline", "image"]],
-            content: "",
             post: {
                 id: this.id || 0,
                 name: this.name || "",
@@ -93,7 +88,7 @@ export default {
     },
 
     updated() {
-        console.log("post " + this.page + " updated");
+        //console.log("post " + this.page + " updated");
         this.createQRCode(this.$store.state.base.serverURL + "texts/page/" + this.page);
     },
 
@@ -125,7 +120,7 @@ export default {
         /// todo : move the two next methods to state actions
         addPost(resource, post) {
             //post.text = this.$el.querySelector(".ql-editor").innerHTML;
-            console.log("addItem", resource, post.text);
+            //console.log("addItem", resource, post.text);
             var data = new File([post.text], post.name + ".html", { type: "text/html" });
             if (!data.size) return;
             const formData = new FormData();
@@ -160,7 +155,7 @@ export default {
             //console.log(file)
             if (!file.size) return;
             formData.append("images", file, file.name);
-            console.log(file.name);
+            //console.log(file.name);
             //console.log(formData);
             upload("image", formData, "name/" + file.name)
                 .then(res => {
@@ -169,24 +164,6 @@ export default {
                     this.currentStatus = STATUS_SUCCESS;
                     let url = this.uploadedFiles[0].url; 
                     Editor.insertEmbed(cursorLocation, "image", url);
-                    // resetUploader();
-                })
-                .catch(err => {
-                    console.log(err);
-                    this.uploadError = err.response;
-                    this.currentStatus = STATUS_FAILED;
-                });
-        },
-
-        saveImage(resource, formData, filter) {
-            this.currentStatus = STATUS_SAVING;
-            upload(resource, formData, filter)
-                .then(res => {
-                    console.log(res);
-                    this.uploadedFiles = [].concat(res);
-                    this.currentStatus = STATUS_SUCCESS;
-                    let url = this.uploadedFiles[0].url; // Get url from response
-                    // Editor.insertEmbed(cursorLocation, "image", url);
                     // resetUploader();
                 })
                 .catch(err => {

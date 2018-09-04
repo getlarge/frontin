@@ -2,16 +2,20 @@
 
     <div id="tables">
         <b-container  fluid>
-            <b-row >        
-                <b-col xs="5" sm="4" md="3" lg="3" xl="2">
+            <b-row >
+                <b-col id="description" cols="12">
+                    <p> <a href="https://github.com/IPSO-Alliance/pub" target="_blank">IPSO</a> object model description</p>
+                </b-col>        
+                <b-col cols="6">
                     <b-dropdown id="ddown-split" split text="Table selector" class="m-2">
                         <b-dropdown-item-button  @click="dataPath('static/data/sensors.json')">Sensors Type</b-dropdown-item-button>
-                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-divider/>
                         <b-dropdown-item-button  @click="dataPath('static/data/ressources.json')">Ressources Type</b-dropdown-item-button>
                     </b-dropdown>
                 </b-col>
-                <b-col class="desc"  xs="7" sm="8" md="9" lg="9" >
-                    <p>Global views describing <a href="https://github.com/IPSO-Alliance/pub">IPSO Protocol</a></p>
+                <b-col id="search" cols="6">
+                    <input type="text" id="search-box" @keyup="searchFor()" placeholder="Search for description...">
+                    <font-awesome-icon id="search-icon" icon="search" size="lg" ></font-awesome-icon>
                 </b-col>
             </b-row>
         </b-container>
@@ -36,16 +40,20 @@ export default {
             pageTopic: "getlarge" + this.$route.path,
             width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
             height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+            nodes: null,
+            titles: null,
+            sortAscending: false,
+            rows: {},
+            headers: {},
             selectedColumns: []
         };
     },
 
     mounted() {
-        var self = this;
         this.tableLoader(this.serverURL + this.path, this.selectedColumns);
         EventBus.$on("update:table", path => {
             select("#ipso-table").remove();
-            self.tableLoader(self.serverURL + path, self.selectedColumns);
+            this.tableLoader(this.serverURL + path, this.selectedColumns);
         });
     },
 
@@ -75,23 +83,102 @@ export default {
         },
 
         tableLoader(dataPath, colums) {
-            var self = this;
-            json(dataPath).then(function(obj) {
-                var root = hierarchy(obj);
-                var nodes = root.descendants();
-                var titles = keys(nodes[0].data.tables[0]);
-                self.tabulate(nodes[0].data.tables, titles);
+            json(dataPath).then(obj => {
+                const root = hierarchy(obj);
+                this.nodes = root.descendants();
+                this.titles = keys(this.nodes[0].data.tables[0]);
+                this.tabulate(this.nodes[0].data.tables, this.titles);
                 //self.tabulate(nodes[0].data.tables, ['name', 'description', 'ipsoId', 'ressources', 'colors', 'img']);
             });
         },
 
+        searchFor() {
+            // Declare variables
+            //const input, filter, table, tr, td, i;
+            var td, i;
+            const input = document.getElementById("search-box");
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById("aloes-table");
+            const tr = table.getElementsByTagName("tr");
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        },
+
+        sortTables(d, headers, rows) {
+            //     headers.attr("class", "header");
+            if (this.sortAscending) {
+                // var test = rows._groups[0].forEach(myFunction);
+                // function myFunction(value, index, array) {
+                //     if ( typeof(value) === Number ) {
+                //}
+                // }
+                // var aKeys = Object.keys(test[0]).sort();
+                //console.log(JSON.stringify(aKeys));
+                // todo : create dynamic type detection
+                if (d === "name" || d === "description" || d === "resource") {
+                    this.rows.sort(function(a, b) {
+                        var x = a[d].toLowerCase();
+                        var y = b[d].toLowerCase();
+                        if (x < y) {
+                            return -1;
+                        }
+                        if (x > y) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+                } else if (
+                    d === "ipsoId" ||
+                    d === "mySensorsId" ||
+                    d === "aloesId" ||
+                    d === "resourceId"
+                ) {
+                    this.rows.sort((a, b) => a[d] - b[d]);
+                }
+                this.sortAscending = false;
+                this.className = "aes";
+            } else {
+                if (d === "name" || d === "description" || d === "resource") {
+                    this.rows.sort(function(a, b) {
+                        var x = a[d].toLowerCase();
+                        var y = b[d].toLowerCase();
+                        if (x > y) {
+                            return -1;
+                        }
+                        if (x < y) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+                } else if (
+                    d === "ipsoId" ||
+                    d === "mySensorsId" ||
+                    d === "aloesId" ||
+                    d === "resourceId"
+                ) {
+                    this.rows.sort((a, b) => b[d] - a[d]);
+                }
+                this.sortAscending = true;
+                this.className = "des";
+            }
+        },
+
         tabulate(obj, titles) {
             var self = this;
-            var sortAscending = true;
+            this.sortAscending = true;
             var table = select("#aloes-table")
                 .append("table")
                 .attr("id", "ipso-table");
-            var headers = table
+            this.headers = table
                 .append("thead")
                 .append("tr")
                 .selectAll("th")
@@ -100,61 +187,16 @@ export default {
                 .enter()
                 .append("th")
                 .text(d => d)
-                .on("click", function(d) {
-                    headers.attr("class", "header");
-                    if (sortAscending) {
-                        // var test = rows._groups[0].forEach(myFunction);
-                        // function myFunction(value, index, array) {
-                        //     if ( typeof(value) === Number ) {
-                        //}
-                        // }
-                        // var aKeys = Object.keys(test[0]).sort();
-                        //console.log(JSON.stringify(aKeys));
-                        // todo : create dynamic type detection
-                        if (d === "name" || d === "description" || d === "resource" ) {
-                            rows.sort(function(a, b) {
-                                var x = a[d].toLowerCase();
-                                var y = b[d].toLowerCase();
-                                if (x < y) {
-                                    return -1;
-                                }
-                                if (x > y) {
-                                    return 1;
-                                }
-                                return 0;
-                            });
-                        } else if (d === "ipsoId" || d === "mySensorsId" || d === "aloesId" || d === "resourceId") {
-                            rows.sort((a, b) => a[d] - b[d]);
-                        }
-                        sortAscending = false;
-                        this.className = "aes";
-                    } else {
-                        if (d === "name" || d === "description" || d === "resource") {
-                            rows.sort(function(a, b) {
-                                var x = a[d].toLowerCase();
-                                var y = b[d].toLowerCase();
-                                if (x > y) {
-                                    return -1;
-                                }
-                                if (x < y) {
-                                    return 1;
-                                }
-                                return 0;
-                            });
-                        } else if (d === "ipsoId" || d === "mySensorsId" || d === "aloesId" || d === "resourceId") {
-                            rows.sort((a, b) => b[d] - a[d]);
-                        }
-                        sortAscending = true;
-                        this.className = "des";
-                    }
-                });
-            var rows = table
+                .attr("class", "header")
+                .on("click", this.sortTables);
+            this.rows = table
                 .append("tbody")
                 .selectAll("tr")
                 .data(obj)
                 .enter()
                 .append("tr");
-            rows.selectAll("td")
+            this.rows
+                .selectAll("td")
                 .data(function(row) {
                     return titles.map(function(column) {
                         //return {column: column, value: row[column]};
@@ -199,49 +241,69 @@ export default {
 
 <style lang="scss" >
 #tables {
-    margin: 50px;
-}
+    margin: 30px;
 
-#ddown-split {
-    padding-left: 5%;
-}
+    #ddown-split {
+        padding-left: 5%;
+    }
 
-.btn-secondary {
-    color: #fff;
-    padding-left: 5%;
-}
+    .btn-secondary {
+        color: #fff;
+        padding-left: 5%;
+    }
 
-.btn-secondary:hover {
-    background-color: white;
-    color: #33b277;
-    border-color: #f9b23e;
-    padding-left: 5%;
-}
+    .btn-secondary:hover {
+        background-color: white;
+        color: #33b277;
+        border-color: #f9b23e;
+        padding-left: 5%;
+    }
 
-.btn-secondary:focus {
-    background-color: white;
-    color: #33b277;
-    border-color: #f9b23e;
-    padding-left: 5%;
-}
+    .btn-secondary:focus {
+        background-color: white;
+        color: #33b277;
+        border-color: #f9b23e;
+        padding-left: 5%;
+    }
 
-.dropdown-item:active {
-    background-color: transparent;
-    color: #686868;
-    border: 1px;
-    border-color: #f9b23e;
-}
+    .dropdown-item:active {
+        background-color: transparent;
+        color: #686868;
+        border: 1px;
+        border-color: #f9b23e;
+    }
 
-.dropdown-item:hover {
-    background-color: transparent;
-    color: #33b277;
-    border: 1px;
-    border-color: #f9b23e;
-}
+    .dropdown-item:hover {
+        background-color: transparent;
+        color: #33b277;
+        border: 1px;
+        border-color: #f9b23e;
+    }
 
-.desc {
-    padding-top: 1%;
-    padding-left: 5%;
+    #description {
+        padding-top: 1%;
+        padding-left: 5%;
+    }
+
+    #search {
+        font-size: 16px;
+        padding: 12px 20px 12px 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+
+        #search-box {
+            background-color: transparent;
+            width: 90%;
+            font-size: 16px;
+            border: 0px solid #ddd;
+        }
+
+        #search-icon {
+            path {
+                fill: #d4d4d4 !important;
+            }
+        }
+    }
 }
 
 #aloes-table {
@@ -252,19 +314,23 @@ export default {
     margin: 20px 0;
 }
 
-/* Generic Styling, for Desktops/Laptops */
 #aloes-table table {
     width: 100%;
     border-collapse: collapse;
 }
 
-/* Zebra striping */
+#aloes-table tr.header,
+#aloes-table tr:hover,
 #aloes-table tr:nth-of-type(odd) {
-    background: #eee;
+    background-color: #f1f1f1;
+}
+
+#aloes-table tr:nth-of-type(odd):hover {
+    background: #ffff;
 }
 
 #aloes-table th {
-    background: #333;
+    background: #029ea8;
     color: white;
     font-weight: bold;
     cursor: s-resize;
@@ -288,6 +354,7 @@ th {
 #aloes-table th.aes:after {
     content: "\21E7";
 }
+
 /* 
     Max width before this PARTICULAR table gets nasty
     This query will take effect for any screen smaller than 760px

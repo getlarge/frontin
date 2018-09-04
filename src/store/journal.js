@@ -116,7 +116,49 @@ const state = {
             name: "page14",
             text: "this is the page 14",
             textUrl: serverURL + "texts/page/14"
-        }
+        },{
+            id: 15,
+            journalId: 0,
+            name: "page15",
+            text: "this is the page 15",
+            textUrl: serverURL + "texts/page/15"
+        },{
+            id: 16,
+            journalId: 0,
+            name: "page16",
+            text: "this is the page 16",
+            textUrl: serverURL + "texts/page/16"
+        },{
+            id: 17,
+            journalId: 0,
+            name: "page17",
+            text: "",
+            textUrl: serverURL + "texts/page/17"
+        },{
+            id: 18,
+            journalId: 0,
+            name: "page18",
+            text: "this is the page 18",
+            textUrl: serverURL + "texts/page/18"
+        },{
+            id: 19,
+            journalId: 0,
+            name: "page19",
+            text: "this is the page 19",
+            textUrl: serverURL + "texts/page/19"
+        },{
+            id: 20,
+            journalId: 0,
+            name: "page20",
+            text: "this is the page 20",
+            textUrl: serverURL + "texts/page/20"
+        },{
+            id: 21,
+            journalId: 0,
+            name: "page21",
+            text: "this is the page 21",
+            textUrl: serverURL + "texts/page/21"
+        },
     ],
     arrowRight: "static/icons/arrow-right.png",
     arrowLeft: "static/icons/arrow-left.png",

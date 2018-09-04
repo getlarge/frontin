@@ -80,20 +80,21 @@ export default {
             //console.log("page", this.pageNumber);
             //selectAll(".posts").style("opacity", this.journalStatus === "opened" ? "1" : "0");
             if (this.pageNumber > 0) {
+                this.$store.commit("updateJournalStatus", "opening");
+                this.$store.commit("updateJournalFrame", "static/icons/eundi2.png");
                 setTimeout(() => {
-                    this.loadHtmlFile(this.pageNumber);
-                    this.$store.commit("updateJournalStatus", "opening");
-                    this.$store.commit("updateJournalFrame", "static/icons/eundi2.png");
                     this.$el.querySelector(".left-post").style.opacity = 0;
                     this.$el.querySelector(".right-post").style.opacity = 0;
-                }, 500);
-                setTimeout(() => {
-                    this.loadHtmlFile(this.pageNumber + 1);
                     this.$store.commit("updateJournalFrame", "static/icons/eundi3.png");
                     this.$store.commit("updateJournalStatus", "opened");
+                    this.loadHtmlFile(this.pageNumber);
+                }, 500);
+
+                setTimeout(() => {
+                    this.loadHtmlFile(this.pageNumber + 1);
                     this.$el.querySelector(".left-post").style.opacity = 1;
                     this.$el.querySelector(".right-post").style.opacity = 1;
-                }, 1000);
+                }, 1100);
             } else {
                 setTimeout(() => {
                     this.$store.commit("updateJournalStatus", "opening");
@@ -109,7 +110,6 @@ export default {
         },
 
         loadHtmlFile(page) {
-            var self = this;
             getFileByParam("text", "page", page)
                 .then(res => {
                     // if res.headers.content-type="text/html"
@@ -124,10 +124,10 @@ export default {
                 .catch(err => {
                     //console.log("downloaded : ", err);
                     page % 2 === 0
-                        ? this.$children[1].setTextArea(self.posts[page].text) &
-                          this.$children[1].setTitle(self.posts[page].name)
-                        : this.$children[0].setTextArea(self.posts[page].text) &
-                          this.$children[0].setTitle(self.posts[page].name);
+                        ? this.$children[1].setTextArea(this.posts[page].text) &
+                          this.$children[1].setTitle(this.posts[page].name)
+                        : this.$children[0].setTextArea(this.posts[page].text) &
+                          this.$children[0].setTitle(this.posts[page].name);
                 });
         }
     }
@@ -249,7 +249,7 @@ export default {
         position: absolute;
         top: 200px;
         left: 60px;
-        width: 485px;
+        max-width: 485px;
     }
 
     .right-post {
@@ -257,7 +257,7 @@ export default {
         position: absolute;
         top: 200px;
         left: 550px;
-        width: 490px;
+        max-width: 485px;
     }
 
     .change-page-right {

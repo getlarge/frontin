@@ -39,13 +39,13 @@
                 </b-nav>
             </b-collapse>
         </b-navbar>
-            <cards
-                v-if="currentPage !== null"
-                :title="currentPage.name"
-                :description="currentPage.tutorial"
-                :tags="currentPage.tags"
-                :img="currentPage.img"
-            />
+        <cards
+            v-if="currentPage !== null"
+            :title="currentPage.name"
+            :description="currentPage.tutorial"
+            :tags="currentPage.tags"
+            :img="currentPage.img"
+        />
     </div>
 
 </template>

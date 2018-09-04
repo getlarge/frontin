@@ -39,7 +39,7 @@ export default class mqttClient {
             this.sub(topic);
         });
         EventBus.$on("tx:mqtt", (topic, message) => {
-            //console.log("sending :" ,topic, message)
+            //return this.sendAsyncMessage(topic, message);
             this.sendMessage(topic, message);
         });
     }
@@ -85,16 +85,18 @@ export default class mqttClient {
     }
 
     sendMessage(topic, message) {
-        this.client.publish(topic, message, { retain: false, qos: 1 });
+        //console.log("sending :" ,topic, message)
+        this.client.publish(topic, message, { retain: false, qos: 0 });
+        //this.client.publish(topic, message);
     }
 
     sub(topic) {
-        this.client.subscribe(topic, { retain: false, qos: 1 });
+        this.client.subscribe(topic, { retain: false, qos: 0 });
         //console.log("subscribed to :", topic)
     }
 
     addSubscribe(path, topic) {
-        this.asyncClient.subscribe(topic, { retain: false, qos: 1 }).then(function() {
+        this.asyncClient.subscribe(topic, { retain: false, qos: 0 }).then(function() {
             //console.log("subscribed to :", topic)
         });
 
