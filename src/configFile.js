@@ -1,4 +1,5 @@
 const clientId = process.env.MQTT_CLIENT_ID || "frontin";
+const mqttClientPass = process.env.MQTT_CLIENT_PASS;
 
 const config = {
     appname: process.env.APP_NAME || "Frontin",
@@ -28,7 +29,7 @@ const config = {
                     .toString(16)
                     .substr(2, 8),
             username: process.env.MQTT_CLIENT_USER || "",
-            password: new Buffer(process.env.MQTT_CLIENT_PASS) || ""
+            password: new Buffer(mqttClientPass) || ""
         }
     },
     chatClient: {

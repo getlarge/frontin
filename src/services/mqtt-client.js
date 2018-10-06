@@ -4,9 +4,9 @@ import {AsyncClient} from 'async-mqtt';
 import moment from 'moment';
 import {EventBus} from '@/main';
 
-export default class mqttClient {
+export default class MqttClient {
   constructor() {
-    this.options = config;
+    this.options = config.mqttClient.options;
     this.client;
     this._initClient();
     //  this.asyncClient;
@@ -18,6 +18,7 @@ export default class mqttClient {
 
   _initClient() {
     console.log('mqttConfig;', config.mqttClient.url)
+    console.log('mqttConfig;', config.mqttClient.options)
     this.client = mqtt.connect(
       config.mqttClient.url,
       this.options,
