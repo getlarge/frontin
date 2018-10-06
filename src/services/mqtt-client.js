@@ -64,6 +64,7 @@ export default class mqttClient {
 
         this.client.on("message", (topic, payload) => {
             //this.store.put(topic, payload);
+            /// rename event on the received topic
             EventBus.$emit("rx:mqtt", topic, payload);
         });
     }

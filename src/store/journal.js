@@ -174,7 +174,7 @@ const state = {
     tutorial: {
         text: "",
         tags: "",
-        img: "static/img/tuto-ambience.gif"
+        img: "static/img/tuto-journal.gif"
     }
 };
 

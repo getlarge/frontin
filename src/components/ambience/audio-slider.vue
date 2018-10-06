@@ -78,24 +78,24 @@ export default {
         var self = this;
         if (this.icon !== null) {
             this.initialize();
-            this.$on("play", function(msg) {
+            this.$on("play", (msg) => {
                 this.isPlaying = true;
                 this.toggleBG();
             });
-            this.$on("pause", function(msg) {
+            this.$on("pause", (msg) => {
                 this.isPlaying = false;
                 this.toggleBG();
             });
 
-            EventBus.$on("file-uploader", function(event, msg) {
+            EventBus.$on("file-uploader", (event, msg) => {
                 if (event === "add") {
                     return console.log(this);
                     //this.$props.icon = "http://localhost:3000/images/3"
                 }
             });
-            EventBus.$on("update:audio-slider", function(value) {
-                if (self.$refs.slider1.processStyle !== null) {
-                    return (self.$refs.slider1.processStyle.backgroundColor = self.color(value));
+            EventBus.$on("update:audio-slider", (value) => {
+                if (this.$refs.slider1.processStyle !== null) {
+                    return (this.$refs.slider1.processStyle.backgroundColor = this.color(value));
                 }
                 //console.log("value", value);
             });

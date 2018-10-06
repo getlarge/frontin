@@ -28,11 +28,12 @@ export const routes = [
         component: loadView("ambience/index")
     },
     {
-        name: "Dichotomy",
-        title: "Dichotomy",
-        path: "/dichotomy",
-        alias: "/dichotomy/*",
-        component: loadView("dichotomy")
+        name: "Coded journal",
+        title: "Coded journal",
+        path: "/journal",
+        folder: true,
+        alias: "/journal/*",
+        component: loadView("journal/index")
     },
     {
         name: "Plants Print",
@@ -41,6 +42,13 @@ export const routes = [
         folder: true,
         alias: "/plants-print/*",
         component: loadView("plants-print/index")
+    },
+    {
+        name: "Dichotomy",
+        title: "Dichotomy",
+        path: "/dichotomy",
+        alias: "/dichotomy/*",
+        component: loadView("dichotomy")
     },
     {
         name: "Network Topology",
@@ -55,14 +63,6 @@ export const routes = [
         path: "/aloes-protocol",
         alias: "/aloes-protocol/*",
         component: loadView("aloes-protocol")
-    },
-    {
-        name: "Coded journal",
-        title: "Coded journal",
-        path: "/journal",
-        folder: true,
-        alias: "/journal/*",
-        component: loadView("journal/index")
     },
     {
         name: "Cam stream",

@@ -32,7 +32,7 @@
                 <b-col xs="12" sm="7" md="7" >
                     <div class="titles">
                        <h1 >Edouard Maleix</h1>
-                        <h2>Développeur - Consultant</h2>
+                        <h2>Developer – Consultant</h2>
                     </div>
                     <div class='infos'>
                         <h3><a :href="'tel:'+tel">
@@ -48,7 +48,7 @@
                             <font-awesome-icon class="icons" icon="home" size="sm" /> 95 rue Paul Bellamy 44000 NANTES
                         </a></h3>
                         <h3><a>
-                            <font-awesome-icon class="icons" icon="language" size="sm" /> Français (<font-awesome-icon class="icons" v-for="item in fr" :key="item.id" icon="star" size="xs" />) Anglais (<font-awesome-icon class="icons" v-for="item in en" :key="item.id" icon="star" size="xs" />) Allemand (<font-awesome-icon class="icons" v-for="item in de" :key="item.id" icon="star" size="xs" />)
+                            <font-awesome-icon class="icons" icon="language" size="sm" /> French (<font-awesome-icon class="icons" v-for="item in fr" :key="item.id" icon="star" size="xs" />) English (<font-awesome-icon class="icons" v-for="item in en" :key="item.id" icon="star" size="xs" />) German (<font-awesome-icon class="icons" v-for="item in de" :key="item.id" icon="star" size="xs" />)
                         </a></h3>             
                     </div>
                 </b-col>
@@ -56,77 +56,85 @@
                     <img :src="serverURL+img1" class="face" alt="">
                 </b-col>
                 <b-col class="articles" xs="12" sm="12" md="12"  >
-                    <h2>Résumé des compétences</h2>
+                    <h2>Skills</h2>
                     <div>
                         <ul>
-                            <li>Visualisation données en temps réel - UI/UX design - Création graphique</li>
-                            <li>Architecture évènementielle et microservices</li>
-                            <li>Développement embarqué ( logiciel et électronique )</li>
+                            <li>Realtime data vizualisation - UI/UX design – Graphic creation</li>
+                            <li>Embedded development ( software & hardware )</li>
                             <li>Agile - Scrum - Lean Startup</li>
-                            <li>Analyse de marché - Design produit - Campagne de tests</li>
+                            <li>Market Analysis – Product design – Testing campaigns</li>
                         </ul>             
                     </div>
                 </b-col>
                 <b-col class="articles" xs="12" sm="12" md="12" >
-                    <h2>Expériences</h2>
+                    <h2>Experiences</h2>
                     <div>
-                        <h3>Développeur / Consultant - Free</h3>
-                        <h4>juin 2018 à maintenant</h4>
+                        <h3>DEVELOPER / CONSULTANT - FREELANCE</h3>
+                        <h4>july 2018 until now</h4>
                         <ul>
-                            <li>Développement d'un portfolio web</li>
-                            <li>Contributions à plusieurs librairies open source ( aloes, rocketchat, ipso, mysensors ) </li>
+                            <li>Developed a web portfolio ( getlarge.eu )</li>
+                            <li>Self-training : D3JS, Vue, Nativescript </li>
+                            <li>Training courses : React, Loopback </li>
+                            <li>Made contributions to open source projects ( Aloes, MySensors, IPSO alliance )</li>
                         </ul>
-                        <h5>Environnement technique :</h5>
+                        <h5>Technical environment :</h5>
                         <ul>
-                            <li>ExpressJS, D3JS, VueJS, Webpack, Inkscape, Gimp</li>
+                            <li>NodeJS, ExpressJS, Webpack, SVG, Event-driven programming</li>
                         </ul>      
                     </div>
                     <div>
-                        <h3>Développeur / Consultant - Exostic</h3>
-                        <h4>novembre 2017 à juin 2018</h4>
+                        <h3>DEVELOPER / CONSULTANT - EXOSTIC</h3>
+                        <h4>november 2017 until june 2018</h4>
                         <ul>
-                            <li>Développement d'outils de communications ( pitch, site vitrine ) </li>
-                            <li>Suivi de projets clients </li>
-                            <li>Conception de PCB pour prototypage rapide d'objet connecté </li>
-                            <li>Conception de gateway et node LoRaWAN ( open source ) </li>
-                            <li>Développement et entraînement d’un bot assistant les utilisateurs; en interaction avec une plateforme IoT</li>
+                            <li>Built web communication tools ( aloes.io - slides.aloes.io/pitch )</li>
+                            <li>Customers and testers follow up ( Excel spreadsheets, testing result summaries,  ... ) </li>
+                            <li>Prototyped React components to illustrate use cases ( app.aloes.io )</li>
+                            <li>Conceived & deployed  LoRaWAN gateway and nodes ( hardware / software open sourced ) </li>
+                            <li>Maintained development flow on Kanban boards</li>
+                            <li>Tested newly built functionnalities / notifying issues</li>
+                            <li>Trained bots, to act as assistants for visitors and platform users</li>
                         </ul>
-                        <h5>Environnement technique :</h5>
+                        <h5>Technical environment :</h5>
                         <ul>
-                            <li>HTML, CSS, NodeJS, CoffeeJS, Git, Redis, React, MQTT, Lora </li>
+                            <li>JavaScript, MQTT, HTTP, Git, React, CoffeeJS, Lora, Object-oriented programming</li>
                         </ul>      
                     </div>
                     <div>
-                        <h3>Reconversion pro</h3>
-                        <h4>avril 2017 à novembre 2017</h4>
+                        <h3>PROFESSIONAL RETRAINING</h3>
+                        <h4>april 2017 until november 2017</h4>
                         <ul>
-                            <li>Création d'un logiciel embarqué pour connecter rapidement et simplement des capteurs sur Internet </li>
-                            <li>Contribution à des librairies open source ( mysensors ) </li>
-                            <li>Animation d'un réseau d'amateurs d'électronique, impression 3D et développement web ( DIY )</li>
-                            <li>Conception de pièces en 3D</li>
+                            <li>Programmed a wifi device manager ( authentification, config … ), and RF sensor modules</li>
+                            <li>Made contributions to open source projects ( mysensors ) </li>
+                            <li>Launched and animated a hacker’s club ( hardware, software, web, 3D print )</li>
+                            <li>Server administration ( cloud, printers, node-red apps )</li>
                         </ul>
-                        <h5>Environnement technique :</h5>
+                        <h5>Technical environment :</h5>
                         <ul>
-                            <li>Arduino, Raspberry Pi, Nginx, Node-red, Linux, Kicad, Cura</li>
+                            <li>C++, Raspberry Pi, Nginx, Node-red, Kicad, Functional programming</li>
                         </ul>   
                     </div>
                     <div>
-                        <h3>Entrepreneur / Artisan - IVI</h3>
-                        <h4>avril 2014 à avril 2017</h4>
+                        <h3>ENTREPRENEUR / CRAFTSMAN - IVI</h3>
+                        <h4>april 2014 until april 2017</h4>
                         <ul>
-                            <li>Conception et réalisation de supports de culture innovants</li>
-                            <li>Conseil en aménagement paysager</li>
-                            <li>Projets sur mesure - design produits</li>
+                            <li>Created innovative growing medium</li>
+                            <li>Passionate landscape advisor</li>
+                            <li>Developed showcase website</li>
+                            <li>Market analysis & fast prototyping ( vegetal columns, connected sensors, 3D prints )</li>
                         </ul>
+                        <h5>Technical environment :</h5>
+                        <ul>
+                            <li>Linux, HTML, CSS, Arduino, Cura </li>
+                        </ul>  
                     </div>
                 </b-col>
                 <b-col class="articles" xs="12" sm="12" md="12"  >
-                    <h2>Centres d'intérêts</h2>
+                    <h2>Interests</h2>
                     <ul>
-                        <li>Botanique</li>                        
+                        <li>Botanic</li>                        
                         <li>Innovation</li>
                         <li>Open source</li>
-                        <li>Philosophie</li>
+                        <li>Philosophy</li>
                     </ul>
                 </b-col>
             </b-row>
@@ -172,7 +180,7 @@
 
         methods: {
 
-
+            /// todo : chose methods below to transform SVG to PDF  
             // Get the string representation of a DOM node (removes the node)
             domNodeToString(domNode) {
                 var element = document.createElement("div");
@@ -195,6 +203,8 @@
             },
 
             svgToCanvas (className) {
+                //var canvas = document.querySelector('.container') 
+                //var svg = document.querySelector(`.container .${className}`)
                 var canvas = select(".container").append("canvas").attr("class", "screenShotTempCanvas");
                 var svg = select(".container").select(className)
                 var context = canvas.node().getContext("2d");

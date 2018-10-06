@@ -1,7 +1,22 @@
 <template>
     <div id="stream-viewer">
-        <div><button id="snap" v-on:click="capture()">Get cam stream</button></div>
-        <div v-if="timelapse === false" id="image-scanner">
+        <div>
+          <b-dropdown id="cam-list" text="Cam List" class="m-md-2">
+            <b-dropdown-item-btn >{{devices[0]}}</b-dropdown-item-btn>
+            <b-dropdown-item-btn >{{devices[1]}}</b-dropdown-item-btn>
+          </b-dropdown>
+        <b-dropdown id="cam-timelapse" text="Timelapse" class="m-md-2">
+            <b-dropdown-item-btn >{{fpm[0]}} frame/m</b-dropdown-item-btn>
+            <b-dropdown-item-btn >{{fpm[1]}} frame/m</b-dropdown-item-btn>
+            <b-dropdown-item-btn >{{fpm[2]}} frame/m</b-dropdown-item-btn>
+            <b-dropdown-item-btn >{{fpm[3]}} frame/m</b-dropdown-item-btn>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item-btn v-on:click="stream()">timelapse {{!timelapse}}</b-dropdown-item-btn>
+          </b-dropdown>
+            <b-btn v-on:click="capture()">Capture</b-btn>
+        </div>
+
+        <div v-if="uploadedFiles !== [] && timelapse === false "  id="image-scanner">
             <p>Picture labeled as
             <span id="result">...</span> with a confidence of
             <span id="probability">...</span></p>
@@ -25,10 +40,11 @@ export default {
     data() {
         return {
             protocol: ["node-webcam"],
-            device: ["Camera2894413", "Camera2894413"],
-            event: ["rx", "tx"],
-            sensor: ["camera", "system"],
-            command: ["capture", "timelapse", "stream", "fpm", "reso"],
+            devices: ["Camera2894413", "Camera16769688"],
+            events: ["rx", "tx"],
+            sensors: ["camera", "system"],
+            commands: ["capture", "timelapse", "stream", "fpm", "reso"],
+            fpm: [1, 2, 4, 6],
             img: {},
             canvas: {},
             captures: [],
@@ -40,49 +56,61 @@ export default {
     },
 
     created() {
-        this.rxTopic =
+        this.captureTopicRX =
             this.protocol[0] +
             "/" +
-            this.device[0] +
+            this.devices[0] +
             "/" +
-            this.event[0] +
+            this.events[0] +
             "/" +
-            this.sensor[0] +
+            this.sensors[0] +
             "/" +
-            this.command[0];
-        this.txTopic =
+            this.commands[0];
+        this.captureTopic =
             this.protocol[0] +
             "/" +
-            this.device[0] +
+            this.devices[0] +
             "/" +
-            this.event[1] +
+            this.events[1] +
             "/" +
-            this.sensor[0] +
+            this.sensors[0] +
             "/" +
-            this.command[0];
-        this.txTopic2 =
+            this.commands[0];
+        this.timelapseTopic =
             this.protocol[0] +
             "/" +
-            this.device[0] +
+            this.devices[0] +
             "/" +
-            this.event[1] +
+            this.events[1] +
             "/" +
-            this.sensor[0] +
+            this.sensors[0] +
             "/" +
-            this.command[1];
+            this.commands[1];
+        this.fpmTopicTX =
+            this.protocol[0] +
+            "/" +
+            this.devices[0] +
+            "/" +
+            this.events[1] +
+            "/" +
+            this.sensors[0] +
+            "/" +
+            this.commands[1];
     },
 
     mounted() {
-        EventBus.$emit("sub:mqtt", this.rxTopic + "/#");
+        document.getElementById("image-scanner").style.opacity = 0;
+        EventBus.$emit("sub:mqtt", this.captureTopicRX + "/#");
+        /// rename rx event on the subscribe topic rx:mqtt:{topicName}
         EventBus.$on("rx:mqtt", (topic, payload) => {
-            if (topic === this.rxTopic) {
+            if (topic === this.captureTopicRX) {
                 this.counter += 1;
                 if (!payload.length) {
                     return false;
                 }
                 this.parseStream(payload, 1024);
             } else {
-                console.log("not matching");
+                //console.log("not matching");
                 return false;
             }
         });
@@ -91,19 +119,24 @@ export default {
     methods: {
         capture() {
             console.log("capture");
-            EventBus.$emit("tx:mqtt", this.txTopic, "1");
+            document.getElementById("image-scanner").style.opacity = 0;
+            EventBus.$emit("tx:mqtt", this.captureTopicTX, "1");
         },
 
         stream() {
             if (this.timelapse === false) {
                 console.log("timelapse on");
-                EventBus.$emit("tx:mqtt", this.txTopic2, "1");
+                EventBus.$emit("tx:mqtt", this.timelapseTopic, "1");
                 return (this.timelapse = true);
             } else if (this.timelapse === true) {
                 console.log("timelapse off");
-                EventBus.$emit("tx:mqtt", this.txTopic2, "0");
+                EventBus.$emit("tx:mqtt", this.timelapseTopic, "0");
                 return (this.timelapse = false);
             }
+        },
+
+        setFPM(fpm) {
+            EventBus.$emit("tx:mqtt", this.fpmTopicTX, fpm);
         },
 
         parseStream(payload, bufferSize) {
@@ -117,7 +150,7 @@ export default {
                     }));
                 }
             } else if (payload.length <= 4) {
-                console.log("last", this.counter);
+                //console.log("last", this.counter);
                 var blob = new Blob([this.uploadedFiles, payload], { type: "image/jpeg" });
                 this.uploadedFiles = [];
                 this.counter = 0;
@@ -169,6 +202,7 @@ export default {
         },
 
         classifyImage() {
+            document.getElementById("image-scanner").style.opacity = 1;
             const image = document.getElementById("image");
             const result = document.getElementById("result");
             const probability = document.getElementById("probability");
@@ -179,6 +213,7 @@ export default {
                 result.innerText = results[0].className;
                 probability.innerText = results[0].probability.toFixed(4);
             });
+
         }
     }
 };

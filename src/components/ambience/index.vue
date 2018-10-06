@@ -52,11 +52,8 @@
 // todo : image resizing and cropping after upload ( 300 x 300px square )
 import { mapState } from "vuex";
 import { rgb } from "d3-color";
-import { easeLinear } from "d3-ease";
 import { interpolateHcl, interpolateHclLong } from "d3-interpolate";
-import { scaleLinear, scaleOrdinal, scaleTime } from "d3-scale";
 import { event, select, selectAll } from "d3-selection";
-import { active, transition } from "d3-transition";
 import draggable from "vuedraggable";
 import { EventBus } from "@/main";
 import audioSlider from "./audio-slider";
