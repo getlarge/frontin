@@ -28,7 +28,7 @@ const config = {
                     .toString(16)
                     .substr(2, 8),
             username: process.env.MQTT_CLIENT_USER || "",
-            password: process.env.MQTT_CLIENT_PASS || ""
+            password: new Buffer(process.env.MQTT_CLIENT_PASS) || ""
         }
     },
     chatClient: {
