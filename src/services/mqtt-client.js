@@ -18,7 +18,7 @@ export default class mqttClient {
         };
         this.client;
         this._initClient();
-        this.asyncClient;
+        //  this.asyncClient;
         this.buffer = [];
         this.frame = {};
         this.subscribeList = [];
@@ -30,8 +30,7 @@ export default class mqttClient {
             config.mqttClient.url,
             this.options
         );
-        this.asyncClient = new AsyncClient(this.client);
-
+        //  this.asyncClient = new AsyncClient(this.client);
         EventBus.$on("store:mqtt", () => {
             this.getStore();
         });
@@ -71,7 +70,7 @@ export default class mqttClient {
 
     close() {
         this.client.end();
-        return this.asyncClient.end();
+        //  return this.asyncClient.end();
     }
 
     setStatus(status) {
