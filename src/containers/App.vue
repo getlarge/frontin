@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import MqttClient from '@/services/mqtt-client';
+import Mqtt from '@/services/mqtt-client';
 import topNav from '@/containers/menu-navigation';
 import bottomNav from '@/containers/footer-navigation';
 import {EventBus} from '@/main';
@@ -26,7 +26,7 @@ export default {
       path: this.$route.name,
       agent: '',
       sessionId: 0,
-      client: new MqttClient(),
+      client: new Mqtt(),
       showLocale: false,
       showNav: false,
     };

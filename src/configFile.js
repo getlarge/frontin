@@ -21,10 +21,8 @@ const config = {
   domain: process.env.DOMAIN || 'getlarge.eu',
   httpClient: {
     url: process.env.HTTP_CLIENT_URL || 'http://localhost:3000/',
-    username: process.env.HTTP_CLIENT_USER || '',
-    password: process.env.HTTP_CLIENT_PASS || '',
   },
-  mqttClient: {
+  mqtt: {
     url: mqttUrl,
     options: {
       clientId: mqttClientId,

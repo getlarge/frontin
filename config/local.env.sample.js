@@ -10,14 +10,12 @@ module.exports = {
 	GIT_LINK: '"https://framagit.org/getlarge/frontin/"',
 	COMPONENTS_PATH: '"tree/master/src/components"',
 	HTTP_CLIENT_URL: '"http://localhost:3000/"',
-	HTTP_CLIENT_USER: '""',
-	HTTP_CLIENT_PASS: '""',
 	MQTT_CLIENT_URL: '"mqtt://localhost:3001"',
 	MQTT_CLIENT_HOST: '"localhost"',
 	MQTT_CLIENT_PORT: 3001,
 	MQTT_CLIENT_ID: '"frontin"',
 	MQTT_CLIENT_USER: '""',
-  	MQTT_CLIENT_PASS: '""',
-  	CHAT_CLIENT_URL: '""',
-  	CHAT_CLIENT_SCRIPT_URL: '""'
+  MQTT_CLIENT_PASS: '""',
+  CHAT_CLIENT_URL: '""',
+  CHAT_CLIENT_SCRIPT_URL: '""'
 };
