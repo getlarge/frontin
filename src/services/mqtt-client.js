@@ -7,7 +7,7 @@ import {EventBus} from '@/main';
 export default class Mqtt {
   constructor() {
     this.options = config.mqtt.options;
-    this.client: {};
+    this.client = {};
     this._initClient();
     //  this.asyncClient;
     this.buffer = [];
@@ -17,8 +17,8 @@ export default class Mqtt {
   }
 
   _initClient() {
-    console.log('mqttConfig;', config.mqtt.url)
-    console.log('mqttConfig;', config.mqtt.options)
+    // console.log('mqttConfig;', config.mqtt.url);
+    // console.log('mqttConfig;', config.mqtt.options);
     this.client = mqtt.connect(
       config.mqtt.url,
       this.options,
