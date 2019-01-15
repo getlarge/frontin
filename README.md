@@ -1,86 +1,29 @@
-# Getlarge Portfolio - Frontin'
+# Frontin
 
-**frontin** is a **Vue.js - D3.js - MQTT** client application, which works in conjunction with [http server](https://framagit.org/getlarge/bareback) & [mqtt broker](https://framagit.org/getlarge/broka-billy).
-See it in [action](https://getlarge.eu).
-
-## Table of Contents
-- [Setup](#setup)
-- [Installation](#installation)
-- [Usage](#usage)
-
-
-## Setup
-### Prerequisites
-
-+ node.js
-+ npm
-
-Once installed in your machine, you can simply run the commands listed in the steps below.
-
-
-## Installation
-
-### 1. frontin *client*
-
-*Before running the client, be sure you have both MQTT Broker and HTTP Server running in separate terminal windows.*
-
-Configure your instance by copying and editing config/local.env.sample.js in a new config/local.env.js file.
-
-Open a new terminal window and navigate inside the root folder of the client application, then run:
-
+## Project setup
 ```
 npm install
-npm start
 ```
 
-After compilation, you will see the link in the terminal *(e.g. http://localhost:8080)* where the application is currently running. Use your browser to navigate to that link. 
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-
-## Usage
-
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# launch Vue devtools 
-npm run devtools
-
-# build for production with minification
+### Compiles and minifies for production
+```
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
-
-
-
 ```
 
+### Run your tests
+```
+npm run test
+```
 
-## Built With
-### Client
-* [Vue.js](https://github.com/vuejs/vue) - JavaScript framework for building UI on the web.
-* [D3.js](https://github.com/d3/d3) - bring data to life with SVG, Canvas and HTML.
-* [Tone.js](https://github.com/Tonejs/Tone.js/) - a Web Audio framework for making interactive music in the browser
-* [MQTT.js](https://github.com/mqttjs/MQTT.js) - The MQTT client for Node.js and the browser
-* [Bootstrap](https://github.com/twbs/bootstrap) - HTML, CSS, and JavaScript framework for developing responsive, mobile first projects on the web.
+### Lints and fixes files
+```
+npm run lint
+```
 
-
-## TODO
-
-+ animations :
-	+ MQTT tree --> display IoT devices network--> 
-		+ style interpolation based on incoming message properties 
-	+ what plants talk about ? :
-		+ live streaming of plants getting recorded ( audio ) 
-
-+ add unit tests
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
