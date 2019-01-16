@@ -1,0 +1,154 @@
+<template>
+  <div id="audio-slider" ref="audioSlider">
+    <button 
+      class="player" 
+      @click="togglePlayback"  >
+      <b-img 
+        class="iconic" 
+        :src="icon" 
+        fluid />
+    </button>
+    <vue-slider 
+      ref="slider1" 
+      v-model="value" 
+      v-bind="options"/>
+  </div>
+
+</template>
+
+<script>
+import { rgb } from "d3-color";
+import { interpolateHclLong } from "d3-interpolate";
+import { select } from "d3-selection";
+import vueSlider from "vue-slider-component";
+import VueHowler from "vue-howler";
+import { EventBus } from "@/main";
+
+export default {
+  props: ["icon", "id", "colors"],
+
+  mixins: [VueHowler],
+
+  data() {
+    return {
+      isPlaying: false,
+      value: 0.5,
+      options: {
+        eventType: "auto",
+        width: "auto",
+        height: 10,
+        dotSize: 25,
+        dotHeight: null,
+        dotWidth: null,
+        min: 0,
+        max: 1,
+        interval: 0.05,
+        show: true,
+        speed: 0.5,
+        disabled: false,
+        tooltip: false,
+        tooltipDir: "top",
+        reverse: false,
+        data: null,
+        clickable: true,
+        realTime: false,
+        lazy: true,
+        formatter: null,
+        bgStyle: {
+          backgroundColor: "#e8e8e8",
+          opacity: "0.5"
+        },
+        sliderStyle: null,
+        processStyle: {
+          backgroundColor: "#aaf7d3",
+          opacity: "0.5"
+        }
+      },
+      colorSet: [
+        {
+          color1: "#01c669",
+          color2: "#ff830f" //"#48725e"
+        }
+      ]
+    };
+  },
+
+  components: {
+    vueSlider
+  },
+
+  created() {},
+
+  mounted() {
+    //console.log(this.$refs.slider1)
+    this.color = interpolateHclLong(
+      rgb(this.colorSet[0].color1),
+      rgb(this.colorSet[0].color2)
+    );
+    if (this.icon !== null) {
+      this.initialize();
+      this.$on("play", () => {
+        this.isPlaying = true;
+        this.toggleBG();
+      });
+      this.$on("pause", () => {
+        this.isPlaying = false;
+        this.toggleBG();
+      });
+
+      EventBus.$on("file-uploader", event => {
+        if (event === "add") {
+          //  return console.log(this);
+          //this.$props.icon = "http://localhost:3000/images/3"
+        }
+      });
+      EventBus.$on("update:audio-slider", value => {
+        if (this.$refs.slider1.processStyle !== null) {
+          return (this.$refs.slider1.processStyle.backgroundColor = this.color(
+            value
+          ));
+        }
+        //console.log("value", value);
+      });
+
+      return;
+    } else {
+      select(this.$el).style("opacity", "0");
+      //console.log("this", this)
+      return;
+    }
+  },
+
+  updated() {
+    //console.log("props", this.$props);
+    this.setVolume(this.value);
+    EventBus.$emit("start:audio-slider", this.$props.key, this.value);
+  },
+
+  beforeDestroy() {
+    //this.stop()
+  },
+
+  watch: {},
+
+  computed: {},
+
+  methods: {
+    initialize() {
+      this.setVolume(this.value);
+      select(this.$el)
+        .attr("ref", "audio-slider-" + this.$props.id)
+        .style("opacity", "0.6");
+      //console.log(this)
+    },
+
+    toggleBG() {
+      select(this.$el).style("opacity", this.isPlaying ? "1" : "0.6");
+    }
+  }
+};
+</script>
+
+<style lang="scss">
+@import "../../styles/ambienz.scss";
+</style>

@@ -1,0 +1,58 @@
+#top-nav {
+  .dropdown-item {
+    background-color: white;
+    border: 0px;
+    border-color: #f9b23e;
+    color: #686868;
+  }
+
+  .dropdown-item.active {
+    background-color: transparent;
+    border: 1px;
+    border-color: #f9b23e;
+    color: #33b277;
+  }
+
+  .dropdown-item:focus {
+    background-color: white;
+    border: 1px;
+    border-color: #f9b23e;
+  }
+
+  .dropdown-item:hover {
+    background-color: transparent;
+    border: 1px;
+    border-color: #f9b23e;
+  }
+
+  .logo {
+    height: 45px !important;
+    opacity: 0.8;
+  }
+
+  .page-title {
+    position: relative;
+    width: 100%;
+    vertical-align: middle;
+    margin-top: 8%;
+    margin-bottom: -5%;
+    text-align: center;
+  }
+
+  .on path {
+    fill: #01c669 !important;
+    opacity: 0.7;
+  }
+
+  .off path {
+    fill: #ff830f !important;
+    opacity: 0.6;
+  }
+}
+
+#links {
+  display: block;
+  width: 300px;
+  height: 40px;
+  position: relative;
+}
