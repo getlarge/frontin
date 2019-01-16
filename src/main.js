@@ -1,13 +1,13 @@
 import Vue from "vue";
 import VueMq from "vue-mq";
-import {VueHammer} from "vue2-hammer";
+import { VueHammer } from "vue2-hammer";
 import BootstrapVue from "bootstrap-vue";
 require("bootstrap/dist/css/bootstrap.css");
 require("bootstrap-vue/dist/bootstrap-vue.css");
 // import { Layout } from "bootstrap-vue/es/components";
 // import VueCroppie from "vue-croppie";
 
-import {library, dom} from "@fortawesome/fontawesome-svg-core";
+import { library, dom } from "@fortawesome/fontawesome-svg-core";
 import {
   faCoffee,
   faQuestionCircle,
@@ -36,10 +36,15 @@ import {
   faStar,
   faPlusCircle,
   faInfoCircle,
-  faSearch,
+  faSearch
 } from "@fortawesome/free-solid-svg-icons";
-import {faTwitter, faGitlab, faLinkedinIn, faRocketchat} from "@fortawesome/fontawesome-free-brands";
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {
+  faTwitter,
+  faGitlab,
+  faLinkedinIn,
+  faRocketchat
+} from "@fortawesome/fontawesome-free-brands";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import App from "./App.vue";
 import store from "@/store";
@@ -57,8 +62,8 @@ Vue.use(VueMq, {
     tablet: 900,
     laptop: 1250,
     desktop: 1600,
-    xxl: Infinity,
-  },
+    xxl: Infinity
+  }
 });
 
 //  Vue.use(Layout);
@@ -97,7 +102,7 @@ library.add(
   faStar,
   faPlusCircle,
   faInfoCircle,
-  faSearch,
+  faSearch
 );
 dom.watch();
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -120,5 +125,5 @@ export const EventBus = new Vue();
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");

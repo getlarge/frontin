@@ -74,6 +74,10 @@ export default new Vuex.Store({
         iconInfo2: `${process.env.VUE_APP_CLIENT_URL}/icons/info2.png`,
         iconLetter: `${process.env.VUE_APP_CLIENT_URL}/icons/letter.png`,
         iconLetter2: `${process.env.VUE_APP_CLIENT_URL}/icons/letter2.png`,
+        rectangle: `${process.env.VUE_APP_CLIENT_URL}/icons/rectangle.png`,
+        rectangleFlipped: `${
+          process.env.VUE_APP_CLIENT_URL
+        }/icons/rectangle-flipped.png`,
         mapMarker: `${process.env.VUE_APP_CLIENT_URL}/icons/map-marker.png`,
         mapMarkerAlt: `${
           process.env.VUE_APP_CLIENT_URL

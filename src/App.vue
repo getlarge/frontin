@@ -13,15 +13,15 @@ import wrap from "@vue/web-component-wrapper";
 import Mqtt from "@/services/MqttClient";
 import topNav from "@/views/containers/MenuNavigation";
 import bottomNav from "@/views/containers/FooterNavigation";
-import {EventBus} from "@/main";
-import {localStore} from "@/services/LocalStore";
+import { EventBus } from "@/main";
+import { localStore } from "@/services/LocalStore";
 
 export default {
   name: "App",
 
   components: {
     topNav,
-    bottomNav,
+    bottomNav
   },
 
   data() {
@@ -33,7 +33,7 @@ export default {
       client: new Mqtt(),
       showLocale: false,
       showNav: false,
-      customElement: null,
+      customElement: null
     };
   },
   // beforeCreate() {
@@ -51,7 +51,7 @@ export default {
   created() {
     console.log(
       "%c getlarge.eu - 2018 ",
-      "background: #33b277; color: white; display: block; width: 140px; border-radius: 5px; font-size: 12px;",
+      "background: #33b277; color: white; display: block; width: 140px; border-radius: 5px; font-size: 12px;"
     );
     const id = localStore.getRandomInt(1000, 5000);
     this.checkNavigator();
@@ -65,7 +65,9 @@ export default {
 
   mounted() {
     if (this.customElement === null) {
-      this.CustomElement = wrap(Vue, () => import(`@/components/Aloes/SensorSnap.vue`));
+      this.CustomElement = wrap(Vue, () =>
+        import(`@/components/Aloes/SensorSnap.vue`)
+      );
       if (!window.customElements.get("aloes-sensor-snap")) {
         window.customElements.define("aloes-sensor-snap", this.CustomElement);
       }
@@ -83,10 +85,6 @@ export default {
     // );
     // this.client.publish(this.appName + "/stat", "connected");
     //this.rightClickPrevent();
-  },
-
-  updated() {
-    console.log(this.customElement);
   },
 
   beforeDestroy() {
@@ -129,14 +127,14 @@ export default {
         sBrowser = "unknown";
       }
       this.agent = sBrowser;
-    },
+    }
 
     // rightClickPrevent() {
     //     selectAll("img").on("contextmenu", function() {
     //         event.preventDefault();
     //     });
     // }
-  },
+  }
 };
 </script>
 

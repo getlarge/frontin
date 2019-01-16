@@ -21,8 +21,50 @@
             pointer-events="all" 
             viewBox="0 0 900 700" 
             preserveAspectRatio="xMinYMin meet">
-              <g :id="links"/>
-              <g :id="nodes"/>
+            <defs>
+              <filter 
+                id="circle-shadow-selected" 
+                y="-10" 
+                x="-10"
+                height="40"
+                width="150">
+                <feOffset 
+                  in="SourceAlpha" 
+                  dx="1" 
+                  dy="1" 
+                  result="offset1" />
+                <feGaussianBlur 
+                  in="offset2" 
+                  stdDeviation="1" 
+                  result="blur1"/>
+                <feMerge>
+                  <feMergeNode in="blur2" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter 
+                id="circle-shadow" 
+                y="-10"
+                x="-10"
+                height="40"
+                width="150">
+                <feOffset 
+                  in="SourceAlpha" 
+                  dx="2" 
+                  dy="2" 
+                  result="offset2" />
+                <feGaussianBlur 
+                  in="offset2" 
+                  stdDeviation="2"  
+                  result="blur2"/>
+                <feMerge>
+                    <feMergeNode in="blur2" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <g :id="links"/>
+            <g :id="nodes"/>
           </svg>
         </div>
       </b-col>
@@ -103,7 +145,7 @@ export default {
       const text =
         "Another way to browse into a portfolio ... \nAccess pictures by clicking on circles containing images.";
       const tags = "";
-      const img = "static/img/tuto-gallery.gif";
+      const img = "/img/tuto-gallery.gif";
       EventBus.$emit("update:tutorial", this.$route.name, text, tags, img);
     });
   },
@@ -137,6 +179,7 @@ export default {
             .style("fill", d => this.colorPalette(d.data.category))
             //.style("fill", "#686868")
             .style("opacity", d => (d.data.group > 2 ? "0" : "1"))
+            .attr("filter", "url(#circle-shadow)")
         );
       }
       return null;
@@ -220,9 +263,17 @@ export default {
               d => (d.data.group > 2 ? 1.5 * d.data.size : 2 * d.data.size)
             )
             .attr("opacity", d => (d.data.group < 2 ? "0" : "1"))
+            .attr("filter", "url(#circle-shadow)")
+            .attr("cursor", "pointer")
             .on("click", this.mouseClick)
             .on("mouseenter", this.mouseEnter)
             .on("mouseleave", this.mouseLeave)
+            .on("mouseover", function() {
+              select(this).attr("filter", "url(#circle-shadow-selected)");
+            })
+            .on("mouseout", function() {
+              select(this).attr("filter", "url(#circle-shadow)");
+            })
             .call(
               drag()
                 .on("start", this.dragstarted)
@@ -389,17 +440,17 @@ export default {
       this.createGallery(d);
     },
 
-    mouseEnter(d, i) {
-      this.$emit("nodeSelected", i);
-    },
+    // mouseEnter(d, i) {
+    //   this.$emit("nodeSelected", i);
+    // },
 
-    mouseLeave(d, i) {
-      if (this.currentNode !== null) {
-        this.$emit("nodeDeselected", i);
-      } else {
-        return;
-      }
-    },
+    // mouseLeave(d, i) {
+    //   if (this.currentNode !== null) {
+    //     this.$emit("nodeDeselected", i);
+    //   } else {
+    //     return;
+    //   }
+    // },
 
     dragstarted(d) {
       //  this.synth.synthAttack(d.data.notes); //ex delay : '+0.05'

@@ -332,8 +332,8 @@ export default {
           this.icons[4].path
         }></img><p class='text'></br>...on a mission, but you can send me your request anyway!</p></div>`,
         text2: `<img class='square' src=${
-          this.clientUrl
-        }/icons/rectangle.png><div><img class='trombi' src=${this.clientUrl}${
+          this.$store.state.style.pictures.rectangle
+        }><div><img class='trombi' src=${this.clientUrl}${
           this.icons[3].path
         }></img><p class='text'>Your project requires UI/UX design, frontend / backend development, or embedded system prototyping ?</br>Why not talking about it now.</p></div>`
       };
@@ -342,17 +342,15 @@ export default {
       return {
         title: "contact",
         text: `<img class='square' src=${
-          this.clientUrl
-        }/icons/rectangle-flipped.png><div><img class='trombi' style='opacity:0.8;' src=${
-          this.clientUrl
-        }${
+          this.$store.state.style.pictures.rectangleFlipped
+        }><div><img class='trombi' style='opacity:0.8;' src=${this.clientUrl}${
           this.icons[2].path
         }></img><p class='text'>Edouard Maleix</br><a href=mailto:ed@${
-          this.$store.state.domain
-        }>ed@${this.$store.state.domain}</a></br><a href=tel:${
-          this.$store.state.tel
+          this.$store.state.base.domain
+        }>ed@${this.$store.state.base.domain}</a></br><a href=tel:${
+          this.$store.state.base.tel
         }>${
-          this.$store.state.tel
+          this.$store.state.base.tel
         }</a></br>Nantes</br>References on request</p></div>`
       };
     }

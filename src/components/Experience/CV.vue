@@ -75,21 +75,21 @@
           </div>
           <div class='infos'>
             <h3>
-              <a :href="'tel:'+tel">
+              <a :href="`tel:${tel}`">
                 <font-awesome-icon 
                   class="icons" 
                   icon="phone" 
                   size="sm" /> 
-                {{tel}}
+                {{ tel }}
               </a>
             </h3>
             <h3>
-              <a :href="'mailto:ed@'+domain">
+              <a :href="`mailto:ed@${domain}`">
                 <font-awesome-icon 
                   class="icons" 
                   icon="envelope-open" 
                   size="sm" /> 
-                ed@{{domain}}
+                ed@{{ domain }}
               </a>
             </h3>
             <h3>
@@ -100,7 +100,7 @@
                   class="icons" 
                   icon="link" 
                   size="sm" /> 
-                {{domain}}
+                {{ domain }}
               </a>
             </h3>
             <h3>
@@ -195,15 +195,12 @@
             <ul>
               <li>NodeJS, ExpressJS, Webpack, SVG, Event-driven programming</li>
             </ul>
-          </div>
-          <div>
-            <h3>DEVELOPER / CONSULTANT - EXOSTIC</h3>
             <h4>november 2017 until june 2018</h4>
             <ul>
+              <li>Participating to IoT platform development, Exostic</li>
               <li>Building web communication tools ( aloes.io - slides.aloes.io/pitch )</li>
-              <li>Customers and testers follow up ( Excel spreadsheets, testing result summaries,  ... ) </li>
               <li>Prototyped React components to illustrate use cases ( app.aloes.io )</li>
-              <li>Conceived & deployed  LoRaWAN gateway and nodes ( hardware / software open sourced ) </li>
+              <li>Conceived & deployed  LoRaWAN gateway and nodes ( hardware / software open source ) </li>
               <li>Maintained development flow on Kanban boards</li>
               <li>Tested newly built functionnalities / notifying issues</li>
               <li>Trained bots, to act as assistants for visitors and platform users</li>

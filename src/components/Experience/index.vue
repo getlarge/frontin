@@ -114,25 +114,25 @@
 <script>
 import CV from "./CV";
 import Timeline from "./Timeline";
-import {EventBus} from "@/main";
+import { EventBus } from "@/main";
 
 export default {
   data() {
     return {
       pageTopic: "getlarge" + this.$route.path,
-      interactive: false,
+      interactive: false
     };
   },
 
   components: {
     cv: CV,
-    timeline: Timeline,
+    timeline: Timeline
   },
 
   created() {},
 
   mounted() {
-    EventBus.$on("update:interactive", (state) => {
+    EventBus.$on("update:interactive", state => {
       if (state || !state) {
         return this.interactive === state;
       }
@@ -149,14 +149,14 @@ export default {
 
   computed: {
     btnStates() {
-      return this.buttons.map((btn) => btn.state);
+      return this.buttons.map(btn => btn.state);
     },
     title() {
       if (this.interactive) {
         return "CV";
       }
       return "Timeline";
-    },
+    }
   },
 
   methods: {
@@ -166,8 +166,8 @@ export default {
       } else if (!this.interactive) {
         return (this.interactive = true);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

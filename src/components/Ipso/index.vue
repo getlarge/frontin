@@ -45,11 +45,10 @@
 </template>
 
 <script>
-import {ipsoObjects, ipsoResources} from "aloes-handlers";
-import {keys} from "d3-collection";
-import {json} from "d3-fetch";
-import {hierarchy, tree} from "d3-hierarchy";
-import {event, select} from "d3-selection";
+import { ipsoObjects, ipsoResources } from "aloes-handlers";
+import { keys } from "d3-collection";
+import { hierarchy } from "d3-hierarchy";
+import { select } from "d3-selection";
 import bDropdown from "bootstrap-vue/es/components/dropdown/dropdown";
 import bDropdownDivider from "bootstrap-vue/es/components/dropdown/dropdown-divider";
 import bDropdownItemButton from "bootstrap-vue/es/components/dropdown/dropdown-item-button";
@@ -60,28 +59,34 @@ export default {
   components: {
     "b-dropdown": bDropdown,
     "b-dropdown-divider": bDropdownDivider,
-    "b-dropdown-item-button": bDropdownItemButton,
+    "b-dropdown-item-button": bDropdownItemButton
   },
 
   data() {
     return {
       pageTopic: "getlarge" + this.$route.path,
-      width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-      height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+      width: Math.max(
+        document.documentElement.clientWidth,
+        window.innerWidth || 0
+      ),
+      height: Math.max(
+        document.documentElement.clientHeight,
+        window.innerHeight || 0
+      ),
       nodes: null,
       titles: null,
       sortAscending: false,
       rows: {},
       headers: {},
       selectedColumns: [],
-      clientUrl: this.$store.state.clientUrl,
+      clientUrl: this.$store.state.clientUrl
     };
   },
 
   mounted() {
     //  this.tableLoader(`${this.$store.state.clientUrl}${path}`, this.selectedColumns);
     this.tableLoader(ipsoObjects, this.selectedColumns);
-    this.$on("update:table", (source) => {
+    this.$on("update:table", source => {
       let graph;
       if (source === "ipsoObjects") {
         graph = ipsoObjects;
@@ -103,13 +108,11 @@ export default {
       this.$emit("update:table", path);
     },
 
-    tableLoader(source, colums) {
-      //  const graph = await json(dataPath);
+    tableLoader(source) {
       const root = hierarchy(source);
       this.nodes = root.descendants();
       this.titles = keys(this.nodes[0].data[0]);
-      console.log("tableLoader", this.titles);
-
+      //  console.log("tableLoader", this.titles);
       this.tabulate(this.nodes[0].data, this.titles);
       //self.tabulate(nodes[0].data.tables, ['name', 'description', 'ipsoId', 'ressources', 'colors', 'img']);
     },
@@ -134,7 +137,7 @@ export default {
       }
     },
 
-    sortTables(d, headers, rows) {
+    sortTables(d) {
       //     headers.attr("class", "header");
       if (this.sortAscending) {
         // var test = rows._groups[0].forEach(myFunction);
@@ -188,7 +191,7 @@ export default {
         .data(titles)
         .enter()
         .append("th")
-        .text((d) => d)
+        .text(d => d)
         .attr("class", "header")
         .on("click", this.sortTables);
       this.rows = table
@@ -199,38 +202,41 @@ export default {
         .append("tr");
       this.rows
         .selectAll("td")
-        .data((row) => {
-          return titles.map((column) => {
+        .data(row => {
+          return titles.map(column => {
             //  return {column, value: row[column]};
             if (column === "icons") {
-              return {column, icons: row[column]};
+              return { column, icons: row[column] };
             } else if (column === "colors") {
-              return {column, colors: row[column]};
+              return { column, colors: row[column] };
             } else if (column === "resources") {
-              return {column, resources: row[column]};
-            } 
-            return {column, value: row[column]};
+              return { column, resources: row[column] };
+            }
+            return { column, value: row[column] };
           });
         })
         .enter()
         .append("td")
-        .attr("data-th", (d) => d.column)
-        .text((d) => (d.resources ? d.resources.toString() : d.value))
+        .attr("data-th", d => d.column)
+        .text(d => (d.resources ? d.resources.toString() : d.value))
         .append("div")
         .attr("class", "cells")
         .style(
           "background",
-          (d) => (d.colors ? `linear-gradient(to right,${d.colors[0]},${d.colors[1]})` : "transparent"),
+          d =>
+            d.colors
+              ? `linear-gradient(to right,${d.colors[0]},${d.colors[1]})`
+              : "transparent"
         )
-        .style("opacity", (d) => (d.colors ? "0.7" : "1"))
+        .style("opacity", d => (d.colors ? "0.7" : "1"))
         .append("img")
         .attr("class", "icons")
-        .attr("src", (d) => (d.icons ? d.icons[0] : null));
+        .attr("src", d => (d.icons ? d.icons[0] : null));
       //  .attr("src", (d) => d.icons.split(",") ? d.icons.split(",")[0] : "");
 
       return table;
-    },
-  },
+    }
+  }
 };
 </script>
 

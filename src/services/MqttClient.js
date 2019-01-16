@@ -1,14 +1,15 @@
 import mqtt from "mqtt";
-import {EventBus} from "@/main";
+import { EventBus } from "@/main";
 
 export default class Mqtt {
   constructor() {
     this.options = {
-      clientId: `${process.env.VUE_APP_MQTT_CLIENT_ID || "frontin"}_${Math.random()
+      clientId: `${process.env.VUE_APP_MQTT_CLIENT_ID ||
+        "frontin"}_${Math.random()
         .toString(16)
         .substr(2, 8)}`,
       username: process.env.VUE_APP_MQTT_USER,
-      password: new Buffer(process.env.VUE_APP_MQTT_PASS),
+      password: new Buffer(process.env.VUE_APP_MQTT_PASS)
     };
     this.client = {};
     this._initClient();
@@ -22,12 +23,12 @@ export default class Mqtt {
   _initClient() {
     this.client = mqtt.connect(
       process.env.VUE_APP_BROKER_URL,
-      this.options,
+      this.options
     );
     EventBus.$on("store:mqtt", () => {
       this.getStore();
     });
-    EventBus.$on("sub:mqtt", (topic) => {
+    EventBus.$on("sub:mqtt", topic => {
       this.subscribe(topic);
     });
     EventBus.$on("tx:mqtt", (topic, message) => {
@@ -68,12 +69,12 @@ export default class Mqtt {
 
   publish(topic, message) {
     //console.log("sending :" ,topic, message)
-    this.client.publish(topic, message, {retain: false, qos: 0});
+    this.client.publish(topic, message, { retain: false, qos: 0 });
     //this.client.publish(topic, message);
   }
 
   subscribe(topic) {
-    this.client.subscribe(topic, {retain: false, qos: 0});
+    this.client.subscribe(topic, { retain: false, qos: 0 });
     //console.log("subscribed to :", topic)
     //     var pathList = path + '/' + topic;
     // this.subscribeList.push(pathList);

@@ -471,10 +471,10 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 import VueDraggableResizable from "vue-draggable-resizable";
-import {select} from "d3-selection";
-import {EventBus} from "@/main";
+import { select } from "d3-selection";
+import { EventBus } from "@/main";
 
 export default {
   name: "cards",
@@ -483,20 +483,36 @@ export default {
   data() {
     return {
       settings: {
-        dragBoxX: Math.max(document.documentElement.clientWidth, window.innerWidth || 0) / 20,
-        dragBoxY: Math.max(document.documentElement.clientHeight, window.innerHeight || 0) / 2,
-        dragBoxHeight: Math.max(document.documentElement.clientHeight, window.innerHeight || 0) / 2.2,
-        dragBoxWidth: Math.max(document.documentElement.clientWidth, window.innerWidth || 0) / 2,
+        dragBoxX:
+          Math.max(
+            document.documentElement.clientWidth,
+            window.innerWidth || 0
+          ) / 20,
+        dragBoxY:
+          Math.max(
+            document.documentElement.clientHeight,
+            window.innerHeight || 0
+          ) / 2,
+        dragBoxHeight:
+          Math.max(
+            document.documentElement.clientHeight,
+            window.innerHeight || 0
+          ) / 2.2,
+        dragBoxWidth:
+          Math.max(
+            document.documentElement.clientWidth,
+            window.innerWidth || 0
+          ) / 2
       },
       width: 0,
       height: 0,
       x: 0,
-      y: 0,
+      y: 0
     };
   },
 
   components: {
-    VueDraggableResizable,
+    VueDraggableResizable
   },
 
   mounted() {
@@ -505,8 +521,8 @@ export default {
 
   computed: {
     ...mapState({
-      serverURL: (state) => state.base.serverURL,
-    }),
+      serverURL: state => state.base.serverURL
+    })
   },
 
   methods: {
@@ -524,10 +540,26 @@ export default {
 
     updateSettings() {
       this.settings = {
-        dragBoxX: Math.max(document.documentElement.clientWidth, window.innerWidth || 0) / 20,
-        dragBoxY: Math.max(document.documentElement.clientHeight, window.innerHeight || 0) / 2,
-        dragBoxHeight: Math.max(document.documentElement.clientHeight, window.innerHeight || 0) / 2.2,
-        dragBoxWidth: Math.max(document.documentElement.clientWidth, window.innerWidth || 0) / 2,
+        dragBoxX:
+          Math.max(
+            document.documentElement.clientWidth,
+            window.innerWidth || 0
+          ) / 20,
+        dragBoxY:
+          Math.max(
+            document.documentElement.clientHeight,
+            window.innerHeight || 0
+          ) / 2,
+        dragBoxHeight:
+          Math.max(
+            document.documentElement.clientHeight,
+            window.innerHeight || 0
+          ) / 2.2,
+        dragBoxWidth:
+          Math.max(
+            document.documentElement.clientWidth,
+            window.innerWidth || 0
+          ) / 2
       };
     },
 
@@ -535,8 +567,8 @@ export default {
       //console.log("remove-card");
       select(this).remove();
       EventBus.$emit("stop:cards");
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -3,7 +3,7 @@ export default {
   state: {
     serverURL: process.env.VUE_APP_HTTP_SERVER_URL,
     domain: process.env.VUE_APP_DOMAIN,
-    tel: process.env.VUE_APP_TEL,
+    tel: process.env.VUE_APP_PHONE,
     gitLink: process.env.VUE_APP_GIT_LINK,
     files: []
   },

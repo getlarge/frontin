@@ -199,11 +199,10 @@
 </template>
 
 <script>
-import {event, select, selectAll} from "d3-selection";
-import {active, transition} from "d3-transition";
-import {tree} from "vued3tree";
+import { select } from "d3-selection";
+import { tree } from "vued3tree";
 import data from "@/assets/data/mqtt";
-import {EventBus} from "@/main";
+import { EventBus } from "@/main";
 
 /// todo: fetch the json from the http server or the broker storage ?
 /// todo: assign marginY & x values based on window size
@@ -222,7 +221,7 @@ Object.assign(data, {
   zoomable: true,
   isLoading: false,
   graph: null,
-  events: [],
+  events: []
 });
 
 export default {
@@ -232,7 +231,7 @@ export default {
   },
 
   components: {
-    tree,
+    tree
   },
 
   created() {},
@@ -246,19 +245,17 @@ export default {
       .style("opacity", 0);
 
     // todo subscribe on selected device broker and on newly created virtual object bridge
-
     EventBus.$emit("sub:mqtt", `${process.env.VUE_APP_MQTT_CLIENT_USER}/#`);
 
     EventBus.$on("rx:mqtt", (topic, payload) => {
       //console.log(topic, payload.toString())
-      // todo : add a node in native protocol and virtual object tree
       return this.addNode(topic, payload.toString());
     });
-    EventBus.$on("start:tutorial", (i) => {
-      var text =
+    EventBus.$on("start:tutorial", () => {
+      const text =
         "Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol. \nYou can select each circles to navigate in the tree, click on the text next to light grey circles to display messages";
-      var tags = "";
-      var img = "static/img/tuto-mqtt-tree.gif";
+      const tags = "";
+      const img = "/img/tuto-mqtt-tree.gif";
       EventBus.$emit("update:tutorial", this.$route.name, text, tags, img);
       EventBus.$emit("tx:mqtt", "getlarge" + this.$route.path, "started");
       return (this.tutorial = true);
@@ -282,11 +279,11 @@ export default {
     EventBus.$off("start:tutorial");
   },
 
-  watch: {
-    data(current, old) {
-      console.log("watch updated tree", data.Graph.tree);
-    },
-  },
+  // watch: {
+  //   data(current, old) {
+  //     console.log("watch updated tree", data.Graph.tree);
+  //   },
+  // },
 
   methods: {
     do(action) {
@@ -339,7 +336,7 @@ export default {
     },
 
     onEvent(eventName, data) {
-      this.events.push({eventName, data: data.data});
+      this.events.push({ eventName, data: data.data });
       //console.log({eventName, data: data})
     },
 
@@ -351,14 +348,11 @@ export default {
     },
 
     addNode(topic, body) {
-      var self = this;
       // console.log("tree", data.Graph.tree)
       // console.log("component", this.$refs['tree'])
-
-      // compose the tree in realtime
-      var parts = topic.split("/");
+      const parts = topic.split("/");
       if (data.Graph.tree.children[0] === undefined) {
-        newnode = {text: parts.shift(), children: []};
+        const newnode = { text: parts.shift(), children: [] };
         data.Graph.tree.children = [newnode];
         this.walk(parts, newnode, body);
       } else {
@@ -369,12 +363,12 @@ export default {
     walk(parts, node, body) {
       /// parsing mqtt topic
       // todo : fill the nodes based on native protocol or virtual object
-
+      let newnode;
+      let z = 0;
       if (parts.length !== 0) {
         var current = parts.shift();
         if (node.children && node.children.length !== 0) {
           //console.log("walking old");
-          var z = 0;
           for (z = 0; z < node.children.length; z++) {
             //console.log(node.children[z].text + " - " + current);
             if (node.children[z].text == current) {
@@ -390,7 +384,7 @@ export default {
             //var newId = data.each(d => { d.id = this.identifier(d.data) })
             //console.log(newId);
             //var newnode = {"text": current, "id": , "children":[]};
-            var newnode = {text: current, children: []};
+            newnode = { text: current, children: [] };
             node.children.push(newnode);
             this.$refs["tree"].onData(data.Graph.tree);
             // todo : create and fill input for each part of the topic
@@ -398,8 +392,7 @@ export default {
           }
         } else if (node._children && node._children.length != 0) {
           //console.log("walking hidden");
-          var z = 0;
-          for (z === 0; z < node._children.length; z++) {
+          for (z = 0; z < node._children.length; z++) {
             //console.log(node._children[z].name + " - " + current);
             if (node._children[z].text === current) {
               //console.log("found");
@@ -410,7 +403,7 @@ export default {
           //console.log("done hidden loop - " + z + ", " + node._children.length);
           if (z === node._children.length) {
             //console.log("adding new hidden");
-            var newnode = {text: current, _children: []};
+            newnode = { text: current, _children: [] };
             node._children.push(newnode);
             this.$refs["tree"].onData(data.Graph.tree);
             // todo : create and fill input for each part of the topic
@@ -420,7 +413,7 @@ export default {
           }
         } else {
           //console.log("empty");
-          newnode = {text: current, children: []};
+          newnode = { text: current, children: [] };
           node.children = [newnode];
           // todo : update input
           this.walk(parts, node.children[0], body);
@@ -468,7 +461,7 @@ export default {
         .duration(200)
         .style("opacity", 0.8)
         .style("fill", "#33b277");
-      var payloadElem = JSON.parse(data.payload);
+      //  const payloadElem = JSON.parse(data.payload);
       this.div
         .html("<p class='payload'>" + data.payload + "</p>")
         //this.div.html("<p class='payload'>"+payloadElem.data+" - "+payloadElem.time+"</p>")
@@ -481,8 +474,8 @@ export default {
         .transition()
         .duration(500)
         .style("opacity", 0);
-    },
-  },
+    }
+  }
 };
 </script>
 
