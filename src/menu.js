@@ -62,7 +62,7 @@ const routes = [
 ].map((r) => {
   var res = r;
   res.source = `${process.env.VUE_APP_GIT_LINK}
-    ${process.env.VUE_APP_COMPONENTS_PATH}
+    ${process.env.VUE_APP_GIT_COMPONENTS_PATH}
     ${r.path}
     ${r.folder ? "/index.vue" : ".vue"}`;
   return res;

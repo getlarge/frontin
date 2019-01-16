@@ -333,7 +333,7 @@ export default {
         }></img><p class='text'></br>...on a mission, but you can send me your request anyway!</p></div>`,
         text2: `<img class='square' src=${
           this.clientUrl
-        }/icons/rectangle.png/><div><img class='trombi' src=${this.clientUrl}${
+        }/icons/rectangle.png><div><img class='trombi' src=${this.clientUrl}${
           this.icons[3].path
         }></img><p class='text'>Your project requires UI/UX design, frontend / backend development, or embedded system prototyping ?</br>Why not talking about it now.</p></div>`
       };
@@ -343,7 +343,7 @@ export default {
         title: "contact",
         text: `<img class='square' src=${
           this.clientUrl
-        }/icons/rectangle-flipped.png/><div><img class='trombi' style='opacity:0.8;' src=${
+        }/icons/rectangle-flipped.png><div><img class='trombi' style='opacity:0.8;' src=${
           this.clientUrl
         }${
           this.icons[2].path
