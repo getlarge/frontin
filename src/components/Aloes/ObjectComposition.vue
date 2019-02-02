@@ -1,55 +1,38 @@
 <template lang="html">
   <svg
     :id="`object-composition-${virtualObjectId}`"
-    :viewBox="`0 0 ${width} ${height}`" 
-    pointer-events="all" 
+    :viewBox="`0 0 ${width} ${height}`"
+    pointer-events="all"
     preserveAspectRatio="xMinYMin meet"
     xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink">
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+  >
     <defs>
-      <filter 
-        id="circle-shadow-selected" 
-        y="-10" 
-        x="-10"
-        height="40"
-        width="150">
-        <feOffset 
-          in="SourceAlpha" 
-          dx="1" 
-          dy="1" 
-          result="offset1" />
-        <feGaussianBlur 
-          in="offset2" 
-          stdDeviation="1" 
-          result="blur1"/>
-        <feMerge>
-            <feMergeNode in="blur2" />
-            <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-      <filter 
-        id="circle-shadow" 
+      <filter
+        id="circle-shadow-selected"
         y="-10"
         x="-10"
         height="40"
-        width="150">
-        <feOffset 
-          in="SourceAlpha" 
-          dx="2" 
-          dy="2" 
-          result="offset2" />
-        <feGaussianBlur 
-          in="offset2" 
-          stdDeviation="2"  
-          result="blur2"/>
+        width="150"
+      >
+        <feOffset in="SourceAlpha" dx="1" dy="1" result="offset1" />
+        <feGaussianBlur in="offset2" stdDeviation="1" result="blur1" />
         <feMerge>
-            <feMergeNode in="blur2" />
-            <feMergeNode in="SourceGraphic" />
+          <feMergeNode in="blur2" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <filter id="circle-shadow" y="-10" x="-10" height="40" width="150">
+        <feOffset in="SourceAlpha" dx="2" dy="2" result="offset2" />
+        <feGaussianBlur in="offset2" stdDeviation="2" result="blur2" />
+        <feMerge>
+          <feMergeNode in="blur2" />
+          <feMergeNode in="SourceGraphic" />
         </feMerge>
       </filter>
     </defs>
-    <g :id="objectCompositionLinks"/>
-    <g :id="objectCompositionNodes"/>
+    <g :id="objectCompositionLinks" />
+    <g :id="objectCompositionNodes" />
   </svg>
 </template>
 

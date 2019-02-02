@@ -1,70 +1,49 @@
 <template>
-  <b-container 
-    id="vis"
-    fluid >
+  <b-container id="vis" fluid>
     <b-row align-h="center">
-      <b-col 
-        sm="4" 
-        md="4" 
-        lg="4" >
-        <div id="gallery"/>
+      <b-col sm="4" md="4" lg="4">
+        <div id="gallery" />
       </b-col>
-      <b-col 
-        sm="8" 
-        md="8" 
-        lg="8" >
-        <div
-          :style="{width: settings.width + '%'}"
-          class="svg-container" >
-          <svg 
-            id="svg" 
-            pointer-events="all" 
-            viewBox="0 0 900 700" 
-            preserveAspectRatio="xMinYMin meet">
+      <b-col sm="8" md="8" lg="8">
+        <div :style="{ width: settings.width + '%' }" class="svg-container">
+          <svg
+            id="svg"
+            pointer-events="all"
+            viewBox="0 0 900 700"
+            preserveAspectRatio="xMinYMin meet"
+          >
             <defs>
-              <filter 
-                id="circle-shadow-selected" 
-                y="-10" 
+              <filter
+                id="circle-shadow-selected"
+                y="-10"
                 x="-10"
                 height="40"
-                width="150">
-                <feOffset 
-                  in="SourceAlpha" 
-                  dx="1" 
-                  dy="1" 
-                  result="offset1" />
-                <feGaussianBlur 
-                  in="offset2" 
-                  stdDeviation="1" 
-                  result="blur1"/>
+                width="150"
+              >
+                <feOffset in="SourceAlpha" dx="1" dy="1" result="offset1" />
+                <feGaussianBlur in="offset2" stdDeviation="1" result="blur1" />
                 <feMerge>
                   <feMergeNode in="blur2" />
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
-              <filter 
-                id="circle-shadow" 
+              <filter
+                id="circle-shadow"
                 y="-10"
                 x="-10"
                 height="40"
-                width="150">
-                <feOffset 
-                  in="SourceAlpha" 
-                  dx="2" 
-                  dy="2" 
-                  result="offset2" />
-                <feGaussianBlur 
-                  in="offset2" 
-                  stdDeviation="2"  
-                  result="blur2"/>
+                width="150"
+              >
+                <feOffset in="SourceAlpha" dx="2" dy="2" result="offset2" />
+                <feGaussianBlur in="offset2" stdDeviation="2" result="blur2" />
                 <feMerge>
-                    <feMergeNode in="blur2" />
-                    <feMergeNode in="SourceGraphic" />
+                  <feMergeNode in="blur2" />
+                  <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
             </defs>
-            <g :id="links"/>
-            <g :id="nodes"/>
+            <g :id="links" />
+            <g :id="nodes" />
           </svg>
         </div>
       </b-col>
@@ -73,8 +52,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-//  import {range} from "d3-array";
 import { drag } from "d3-drag";
 import { json } from "d3-fetch";
 import {
@@ -84,12 +61,10 @@ import {
   forceLink,
   forceManyBody
 } from "d3-force";
-//  import {format} from "d3-format";
 import { hierarchy } from "d3-hierarchy";
 import { scaleOrdinal } from "d3-scale";
 import { event, select } from "d3-selection";
-//  import {active, transition} from "d3-transition";
-import { EventBus } from "@/main";
+import { EventBus } from "@/services/PubSub";
 //  import ToneSynth from "@/tone-components/synth";
 
 export default {
@@ -131,40 +106,10 @@ export default {
     };
   },
 
-  created() {},
-
-  mounted() {
-    this.initPortfolio();
-    // this.$on("nodeSelected", i => {
-    //   //console.log("nodeSelected", this.graph.nodes[i].data);
-    // });
-    // this.$on("nodeDeselected", () => {
-    //   //console.log("nodeDeselected");
-    // });
-    EventBus.$on("start:tutorial", () => {
-      const text =
-        "Another way to browse into a portfolio ... \nAccess pictures by clicking on circles containing images.";
-      const tags = "";
-      const img = "/img/tuto-gallery.gif";
-      EventBus.$emit("update:tutorial", this.$route.name, text, tags, img);
-    });
-  },
-
-  updated() {
-    this.simulation.nodes(this.graph.nodes).on("tick", this.ticked);
-    //console.log(this.graph.nodes)
-  },
-
-  beforeDestroy() {
-    EventBus.$off("start:tutorial");
-    EventBus.$emit("stop:tutorial");
-  },
-
   computed: {
-    ...mapState({
-      serverURL: state => state.base.serverURL
-    }),
-
+    serverUrl() {
+      return this.$store.state.serverUrl;
+    },
     nodes() {
       if (this.graph) {
         return (
@@ -243,24 +188,20 @@ export default {
             .data(this.graph.nodes, d => d.data.id)
             .enter()
             .append("image")
-            .attr(
-              "xlink:href",
-              d =>
-                d.data.group > 2
-                  ? `${this.$store.state.clientUrl}${d.data.mini}`
-                  : ""
+            .attr("xlink:href", d =>
+              d.data.group > 2
+                ? `${this.$store.state.clientUrl}${d.data.mini}`
+                : ""
             )
             .attr("crossOrigin", "anonymous")
             .attr("x", d => -1 * d.data.size)
             .attr("y", d => -1 * d.data.size)
             //.attr("height", (d) => 1.5 * d.data.size)
-            .attr(
-              "height",
-              d => (d.data.group > 2 ? 1.5 * d.data.size : 2 * d.data.size)
+            .attr("height", d =>
+              d.data.group > 2 ? 1.5 * d.data.size : 2 * d.data.size
             )
-            .attr(
-              "width",
-              d => (d.data.group > 2 ? 1.5 * d.data.size : 2 * d.data.size)
+            .attr("width", d =>
+              d.data.group > 2 ? 1.5 * d.data.size : 2 * d.data.size
             )
             .attr("opacity", d => (d.data.group < 2 ? "0" : "1"))
             .attr("filter", "url(#circle-shadow)")
@@ -284,6 +225,35 @@ export default {
       }
       return null;
     }
+  },
+
+  created() {},
+
+  mounted() {
+    this.initPortfolio();
+    // this.$on("nodeSelected", i => {
+    //   //console.log("nodeSelected", this.graph.nodes[i].data);
+    // });
+    // this.$on("nodeDeselected", () => {
+    //   //console.log("nodeDeselected");
+    // });
+    EventBus.$on("start:tutorial", () => {
+      const text =
+        "Another way to browse into a portfolio ... \nAccess pictures by clicking on circles containing images.";
+      const tags = "";
+      const img = "/img/tuto-gallery.gif";
+      EventBus.$emit("update:tutorial", this.$route.name, text, tags, img);
+    });
+  },
+
+  updated() {
+    this.simulation.nodes(this.graph.nodes).on("tick", this.ticked);
+    //console.log(this.graph.nodes)
+  },
+
+  beforeDestroy() {
+    EventBus.$off("start:tutorial");
+    EventBus.$emit("stop:tutorial");
   },
 
   methods: {
@@ -312,7 +282,7 @@ export default {
             forceLink(this.graph.links)
               .id(d => d.id)
               .distance(d => (d.source.data.size / d.source.data.group) * 3)
-              .strength(d => 0.2)
+              .strength(0.2)
               .iterations(2)
           )
           .force("charge", forceManyBody(this.graph.nodes).strength(-100))
@@ -433,7 +403,7 @@ export default {
       }
     },
 
-    mouseClick(d, i) {
+    mouseClick(d) {
       //this.$emit('nodeClicked', i);
       // select("#gallery")
       //     .select(".img-open").remove();

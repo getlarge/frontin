@@ -51,14 +51,6 @@ const routes = [
       import(/* webpackChunkName: "network" */ "@/components/NetworkTree/index.vue")
   }
   // {
-  //     name: "Coded journal",
-  //     title: "Coded journal",
-  //     path: "/journal",
-  //     folder: true,
-  //     alias: "/journal/*",
-  //     component: loadView("journal/index")
-  // },
-  // {
   //     name: "Dichotomy",
   //     title: "Dichotomy",
   //     path: "/dichotomy",
@@ -67,10 +59,9 @@ const routes = [
   // },
 ].map(r => {
   var res = r;
-  res.source = `${process.env.VUE_APP_GIT_LINK}
-    ${process.env.VUE_APP_GIT_COMPONENTS_PATH}
-    ${r.path}
-    ${r.folder ? "/index.vue" : ".vue"}`;
+  res.source = `${process.env.VUE_APP_GIT_LINK}${
+    process.env.VUE_APP_GIT_COMPONENTS_PATH
+  }${r.path}${r.folder ? "/index.vue" : ".vue"}`;
   return res;
 });
 

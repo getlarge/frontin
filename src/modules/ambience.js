@@ -1,3 +1,5 @@
+import { FileUploadService } from "v-file-upload";
+import logger from "@/services/logger";
 const clientUrl = process.env.VUE_APP_CLIENT_URL;
 
 export default {
@@ -5,6 +7,30 @@ export default {
   state: {
     collectionName: "Ambience",
     resources: "Ambiences",
+    counter: 0,
+    headers: {},
+    STATUS_INITIAL: 0,
+    STATUS_SAVING: 1,
+    STATUS_SUCCESS: 2,
+    STATUS_FAILED: 3,
+    Audios: {
+      name: "",
+      file: [],
+      url: [],
+      status: 0
+    },
+    Document: {
+      name: "",
+      file: [],
+      url: [],
+      status: 0
+    },
+    Images: {
+      name: "",
+      file: [],
+      url: "",
+      status: 0
+    },
     as0: [],
     as1: [
       {
@@ -66,7 +92,6 @@ export default {
         iconFile: `${clientUrl}/icons/trophae.png`
       }
     ],
-    counter: 0,
     tutorial: {
       text:
         "Create your own sound ambiance.\nEach icons can play a sound and the slider updates the volume, you can create your own widget too, just add audio and image files.\n Icons hand drawn by Isabella Kohout.",
@@ -82,6 +107,105 @@ export default {
     updateAS0(state, obj) {
       state.as0.push(obj);
       //ambience.state.as0 = { ...ambience.state.as0, obj }
+    },
+    setModelKV(state, { resourceType, key, value }) {
+      state[resourceType][key] = value;
+      //  console.log("setUploadedFile : ", state[resourceType][key])
+    }
+  },
+  actions: {
+    async onResetFileImport({ state, commit }, { resourceType }) {
+      logger.publish(
+        4,
+        state.collectionName,
+        "dispatch:onResetFileImport:req",
+        {
+          resourceType
+        }
+      );
+      await commit("setModelKV", {
+        resourceType,
+        key: "file",
+        value: []
+      });
+      return commit("setModelKV", {
+        resourceType,
+        key: "status",
+        value: state.STATUS_INITIAL
+      });
+    },
+
+    async onUploadSuccess({ state, commit }, { resourceType, res }) {
+      logger.publish(
+        4,
+        state.collectionName,
+        "dispatch:onUploadSuccess:res",
+        res.target.response
+      );
+      await commit("setModelKV", {
+        resourceType,
+        key: "url",
+        value: `${res.target.response.url}`
+      });
+      await commit("setModelKV", {
+        resourceType,
+        key: "status",
+        value: state.STATUS_SUCCESS
+      });
+      return res.target.response;
+    },
+
+    onUploadProgress(event) {
+      logger.publish(4, "files", "onUploadProgress:res", event);
+    },
+
+    async onUploadError({ state, commit }, { resourceType, err }) {
+      logger.publish(
+        2,
+        state.collectionName,
+        "dispatch:onUploadError:err",
+        err
+      );
+      await commit("setModelKV", {
+        resourceType,
+        key: "status",
+        value: state.STATUS_FAILED
+      });
+      return err;
+    },
+
+    async onFileImport(
+      { state, commit, dispatch },
+      { accessToken, resourceType, files }
+    ) {
+      logger.publish(
+        4,
+        state.collectionName,
+        "dispatch:onFileImport:req",
+        resourceType
+      );
+      await commit("setModelKV", {
+        resourceType,
+        key: "status",
+        value: state.STATUS_SAVING
+      });
+
+      const fileUpload = new FileUploadService(
+        `${process.env.VUE_APP_SERVER_URL}${
+          process.env.VUE_APP_ROOT_API
+        }/files/${accessToken.userId}/upload`,
+        {
+          "access-token": accessToken.id,
+          authorization: accessToken.id
+          //  "Access-Control-Allow-Origin": ["*"]
+        },
+        dispatch("onUploadProgress")
+      );
+
+      return fileUpload
+        .upload(files)
+        .then(res => dispatch("onUploadSuccess", { resourceType, res }))
+        .catch(err => dispatch("onUploadError", { resourceType, err }));
     }
   }
 };

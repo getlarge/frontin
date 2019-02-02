@@ -1,51 +1,43 @@
 <template lang="html">
   <div id="tables">
-    <b-container  fluid>
-      <b-row >
-        <b-col 
-          id="description" 
-          cols="12">
-          <p> 
-            <a 
-              href="https://github.com/IPSO-Alliance/pub" 
-              target="_blank">
+    <b-container fluid>
+      <b-row>
+        <b-col id="description" cols="12">
+          <p>
+            <a href="https://github.com/IPSO-Alliance/pub" target="_blank">
               IPSO
-            </a> 
+            </a>
             object model description
           </p>
-        </b-col>        
+        </b-col>
         <b-col cols="6">
           <b-dropdown id="ddown-split" split text="Table selector" class="m-2">
-            <b-dropdown-item-button  
-              @click="dataPath('ipsoObjects')">
+            <b-dropdown-item-button @click="dataPath('omaObjects')">
               Sensors Type
             </b-dropdown-item-button>
-            <b-dropdown-divider/>
-            <b-dropdown-item-button  
-              @click="dataPath('ipsoResources')">
+            <b-dropdown-divider />
+            <b-dropdown-item-button @click="dataPath('omaResources')">
               Ressources Type
             </b-dropdown-item-button>
           </b-dropdown>
         </b-col>
         <b-col id="search" cols="6">
-          <input 
-            type="text" 
-            id="search-box" 
+          <input
+            type="text"
+            id="search-box"
             placeholder="Search for description..."
-            @keyup="searchFor()">
-          <i 
-            id="search-icon" 
-            class="fa fa-search"/>
+            @keyup="searchFor()"
+          />
+          <i id="search-icon" class="fa fa-search" />
         </b-col>
       </b-row>
     </b-container>
-    <div id="aloes-table">
-    </div> 
+    <div id="aloes-table"></div>
   </div>
 </template>
 
 <script>
-import { ipsoObjects, ipsoResources } from "aloes-handlers";
+import { omaObjects, omaResources } from "aloes-handlers";
 import { keys } from "d3-collection";
 import { hierarchy } from "d3-hierarchy";
 import { select } from "d3-selection";
@@ -85,13 +77,13 @@ export default {
 
   mounted() {
     //  this.tableLoader(`${this.$store.state.clientUrl}${path}`, this.selectedColumns);
-    this.tableLoader(ipsoObjects, this.selectedColumns);
+    this.tableLoader(omaObjects, this.selectedColumns);
     this.$on("update:table", source => {
       let graph;
-      if (source === "ipsoObjects") {
-        graph = ipsoObjects;
-      } else if (source === "ipsoResources") {
-        graph = ipsoResources;
+      if (source === "omaObjects") {
+        graph = omaObjects;
+      } else if (source === "omaResources") {
+        graph = omaResources;
       }
       if (!graph) return null;
       select("#ipso-table").remove();
@@ -221,12 +213,10 @@ export default {
         .text(d => (d.resources ? d.resources.toString() : d.value))
         .append("div")
         .attr("class", "cells")
-        .style(
-          "background",
-          d =>
-            d.colors
-              ? `linear-gradient(to right,${d.colors[0]},${d.colors[1]})`
-              : "transparent"
+        .style("background", d =>
+          d.colors
+            ? `linear-gradient(to right,${d.colors[0]},${d.colors[1]})`
+            : "transparent"
         )
         .style("opacity", d => (d.colors ? "0.7" : "1"))
         .append("img")

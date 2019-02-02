@@ -1,162 +1,165 @@
 <template>
-  <b-container 
-    id="tidy-tree" 
-    fluid 
-    class="bv-example-row">
+  <b-container id="tidy-tree" fluid class="bv-example-row">
     <b-row align-h="center">
-      <b-col sm="4" md="3" lg="2" xl="2" >
-        <div class="panel-heading"/>
+      <b-col sm="4" md="3" lg="2" xl="2">
+        <div class="panel-heading" />
         <div class="panel-body">
           <div class="form-horizontal">
             <div class="form-group">
-              <label 
-                for="type" 
-                class="control-label">
+              <label for="type" class="control-label">
                 Type
               </label>
-              <div >
-                <select 
-                  id="type"
-                  v-model="type"
-                  class="form-control">
+              <div>
+                <select id="type" v-model="type" class="form-control">
                   <option>tree</option>
                   <option>cluster</option>
                 </select>
               </div>
             </div>
             <div class="form-group">
-              <label 
-              for="layout-type" 
-              class="control-label">
-              Layout Type
+              <label for="layout-type" class="control-label">
+                Layout Type
               </label>
-              <div >
-                <select 
-                  id="layout-type" 
-                  v-model="layoutType" 
-                  class="form-control">
+              <div>
+                <select
+                  id="layout-type"
+                  v-model="layoutType"
+                  class="form-control"
+                >
                   <option>euclidean</option>
                   <option>circular</option>
                 </select>
               </div>
             </div>
             <div class="form-group">
-              <label 
-                for="margin-x" 
-                class="control-label">
-                X-offset :  {{Marginx}}px
+              <label for="margin-x" class="control-label">
+                X-offset : {{ Marginx }}px
               </label>
               <div class="">
-                <input 
-                  id="margin-x" 
+                <input
+                  id="margin-x"
                   v-model.number="Marginx"
-                  class="form-control" 
-                  type="range" 
-                  min="-100" 
-                  max="600" >
+                  class="form-control"
+                  type="range"
+                  min="-100"
+                  max="600"
+                />
               </div>
             </div>
             <div class="form-group">
-              <label 
-                for="margin-y" 
-                class="control-label">
-                Y-offset :  {{Marginy}}px
+              <label for="margin-y" class="control-label">
+                Y-offset : {{ Marginy }}px
               </label>
               <div class="">
-                <input 
-                  id="margin-y" 
-                  v-model.number="Marginy" 
-                  class="form-control" 
-                  type="range" 
-                  min="-400" 
-                  max="400">
+                <input
+                  id="margin-y"
+                  v-model.number="Marginy"
+                  class="form-control"
+                  type="range"
+                  min="-400"
+                  max="400"
+                />
               </div>
             </div>
             <div class="form-group">
-              <label for="margin-y" class="control-label">Radius : {{radius}}px</label>
+              <label for="margin-y" class="control-label"
+                >Radius : {{ radius }}px</label
+              >
               <div class="">
-                  <input id="margin-y" class="form-control" type="range" min="1" max="10" v-model.number="radius">
+                <input
+                  id="margin-y"
+                  class="form-control"
+                  type="range"
+                  min="1"
+                  max="10"
+                  v-model.number="radius"
+                />
               </div>
             </div>
             <div class="form-group">
-              <label 
-                for="velocity" 
-                class="control-label">
-                Duration : {{duration}}ms
+              <label for="velocity" class="control-label">
+                Duration : {{ duration }}ms
               </label>
               <div class="">
-                <input 
-                  id="velocity" 
+                <input
+                  id="velocity"
                   v-model.number="duration"
-                  class="form-control" 
-                  type="range" 
-                  min="0" 
-                  max="3000" >
+                  class="form-control"
+                  type="range"
+                  min="0"
+                  max="3000"
+                />
               </div>
             </div>
             <div class="form-group">
               <span v-if="currentNode">
-                Current Node: {{currentNode.data.text}}
+                Current Node: {{ currentNode.data.text }}
               </span>
               <span v-else>
                 No Node selected.
               </span>
-              <font-awesome-icon 
-                v-if="isLoading" 
-                icon="spinner" 
-                :transform="{ rotate: 42 }" 
-                size="xs" />
+              <font-awesome-icon
+                v-if="isLoading"
+                icon="spinner"
+                :transform="{ rotate: 42 }"
+                size="xs"
+              />
             </div>
-            <button 
-              :disabled="!currentNode" 
-              type="button" 
-              class="btn" 
-              data-toggle="tooltip" 
-              data-placement="top" 
+            <button
+              :disabled="!currentNode"
+              type="button"
+              class="btn"
+              data-toggle="tooltip"
+              data-placement="top"
               title="Expand All from current"
-              @click="expandAll" >
-              <font-awesome-icon icon="expand" size="xs"/>
+              @click="expandAll"
+            >
+              <font-awesome-icon icon="expand" size="xs" />
             </button>
-            <button 
-              :disabled="!currentNode" 
-              type="button" 
-              class="btn" 
-              data-toggle="tooltip" 
-              data-placement="top" 
+            <button
+              :disabled="!currentNode"
+              type="button"
+              class="btn"
+              data-toggle="tooltip"
+              data-placement="top"
               title="Collapse All from current"
-              @click="collapseAll" >
-              <font-awesome-icon icon="compress" size="xs"/>
+              @click="collapseAll"
+            >
+              <font-awesome-icon icon="compress" size="xs" />
             </button>
-             <button 
-              :disabled="!currentNode" 
-              type="button" 
-              class="btn" 
-              data-toggle="tooltip" 
-              data-placement="top" 
+            <button
+              :disabled="!currentNode"
+              type="button"
+              class="btn"
+              data-toggle="tooltip"
+              data-placement="top"
               title="Show only from current"
-              @click="showOnly" >
-              <font-awesome-icon icon="search-plus" size="xs"/>
+              @click="showOnly"
+            >
+              <font-awesome-icon icon="search-plus" size="xs" />
             </button>
-            <button 
-              :disabled="!currentNode" 
-              type="button" 
-              class="btn" 
-              data-toggle="tooltip" 
-              data-placement="top" 
+            <button
+              :disabled="!currentNode"
+              type="button"
+              class="btn"
+              data-toggle="tooltip"
+              data-placement="top"
               title="Show current"
-              @click="collapseAll" >
-              <font-awesome-icon icon="binoculars" size="xs"/>
+              @click="collapseAll"
+            >
+              <font-awesome-icon icon="binoculars" size="xs" />
             </button>
-            <button 
-              v-if="zoomable" 
-              :disabled="!currentNode" 
-              type="button" 
-              class="btn" 
-              data-toggle="tooltip" 
-              data-placement="top" 
+            <button
+              v-if="zoomable"
+              :disabled="!currentNode"
+              type="button"
+              class="btn"
+              data-toggle="tooltip"
+              data-placement="top"
               title="Reset zoom"
-              @click="resetZoom" >
-              <font-awesome-icon icon="arrows-alt" size="xs"/>
+              @click="resetZoom"
+            >
+              <font-awesome-icon icon="arrows-alt" size="xs" />
             </button>
           </div>
         </div>
@@ -167,32 +170,35 @@
           </div>
         </div> -->
       </b-col>
-      <b-col 
-        id="tree-container" 
-        sm="8" 
-        md="9" 
-        lg="10" 
-        xl="10" 
-        class="panel panel-default">
-        <tree 
-          ref="tree" 
-          :identifier="getId" 
-          :zoomable="zoomable" 
-          :data="Graph.tree" 
-          :node-text="nodeText"  
-          :margin-x="Marginx" 
-          :margin-y="Marginy" 
-          :radius="radius" 
-          :type="type" 
-          :layout-type="layoutType" 
-          :duration="duration" 
-          class="tree" 
-          @clicked="onClick" 
-          @expand="onExpand" 
-          @retract="onRetract"/>
-          <p>
-            <br>TODO : unify transport protocol layers using <a href="#/aloes-protocol" > IPSO</a> references.
-          </p>
+      <b-col
+        id="tree-container"
+        sm="8"
+        md="9"
+        lg="10"
+        xl="10"
+        class="panel panel-default"
+      >
+        <tree
+          ref="tree"
+          :identifier="getId"
+          :zoomable="zoomable"
+          :data="Graph.tree"
+          :node-text="nodeText"
+          :margin-x="Marginx"
+          :margin-y="Marginy"
+          :radius="radius"
+          :type="type"
+          :layout-type="layoutType"
+          :duration="duration"
+          class="tree"
+          @clicked="onClick"
+          @expand="onExpand"
+          @retract="onRetract"
+        />
+        <p>
+          <br />TODO : unify transport protocol layers using
+          <a href="#/aloes-protocol"> IPSO</a> references.
+        </p>
       </b-col>
     </b-row>
   </b-container>
@@ -202,7 +208,7 @@
 import { select } from "d3-selection";
 import { tree } from "vued3tree";
 import data from "@/assets/data/mqtt";
-import { EventBus } from "@/main";
+import { EventBus } from "@/services/PubSub";
 
 /// todo: fetch the json from the http server or the broker storage ?
 /// todo: assign marginY & x values based on window size
@@ -225,14 +231,22 @@ Object.assign(data, {
 });
 
 export default {
+  name: "NetworkTree",
+
+  components: {
+    tree
+  },
+
   data() {
     //return initialState()
     return data;
   },
 
-  components: {
-    tree
-  },
+  // watch: {
+  //   data(current, old) {
+  //     console.log("watch updated tree", data.Graph.tree);
+  //   },
+  // },
 
   created() {},
 
@@ -278,12 +292,6 @@ export default {
     EventBus.$emit("stop:tutorial");
     EventBus.$off("start:tutorial");
   },
-
-  // watch: {
-  //   data(current, old) {
-  //     console.log("watch updated tree", data.Graph.tree);
-  //   },
-  // },
 
   methods: {
     do(action) {

@@ -1,14 +1,15 @@
 <template>
-  <div id="interactive-timeline" >
+  <div id="interactive-timeline">
     <cards
       v-if="currentProject"
       :title="currentProject.name"
       :description="currentProject.description"
       :tags="currentProject.tags"
       :img="currentProject.img"
-      :link="currentProject.link"/>
-    <div id="timeline" >
-      <svg/>
+      :link="currentProject.link"
+    />
+    <div id="timeline">
+      <svg />
     </div>
   </div>
 </template>
@@ -25,23 +26,20 @@ import { event, select } from "d3-selection";
 import { area, stack, stackOrderNone, stackOffsetNone } from "d3-shape";
 import { timeFormat } from "d3-time-format";
 //  import {active, transition} from "d3-transition";
-import cards from "@/components/Utils/Cards";
-import { EventBus } from "@/main";
+//  import Cards from "@/components/Utils/Cards";
+import { EventBus } from "@/services/PubSub";
 
 export default {
-  name: "timeline",
+  name: "Timeline",
+
+  components: {
+    //  cards: Cards,
+    cards: () => import("@/components/Utils/Cards")
+  },
 
   data() {
     return {
       pageTopic: "getlarge" + this.$route.path,
-      width: Math.max(
-        document.documentElement.clientWidth,
-        window.innerWidth || 0
-      ),
-      height: Math.max(
-        document.documentElement.clientHeight,
-        window.innerHeight || 0
-      ),
       colorPalette: scaleOrdinal().range([
         "#28693e",
         "#3f9e5e",
@@ -77,10 +75,24 @@ export default {
     };
   },
 
-  components: {
-    cards: cards
+  computed: {
+    width: {
+      get() {
+        return Math.max(
+          document.documentElement.clientWidth,
+          window.innerWidth || 0
+        );
+      }
+    },
+    height: {
+      get() {
+        return Math.max(
+          document.documentElement.clientHeight,
+          window.innerHeight || 0
+        );
+      }
+    }
   },
-
   created() {},
 
   mounted() {
@@ -110,12 +122,6 @@ export default {
     });
   },
 
-  updated() {
-    //console.log("this", this)
-  },
-
-  beforeUnmout() {},
-
   beforeDestroy() {
     // if (this.$store.menu.tutorial === true) {
     //  EventBus.$emit("stop:tutorial");
@@ -123,8 +129,6 @@ export default {
     EventBus.$off("start:tutorial");
     EventBus.$off("stop:cards");
   },
-
-  computed: {},
 
   methods: {
     initTimeLine() {
@@ -271,9 +275,8 @@ export default {
           .attr("x", 2)
           //.style("font-size", (self.width/50-self.height/100)+"px")
           .attr("class", "flagsText")
-          .style(
-            "cursor",
-            (d, i) => (self.node[i].link !== null ? "pointer" : "default")
+          .style("cursor", (d, i) =>
+            self.node[i].link !== null ? "pointer" : "default"
           )
           .text((d, i) => self.node[i].name);
 
@@ -336,20 +339,16 @@ export default {
         self.timeline
           .selectAll(".flag text")
           .transition()
-          .attr(
-            "fill",
-            (d, i) =>
-              (self.dataSet && self.node[i] !== self.dataSet) || !d
-                ? "transparent"
-                : "#686868"
+          .attr("fill", (d, i) =>
+            (self.dataSet && self.node[i] !== self.dataSet) || !d
+              ? "transparent"
+              : "#686868"
           );
       self.timeline
         .selectAll(".flag line")
         .transition()
-        .attr(
-          "opacity",
-          (d, i) =>
-            (self.dataSet && self.node[i] !== self.dataSet) || !d ? "0" : "0.6"
+        .attr("opacity", (d, i) =>
+          (self.dataSet && self.node[i] !== self.dataSet) || !d ? "0" : "0.6"
         );
     },
 
@@ -416,7 +415,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss">
 @import "../../styles/experience.scss";

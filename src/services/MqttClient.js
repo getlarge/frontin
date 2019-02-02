@@ -21,10 +21,7 @@ export default class Mqtt {
   }
 
   _initClient() {
-    this.client = mqtt.connect(
-      process.env.VUE_APP_BROKER_URL,
-      this.options
-    );
+    this.client = mqtt.connect(process.env.VUE_APP_BROKER_URL, this.options);
     EventBus.$on("store:mqtt", () => {
       this.getStore();
     });

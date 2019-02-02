@@ -1,120 +1,113 @@
 <template>
-  <div id="project-timeline" >
-    <mq-layout 
-      class="selector-mobile" 
-      mq="mobile">
-      <button 
-        title="change display" 
-        class="selector" 
+  <div id="project-timeline">
+    <mq-layout class="selector-mobile" mq="mobile">
+      <button
+        title="change display"
+        class="selector"
         @click="changePage"
-        v-hammer:tap="changePage"> 
-        <font-awesome-icon 
-          v-if="interactive" 
-          icon="toggle-on" 
-          size="2x" 
-          alt="switch"/>
-        <font-awesome-icon 
-          v-else-if="!interactive" 
-          icon="toggle-off" 
-          size="2x" 
-          alt="switch"/> 
-        {{ title }}
-      </button>
-    </mq-layout>
-    <mq-layout 
-      class="selector-tablet" 
-      mq="tablet">
-      <button 
-        title="change display" 
-        class="selector" 
-        @click="changePage"
-        v-hammer:tap="changePage"> 
-        <font-awesome-icon 
-          v-if="interactive" 
-          icon="toggle-on" 
-          size="2x" 
-          alt="switch"/>
-        <font-awesome-icon 
-          v-else-if="!interactive" 
-          icon="toggle-off" 
-          size="2x" 
-          alt="switch"/> 
-        {{ title }}
-      </button>
-    </mq-layout>        
-    <mq-layout 
-      class="selector-laptop" 
-      mq="laptop">
-      <button 
-        title="change display" 
-        class="selector" 
-        @click="changePage">
-        <font-awesome-icon 
-          v-if="interactive" 
-          icon="toggle-on" 
-          size="2x" 
-          alt="switch"/>
-        <font-awesome-icon 
-          v-else-if="!interactive" 
-          icon="toggle-off" 
-          size="2x" 
-          alt="switch"/> 
-        {{ title }}
-      </button>
-    </mq-layout>
-    <mq-layout 
-      class="selector-desktop" 
-      mq="desktop">
-      <button 
-        title="change display" 
-        class="selector" 
-        @click="changePage">
+        v-hammer:tap="changePage"
+      >
         <font-awesome-icon
-          v-if="interactive" 
-          icon="toggle-on" 
-          size="2x" 
-          alt="switch"/>
-        <font-awesome-icon 
-          v-else-if="!interactive" 
-          icon="toggle-off" 
-          size="2x" 
-          alt="switch"/> 
+          v-if="interactive"
+          icon="toggle-on"
+          size="2x"
+          alt="switch"
+        />
+        <font-awesome-icon
+          v-else-if="!interactive"
+          icon="toggle-off"
+          size="2x"
+          alt="switch"
+        />
         {{ title }}
       </button>
     </mq-layout>
-    <mq-layout 
-      class="selector-xxl" 
-      mq="xxl">
-      <button 
-        title="change display" 
-        class="selector" 
-        @click="changePage">
-        <font-awesome-icon 
-          v-if="interactive" 
-          icon="toggle-on" 
-          size="3x" 
-          alt="switch"/>
-        <font-awesome-icon 
-          v-else-if="!interactive" 
-          icon="toggle-off" 
-          size="3x" 
-          alt="switch"/> 
+    <mq-layout class="selector-tablet" mq="tablet">
+      <button
+        title="change display"
+        class="selector"
+        @click="changePage"
+        v-hammer:tap="changePage"
+      >
+        <font-awesome-icon
+          v-if="interactive"
+          icon="toggle-on"
+          size="2x"
+          alt="switch"
+        />
+        <font-awesome-icon
+          v-else-if="!interactive"
+          icon="toggle-off"
+          size="2x"
+          alt="switch"
+        />
+        {{ title }}
+      </button>
+    </mq-layout>
+    <mq-layout class="selector-laptop" mq="laptop">
+      <button title="change display" class="selector" @click="changePage">
+        <font-awesome-icon
+          v-if="interactive"
+          icon="toggle-on"
+          size="2x"
+          alt="switch"
+        />
+        <font-awesome-icon
+          v-else-if="!interactive"
+          icon="toggle-off"
+          size="2x"
+          alt="switch"
+        />
+        {{ title }}
+      </button>
+    </mq-layout>
+    <mq-layout class="selector-desktop" mq="desktop">
+      <button title="change display" class="selector" @click="changePage">
+        <font-awesome-icon
+          v-if="interactive"
+          icon="toggle-on"
+          size="2x"
+          alt="switch"
+        />
+        <font-awesome-icon
+          v-else-if="!interactive"
+          icon="toggle-off"
+          size="2x"
+          alt="switch"
+        />
+        {{ title }}
+      </button>
+    </mq-layout>
+    <mq-layout class="selector-xxl" mq="xxl">
+      <button title="change display" class="selector" @click="changePage">
+        <font-awesome-icon
+          v-if="interactive"
+          icon="toggle-on"
+          size="3x"
+          alt="switch"
+        />
+        <font-awesome-icon
+          v-else-if="!interactive"
+          icon="toggle-off"
+          size="3x"
+          alt="switch"
+        />
         {{ title }}
       </button>
     </mq-layout>
     <div v-if="interactive">
-      <timeline/>
+      <timeline />
     </div>
-    <div v-else-if="!interactive ">
-      <cv/>
+    <div v-else-if="!interactive">
+      <cv />
     </div>
   </div>
 </template>
 
 <script>
-import CV from "./CV";
-import Timeline from "./Timeline";
-import { EventBus } from "@/main";
+// import CV from "./CV";
+// import Timeline from "./Timeline";
+import { EventBus } from "@/services/PubSub";
 
 export default {
   data() {
@@ -125,8 +118,10 @@ export default {
   },
 
   components: {
-    cv: CV,
-    timeline: Timeline
+    cv: () => import("@/components/Experience/CV"),
+    timeline: () => import("@/components/Experience/Timeline")
+    // cv: CV,
+    // timeline: Timeline
   },
 
   created() {},
@@ -170,7 +165,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss">
 @import "../../styles/experience.scss";

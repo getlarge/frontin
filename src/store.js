@@ -1,13 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersistence from "vuex-persist";
-import base from "@/modules/base";
 import menu from "@/modules/menu";
-import home from "@/modules/home";
 import ambience from "@/modules/ambience";
-//  import {journal} from "@/modules/journal";
-
-//  import loopback from "@/services/loopback";
+//  import http from "@/services/http";
 import logger from "@/services/logger";
 
 Vue.use(Vuex);
@@ -47,6 +43,17 @@ export default new Vuex.Store({
     tel: process.env.VUE_APP_PHONE || "+33624297761",
     domain: process.env.VUE_APP_DOMAIN || "getlarge.eu",
     repoUrl: "https://framagit.org/aloes",
+    letters: "edouard maleix".split(""),
+    updatedLetters: "edouard maleix".split(""),
+    tutorial: {
+      text: "Don't forget to flip the card to get my contact ;)",
+      tags: "",
+      img: "/img/tuto-home.gif"
+    },
+    updateCounter: 0,
+    contactCard: false,
+    available: true,
+    files: [],
     style: {
       color: {
         primary: "#000000",
@@ -59,8 +66,8 @@ export default new Vuex.Store({
       palette: {
         black: "#000000",
         grey: "#ededed",
-        green: "#2bb673",
-        blue: "#7ebcaf",
+        green: "#77d1bf",
+        blue: "#29abe2",
         yellow: "#ffc85f"
       },
       pictures: {
@@ -74,6 +81,11 @@ export default new Vuex.Store({
         iconInfo2: `${process.env.VUE_APP_CLIENT_URL}/icons/info2.png`,
         iconLetter: `${process.env.VUE_APP_CLIENT_URL}/icons/letter.png`,
         iconLetter2: `${process.env.VUE_APP_CLIENT_URL}/icons/letter2.png`,
+        guy: `${process.env.VUE_APP_CLIENT_URL}/img/ed2.jpg`,
+        available: `${process.env.VUE_APP_CLIENT_URL}/icons/available.png`,
+        notAvailable: `${
+          process.env.VUE_APP_CLIENT_URL
+        }/icons/notavailable.png`,
         rectangle: `${process.env.VUE_APP_CLIENT_URL}/icons/rectangle.png`,
         rectangleFlipped: `${
           process.env.VUE_APP_CLIENT_URL
@@ -142,6 +154,8 @@ export default new Vuex.Store({
     ],
     windowWidth: 0,
     windowHeight: 0,
+    documentWidth: 0,
+    documentHeight: 0,
     contactForm: {
       firstName: null,
       lastName: null,
@@ -151,6 +165,17 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    updateIcons(state, payload) {
+      //console.log(state.homeIcons[payload.id].path);
+      state.icons[payload.id].path = payload.path;
+    },
+    updateCounter(state, i) {
+      state.updateCounter += i;
+    },
+    updateContactCard(state, status) {
+      //console.log(state.homeIcons[payload.id].path);
+      state.contactCard = status;
+    },
     setModelKV(state, { key, value }) {
       state[key] = value;
     },
@@ -165,6 +190,9 @@ export default new Vuex.Store({
         subject: null,
         content: null
       };
+    },
+    updateFiles(state, files) {
+      state.files = files;
     }
   },
   actions: {
@@ -190,10 +218,7 @@ export default new Vuex.Store({
   },
   plugins: [vuexLocal.plugin],
   modules: {
-    base,
     menu,
-    home,
     ambience
-    //  journal,
   }
 });

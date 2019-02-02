@@ -1,19 +1,16 @@
 <template>
   <div id="app">
-    <top-nav></top-nav>
-    <router-view/>
-    <bottom-nav></bottom-nav>
+    <top-nav />
+    <router-view />
+    <bottom-nav />
   </div>
 </template>
 
-
 <script>
-import Vue from "vue";
-import wrap from "@vue/web-component-wrapper";
-import Mqtt from "@/services/MqttClient";
+//  import Mqtt from "@/services/MqttClient";
 import topNav from "@/views/containers/MenuNavigation";
 import bottomNav from "@/views/containers/FooterNavigation";
-import { EventBus } from "@/main";
+import { EventBus } from "@/services/PubSub";
 import { localStore } from "@/services/LocalStore";
 
 export default {
@@ -30,12 +27,49 @@ export default {
       path: this.$route.name,
       agent: "",
       sessionId: 0,
-      client: new Mqtt(),
+      //  client: new Mqtt(),
       showLocale: false,
       showNav: false,
       customElement: null
     };
   },
+
+  computed: {
+    windowWidth: {
+      get() {
+        return this.$store.state.windowWidth;
+      },
+      set(value) {
+        this.$store.commit("setModelKV", { key: "windowWidth", value });
+      }
+    },
+    windowHeight: {
+      get() {
+        return this.$store.state.windowHeight;
+      },
+      set(value) {
+        this.$store.commit("setModelKV", { key: "windowHeight", value });
+      }
+    },
+
+    documentWidth: {
+      get() {
+        return this.$store.state.documentWidth;
+      },
+      set(value) {
+        this.$store.commit("setModelKV", { key: "documentWidth", value });
+      }
+    },
+    documentHeight: {
+      get() {
+        return this.$store.state.documentHeight;
+      },
+      set(value) {
+        this.$store.commit("setModelKV", { key: "documentHeight", value });
+      }
+    }
+  },
+
   // beforeCreate() {
   //   if (this.$route.params.locale && this.$route.params.locale !== this.$i18n.locale) {
   //     this.$i18n.locale = this.$route.params.locale
@@ -49,6 +83,7 @@ export default {
   // },
 
   created() {
+    // eslint-disable-next-line no-console
     console.log(
       "%c getlarge.eu - 2018 ",
       "background: #33b277; color: white; display: block; width: 140px; border-radius: 5px; font-size: 12px;"
@@ -58,39 +93,27 @@ export default {
     localStore.initStorage(this.agent, id);
     this.sessionId = localStore.getStorage("sessionId");
 
-    this.client.openStream();
+    //  this.client.openStream();
     // console.log(this.agent);
     // console.log("session #" + this.sessionId);
   },
 
   mounted() {
-    if (this.customElement === null) {
-      this.CustomElement = wrap(Vue, () =>
-        import(`@/components/Aloes/SensorSnap.vue`)
-      );
-      if (!window.customElements.get("aloes-sensor-snap")) {
-        window.customElements.define("aloes-sensor-snap", this.CustomElement);
-      }
-      //  else {
-      //   window.customElements.upgrade(this.$el, this.CustomElement);
-      // }
-    }
-    // console.log(window.customElements);
-    // console.log(this.$el);
-
     // this.client.subscribe(this.appName + "/#");
     // this.client.publish(
     //   this.appName + "/sessions/" + this.agent + "_" + this.sessionId + "/" + this.$route.name,
     //   "opened",
     // );
     // this.client.publish(this.appName + "/stat", "connected");
-    //this.rightClickPrevent();
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.updateSize);
+    });
   },
 
   beforeDestroy() {
     // this.client.publish(this.appName + "/stat", "disconnected");
     // this.client.close();
-    this.customElement = null;
+    window.removeEventListener("resize", this.updateSize);
     EventBus.$off();
     this.$localStorage.remove("sessionId");
   },
@@ -103,9 +126,16 @@ export default {
     //     })
     // },
 
+    updateSize() {
+      this.windowWidth = window.innerWidth;
+      this.windowHeight = window.innerHeight;
+      this.documentWidth = document.documentElement.clientWidth;
+      this.documentHeight = document.documentElement.clientHeight;
+    },
+
     checkNavigator() {
-      var sBrowser,
-        sUsrAg = navigator.userAgent;
+      let sBrowser;
+      const sUsrAg = navigator.userAgent;
       if (sUsrAg.indexOf("Firefox") > -1) {
         sBrowser = "Firefox";
         //"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
@@ -128,16 +158,10 @@ export default {
       }
       this.agent = sBrowser;
     }
-
-    // rightClickPrevent() {
-    //     selectAll("img").on("contextmenu", function() {
-    //         event.preventDefault();
-    //     });
-    // }
   }
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 @import "./styles/app.scss";
 </style>

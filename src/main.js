@@ -1,11 +1,11 @@
 import Vue from "vue";
 import VueMq from "vue-mq";
 import { VueHammer } from "vue2-hammer";
-import BootstrapVue from "bootstrap-vue";
-require("bootstrap/dist/css/bootstrap.css");
-require("bootstrap-vue/dist/bootstrap-vue.css");
-// import { Layout } from "bootstrap-vue/es/components";
-// import VueCroppie from "vue-croppie";
+//  import BootstrapVue from "bootstrap-vue";
+// require("bootstrap/dist/css/bootstrap.css");
+// require("bootstrap-vue/dist/bootstrap-vue.css");
+import { Layout } from "bootstrap-vue/es/components";
+import VueCroppie from "vue-croppie";
 
 import { library, dom } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -66,9 +66,8 @@ Vue.use(VueMq, {
   }
 });
 
-//  Vue.use(Layout);
-Vue.use(BootstrapVue);
-//  Vue.use(VueCroppie);
+Vue.use(Layout);
+Vue.use(VueCroppie);
 
 library.add(
   faTwitter,
@@ -119,8 +118,6 @@ Vue.filter("formatSize", function(size) {
   }
   return size.toString() + " B";
 });
-
-export const EventBus = new Vue();
 
 new Vue({
   router,
