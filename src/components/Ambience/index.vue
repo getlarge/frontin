@@ -79,7 +79,7 @@
           </transition-group>
         </draggable>
       </b-col>
-      <b-col class="colzy" sm="3" md="3" lg="3">
+      <b-col class="colzy" cols="6" sm="3" md="3" lg="3">
         <draggable
           v-model="as2"
           :options="{ group: 'sliders' }"

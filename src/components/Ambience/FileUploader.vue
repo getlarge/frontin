@@ -23,7 +23,7 @@
           />
           <p v-if="isInitial">
             <font-awesome-icon icon="plus" size="2x" />
-            {{ mimetype }} file(s) here to begin
+            add {{ mimetype }}
           </p>
           <p v-if="isSaving">
             <font-awesome-icon icon="spinner" size="2x" />
@@ -39,7 +39,7 @@
             :enable-resize="true"
           />
           <vue-audio
-            v-if="resourceType === 'Audios' && uploadedFile"
+            v-else-if="resourceType === 'Audios' && uploadedFile"
             ref="vueAudio"
             :size="uploadedFile.size"
             :file="uploadedFile.url"
@@ -199,13 +199,13 @@ export default {
     },
     ratio() {
       if (window.innerWidth >= 320 && window.innerWidth <= 480) {
-        return 1.4;
+        return 2;
       } else if (window.innerWidth >= 480 && window.innerWidth <= 768) {
-        return 1.3;
+        return 1.8;
       } else if (window.innerWidth >= 768 && window.innerWidth <= 1024) {
-        return 1.2;
+        return 1.5;
       } else if (window.innerWidth >= 1024 && window.innerWidth <= 1400) {
-        return 1.1;
+        return 1.3;
       } else {
         return 1;
       }
@@ -244,7 +244,6 @@ export default {
 
   mounted() {
     this.reset();
-    console.log(this.$props.resourceType);
     // this.$refs["Croppie"].bind({
     //   url: this.imageUrl,
     // });

@@ -1,14 +1,14 @@
 <template>
   <div class="block" id="cv">
     <mq-layout class="pdfExport-mobile" mq="mobile">
-      <v-touch title="export pdf" class="pdfExport" v-on:tap="transformPdf">
+      <button title="export pdf" class="pdfExport" @click="transformPdf">
         <font-awesome-icon icon="download" size="2x" alt="download" />
-      </v-touch>
+      </button>
     </mq-layout>
     <mq-layout class="pdfExport-tablet" mq="tablet">
-      <v-touch title="export pdf" class="pdfExport" v-on:tap="transformPdf">
+      <button title="export pdf" class="pdfExport" @click="transformPdf">
         <font-awesome-icon icon="download" size="2x" alt="download" />
-      </v-touch>
+      </button>
     </mq-layout>
     <mq-layout class="pdfExport-laptop" mq="laptop">
       <button title="export pdf" class="pdfExport" @click="transformPdf">
@@ -35,12 +35,6 @@
           </div>
           <div class="infos">
             <h3>
-              <a :href="`tel:${tel}`">
-                <font-awesome-icon class="icons" icon="phone" size="sm" />
-                {{ tel }}
-              </a>
-            </h3>
-            <h3>
               <a :href="`mailto:ed@${domain}`">
                 <font-awesome-icon
                   class="icons"
@@ -59,7 +53,7 @@
             <h3>
               <p>
                 <font-awesome-icon class="icons" icon="home" size="sm" />
-                95 rue Paul Bellamy 44000 NANTES
+                44000 NANTES
               </p>
             </h3>
             <h3>

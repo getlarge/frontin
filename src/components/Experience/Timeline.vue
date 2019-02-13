@@ -25,16 +25,15 @@ import { scaleLinear, scalePow, scaleOrdinal } from "d3-scale";
 import { event, select } from "d3-selection";
 import { area, stack, stackOrderNone, stackOffsetNone } from "d3-shape";
 import { timeFormat } from "d3-time-format";
-//  import {active, transition} from "d3-transition";
-//  import Cards from "@/components/Utils/Cards";
+import Cards from "@/components/Utils/Cards";
 import { EventBus } from "@/services/PubSub";
 
 export default {
   name: "Timeline",
 
   components: {
-    //  cards: Cards,
-    cards: () => import("@/components/Utils/Cards")
+    cards: Cards
+    //  cards: () => import("@/components/Utils/Cards")
   },
 
   data() {
@@ -136,7 +135,8 @@ export default {
       this.settings.m = this.settings.f + this.settings.lineHeight;
       this.settings.height = this.settings.m + this.settings.s;
 
-      json(`${this.$store.state.clientUrl}${this.dataPath}`).then(projects => {
+      //  json(`${this.$store.state.clientUrl}${this.dataPath}`).then(projects => {
+      json(`${this.dataPath}`).then(projects => {
         const root = hierarchy(projects);
         const nodes = root.descendants();
         this.node = nodes[0].data.projects.reverse();

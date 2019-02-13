@@ -258,7 +258,7 @@ export default {
 
   methods: {
     initPortfolio() {
-      json(`${this.$store.state.clientUrl}${this.dataPath}`).then(graph => {
+      json(`${this.dataPath}`).then(graph => {
         const root = hierarchy(graph);
         const nodes = root.descendants();
         const links = root.links(nodes);

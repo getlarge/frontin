@@ -1,12 +1,7 @@
 <template>
   <div id="project-timeline">
     <mq-layout class="selector-mobile" mq="mobile">
-      <button
-        title="change display"
-        class="selector"
-        @click="changePage"
-        v-hammer:tap="changePage"
-      >
+      <button title="change display" class="selector" @click="changePage">
         <font-awesome-icon
           v-if="interactive"
           icon="toggle-on"
@@ -23,12 +18,7 @@
       </button>
     </mq-layout>
     <mq-layout class="selector-tablet" mq="tablet">
-      <button
-        title="change display"
-        class="selector"
-        @click="changePage"
-        v-hammer:tap="changePage"
-      >
+      <button title="change display" class="selector" @click="changePage">
         <font-awesome-icon
           v-if="interactive"
           icon="toggle-on"

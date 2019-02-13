@@ -1,6 +1,28 @@
 {
 	"projects": [
 		{
+			"name": "Sensor snap library",
+			"link": "https://framagit.org/aloes/sensor-snap",
+			"category": 9,
+			"description": "Vue library to generate Sensors Widget with Open Mobile Alliance references as inputs.",
+			"tags": "Vue.js, NPM, OMA, IoT",
+			"img": "/icons/aloes-logo.svg",
+			"started_at": 1547510400000,
+			"ended_at": 0,
+			"is_alive": true
+		},
+		{
+			"name": "Aloes-handlers library",
+			"link": "https://framagit.org/getlarge/aloes-handlers",
+			"category": 9,
+			"description": "Encode / decode MQTT stream from IoT device to browsers. Using Open Mobile Alliance standards as main target / source protocol.",
+			"tags": "Node.js, Babel, NPM, OMA, IoT",
+			"img": "/icons/aloes-logo.svg",
+			"started_at": 1546300800000,
+			"ended_at": 0,
+			"is_alive": true
+		},
+		{
 			"name": "YOGIINMYCITY",
 			"link": "https://yogiinmycity.com",
 			"category": 8,
@@ -8,7 +30,7 @@
 			"tags": "NodeJS, Loopback, Vue.js, Socket.io, Stripe, MongoDB, PM2",
 			"img": "/icons/ymc.png",
 			"started_at": 1538420400000,
-			"ended_at": 0,
+			"ended_at": 1549550912000,
 			"is_alive": true
 		},
 		{
@@ -23,7 +45,7 @@
 			"tags": "NodeJS, ExpressJS, Webpack, VueJS, D3JS, open source",
 			"img": "/icons/here.png",
 			"started_at": 1526384090000,
-			"ended_at": 0,
+			"ended_at": 1538420400000,
 			"is_alive": true
 		},
 		{

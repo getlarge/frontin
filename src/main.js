@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueMq from "vue-mq";
-import { VueHammer } from "vue2-hammer";
+//  import { VueHammer } from "vue2-hammer";
 //  import BootstrapVue from "bootstrap-vue";
 // require("bootstrap/dist/css/bootstrap.css");
 // require("bootstrap-vue/dist/bootstrap-vue.css");
@@ -54,7 +54,7 @@ Vue.config.productionTip = false;
 Vue.config.silent = false;
 Vue.config.devtools = true;
 
-Vue.use(VueHammer);
+//  Vue.use(VueHammer);
 
 Vue.use(VueMq, {
   breakpoints: {

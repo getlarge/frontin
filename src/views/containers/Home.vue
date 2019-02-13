@@ -1,11 +1,11 @@
 <template>
   <b-container id="hello" fluid>
     <b-row align-h="center">
-      <b-col cols="6" sm="8" md="7" lg="6" xl="5">
+      <b-col cols="12" sm="8" md="7" lg="6" xl="5">
         <svg
           id="guyName"
           pointer-events="all"
-          viewBox="0 0 550 100"
+          viewBox="0 0 500 100"
           preserveAspectRatio="xMinYMin meet"
         />
       </b-col>
@@ -24,7 +24,7 @@
       </b-col>
     </b-row>
     <b-row v-if="!contactCard" align-h="center">
-      <b-col cols="4" sm="4" lg="3">
+      <b-col cols="6" sm="4" lg="3">
         <a class="doors" accesskey="E" href="#/experience" title="Enter">
           <img
             :src="infoIcon"
@@ -35,7 +35,7 @@
           />
         </a>
       </b-col>
-      <b-col cols="4" sm="4" lg="3">
+      <b-col cols="6" sm="4" lg="3">
         <a
           class="doors"
           accesskey="C"

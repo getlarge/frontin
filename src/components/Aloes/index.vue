@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <b-container class="home-container" fluid>
     <p class="info-title">
       What if your sensors could speak a common language ?
@@ -14,7 +14,13 @@
           class="info-layer"
         >
           <defs>
-            <filter id="circle-shadow-selected" y="-10" x="-10" height="40" width="150">
+            <filter
+              id="circle-shadow-selected"
+              y="-10"
+              x="-10"
+              height="40"
+              width="150"
+            >
               <feOffset in="SourceAlpha" dx="1" dy="1" result="offset1" />
               <feGaussianBlur in="offset2" stdDeviation="1" result="blur1" />
               <feMerge>
@@ -38,7 +44,7 @@
               y="-40"
               height="80"
               width="80"
-              v-bind="{'xlink:href': $store.state.style.pictures.nodeOff}"
+              v-bind="{ 'xlink:href': $store.state.style.pictures.nodeOff }"
               class="sensor-icon"
               @click="deviceTwinSelected = !deviceTwinSelected"
             />
@@ -48,7 +54,7 @@
               y="-40"
               height="80"
               width="80"
-              v-bind="{'xlink:href': $store.state.style.pictures.node}"
+              v-bind="{ 'xlink:href': $store.state.style.pictures.node }"
               class="sensor-icon"
               @click="deviceTwinSelected = !deviceTwinSelected"
             />
@@ -63,25 +69,49 @@
             </p>
             <p class="info-description">
               Powered by
-              <a href="https://framagit.org/getlarge/aloes-handlers" target="_blank">aloes-handlers</a>
+              <a
+                href="https://framagit.org/getlarge/aloes-handlers"
+                target="_blank"
+                >aloes-handlers</a
+              >
               to encode/decode MQTT stream, and
-              <a href="https://framagit.org/getlarge/device-manager" target="_blank">device-manager</a>
+              <a
+                href="https://framagit.org/getlarge/device-manager"
+                target="_blank"
+                >device-manager</a
+              >
               to transport and persist data .
             </p>
           </div>
           <div v-else-if="deviceTwinSelected" class="info-video" key="video">
             <video ref="videoPlayer" muted autoplay loop>
-              <source :src="$store.state.style.videos.createDeviceWebm" type="video/webm" />
-              <source :src="$store.state.style.videos.createDeviceMp4" type="video/mp4" />
-              <source :src="$store.state.style.videos.createDeviceOgv" type="video/ogg" />
+              <source
+                :src="$store.state.style.videos.createDeviceWebm"
+                type="video/webm"
+              />
+              <source
+                :src="$store.state.style.videos.createDeviceMp4"
+                type="video/mp4"
+              />
+              <source
+                :src="$store.state.style.videos.createDeviceOgv"
+                type="video/ogg"
+              />
             </video>
           </div>
         </transition>
       </b-col>
     </b-row>
-
     <b-row align-v="center" align-h="center">
-      <b-col cols="12" sm="6" lg="5" xl="5" order-md="12" order-lg="12" order-xl="12">
+      <b-col
+        cols="12"
+        sm="6"
+        lg="5"
+        xl="5"
+        order-md="12"
+        order-lg="12"
+        order-xl="12"
+      >
         <device-tree
           v-if="deviceTreeLoaded"
           :source="`/data/device-tree.json`"
@@ -94,7 +124,15 @@
           @node-clicked="onNodeClicked"
         />
       </b-col>
-      <b-col cols="12" sm="6" lg="6" xl="5" order-md="1" order-lg="1" order-xl="1">
+      <b-col
+        cols="12"
+        sm="6"
+        lg="6"
+        xl="5"
+        order-md="1"
+        order-lg="1"
+        order-xl="1"
+      >
         <transition name="fade" mode="out-in">
           <div v-if="sensor === null && device === null" key="text">
             <p class="info-subtitle">
@@ -102,7 +140,9 @@
             </p>
             <p class="info-description">
               Displayed with device-snap &
-              <a href="https://framagit.org/aloes/sensor-snap" target="_blank">sensor-snap</a>
+              <a href="https://framagit.org/aloes/sensor-snap" target="_blank"
+                >sensor-snap</a
+              >
               libraries.
             </p>
           </div>
@@ -136,7 +176,12 @@
             @update-sensor="onUpdateSensor"
             @delete-sensor="onDeleteSensor"
           />
-          <device-card v-else-if="device !== null" :device="device" ref="deviceCard" key="device" />
+          <device-card
+            v-else-if="device !== null"
+            :device="device"
+            ref="deviceCard"
+            key="device"
+          />
         </transition>
       </b-col>
     </b-row>
@@ -156,16 +201,19 @@
         </p>
         <p class="info-description">
           Share and control them from any web interface, thanks to
-          <a href="https://framagit.org/aloes/virtual-objects" target="_blank">virtual-objects</a>
+          <a href="https://framagit.org/aloes/virtual-objects" target="_blank"
+            >virtual-objects</a
+          >
         </p>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
-<script type="text/javascript">
+<script>
+import { updateAloesSensors } from "aloes-handlers";
+import { SensorSnap } from "sensor-snap";
 import logger from "@/services/logger";
-import * as SensorSnap from "sensor-snap";
 
 export default {
   name: "Presentation",
@@ -173,8 +221,9 @@ export default {
   components: {
     "device-card": () => import("@/components/Aloes/DeviceCard.vue"),
     "device-tree": () => import("@/components/Aloes/DeviceTree.vue"),
-    "object-composition": () => import("@/components/Aloes/ObjectComposition.vue"),
-    ...SensorSnap.components,
+    "object-composition": () =>
+      import("@/components/Aloes/ObjectComposition.vue"),
+    "sensor-snap": SensorSnap
   },
 
   data() {
@@ -183,7 +232,7 @@ export default {
       deviceTwinSelected: false,
       svgSettings: {
         width: 500,
-        height: 400,
+        height: 400
       },
       device: null,
       sensor: null,
@@ -194,8 +243,8 @@ export default {
         "/icons/aloes/electrons.png",
         "/icons/aloes/clock.png",
         "/icons/aloes/pattern.png",
-        "/icons/aloes/arduino.png",
-      ],
+        "/icons/aloes/arduino.png"
+      ]
     };
   },
 
@@ -216,25 +265,20 @@ export default {
   computed: {},
 
   methods: {
-    async onUpdateSensor(sensor) {
-      logger.publish(4, "home", "onUpdateSensor:req", sensor);
-      this.sensor = sensor;
-      if (sensor.type === 3349) {
-        const buffer = await this.cameraTest();
-        return this.$refs[`sensorSnap-${this.sensor.id}`].sendCommand("getImage", new Blob([buffer]));
-        //  const sensor = JSON.parse(JSON.stringify(this.sensor));
-        //  console.log("oldSensor", sensor.resources["5910"]);
-        // sensor.value = Buffer.from(buffer);
-        // sensor.resources["5910"] = Buffer.from(buffer);
-        // this.sensor = sensor;
-        //console.log("newSensor", this.sensor.resources["5910"]);
+    async onUpdateSensor(...args) {
+      if (!args || !args[0].id) return null;
+      let sensor = args[0];
+      logger.publish(4, "device", "onUpdateSensor:req", sensor);
+      if (sensor.type === 3349 && args[1] === 5911) {
+        const result = await this.cameraTest(2);
+        args[1] = 5910;
+        args[2] = result;
       }
-      // if (sensor.type === 3306) {
-      //   return this.measurementTest();
-      // }
-      //   if (this.$refs[`sensorSnap-${this.sensor.id}`].componentsType === "gauge") {
+      // if (this.$refs[`sensorSnap-${this.sensor.id}`].componentsType === "gauge") {
       //   this.measurementTest();
       // }
+      sensor = await updateAloesSensors(sensor, args[1], args[2]);
+      this.sensor = sensor;
     },
 
     onDeleteSensor(sensor) {
@@ -254,13 +298,13 @@ export default {
       //  const node = node.detail[0];
       if (node.data && node.data.resources && this.sensor === null) {
         this.device = null;
-        this.sensor = {...node.data};
+        this.sensor = { ...node.data };
       } else if (node.data && node.data.resources) {
         this.sensor = null;
         this.device = null;
       }
       if (node.data && node.data.qrCode && this.device === null) {
-        this.device = {...node.data};
+        this.device = { ...node.data };
         this.sensor = null;
       } else if (node.data && node.data.qrCode) {
         this.device = null;
@@ -272,27 +316,42 @@ export default {
       setInterval(() => {
         const resource = this.sensor.resource.toString();
         const sensor = JSON.parse(JSON.stringify(this.sensor));
-        console.log("oldSensor", sensor.resources[resource]);
-        sensor.value = this.sensor.resources[resource] + Math.floor(Math.random() + 10);
+        sensor.value =
+          this.sensor.resources[resource] + Math.floor(Math.random() + 10);
         sensor.resources[resource] = sensor.value;
         this.sensor = sensor;
-        console.log("newSensor", this.sensor.resources[resource]);
       }, 1000);
     },
 
-    async cameraTest() {
-      const randomPic = this.randomPics[Math.floor(Math.random() * this.randomPics.length)];
-      const buffer = await fetch(`${randomPic}`)
-        .then((response) => {
+    arrayBufferToBase64(buffer) {
+      let binary = "";
+      const bytes = [].slice.call(new Uint8Array(buffer));
+      bytes.forEach(b => (binary += String.fromCharCode(b)));
+      return window.btoa(binary);
+    },
+
+    async cameraTest(testNumber) {
+      const randomPic = this.randomPics[
+        Math.floor(Math.random() * this.randomPics.length)
+      ];
+      const result = await fetch(`${randomPic}`)
+        .then(response => {
           if (!response.ok) {
             throw new Error("HTTP error, status = " + response.status);
           }
           return response.arrayBuffer();
         })
-        .then((buffer) => Buffer.from(buffer));
-      return buffer;
-    },
-  },
+        .then(buffer => {
+          if (testNumber === 1) {
+            return Buffer.from(buffer);
+          } else if (testNumber === 2) {
+            return this.arrayBufferToBase64(buffer);
+          }
+          return buffer;
+        });
+      return result;
+    }
+  }
 };
 </script>
 

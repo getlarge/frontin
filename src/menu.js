@@ -1,6 +1,6 @@
 const routes = [
   {
-    name: "Experiences",
+    name: "Experience",
     title: "Experiences",
     path: "/experience",
     folder: true,
@@ -33,7 +33,7 @@ const routes = [
       import(/* webpackChunkName: "aloes" */ "@/components/Aloes/index.vue")
   },
   {
-    name: "IPSO",
+    name: "Ipso",
     title: "Ipso",
     path: "/ipso",
     folder: true,
@@ -42,7 +42,7 @@ const routes = [
       import(/* webpackChunkName: "ipso" */ "@/components/Ipso/index.vue")
   },
   {
-    name: "Network",
+    name: "NetworkTree",
     title: "Realtime Network Mapping",
     path: "/network-tree",
     folder: true,
@@ -61,7 +61,7 @@ const routes = [
   var res = r;
   res.source = `${process.env.VUE_APP_GIT_LINK}${
     process.env.VUE_APP_GIT_COMPONENTS_PATH
-  }${r.path}${r.folder ? "/index.vue" : ".vue"}`;
+  }/${r.name}${r.folder ? "/index.vue" : ".vue"}`;
   return res;
 });
 
