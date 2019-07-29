@@ -33,15 +33,6 @@ const routes = [
       import(/* webpackChunkName: "aloes" */ "@/components/Aloes/index.vue")
   },
   {
-    name: "Ipso",
-    title: "Ipso",
-    path: "/ipso",
-    folder: true,
-    alias: "/ipso/*",
-    component: () =>
-      import(/* webpackChunkName: "ipso" */ "@/components/Ipso/index.vue")
-  },
-  {
     name: "NetworkTree",
     title: "Realtime Network Mapping",
     path: "/network-tree",

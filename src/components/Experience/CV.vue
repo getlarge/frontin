@@ -94,7 +94,7 @@
               </li>
               <li>Build automation - application deployment</li>
               <li>
-                Realtime data vizualisation - UI/UX design – Graphic creation
+                Data vizualisation - UI/UX design – Graphic creation
               </li>
               <li>Embedded development ( software & hardware )</li>
               <li>Agile - Scrum - Lean Startup</li>
@@ -105,7 +105,110 @@
           <h2>Experiences</h2>
           <div>
             <h3>DEVELOPER / CONSULTANT - FREELANCE</h3>
-            <h4>october 2018 until now</h4>
+            <h4>JULY 2019</h4>
+            <ul>
+              <li>
+                Self training: IOTA , Docker
+              </li>
+              <li>
+                Realizing PoC to trigger Aloes devices actions by IOTA
+                transactions ( user → device, device→ account ), persisting
+                sensor data via MAM publish
+              </li>
+              <li>
+                Containerize Aloes environment for faster deployement
+              </li>
+            </ul>
+            <h5>Technical environment :</h5>
+            <ul>
+              <li>
+                # IOTA.JS, # DOCKER
+              </li>
+            </ul>
+            <h4>APRIL 2019 UNTIL NOW</h4>
+            <ul>
+              <li>
+                Conceiving and setting up devices network applied to an escape
+                game scenario.
+              </li>
+              <li>
+                Implementing Aloes to manage devices and pipe communications to
+                REST and MQTT API
+              </li>
+              <li>
+                Developping firmwares for Arduino uno and ESP8266 and Node Red
+                flows for RaspberryPi to interact with players and Aloes
+                network.
+              </li>
+              <li>
+                Writing processes representing rules of the escape game (
+                filtering incoming MQTT payloads, and reactions trigger )
+              </li>
+              <li>
+                Developping control interfaces and dashboard for gamemasters
+              </li>
+              <li>
+                Teaching customers, the basics of Node-Red development to
+                customize scenarios themselves
+              </li>
+            </ul>
+            <h5>Technical environment :</h5>
+            <ul>
+              <li>
+                # NODE.JS, # VUE.JS, # NODE-RED ,# C++, # ARDUINO, # DOCKER
+              </li>
+            </ul>
+            <h4>MARCH 2019</h4>
+            <ul>
+              <li>
+                Animated portfolio for a graphic designer / art director
+              </li>
+              <li>
+                Dynamic content generation from JSON file
+              </li>
+            </ul>
+            <h5>Technical environment :</h5>
+            <ul>
+              <li>
+                # VUE.JS, # WEBPACK
+              </li>
+            </ul>
+            <h4>JANUARY 2019 UNTIL NOW</h4>
+            <ul>
+              <li>
+                Back on Aloes project to implement V2 and opening sources (
+                framagit.org/aloes )
+              </li>
+              <li>
+                Defining transport and messaging protocol, based on Open Mobile
+                Alliance
+              </li>
+              <li>
+                Articulating microservices via REST and MQTT API (
+                device-manager services )
+              </li>
+              <li>
+                Encode / Decode IoT devices native protocol from / to Aloes
+                Client API ( aloes-handlers library )
+              </li>
+              <li>
+                Building reusable web components with Vue.JS ( sensor-snap
+                library )
+              </li>
+              <li>
+                Binding REST and MQTT API with GraphQL to build higher level API
+                and caching results ( virtual-objects-manager )
+              </li>
+              <li>Adding unit tests on critical functions and code examples</li>
+            </ul>
+            <h5>Technical environment :</h5>
+            <ul>
+              <li>
+                # NODE.JS # MQTT, # LOOPBACK, # REDIS, # LORAWAN, #OPEN MOBILE
+                ALLIANCE, # MOCHA , # BABEL
+              </li>
+            </ul>
+            <h4>OCTOBER 2018 UNTIL FEBRUARY 2019</h4>
             <ul>
               <li>
                 Creating a web app for Yogi in my City - a social network
@@ -123,11 +226,10 @@
             <h5>Technical environment :</h5>
             <ul>
               <li>
-                NodeJS, Loopback, Vue.js, Socket.io, Stripe, MongoDB,
-                OpenCageData
+                # LOOPBACK, # VUE.JS, # SOCKET.IO, # MONGODB, # PM2, # STRIPE
               </li>
             </ul>
-            <h4>july 2018 until september 2018</h4>
+            <h4>JULY 2018 UNTIL SEPTEMBER 2018</h4>
             <ul>
               <li>Developing my web portfolio ( getlarge.eu )</li>
               <li>Self-training : D3JS, Vue, Nativescript</li>
@@ -139,9 +241,11 @@
             </ul>
             <h5>Technical environment :</h5>
             <ul>
-              <li>NodeJS, ExpressJS, Webpack, SVG, Event-driven programming</li>
+              <li>
+                # NODE.JS # EXPRESS.JS, # WEBPACK, # D3.JS, # VUE.JS
+              </li>
             </ul>
-            <h4>november 2017 until june 2018</h4>
+            <h4>NOVEMBER 2017 UNTIL JUNE 2018</h4>
             <ul>
               <li>Participating to IoT platform development, Exostic</li>
               <li>
@@ -166,49 +270,8 @@
             <h5>Technical environment :</h5>
             <ul>
               <li>
-                JavaScript, MQTT, HTTP, Git, React, CoffeeJS, Lora,
-                Object-oriented programming
+                # JAVASCRIPT # MQTT, # REACT, # GIT, # COFFEEJS , # LORAWAN
               </li>
-            </ul>
-          </div>
-          <div>
-            <h3>PROFESSIONAL RETRAINING</h3>
-            <h4>april 2017 until november 2017</h4>
-            <ul>
-              <li>
-                Programmed a wifi device manager ( authentification, config … ),
-                and RF sensor modules
-              </li>
-              <li>Made contributions to open source projects ( mysensors )</li>
-              <li>
-                Launched and animated a hacker’s club ( hardware, software, web,
-                3D print )
-              </li>
-              <li>Server administration ( cloud, printers, node-red apps )</li>
-            </ul>
-            <h5>Technical environment :</h5>
-            <ul>
-              <li>
-                C++, Raspberry Pi, Nginx, Node-red, Kicad, Functional
-                programming
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3>ENTREPRENEUR / CRAFTSMAN - IVI</h3>
-            <h4>april 2014 until april 2017</h4>
-            <ul>
-              <li>Created innovative growing medium</li>
-              <li>Passionate landscape advisor</li>
-              <li>Developed showcase website</li>
-              <li>
-                Market analysis & fast prototyping ( vegetal columns, connected
-                sensors, 3D prints )
-              </li>
-            </ul>
-            <h5>Technical environment :</h5>
-            <ul>
-              <li>Linux, HTML, CSS, Arduino, Cura</li>
             </ul>
           </div>
         </b-col>
@@ -216,8 +279,8 @@
           <h2>Interests</h2>
           <ul>
             <li>Botanic</li>
-            <li>Innovation</li>
-            <li>Open source</li>
+            <li>Interfaces innovation</li>
+            <li>Open source contributions</li>
             <li>Philosophy</li>
           </ul>
         </b-col>
