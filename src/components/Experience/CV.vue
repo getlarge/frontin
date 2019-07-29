@@ -1,266 +1,295 @@
 <template>
   <div class="block" id="cv">
-    <mq-layout 
-      class="pdfExport-mobile" 
-      mq="mobile">
-      <v-touch 
-        title="export pdf" 
-        class="pdfExport" 
-        v-on:tap="transformPdf" >
-        <font-awesome-icon 
-          icon="download" 
-          size="2x" 
-          alt="download"/>
-      </v-touch>
-    </mq-layout>
-    <mq-layout 
-      class="pdfExport-tablet"
-      mq="tablet">
-      <v-touch 
-        title="export pdf" 
-        class="pdfExport" 
-        v-on:tap="transformPdf" >
-        <font-awesome-icon 
-          icon="download" 
-          size="2x" 
-          alt="download"/>
-      </v-touch>
-    </mq-layout>
-    <mq-layout 
-      class="pdfExport-laptop" 
-      mq="laptop">
-      <button 
-        title="export pdf" 
-        class="pdfExport"
-        @click="transformPdf">
-        <font-awesome-icon 
-          icon="download" 
-          size="2x" 
-          alt="download"/>
+    <mq-layout class="pdfExport-mobile" mq="mobile">
+      <button title="export pdf" class="pdfExport" @click="transformPdf">
+        <font-awesome-icon icon="download" size="2x" alt="download" />
       </button>
     </mq-layout>
-    <mq-layout 
-      class="pdfExport-desktop" 
-      mq="desktop">
-      <button 
-        title="export pdf" 
-        class="pdfExport" 
-        @click="transformPdf">
-          <font-awesome-icon icon="download" size="2x" alt="download"/>
+    <mq-layout class="pdfExport-tablet" mq="tablet">
+      <button title="export pdf" class="pdfExport" @click="transformPdf">
+        <font-awesome-icon icon="download" size="2x" alt="download" />
       </button>
     </mq-layout>
-    <mq-layout 
-      class="pdfExport-xxl" 
-      mq="xxl">
-      <button 
-        title="export pdf" 
-        class="pdfExport" 
-        @click="transformPdf">
-          <font-awesome-icon icon="download" size="3x" alt="download"/>
+    <mq-layout class="pdfExport-laptop" mq="laptop">
+      <button title="export pdf" class="pdfExport" @click="transformPdf">
+        <font-awesome-icon icon="download" size="2x" alt="download" />
+      </button>
+    </mq-layout>
+    <mq-layout class="pdfExport-desktop" mq="desktop">
+      <button title="export pdf" class="pdfExport" @click="transformPdf">
+        <font-awesome-icon icon="download" size="2x" alt="download" />
+      </button>
+    </mq-layout>
+    <mq-layout class="pdfExport-xxl" mq="xxl">
+      <button title="export pdf" class="pdfExport" @click="transformPdf">
+        <font-awesome-icon icon="download" size="3x" alt="download" />
       </button>
     </mq-layout>
 
-    <b-container 
-      class="container" 
-      fluid >
-      <b-row 
-        class="content" 
-        align-h="center">
-        <b-col 
-          sm="7" 
-          md="7" >
+    <b-container class="container" fluid>
+      <b-row class="content" align-h="center">
+        <b-col sm="7" md="7">
           <div class="titles">
-            <h1 >Edouard Maleix</h1>
+            <h1>Edouard Maleix</h1>
             <h2>Developer – Consultant</h2>
           </div>
-          <div class='infos'>
+          <div class="infos">
             <h3>
-              <a :href="'tel:'+tel">
-                <font-awesome-icon 
-                  class="icons" 
-                  icon="phone" 
-                  size="sm" /> 
-                {{tel}}
+              <a :href="`mailto:ed@${domain}`">
+                <font-awesome-icon
+                  class="icons"
+                  icon="envelope-open"
+                  size="sm"
+                />
+                ed@{{ domain }}
               </a>
             </h3>
             <h3>
-              <a :href="'mailto:ed@'+domain">
-                <font-awesome-icon 
-                  class="icons" 
-                  icon="envelope-open" 
-                  size="sm" /> 
-                ed@{{domain}}
-              </a>
-            </h3>
-            <h3>
-              <a 
-                :href="'https://'+domain" 
-                target='_blank'>
-                <font-awesome-icon 
-                  class="icons" 
-                  icon="link" 
-                  size="sm" /> 
-                {{domain}}
+              <a :href="'https://' + domain" target="_blank">
+                <font-awesome-icon class="icons" icon="link" size="sm" />
+                {{ domain }}
               </a>
             </h3>
             <h3>
               <p>
-                <font-awesome-icon 
-                  class="icons" 
-                  icon="home" 
-                  size="sm" /> 
-                95 rue Paul Bellamy 44000 NANTES
+                <font-awesome-icon class="icons" icon="home" size="sm" />
+                44000 NANTES
               </p>
             </h3>
             <h3>
               <a>
-                <font-awesome-icon 
-                class="icons" 
-                icon="language" 
-                size="sm" /> 
-                French (<font-awesome-icon 
-                  v-for="item in fr" 
-                  :key="item.id" 
-                  icon="star" 
-                  size="xs" 
-                  class="icons"/>) 
-                English (<font-awesome-icon 
-                  v-for="item in en" 
-                  :key="item.id" 
-                  icon="star" 
+                <font-awesome-icon class="icons" icon="language" size="sm" />
+                French (<font-awesome-icon
+                  v-for="item in fr"
+                  :key="item.id"
+                  icon="star"
                   size="xs"
-                  class="icons" />) 
-                German (<font-awesome-icon 
-                  v-for="item in de" 
-                  :key="item.id" 
-                  icon="star" 
-                  size="xs" 
-                  class="icons"/>)
+                  class="icons"
+                />) English (<font-awesome-icon
+                  v-for="item in en"
+                  :key="item.id"
+                  icon="star"
+                  size="xs"
+                  class="icons"
+                />) German (<font-awesome-icon
+                  v-for="item in de"
+                  :key="item.id"
+                  icon="star"
+                  size="xs"
+                  class="icons"
+                />)
               </a>
             </h3>
           </div>
         </b-col>
-        <b-col 
-          class="pics"
-          sm="5" 
-          md="5">
-          <img 
-            :src="`${$store.state.clientUrl}${img1}`" 
-            class="face" 
-            alt="">
+        <b-col class="pics" sm="5" md="5">
+          <img :src="`${$store.state.clientUrl}${img1}`" class="face" alt="" />
         </b-col>
-        <b-col 
-          class="articles" 
-          sm="12" 
-          md="12" >
+        <b-col class="articles" sm="12" md="12">
           <h2>Skills</h2>
           <div>
             <ul>
-              <li>REST API - Realtime communication - MVC / MVVM architecture</li>
+              <li>
+                REST API - Realtime communication - MVC / MVVM architecture
+              </li>
               <li>Build automation - application deployment</li>
-              <li>Realtime data vizualisation - UI/UX design – Graphic creation</li>
+              <li>
+                Data vizualisation - UI/UX design – Graphic creation
+              </li>
               <li>Embedded development ( software & hardware )</li>
               <li>Agile - Scrum - Lean Startup</li>
             </ul>
           </div>
         </b-col>
-        <b-col 
-          class="articles" 
-          sm="12" 
-          md="12" >
+        <b-col class="articles" sm="12" md="12">
           <h2>Experiences</h2>
           <div>
             <h3>DEVELOPER / CONSULTANT - FREELANCE</h3>
-            <h4>october 2018 until now</h4>
+            <h4>JULY 2019</h4>
             <ul>
-              <li>Creating a web app for Yogi in my City - a social network linking Yoga teachers and studios</li>
-              <li>In charge of backend / frontend development, and participation in webdesign</li>
-              <li>Profile edition -  search - geolocation - mapping</li>
+              <li>
+                Self training: IOTA , Docker
+              </li>
+              <li>
+                Realizing PoC to trigger Aloes devices actions by IOTA
+                transactions ( user → device, device→ account ), persisting
+                sensor data via MAM publish
+              </li>
+              <li>
+                Containerize Aloes environment for faster deployement
+              </li>
+            </ul>
+            <h5>Technical environment :</h5>
+            <ul>
+              <li>
+                # IOTA.JS, # DOCKER
+              </li>
+            </ul>
+            <h4>APRIL 2019 UNTIL NOW</h4>
+            <ul>
+              <li>
+                Conceiving and setting up devices network applied to an escape
+                game scenario.
+              </li>
+              <li>
+                Implementing Aloes to manage devices and pipe communications to
+                REST and MQTT API
+              </li>
+              <li>
+                Developping firmwares for Arduino uno and ESP8266 and Node Red
+                flows for RaspberryPi to interact with players and Aloes
+                network.
+              </li>
+              <li>
+                Writing processes representing rules of the escape game (
+                filtering incoming MQTT payloads, and reactions trigger )
+              </li>
+              <li>
+                Developping control interfaces and dashboard for gamemasters
+              </li>
+              <li>
+                Teaching customers, the basics of Node-Red development to
+                customize scenarios themselves
+              </li>
+            </ul>
+            <h5>Technical environment :</h5>
+            <ul>
+              <li>
+                # NODE.JS, # VUE.JS, # NODE-RED ,# C++, # ARDUINO, # DOCKER
+              </li>
+            </ul>
+            <h4>MARCH 2019</h4>
+            <ul>
+              <li>
+                Animated portfolio for a graphic designer / art director
+              </li>
+              <li>
+                Dynamic content generation from JSON file
+              </li>
+            </ul>
+            <h5>Technical environment :</h5>
+            <ul>
+              <li>
+                # VUE.JS, # WEBPACK
+              </li>
+            </ul>
+            <h4>JANUARY 2019 UNTIL NOW</h4>
+            <ul>
+              <li>
+                Back on Aloes project to implement V2 and opening sources (
+                framagit.org/aloes )
+              </li>
+              <li>
+                Defining transport and messaging protocol, based on Open Mobile
+                Alliance
+              </li>
+              <li>
+                Articulating microservices via REST and MQTT API (
+                device-manager services )
+              </li>
+              <li>
+                Encode / Decode IoT devices native protocol from / to Aloes
+                Client API ( aloes-handlers library )
+              </li>
+              <li>
+                Building reusable web components with Vue.JS ( sensor-snap
+                library )
+              </li>
+              <li>
+                Binding REST and MQTT API with GraphQL to build higher level API
+                and caching results ( virtual-objects-manager )
+              </li>
+              <li>Adding unit tests on critical functions and code examples</li>
+            </ul>
+            <h5>Technical environment :</h5>
+            <ul>
+              <li>
+                # NODE.JS # MQTT, # LOOPBACK, # REDIS, # LORAWAN, #OPEN MOBILE
+                ALLIANCE, # MOCHA , # BABEL
+              </li>
+            </ul>
+            <h4>OCTOBER 2018 UNTIL FEBRUARY 2019</h4>
+            <ul>
+              <li>
+                Creating a web app for Yogi in my City - a social network
+                linking Yoga teachers and studios
+              </li>
+              <li>
+                In charge of backend / frontend development, and participation
+                in webdesign
+              </li>
+              <li>Profile edition - search - geolocation - mapping</li>
               <li>Messenger - Agenda edition / matching</li>
               <li>Subscription / payment</li>
               <li>Access controlled by roles and tokens</li>
             </ul>
             <h5>Technical environment :</h5>
             <ul>
-              <li>NodeJS, Loopback, Vue.js, Socket.io, Stripe, MongoDB, OpenCageData</li>
+              <li>
+                # LOOPBACK, # VUE.JS, # SOCKET.IO, # MONGODB, # PM2, # STRIPE
+              </li>
             </ul>
-            <h4>july 2018 until september 2018</h4>
+            <h4>JULY 2018 UNTIL SEPTEMBER 2018</h4>
             <ul>
               <li>Developing my web portfolio ( getlarge.eu )</li>
-              <li>Self-training : D3JS, Vue, Nativescript </li>
-              <li>Training courses : React, Loopback </li>
-              <li>Made contributions to open source projects ( Aloes, MySensors, IPSO alliance )</li>
+              <li>Self-training : D3JS, Vue, Nativescript</li>
+              <li>Training courses : React, Loopback</li>
+              <li>
+                Made contributions to open source projects ( Aloes, MySensors,
+                IPSO alliance )
+              </li>
             </ul>
             <h5>Technical environment :</h5>
             <ul>
-              <li>NodeJS, ExpressJS, Webpack, SVG, Event-driven programming</li>
+              <li>
+                # NODE.JS # EXPRESS.JS, # WEBPACK, # D3.JS, # VUE.JS
+              </li>
             </ul>
-          </div>
-          <div>
-            <h3>DEVELOPER / CONSULTANT - EXOSTIC</h3>
-            <h4>november 2017 until june 2018</h4>
+            <h4>NOVEMBER 2017 UNTIL JUNE 2018</h4>
             <ul>
-              <li>Building web communication tools ( aloes.io - slides.aloes.io/pitch )</li>
-              <li>Customers and testers follow up ( Excel spreadsheets, testing result summaries,  ... ) </li>
-              <li>Prototyped React components to illustrate use cases ( app.aloes.io )</li>
-              <li>Conceived & deployed  LoRaWAN gateway and nodes ( hardware / software open sourced ) </li>
+              <li>Participating to IoT platform development, Exostic</li>
+              <li>
+                Building web communication tools ( aloes.io -
+                slides.aloes.io/pitch )
+              </li>
+              <li>
+                Prototyped React components to illustrate use cases (
+                app.aloes.io )
+              </li>
+              <li>
+                Conceived & deployed LoRaWAN gateway and nodes ( hardware /
+                software open source )
+              </li>
               <li>Maintained development flow on Kanban boards</li>
               <li>Tested newly built functionnalities / notifying issues</li>
-              <li>Trained bots, to act as assistants for visitors and platform users</li>
+              <li>
+                Trained bots, to act as assistants for visitors and platform
+                users
+              </li>
             </ul>
             <h5>Technical environment :</h5>
             <ul>
-              <li>JavaScript, MQTT, HTTP, Git, React, CoffeeJS, Lora, Object-oriented programming</li>
-            </ul>
-          </div>
-          <div>
-            <h3>PROFESSIONAL RETRAINING</h3>
-            <h4>april 2017 until november 2017</h4>
-            <ul>
-              <li>Programmed a wifi device manager ( authentification, config … ), and RF sensor modules</li>
-              <li>Made contributions to open source projects ( mysensors ) </li>
-              <li>Launched and animated a hacker’s club ( hardware, software, web, 3D print )</li>
-              <li>Server administration ( cloud, printers, node-red apps )</li>
-            </ul>
-            <h5>Technical environment :</h5>
-            <ul>
-              <li>C++, Raspberry Pi, Nginx, Node-red, Kicad, Functional programming</li>
-            </ul>
-          </div>
-          <div>
-            <h3>ENTREPRENEUR / CRAFTSMAN - IVI</h3>
-            <h4>april 2014 until april 2017</h4>
-            <ul>
-              <li>Created innovative growing medium</li>
-              <li>Passionate landscape advisor</li>
-              <li>Developed showcase website</li>
-              <li>Market analysis & fast prototyping ( vegetal columns, connected sensors, 3D prints )</li>
-            </ul>
-            <h5>Technical environment :</h5>
-            <ul>
-                <li>Linux, HTML, CSS, Arduino, Cura </li>
+              <li>
+                # JAVASCRIPT # MQTT, # REACT, # GIT, # COFFEEJS , # LORAWAN
+              </li>
             </ul>
           </div>
         </b-col>
-        <b-col 
-          class="articles"
-          sm="12" 
-          md="12">
-            <h2>Interests</h2>
-            <ul>
-              <li>Botanic</li>
-              <li>Innovation</li>
-              <li>Open source</li>
-              <li>Philosophy</li>
-            </ul>
+        <b-col class="articles" sm="12" md="12">
+          <h2>Interests</h2>
+          <ul>
+            <li>Botanic</li>
+            <li>Interfaces innovation</li>
+            <li>Open source contributions</li>
+            <li>Philosophy</li>
+          </ul>
         </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
 
-<script >
-import { mapState } from "vuex";
+<script>
 import { select } from "d3-selection";
 import * as html2canvas from "html2canvas";
 import * as jsPDF from "jspdf";
@@ -282,11 +311,15 @@ export default {
   mounted() {},
 
   computed: {
-    ...mapState({
-      serverURL: state => state.base.serverURL,
-      domain: state => state.base.domain,
-      tel: state => state.base.tel
-    })
+    serverUrl() {
+      return this.$store.state.serverUrl;
+    },
+    domain() {
+      return this.$store.state.domain;
+    },
+    tel() {
+      return this.$store.state.tel;
+    }
   },
 
   methods: {

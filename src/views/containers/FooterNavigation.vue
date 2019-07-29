@@ -1,30 +1,20 @@
 <template>
   <div id="bottom-nav">
-    <hr class="my-4">
-    <router-link 
-      v-if="prev"
-      :to="prev.path"  
-      class="prev">
-      <{{ prev.title }}  -  
-      </router-link>
-      <a 
-        :href="sourceHref" 
-        class="source" 
-        target="_blank">
-        <font-awesome-icon 
-          :icon="['fab', 'gitlab']"/> 
-        {{ $route.name }}
-      </a>
-      <router-link 
-        v-if="next"
-        :to="next.path"
-        class="next">  -  {{ next.title }} > 
-      </router-link>
+    <hr class="my-4" />
+    <router-link v-if="prev" :to="prev.path" class="prev">
+      {{ ` ${prev.title} -` }}
+    </router-link>
+    <a :href="sourceHref" class="source" target="_blank">
+      <font-awesome-icon :icon="['fab', 'gitlab']" />
+      {{ $route.name }}
+    </a>
+    <router-link v-if="next" :to="next.path" class="next">
+      {{ `- ${next.title} ` }}
+    </router-link>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
 //  import {EventBus} from "@/main";
 
 export default {
@@ -34,20 +24,13 @@ export default {
     };
   },
 
-  created() {},
-
-  updated() {},
-
-  beforeDestroy() {},
-
-  watch: {},
-
   computed: {
-    ...mapState({
-      routes: state => state.menu.items,
-      gitLink: state => state.base.gitLink
-    }),
-
+    routes() {
+      return this.$store.state.menu.items;
+    },
+    gitLink() {
+      return this.$store.state.gitLink;
+    },
     prev() {
       const index = this.findIndex();
       if (index == -1) {
@@ -55,7 +38,6 @@ export default {
       }
       return index > 0 ? this.routes[index - 1] : undefined;
     },
-
     next() {
       const index = this.findIndex();
       if (index == -1) {
@@ -65,7 +47,6 @@ export default {
         ? this.routes[index + 1]
         : undefined;
     },
-
     sourceHref() {
       const index = this.findIndex();
       if (index == -1) {
@@ -73,7 +54,6 @@ export default {
       }
       return this.routes[index].source;
     },
-
     routePath() {
       return `/${this.$route.name}`;
     }

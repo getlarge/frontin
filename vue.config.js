@@ -6,12 +6,11 @@ module.exports = {
   lintOnSave: false,
   baseUrl: undefined,
   outputDir: "build",
-  assetsDir: "public",
+  assetsDir: undefined,
   runtimeCompiler: true,
-  productionSourceMap: undefined,
+  productionSourceMap: false,
   parallel: undefined,
   css: undefined,
-
   // devServer: {
   //   proxy: {
   //     "^/api": {
@@ -29,6 +28,5 @@ module.exports = {
       })
     ]
   },
-
   publicPath: undefined
 };
