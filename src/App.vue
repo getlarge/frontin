@@ -7,30 +7,29 @@
 </template>
 
 <script>
-//  import Mqtt from "@/services/MqttClient";
-import topNav from "@/views/containers/MenuNavigation";
-import bottomNav from "@/views/containers/FooterNavigation";
-import { EventBus } from "@/services/PubSub";
-import { localStore } from "@/services/LocalStore";
+import topNav from '@/components/MenuNavigation';
+import bottomNav from '@/components/FooterNavigation';
+import { EventBus } from '@/services/PubSub';
+// import { localStore } from '@/services/LocalStore';
 
 export default {
-  name: "App",
+  name: 'App',
 
   components: {
     topNav,
-    bottomNav
+    bottomNav,
   },
 
   data() {
     return {
-      appName: "getlarge",
+      appName: 'getlarge',
       path: this.$route.name,
-      agent: "",
+      agent: '',
       sessionId: 0,
       //  client: new Mqtt(),
       showLocale: false,
       showNav: false,
-      customElement: null
+      customElement: null,
     };
   },
 
@@ -40,16 +39,16 @@ export default {
         return this.$store.state.windowWidth;
       },
       set(value) {
-        this.$store.commit("setModelKV", { key: "windowWidth", value });
-      }
+        this.$store.commit('setModelKV', { key: 'windowWidth', value });
+      },
     },
     windowHeight: {
       get() {
         return this.$store.state.windowHeight;
       },
       set(value) {
-        this.$store.commit("setModelKV", { key: "windowHeight", value });
-      }
+        this.$store.commit('setModelKV', { key: 'windowHeight', value });
+      },
     },
 
     documentWidth: {
@@ -57,75 +56,44 @@ export default {
         return this.$store.state.documentWidth;
       },
       set(value) {
-        this.$store.commit("setModelKV", { key: "documentWidth", value });
-      }
+        this.$store.commit('setModelKV', { key: 'documentWidth', value });
+      },
     },
     documentHeight: {
       get() {
         return this.$store.state.documentHeight;
       },
       set(value) {
-        this.$store.commit("setModelKV", { key: "documentHeight", value });
-      }
-    }
+        this.$store.commit('setModelKV', { key: 'documentHeight', value });
+      },
+    },
   },
-
-  // beforeCreate() {
-  //   if (this.$route.params.locale && this.$route.params.locale !== this.$i18n.locale) {
-  //     this.$i18n.locale = this.$route.params.locale
-  //   }
-  // },
-
-  // beforeUpdate() {
-  //   if (this.$route.params.locale && this.$route.params.locale !== this.$i18n.locale) {
-  //     this.$i18n.locale = this.$route.params.locale
-  //   }
-  // },
 
   created() {
     // eslint-disable-next-line no-console
     console.log(
-      "%c getlarge.eu - 2018 ",
-      "background: #33b277; color: white; display: block; width: 140px; border-radius: 5px; font-size: 12px;"
+      '%c getlarge.eu - 2021 ',
+      'background: #33b277; color: white; display: block; width: 140px; border-radius: 5px; font-size: 12px;',
     );
-    const id = localStore.getRandomInt(1000, 5000);
-    this.checkNavigator();
-    localStore.initStorage(this.agent, id);
-    this.sessionId = localStore.getStorage("sessionId");
-
-    //  this.client.openStream();
-    // console.log(this.agent);
-    // console.log("session #" + this.sessionId);
+    // const id = localStore.getRandomInt(1000, 5000);
+    // this.checkNavigator();
+    // localStore.initStorage(this.agent, id);
+    // this.sessionId = localStore.getStorage('sessionId');
   },
 
   mounted() {
-    // this.client.subscribe(this.appName + "/#");
-    // this.client.publish(
-    //   this.appName + "/sessions/" + this.agent + "_" + this.sessionId + "/" + this.$route.name,
-    //   "opened",
-    // );
-    // this.client.publish(this.appName + "/stat", "connected");
     this.$nextTick(() => {
-      window.addEventListener("resize", this.updateSize);
+      window.addEventListener('resize', this.updateSize);
     });
   },
 
   beforeDestroy() {
-    // this.client.publish(this.appName + "/stat", "disconnected");
-    // this.client.close();
-    window.removeEventListener("resize", this.updateSize);
+    window.removeEventListener('resize', this.updateSize);
     EventBus.$off();
-    this.$localStorage.remove("sessionId");
+    this.$localStorage.remove('sessionId');
   },
 
   methods: {
-    // login() {
-    //     const { username, password } = this;
-    //     this.$store.dispatch(AUTH_REQUEST, { username, password }).then(() => {
-    //         this.$router.push('/')
-    //     })
-    // },
-
     updateSize() {
       this.windowWidth = window.innerWidth;
       this.windowHeight = window.innerHeight;
@@ -136,32 +104,32 @@ export default {
     checkNavigator() {
       let sBrowser;
       const sUsrAg = navigator.userAgent;
-      if (sUsrAg.indexOf("Firefox") > -1) {
-        sBrowser = "Firefox";
+      if (sUsrAg.indexOf('Firefox') > -1) {
+        sBrowser = 'Firefox';
         //"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
-      } else if (sUsrAg.indexOf("Opera") > -1) {
-        sBrowser = "Opera";
-      } else if (sUsrAg.indexOf("Trident") > -1) {
-        sBrowser = "Internet Explorer";
+      } else if (sUsrAg.indexOf('Opera') > -1) {
+        sBrowser = 'Opera';
+      } else if (sUsrAg.indexOf('Trident') > -1) {
+        sBrowser = 'Internet Explorer';
         //"Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; Zoom 3.6.0; wbx 1.0.0; rv:11.0) like Gecko"
-      } else if (sUsrAg.indexOf("Edge") > -1) {
-        sBrowser = "Edge";
+      } else if (sUsrAg.indexOf('Edge') > -1) {
+        sBrowser = 'Edge';
         //"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299"
-      } else if (sUsrAg.indexOf("Chrome") > -1) {
-        sBrowser = "Chrome";
+      } else if (sUsrAg.indexOf('Chrome') > -1) {
+        sBrowser = 'Chrome';
         //"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/66.0.3359.181 Chrome/66.0.3359.181 Safari/537.36"
-      } else if (sUsrAg.indexOf("Safari") > -1) {
-        sBrowser = "Safari";
+      } else if (sUsrAg.indexOf('Safari') > -1) {
+        sBrowser = 'Safari';
         //"Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1 980x1306"
       } else {
-        sBrowser = "unknown";
+        sBrowser = 'unknown';
       }
       this.agent = sBrowser;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-@import "./styles/app.scss";
+@import './styles/app.scss';
 </style>

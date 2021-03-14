@@ -4,10 +4,12 @@
     <router-link v-if="prev" :to="prev.path" class="prev">
       {{ ` ${prev.title} -` }}
     </router-link>
+
     <a :href="sourceHref" class="source" target="_blank">
-      <font-awesome-icon :icon="['fab', 'gitlab']" />
+      <font-awesome-icon :icon="['fab', 'github']" />
       {{ $route.name }}
     </a>
+
     <router-link v-if="next" :to="next.path" class="next">
       {{ `- ${next.title} ` }}
     </router-link>
@@ -15,12 +17,10 @@
 </template>
 
 <script>
-//  import {EventBus} from "@/main";
-
 export default {
   data() {
     return {
-      pageTopic: `getlarge${this.$route.path}main`
+      pageTopic: `getlarge${this.$route.path}main`,
     };
   },
 
@@ -43,9 +43,7 @@ export default {
       if (index == -1) {
         return undefined;
       }
-      return index + 1 < this.routes.length
-        ? this.routes[index + 1]
-        : undefined;
+      return index + 1 < this.routes.length ? this.routes[index + 1] : undefined;
     },
     sourceHref() {
       const index = this.findIndex();
@@ -56,15 +54,15 @@ export default {
     },
     routePath() {
       return `/${this.$route.name}`;
-    }
+    },
   },
 
   methods: {
     findIndex() {
       const me = this.$route.name;
-      return this.routes.findIndex(r => r.name === me);
-    }
-  }
+      return this.routes.findIndex((r) => r.name === me);
+    },
+  },
 };
 </script>
 

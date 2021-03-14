@@ -1,13 +1,13 @@
-import { routes as menuRoutes } from "@/menu";
+import { routes as items } from '../../router';
 
 export default {
   namespaced: true,
   state: {
-    items: menuRoutes,
-    mqttStatus: "Disconnected",
+    items,
+    mqttStatus: 'Disconnected',
     currentPage: null,
     chat: false,
-    tutorial: false
+    tutorial: false,
   },
   mutations: {
     updateMqttStatus(state, status) {
@@ -19,8 +19,7 @@ export default {
     },
 
     updateCurrentPage(state, payload) {
-      //console.log("currentPage", payload);
       state.currentPage = payload;
-    }
-  }
+    },
+  },
 };

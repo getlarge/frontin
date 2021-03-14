@@ -1,28 +1,30 @@
+@import 'global';
+
 #top-nav {
   .dropdown-item {
     background-color: white;
     border: 0px;
-    border-color: #f9b23e;
-    color: #686868;
+    border-color: $warning;
+    color: $info;
   }
 
-  .dropdown-item.active {
+  .dropdown-item.router-link-exact-active {
     background-color: transparent;
     border: 1px;
-    border-color: #f9b23e;
-    color: #33b277;
+    border-color: $warning;
+    color: $primary;
   }
 
   .dropdown-item:focus {
     background-color: white;
     border: 1px;
-    border-color: #f9b23e;
+    border-color: $warning;
   }
 
   .dropdown-item:hover {
     background-color: transparent;
     border: 1px;
-    border-color: #f9b23e;
+    border-color: $warning;
   }
 
   .logo {
@@ -40,12 +42,12 @@
   }
 
   .on path {
-    fill: #01c669 !important;
+    fill: $success !important;
     opacity: 0.7;
   }
 
   .off path {
-    fill: #ff830f !important;
+    fill: $warning !important;
     opacity: 0.6;
   }
 }
