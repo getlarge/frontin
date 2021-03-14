@@ -6,9 +6,7 @@
         <div class="panel-body">
           <div class="form-horizontal">
             <div class="form-group">
-              <label for="type" class="control-label">
-                Type
-              </label>
+              <label for="type" class="control-label"> Type </label>
               <div>
                 <select id="type" v-model="type" class="form-control">
                   <option>tree</option>
@@ -21,89 +19,40 @@
                 Layout Type
               </label>
               <div>
-                <select
-                  id="layout-type"
-                  v-model="layoutType"
-                  class="form-control"
-                >
+                <select id="layout-type" v-model="layoutType" class="form-control">
                   <option>euclidean</option>
                   <option>circular</option>
                 </select>
               </div>
             </div>
             <div class="form-group">
-              <label for="margin-x" class="control-label">
-                X-offset : {{ Marginx }}px
-              </label>
+              <label for="margin-x" class="control-label"> X-offset : {{ Marginx }}px </label>
               <div class="">
-                <input
-                  id="margin-x"
-                  v-model.number="Marginx"
-                  class="form-control"
-                  type="range"
-                  min="-100"
-                  max="600"
-                />
+                <input id="margin-x" v-model.number="Marginx" class="form-control" type="range" min="-100" max="600" />
               </div>
             </div>
             <div class="form-group">
-              <label for="margin-y" class="control-label">
-                Y-offset : {{ Marginy }}px
-              </label>
+              <label for="margin-y" class="control-label"> Y-offset : {{ Marginy }}px </label>
               <div class="">
-                <input
-                  id="margin-y"
-                  v-model.number="Marginy"
-                  class="form-control"
-                  type="range"
-                  min="-400"
-                  max="400"
-                />
+                <input id="margin-y" v-model.number="Marginy" class="form-control" type="range" min="-400" max="400" />
               </div>
             </div>
             <div class="form-group">
-              <label for="margin-y" class="control-label"
-                >Radius : {{ radius }}px</label
-              >
+              <label for="margin-y" class="control-label">Radius : {{ radius }}px</label>
               <div class="">
-                <input
-                  id="margin-y"
-                  class="form-control"
-                  type="range"
-                  min="1"
-                  max="10"
-                  v-model.number="radius"
-                />
+                <input id="margin-y" class="form-control" type="range" min="1" max="10" v-model.number="radius" />
               </div>
             </div>
             <div class="form-group">
-              <label for="velocity" class="control-label">
-                Duration : {{ duration }}ms
-              </label>
+              <label for="velocity" class="control-label"> Duration : {{ duration }}ms </label>
               <div class="">
-                <input
-                  id="velocity"
-                  v-model.number="duration"
-                  class="form-control"
-                  type="range"
-                  min="0"
-                  max="3000"
-                />
+                <input id="velocity" v-model.number="duration" class="form-control" type="range" min="0" max="3000" />
               </div>
             </div>
             <div class="form-group">
-              <span v-if="currentNode">
-                Current Node: {{ currentNode.data.text }}
-              </span>
-              <span v-else>
-                No Node selected.
-              </span>
-              <font-awesome-icon
-                v-if="isLoading"
-                icon="spinner"
-                :transform="{ rotate: 42 }"
-                size="xs"
-              />
+              <span v-if="currentNode"> Current Node: {{ currentNode.data.text }} </span>
+              <span v-else> No Node selected. </span>
+              <font-awesome-icon v-if="isLoading" icon="spinner" :transform="{ rotate: 42 }" size="xs" />
             </div>
             <button
               :disabled="!currentNode"
@@ -170,14 +119,7 @@
           </div>
         </div> -->
       </b-col>
-      <b-col
-        id="tree-container"
-        sm="8"
-        md="9"
-        lg="10"
-        xl="10"
-        class="panel panel-default"
-      >
+      <b-col id="tree-container" sm="8" md="9" lg="10" xl="10" class="panel panel-default">
         <tree
           ref="tree"
           :identifier="getId"
@@ -195,46 +137,43 @@
           @expand="onExpand"
           @retract="onRetract"
         />
-        <p>
-          <br />TODO : unify transport protocol layers using
-          <a href="#/aloes-protocol"> IPSO</a> references.
-        </p>
+        <p><br />TODO : unify transport protocol layers using <a href="#/aloes-protocol"> IPSO</a> references.</p>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import { select } from "d3-selection";
-import { tree } from "vued3tree";
-import data from "@/assets/data/mqtt";
-import { EventBus } from "@/services/PubSub";
+import { select } from 'd3-selection';
+import { tree } from 'vued3tree';
+import data from '@/assets/data/mqtt';
+import { EventBus } from '@/services/PubSub';
 
 /// todo: fetch the json from the http server or the broker storage ?
 /// todo: assign marginY & x values based on window size
 /// add tree viz in child component
 /// stop animation propag on selected node's children
 Object.assign(data, {
-  type: "tree",
-  layoutType: "euclidean",
+  type: 'tree',
+  layoutType: 'euclidean',
   duration: 0,
   Marginx: 200,
   Marginy: 60,
   radius: 8,
-  nodeText: "text",
+  nodeText: 'text',
   currentNode: null,
   currentSensor: null,
   zoomable: true,
   isLoading: false,
   graph: null,
-  events: []
+  events: [],
 });
 
 export default {
-  name: "NetworkTree",
+  name: 'NetworkTree',
 
   components: {
-    tree
+    tree,
   },
 
   data() {
@@ -252,31 +191,33 @@ export default {
 
   mounted() {
     //console.log(this.$el.children[0])
-    this.pageTopic = "getlarge" + this.$route.path;
-    this.div = select("#tidy-tree")
-      .append("div")
-      .attr("class", "payloadContainer")
-      .style("opacity", 0);
+    this.pageTopic = 'getlarge' + this.$route.path;
+    this.div = select('#tidy-tree')
+      .append('div')
+      .attr('class', 'payloadContainer')
+      .style('opacity', 0);
 
     // todo subscribe on selected device broker and on newly created virtual object bridge
-    EventBus.$emit("sub:mqtt", `${process.env.VUE_APP_MQTT_CLIENT_USER}/#`);
+    EventBus.$emit('sub:mqtt', `${process.env.VUE_APP_MQTT_CLIENT_USER}/#`);
 
-    EventBus.$on("rx:mqtt", (topic, payload) => {
+    EventBus.$on('rx:mqtt', (topic, payload) => {
       //console.log(topic, payload.toString())
-      return this.addNode(topic, payload.toString());
+      this.addNode(topic, payload.toString());
     });
-    EventBus.$on("start:tutorial", () => {
+
+    EventBus.$on('start:tutorial', () => {
       const text =
-        "Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol. \nYou can select each circles to navigate in the tree, click on the text next to light grey circles to display messages";
-      const tags = "";
-      const img = "/img/tuto-mqtt-tree.gif";
-      EventBus.$emit("update:tutorial", this.$route.name, text, tags, img);
-      EventBus.$emit("tx:mqtt", "getlarge" + this.$route.path, "started");
-      return (this.tutorial = true);
+        'Real time logical mapping of a network composed of web portal, devices, sensors; using MQTT protocol. \nYou can select each circles to navigate in the tree, click on the text next to light grey circles to display messages';
+      const tags = '';
+      const img = '/img/tuto-mqtt-tree.gif';
+      EventBus.$emit('update:tutorial', this.$route.name, text, tags, img);
+      EventBus.$emit('tx:mqtt', 'getlarge' + this.$route.path, 'started');
+      this.tutorial = true;
     });
-    EventBus.$on("stop:tutorial", () => {
-      EventBus.$emit("tx:mqtt", "getlarge" + this.$route.path, "ended");
-      return (this.tutorial = false);
+
+    EventBus.$on('stop:tutorial', () => {
+      EventBus.$emit('tx:mqtt', 'getlarge' + this.$route.path, 'ended');
+      this.tutorial = false;
     });
   },
 
@@ -288,16 +229,16 @@ export default {
     // if ( this.tutorial === true ) {
     //     EventBus.$emit("mqtt-tx", (this.pageTopic, "ended"));
     // }
-    EventBus.$off("rx:mqtt");
-    EventBus.$emit("stop:tutorial");
-    EventBus.$off("start:tutorial");
+    EventBus.$off('rx:mqtt');
+    EventBus.$emit('stop:tutorial');
+    EventBus.$off('start:tutorial');
   },
 
   methods: {
     do(action) {
       if (this.currentNode) {
         this.isLoading = true;
-        this.$refs["tree"][action](this.currentNode).then(() => {
+        this.$refs['tree'][action](this.currentNode).then(() => {
           this.isLoading = false;
         });
       }
@@ -308,19 +249,19 @@ export default {
     },
 
     expandAll() {
-      this.do("expandAll");
+      this.do('expandAll');
     },
 
     collapseAll() {
-      this.do("collapseAll");
+      this.do('collapseAll');
     },
 
     showOnly() {
-      this.do("showOnly");
+      this.do('showOnly');
     },
 
     show() {
-      this.do("show");
+      this.do('show');
     },
 
     onClick(evt) {
@@ -332,15 +273,15 @@ export default {
         this.currentSensor = null;
         this.closeTooltip();
       }
-      this.onEvent("onClick", evt);
+      this.onEvent('onClick', evt);
     },
 
     onExpand(evt) {
-      this.onEvent("onExpand", evt);
+      this.onEvent('onExpand', evt);
     },
 
     onRetract(evt) {
-      this.onEvent("onRetract", evt);
+      this.onEvent('onRetract', evt);
     },
 
     onEvent(eventName, data) {
@@ -350,7 +291,7 @@ export default {
 
     resetZoom() {
       this.isLoading = true;
-      this.$refs["tree"].resetZoom().then(() => {
+      this.$refs['tree'].resetZoom().then(() => {
         this.isLoading = false;
       });
     },
@@ -358,7 +299,7 @@ export default {
     addNode(topic, body) {
       // console.log("tree", data.Graph.tree)
       // console.log("component", this.$refs['tree'])
-      const parts = topic.split("/");
+      const parts = topic.split('/');
       if (data.Graph.tree.children[0] === undefined) {
         const newnode = { text: parts.shift(), children: [] };
         data.Graph.tree.children = [newnode];
@@ -394,7 +335,7 @@ export default {
             //var newnode = {"text": current, "id": , "children":[]};
             newnode = { text: current, children: [] };
             node.children.push(newnode);
-            this.$refs["tree"].onData(data.Graph.tree);
+            this.$refs['tree'].onData(data.Graph.tree);
             // todo : create and fill input for each part of the topic
             this.walk(parts, node.children[z], body);
           }
@@ -413,7 +354,7 @@ export default {
             //console.log("adding new hidden");
             newnode = { text: current, _children: [] };
             node._children.push(newnode);
-            this.$refs["tree"].onData(data.Graph.tree);
+            this.$refs['tree'].onData(data.Graph.tree);
             // todo : create and fill input for each part of the topic
             //localStorage.setItem("testJSON", data.Graph.tree);
 
@@ -448,18 +389,18 @@ export default {
       this.div
         .transition()
         .duration(200)
-        .style("opacity", 0.8)
-        .style("fill", "#33b277");
+        .style('opacity', 0.8)
+        .style('fill', '#33b277');
 
       //console.log(JSON.parse(data.data.payload));
       //var payloadElem = JSON.parse(data.data.payload);
       this.div
-        .html("<p class='payload'>" + data.data.payload + "</p>")
+        .html("<p class='payload'>" + data.data.payload + '</p>')
         //this.div.html("<p class='payload'>"+payloadElem.data+" - "+payloadElem.time+"</p>")
         //.style("width", (Math.max(document.documentElement.clientWidth, window.innerWidth || 0))/3 + "px")
-        .style("left", "30%")
+        .style('left', '30%')
         //.style("left", data.x + "px")
-        .style("top", "0%");
+        .style('top', '0%');
     },
 
     updateTooltip(data) {
@@ -467,26 +408,26 @@ export default {
       this.div
         .transition()
         .duration(200)
-        .style("opacity", 0.8)
-        .style("fill", "#33b277");
+        .style('opacity', 0.8)
+        .style('fill', '#33b277');
       //  const payloadElem = JSON.parse(data.payload);
       this.div
-        .html("<p class='payload'>" + data.payload + "</p>")
+        .html("<p class='payload'>" + data.payload + '</p>')
         //this.div.html("<p class='payload'>"+payloadElem.data+" - "+payloadElem.time+"</p>")
-        .style("height", "auto")
-        .style("max-width", "40%");
+        .style('height', 'auto')
+        .style('max-width', '40%');
     },
 
     closeTooltip() {
       this.div
         .transition()
         .duration(500)
-        .style("opacity", 0);
-    }
-  }
+        .style('opacity', 0);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-@import "../../styles/network-tree.scss";
+@import '../../styles/network-tree.scss';
 </style>

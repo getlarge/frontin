@@ -1,14 +1,10 @@
 <template lang="html">
-  <iframe
-    src="https://aloes.io"
-    :width="innerWidth"
-    :height="innerHeight"
-  ></iframe>
+  <iframe src="https://aloes.io" :width="innerWidth" :height="innerHeight"></iframe>
 </template>
 
 <script type="text/javascript">
 export default {
-  name: "Aloes",
+  name: 'Aloes',
 
   components: {},
 
@@ -25,13 +21,9 @@ export default {
     },
     innerWidth() {
       return window.innerWidth;
-    }
+    },
   },
 
-  methods: {}
+  methods: {},
 };
 </script>
-
-<style lang="scss">
-@import "../../styles/aloes-presentation.scss";
-</style>
