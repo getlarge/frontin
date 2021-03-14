@@ -1,6 +1,7 @@
 #project-timeline {
   color: #686868;
-  margin-top: 3%;
+  min-width: 50vh;
+  margin-top: 2%;
   margin-bottom: 0% !important;
 
   .selector {
@@ -33,6 +34,7 @@
 #interactive-timeline {
   color: #686868;
   margin-top: 3%;
+  min-height: 80vh;
   margin-bottom: 0% !important;
 }
 
@@ -65,7 +67,7 @@
   }
 
   .flagsText {
-    font-size: 13px;
+    font-size: 10px;
     text-transform: uppercase;
     opacity: 0.9;
     z-index: 1200;

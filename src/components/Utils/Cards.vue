@@ -1,79 +1,68 @@
 <template>
-  <div id="cards">
-    <vue-draggable-resizable
-      id="tooltipContainer"
-      :x="dragBoxX"
-      :y="dragBoxY / 4"
-      :min-width="dragBoxWidth"
-      :min-height="dragBoxHeight"
-      :drag-handle="'.drag-button'"
-      :handles="['tr']"
-      :resizable="false"
-      @dragging="onDrag"
-    >
-      <div id="tooltip">
-        <b-container fluid>
-          <a :href="link" target="_blank" class="title">
-            {{ title }}
-          </a>
-          <button class="drag-button">
-            <font-awesome-icon icon="arrows-alt" size="lg" />
-          </button>
-          <button class="close-button" @click="closeCard">
-            <font-awesome-icon icon="times" size="lg" />
-          </button>
-          <b-row>
-            <b-col cols="7" sm="7" md="6" lg="5" xl="5">
-              <div class="description">{{ description }}</div>
-              <div class="tags">{{ tags }}</div>
-            </b-col>
-            <b-col cols="5" sm="5" md="6" lg="7" xl="7">
-              <a :href="`${img}`" target="_blank">
-                <img
-                  :width="dragBoxWidth / 3"
-                  :height="dragBoxHeight / 1.5"
-                  :src="`${img}`"
-                  class="pics"
-                />
-              </a>
-            </b-col>
-          </b-row>
-        </b-container>
-      </div>
-    </vue-draggable-resizable>
-  </div>
+  <vue-draggable-resizable
+    id="tooltipContainer"
+    :x="dragBoxX"
+    :y="dragBoxY / 2"
+    :w="dragBoxWidth"
+    :h="dragBoxHeight"
+    :drag-handle="'.drag-button'"
+    :handles="['tr']"
+    :resizable="false"
+    :onDrag="onDragStartCallback"
+    @dragging="onDrag"
+  >
+    <div id="tooltip">
+      <b-container fluid>
+        <a :href="link" target="_blank" class="title">
+          {{ title }}
+        </a>
+        <button class="drag-button">
+          <font-awesome-icon icon="arrows-alt" size="lg" />
+        </button>
+        <button class="close-button" @click="closeCard">
+          <font-awesome-icon icon="times" size="lg" />
+        </button>
+        <br />
+        <b-row class="text-content">
+          <b-col cols="7" sm="7" md="6" lg="5" xl="5">
+            <div class="description">{{ description }}</div>
+            <div class="tags">{{ tags }}</div>
+          </b-col>
+          <b-col cols="5" sm="5" md="6" lg="7" xl="7">
+            <a :href="`${img}`" target="_blank">
+              <img :width="dragBoxWidth / 3" :height="dragBoxHeight / 1.5" :src="`${img}`" class="pics" />
+            </a>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
+  </vue-draggable-resizable>
 </template>
 
 <script>
-import VueDraggableResizable from "vue-draggable-resizable";
-import { select } from "d3-selection";
-import { EventBus } from "@/services/PubSub";
+import VueDraggableResizable from 'vue-draggable-resizable';
+import { select } from 'd3-selection';
+import { EventBus } from '@/services/PubSub';
 
 export default {
-  name: "Cards",
+  name: 'Cards',
 
   components: {
-    VueDraggableResizable
+    VueDraggableResizable,
   },
 
-  props: ["title", "description", "img", "tags", "link", "X", "Y"],
+  props: ['title', 'description', 'img', 'tags', 'link', 'X', 'Y'],
 
   data() {
     return {
-      width: Math.max(
-        document.documentElement.clientWidth,
-        window.innerWidth || 0
-      ),
-      height: Math.max(
-        document.documentElement.clientHeight,
-        window.innerHeight || 0
-      ),
+      width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+      height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
       x: 0,
       y: 0,
       dragX: 0,
       dragY: 0,
       dragWidth: 0,
-      dragHeight: 0
+      dragHeight: 0,
     };
   },
 
@@ -99,7 +88,7 @@ export default {
       },
       set(value) {
         this.dragX = value;
-      }
+      },
     },
     dragBoxY: {
       get() {
@@ -110,7 +99,7 @@ export default {
       },
       set(value) {
         this.dragY = value;
-      }
+      },
     },
     dragBoxWidth: {
       get() {
@@ -121,7 +110,7 @@ export default {
       },
       set(value) {
         this.dragWidth = value;
-      }
+      },
     },
     dragBoxHeight: {
       get() {
@@ -132,13 +121,13 @@ export default {
       },
       set(value) {
         this.dragHeight = value;
-      }
-    }
+      },
+    },
   },
 
   mounted() {
     //  select(this).remove();
-    select(window).on("resize", this.updateSettings());
+    select(window).on('resize', this.updateSettings());
   },
 
   beforeDestroy() {
@@ -148,11 +137,9 @@ export default {
   methods: {
     updateSettings() {
       this.dragBoxX = Math.max(this.documentWidth, this.windowWidth || 0) / 20;
-      this.dragBoxY = Math.max(this.documentHeight, this.windowHeight || 0) / 2;
-      this.dragBoxHeight =
-        Math.max(this.documentHeight, this.windowHeight || 0) / 2.2;
-      this.dragBoxWidth =
-        Math.max(this.documentWidth, this.windowWidth || 0) / 2;
+      this.dragBoxY = Math.max(this.documentHeight, this.windowHeight || 0);
+      this.dragBoxHeight = Math.max(this.documentHeight, this.windowHeight || 0) / 2.5;
+      this.dragBoxWidth = Math.max(this.documentWidth, this.windowWidth || 0) / 2;
     },
 
     onResize(x, y, width, height) {
@@ -160,10 +147,6 @@ export default {
       this.dragBoxY = y;
       this.dragBoxHeight = height;
       this.dragBoxWidth = width;
-      // this.x = x;
-      // this.y = y;
-      // this.width = width;
-      // this.height = height;
     },
 
     onDrag(x, y) {
@@ -171,16 +154,27 @@ export default {
       this.dragBoxY = y;
     },
 
+    onDragStartCallback(x, y) {
+      if (y <= 0) {
+        return false;
+      } else if (x <= -(this.dragBoxWidth / 2)) {
+        return false;
+      } else if (y >= this.documentHeight) {
+        return false;
+      } else if (x >= this.documentWidth) {
+        return false;
+      }
+      return true;
+    },
+
     closeCard() {
-      //console.log("remove-card");
       select(this).remove();
-      //document.getElementById("cards").outerHTML = "";
-      EventBus.$emit("stop:cards");
-    }
-  }
+      EventBus.$emit('stop:cards');
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-@import "../../styles/cards.scss";
+@import '@/styles/cards.scss';
 </style>

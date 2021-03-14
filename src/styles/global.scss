@@ -5,8 +5,7 @@
 // Color system
 //;
 $primary: #528fa2;
-//$primary: #3c3c3c;
-$secondary: #ededed;
+$secondary: #2bb673;
 $success: #2bb673;
 $lightsuccess: #d6e6dc;
 $info: #444b4e;
@@ -18,6 +17,9 @@ $grey: #ededed;
 $icon-grey: #ededed;
 $light-grey: #fbfbfb;
 $dark-grey: #2b2b2b;
+
+// $fa-font-path: "~font-awesome/fonts";
+// @import "~font-awesome/scss/font-awesome";
 
 // Fonts
 $font-size-base: 1rem;
@@ -73,50 +75,22 @@ $input-padding: 5px 12px;
 $input-shadow: 0 1px 1px 0px #6e6e6e;
 $input-shadow-selected: 0 0px 1px 0px #6e6e6e;
 
-// Breadcrumbs
-// $breadcrumb-bg: transparent;
-// $breadcrumb-divider-color: $light2;
-// $breadcrumb-active-color: $light2;
-
 // Body
 // $body-color: $secondary;
 
 // Import Global Bootstrap Variables
 // (the previous variables will not be overitten)
-@import "~bootstrap/scss/_functions";
-@import "~bootstrap/scss/_variables";
+@import '~bootstrap/scss/_functions';
+@import '~bootstrap/scss/_variables';
 
 // Import custom fonts
-@font-face {
-	font-family: "LemonMilkbold";
-	font-weight: normal;
-	font-style: normal;
-	src: url("/fonts/LemonMilkbold/LemonMilkbold.eot");
-	src: url("/fonts/LemonMilkbold/LemonMilkbold.woff2") format("woff2"),
-		url("/fonts/LemonMilkbold/LemonMilkbold.woff") format("woff"),
-		url("/fonts/LemonMilkbold/LemonMilkbold.ttf") format("truetype"),
-		url("/fonts/LemonMilkbold/LemonMilkbold.eot?#iefix") format("embedded-opentype");
-}
-
-@font-face {
-	font-family: "/fonts/Recoleta/Recoleta-Regular";
-	src: url("/fonts/Recoleta/Recoleta-Regular.eot");
-	src: url("/fonts/Recoleta/Recoleta-Regular.woff2") format("woff2"), url("/fonts/Recoleta/Recoleta-Regular.woff") format("woff"),
-		url("/fonts/Recoleta/Recoleta-Regular.ttf") format("truetype"), url("/fonts/Recoleta/Recoleta-Regular.svg#/fonts/Recoleta/Recoleta-Regular") format("svg"),
-		url("/fonts/Recoleta/Recoleta-Regular.eot?#iefix") format("embedded-opentype");
-	font-weight: normal;
-	font-style: normal;
-}
-
 @font-face {
   /* Aloes Regular - latin */
   font-family: 'Aloes-Rg';
   font-weight: normal;
   font-style: normal;
-  src: url('/fonts/Aloes/Aloes-Rg.woff2') format('woff2'),
-    url('/fonts/Aloes/Aloes-Rg.woff') format('woff'),
-    url('/fonts/Aloes/Aloes-Rg.eot') format('embedded-opentype'),
-    url('/fonts/Aloes/Aloes-Rg.ttf') format('truetype');
+  src: url('/fonts/Aloes/Aloes-Rg.woff2') format('woff2'), url('/fonts/Aloes/Aloes-Rg.woff') format('woff'),
+    url('/fonts/Aloes/Aloes-Rg.eot') format('embedded-opentype'), url('/fonts/Aloes/Aloes-Rg.ttf') format('truetype');
 }
 
 @font-face {
@@ -124,8 +98,6 @@ $input-shadow-selected: 0 0px 1px 0px #6e6e6e;
   font-family: 'Aloes-Bd';
   font-weight: normal;
   font-style: normal;
-  src: url('/fonts/Aloes/Aloes-Bd.woff2') format('woff2'),
-    url('/fonts/Aloes/Aloes-Bd.woff') format('woff'),
-    url('/fonts/Aloes/Aloes-Bd.eot') format('embedded-opentype'),
-    url('/fonts/Aloes/Aloes-Bd.ttf') format('truetype');
+  src: url('/fonts/Aloes/Aloes-Bd.woff2') format('woff2'), url('/fonts/Aloes/Aloes-Bd.woff') format('woff'),
+    url('/fonts/Aloes/Aloes-Bd.eot') format('embedded-opentype'), url('/fonts/Aloes/Aloes-Bd.ttf') format('truetype');
 }
