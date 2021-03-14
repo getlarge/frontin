@@ -34,12 +34,12 @@ export default {
     },
     icon: {
       type: String,
-      required: false,
+      required: true,
       default: 'http://localhost:8080',
     },
     id: {
       type: [Number, String],
-      required: false,
+      required: true,
       default: 0,
     },
     colors: {
@@ -138,13 +138,6 @@ export default {
         this.isPlaying = false;
         this.toggleBG();
       });
-
-      // EventBus.$on('file-uploader', (event) => {
-      //   if (event === 'add') {
-      //     //  return console.log(this);
-      //     //this.$props.icon = "http://localhost:3000/images/3"
-      //   }
-      // });
     },
   },
 };

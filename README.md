@@ -25,5 +25,11 @@ npm run test
 npm run lint
 ```
 
+## Build Docker image
+
+```
+docker build --build-arg VUE_APP_CLIENT_URL=https://getlarge.eu --build-arg VUE_APP_LOGGER_LEVEL=2  -t frontin .
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
