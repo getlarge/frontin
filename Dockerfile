@@ -4,6 +4,8 @@ FROM node:lts-alpine AS builder
 ARG VUE_APP_NAME=frontin
 ARG BASE_URL=/
 ARG VUE_APP_CLIENT_URL=http://localhost
+ARG VUE_APP_SERVER_URL=http://localhost
+ARG VUE_APP_ROOT_API=/api
 ARG VUE_APP_LOGGER_LEVEL=2
 ARG VUE_APP_GIT_LINK=https://github.com/getlarge/frontin/
 ARG VUE_APP_GIT_COMPONENTS_PATH=tree/master/src/components
