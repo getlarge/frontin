@@ -1,11 +1,7 @@
 <template>
   <div ref="fileUploader" id="file-upload">
     <div class="container">
-      <form
-        v-if="(isInitial || isSaving) && mimetype"
-        enctype="multipart/form-data"
-        novalidate
-      >
+      <form v-if="(isInitial || isSaving) && mimetype" enctype="multipart/form-data" novalidate>
         <div class="dropbox">
           <input
             :disabled="isSaving"
@@ -13,11 +9,7 @@
             class="input-file"
             type="file"
             @change="
-              onFilesChange(
-                resourceType,
-                $event.target.name,
-                $event.target.files
-              );
+              onFilesChange(resourceType, $event.target.name, $event.target.files);
               fileCount = $event.target.files.length;
             "
           />
@@ -62,12 +54,7 @@
           Valider
         </button> -->
         <div v-if="resourceType === 'Audios'">
-          <vue-audio
-            v-for="item in uploadedFiles"
-            :key="item.id"
-            :size="size"
-            :file="item.url"
-          />
+          <vue-audio v-for="item in uploadedFiles" :key="item.id" :size="size" :file="item.url" />
         </div>
         <div v-else-if="resourceType === 'Images'">
           <img :src="imageUrl" />
@@ -96,33 +83,33 @@
 </template>
 
 <script>
-import VueAudio from "vue-audio";
-import { EventBus } from "@/services/PubSub";
-import { upload } from "@/services/HttpClient";
-import logger from "@/services/logger";
+import VueAudio from 'vue-audio';
+import { EventBus } from '@/services/PubSub';
+import { upload } from '@/services/HttpClient';
+import logger from '@/services/logger';
 
 export default {
-  name: "FileUploader",
+  name: 'FileUploader',
 
   components: {
-    VueAudio
+    VueAudio,
   },
 
   props: {
-    "access-token": {
+    'access-token': {
       type: Object,
-      default: null
+      default: null,
     },
-    "profile-type": {
+    'profile-type': {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
-    "resource-type": {
+    'resource-type': {
       type: String,
       required: true,
-      default: "Images"
-    }
+      default: 'Images',
+    },
   },
 
   data() {
@@ -137,65 +124,51 @@ export default {
       maxWidth: 250,
       maxHeight: 250,
       fileCount: null,
-      fileName: "",
+      fileName: '',
       imageUrl: null,
       uploadedFile: null,
       STATUS_INITIAL: this.$store.state.ambience.STATUS_INITIAL,
       STATUS_SAVING: this.$store.state.ambience.STATUS_SAVING,
       STATUS_SUCCESS: this.$store.state.ambience.STATUS_SUCCESS,
-      STATUS_FAILED: this.$store.state.ambience.STATUS_FAILED
+      STATUS_FAILED: this.$store.state.ambience.STATUS_FAILED,
     };
   },
 
   computed: {
     mimetype() {
-      return `${this.$props.resourceType
-        .toLowerCase()
-        .slice(0, this.$props.resourceType.lastIndexOf("s"))}/*`;
+      return `${this.resourceType.toLowerCase().slice(0, this.resourceType.lastIndexOf('s'))}/*`;
     },
     isInitial: {
       get() {
-        return (
-          this.$store.state.ambience[this.$props.resourceType].status ===
-          this.STATUS_INITIAL
-        );
-      }
+        return this.$store.state.ambience[this.resourceType].status === this.STATUS_INITIAL;
+      },
     },
     isSaving: {
       get() {
-        return (
-          this.$store.state.ambience[this.$props.resourceType].status ===
-          this.STATUS_SAVING
-        );
-      }
+        return this.$store.state.ambience[this.resourceType].status === this.STATUS_SAVING;
+      },
     },
     isSuccess: {
       get() {
-        return (
-          this.$store.state.ambience[this.$props.resourceType].status ===
-          this.STATUS_SUCCESS
-        );
-      }
+        return this.$store.state.ambience[this.resourceType].status === this.STATUS_SUCCESS;
+      },
     },
     isFailed: {
       get() {
-        return (
-          this.$store.state.ambience[this.$props.resourceType].status ===
-          this.STATUS_FAILED
-        );
-      }
+        return this.$store.state.ambience[this.resourceType].status === this.STATUS_FAILED;
+      },
     },
     status: {
       get() {
-        return this.$store.state.ambience[this.$props.resourceType].status;
+        return this.$store.state.ambience[this.resourceType].status;
       },
       set(value) {
-        this.$store.commit("ambience/setModelKV", {
-          resourceType: this.$props.resourceType,
-          key: "status",
-          value
+        this.$store.commit('ambience/setModelKV', {
+          resourceType: this.resourceType,
+          key: 'status',
+          value,
         });
-      }
+      },
     },
     ratio() {
       if (window.innerWidth >= 320 && window.innerWidth <= 480) {
@@ -213,46 +186,40 @@ export default {
     maxBoundaryWidth: {
       get() {
         return this.maxWidth / this.ratio;
-      }
+      },
     },
     maxBoundaryHeight: {
       get() {
         return this.maxHeight / this.ratio;
-      }
+      },
     },
     maxViewportWidth: {
       get() {
         return this.maxWidth / 1.2 / this.ratio;
-      }
+      },
     },
     maxViewportHeight: {
       get() {
         return this.maxHeight / 1.2 / this.ratio;
-      }
+      },
     },
     windowWidth: {
       get() {
         return this.$store.state.windowWidth;
-      }
+      },
     },
     windowHeight: {
       get() {
         return this.$store.state.windowHeight;
-      }
-    }
+      },
+    },
   },
 
   mounted() {
     this.reset();
-    // this.$refs["Croppie"].bind({
+    // this.$refs.Croppie.bind({
     //   url: this.imageUrl,
     // });
-  },
-
-  updated() {
-    // if (this.currentStatus === STATUS_FAILED) {
-    //     console.log("error", this.uploadError);
-    // }
   },
 
   methods: {
@@ -264,63 +231,64 @@ export default {
       this.imageUrl = null;
       this.uploadedFile = null;
       this.status = this.STATUS_INITIAL;
-      //  this.$refs.Croppie.refresh();
-      this.$store.dispatch("ambience/onResetFileImport", {
-        resourceType: this.$props.resourceType
+      if (this.resourceType === 'Images') {
+        this.$refs.Croppie.refresh();
+      }
+      this.$store.dispatch('ambience/onResetFileImport', {
+        resourceType: this.$props.resourceType,
       });
     },
 
-    save(resource, formData, name) {
-      // upload data to the server
+    async save(resource, formData, name) {
       this.currentStatus = this.STATUS_SAVING;
-      upload(resource, formData, "name/" + name)
-        //.then(wait(1500)) // DEV ONLY: wait for 1.5s
-        .then(res => {
+      return upload(resource, formData, 'name/' + name)
+        .then((res) => {
           //this.$store.state.uploadedFiles = [].concat(x);
           this.uploadedFiles = [].concat(res);
           this.currentStatus = this.STATUS_SUCCESS;
-          // console.log("uploaded : ", this.uploadedFiles);
-          EventBus.$emit("file-uploader", resource, this.uploadedFiles);
+          EventBus.$emit('file-uploader', resource, this.uploadedFiles);
         })
-        .catch(err => {
+        .catch((err) => {
           this.uploadError = err.response;
           this.currentStatus = this.STATUS_FAILED;
         });
     },
 
-    filesChange(resource, fieldName, fileList) {
+    async filesChange(resource, fieldName, fileList) {
       const formData = new FormData();
       if (!fileList.length) return;
-      Array.from(Array(fileList.length).keys()).map(x => {
+      Array.from(Array(fileList.length).keys()).forEach((x) => {
         formData.append(fieldName, fileList[x], fileList[x].name);
       });
-      //console.log("formData", formData)
-      //console.log("file", fileList[0])
-      this.save(resource, formData, fileList[0].name);
+      return this.save(resource, formData, fileList[0].name);
     },
 
     async onFilesChange(resourceType, name, files) {
-      logger.publish(4, "files", "onFilesChange:req", name);
+      logger.publish(4, 'files', 'onFilesChange:req', resourceType, name, files);
       this.error = null;
       this.success = null;
       this.fileName = name;
       if (files && files[0]) {
-        const reader = await new FileReader();
-        reader.onload = e => {
-          this.uploadedFile = e.target;
-          if (resourceType === "Images") {
-            this.$refs.Croppie.bind({
-              url: e.target.result
-            });
-          }
+        const reader = new FileReader();
+        await new Promise((resolve, reject) => {
+          reader.onload = (e) => {
+            this.uploadedFile = e.target;
+            if (resourceType === 'Images') {
+              this.$refs.Croppie.bind({
+                url: e.target.result,
+              });
+            }
+            resolve(e.target.result);
+          };
+          reader.onerror = (e) => reject(e);
+          reader.readAsDataURL(files[0]);
+        });
+      } else {
+        this.error = {
+          message: "Désolé, ce navigateur ne supporte pas l'envoi d'image",
         };
-        return reader.readAsDataURL(files[0]);
+        logger.publish(4, 'files', 'onFilesChange:err', this.error);
       }
-      this.error = {
-        message: "Désolé, ce navigateur ne supporte pas l'envoi d'image"
-      };
-      logger.publish(4, "files", "onFilesChange:err", this.error);
-      return this.error;
     },
 
     onRotate(evt) {
@@ -331,57 +299,52 @@ export default {
 
     crop() {
       const options = {
-        type: "canvas",
+        type: 'canvas',
         size: {
           width: this.maxWidth,
-          height: this.maxHeight
-        }
+          height: this.maxHeight,
+        },
       };
-      this.$refs.Croppie.result(options, output => {
-        //  this.imageUrl = output;
-        return this.result(output);
+      this.$refs.Croppie.result(options, (output) => {
+        this.handleCroppedImage(output);
       });
       //  this.$refs[`${this.imgType.toLowerCase()}Croppie`].result(options);
     },
 
-    async result(output) {
+    async handleCroppedImage(output) {
       //  this.imageUrl = output;
-      const blob = await fetch(output).then(res => res.blob());
-      const fileType = blob.type.split("/");
-      const blobToFile = new File([blob], `${this.imgType}.${fileType[1]}`, {
-        type: blob.type
-      });
-      this.uploadedFile = await this.$store
-        .dispatch("ambience/onFileImport", {
+      try {
+        const blob = await fetch(output).then((res) => res.blob());
+        const fileType = blob.type.split('/');
+        const blobToFile = new File([blob], `${this.imgType}.${fileType[1]}`, {
+          type: blob.type,
+        });
+        this.uploadedFile = await this.$store.dispatch('ambience/onFileImport', {
           accessToken: this.$props.accessToken,
           resourceType: this.$props.resourceType,
           //  role: this.imgType,
-          files: blobToFile
-        })
-        .catch(err => {
-          this.error = err;
-          logger.publish(4, "ambience", "onFileSave:err", err);
-          return this.error;
+          files: blobToFile,
         });
+      } catch (error) {
+        this.error = error;
+        logger.publish(4, 'ambience', 'onFileSave:err', error);
+      }
 
       if (this.isSuccess) {
-        logger.publish(4, "ambience", "onFileSave:res", this.uploadedFile);
+        logger.publish(4, 'ambience', 'onFileSave:res', this.uploadedFile);
         this.source = this.uploadedFile.url;
         this.$refs.Croppie.bind({
-          url: this.uploadedFile.url
+          url: this.uploadedFile.url,
         });
-        this.success = { message: "Votre image est enregistré" };
+        this.success = { message: 'Votre image est enregistré' };
         this.$parent.hide();
-        return this.success;
       } else if (this.isFailed) {
-        logger.publish(4, "ambience", "onFileSave:err", "uploadFailed");
+        logger.publish(4, 'ambience', 'onFileSave:err', 'uploadFailed');
         this.error = {
-          message: "L'envoi de l'image a échoué, veuillez réessayer"
+          message: "L'envoi de l'image a échoué, veuillez réessayer",
         };
-        return this.error;
       }
-      logger.publish(4, "ambience", "onFileSave:err", "still loading ?");
-      return null;
+      logger.publish(4, 'ambience', 'onFileSave:err', 'still loading ?');
     },
 
     async onFileSave(evt) {
@@ -397,11 +360,11 @@ export default {
         return null;
       }
       return this.crop();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-@import "../../styles/ambienz.scss";
+@import '@/styles/ambienz.scss';
 </style>
