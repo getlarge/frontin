@@ -23,15 +23,13 @@ import { scaleLinear, scalePow, scaleOrdinal } from 'd3-scale';
 import { select } from 'd3-selection';
 import { area, stack, stackOrderNone, stackOffsetNone } from 'd3-shape';
 import { timeFormat } from 'd3-time-format';
-import Cards from '@/components/Utils/Cards';
-import { EventBus } from '@/services/PubSub';
+import EventBus from '@/services/EventBus';
 
 export default {
   name: 'Timeline',
 
   components: {
-    cards: Cards,
-    //  cards: () => import("@/components/Utils/Cards")
+    cards: () => import('@/components/Utils/Cards'),
   },
 
   data() {

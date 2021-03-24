@@ -2,8 +2,8 @@
   <div id="top-nav">
     <b-navbar toggleable="sm" type="light" variant="light" sticky>
       <b-navbar-brand href="/">
-        <b-img class="logo" :src="$store.state.style.pictures.logoPart1" fluid />
-        <b-img class="logo" :src="$store.state.style.pictures.logoPart2" fluid />
+        <b-img class="logo" height="45px" :src="$store.state.style.pictures.logoPart1" fluid />
+        <b-img class="logo" height="45px" :src="$store.state.style.pictures.logoPart2" fluid />
       </b-navbar-brand>
       <b-navbar-toggle target="nav_collapse" />
       <b-collapse is-nav id="nav_collapse">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { EventBus } from '@/services/PubSub';
+import EventBus from '@/services/EventBus';
 
 export default {
   name: 'MenuNavigation',

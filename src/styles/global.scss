@@ -89,6 +89,7 @@ $input-shadow-selected: 0 0px 1px 0px #6e6e6e;
   font-family: 'Aloes-Rg';
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
   src: url('/fonts/Aloes/Aloes-Rg.woff2') format('woff2'), url('/fonts/Aloes/Aloes-Rg.woff') format('woff'),
     url('/fonts/Aloes/Aloes-Rg.eot') format('embedded-opentype'), url('/fonts/Aloes/Aloes-Rg.ttf') format('truetype');
 }
@@ -98,6 +99,7 @@ $input-shadow-selected: 0 0px 1px 0px #6e6e6e;
   font-family: 'Aloes-Bd';
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
   src: url('/fonts/Aloes/Aloes-Bd.woff2') format('woff2'), url('/fonts/Aloes/Aloes-Bd.woff') format('woff'),
     url('/fonts/Aloes/Aloes-Bd.eot') format('embedded-opentype'), url('/fonts/Aloes/Aloes-Bd.ttf') format('truetype');
 }

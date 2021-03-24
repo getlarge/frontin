@@ -8,7 +8,6 @@
 <script>
 import { rgb } from 'd3-color';
 import { interpolateHclLong } from 'd3-interpolate';
-import vueSlider from 'vue-slider-component';
 import 'vue-slider-component/theme/default.css';
 import VueHowler from 'vue-howler';
 
@@ -16,7 +15,7 @@ export default {
   name: 'AudioSlider',
 
   components: {
-    vueSlider,
+    vueSlider: () => import('vue-slider-component'),
   },
 
   mixins: [VueHowler],
@@ -97,18 +96,15 @@ export default {
   },
 
   mounted() {
-    this.color = interpolateHclLong(rgb(this.colorSet[0].color1), rgb(this.colorSet[0].color2));
-    if (this.$props.icon !== null) {
-      this.initialize();
-      this.setListeners();
-    } else {
-      this.audioSlider.style.opacity = 0;
-    }
+    this.colorInterpolate = interpolateHclLong(rgb(this.colorSet[0].color1), rgb(this.colorSet[0].color2));
+    this.initialize();
   },
 
-  // beforeDestroy() {
-  //   this.stop()
-  // },
+  beforeDestroy() {
+    // this.stop()
+    this.$off('play', this.togglePlay(true));
+    this.$off('pause', this.togglePlay(false));
+  },
 
   methods: {
     initialize() {
@@ -116,28 +112,21 @@ export default {
       this.slider = this.$refs[`slider-${this.$props.id}`];
       this.setVolume(this.value);
       this.audioSlider.style.opacity = 0.6;
-    },
-
-    toggleBG() {
-      this.audioSlider.style.opacity = this.isPlaying ? '1' : '0.6';
+      this.$on('play', this.togglePlay(true));
+      this.$on('pause', this.togglePlay(false));
     },
 
     onSliderUpdate(value, index) {
       this.setVolume(value);
-      this.slider.processStyle.backgroundColor = this.color(value);
+      this.slider.processStyle.backgroundColor = this.colorInterpolate(value);
       this.$emit('update:slider', value, index);
     },
 
-    setListeners() {
-      this.$on('play', () => {
-        this.isPlaying = true;
-        this.toggleBG();
-      });
-
-      this.$on('pause', () => {
-        this.isPlaying = false;
-        this.toggleBG();
-      });
+    togglePlay(isPlaying) {
+      return () => {
+        this.isPlaying = isPlaying;
+        this.audioSlider.style.opacity = isPlaying ? '1' : '0.6';
+      };
     },
   },
 };

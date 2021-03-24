@@ -84,7 +84,7 @@
 
 <script>
 import VueAudio from 'vue-audio';
-import { EventBus } from '@/services/PubSub';
+import EventBus from '@/services/EventBus';
 import { upload } from '@/services/HttpClient';
 import logger from '@/services/logger';
 

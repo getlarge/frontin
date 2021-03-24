@@ -147,7 +147,7 @@
 import { select } from 'd3-selection';
 import { tree } from 'vued3tree';
 import data from '@/assets/data/mqtt';
-import { EventBus } from '@/services/PubSub';
+import EventBus from '@/services/EventBus';
 
 /// todo: fetch the json from the http server or the broker storage ?
 /// todo: assign marginY & x values based on window size

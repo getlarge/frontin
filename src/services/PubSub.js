@@ -1,11 +1,9 @@
-import Vue from 'vue';
 import mqttPattern from 'mqtt-pattern';
+import EventBus from './EventBus';
 import logger from './logger';
 
 const Storage = window.localStorage;
 const PubSub = {};
-
-export const EventBus = new Vue();
 
 const pushContainer = (subscriptionName) => {
   if (!subscriptionName) return false;

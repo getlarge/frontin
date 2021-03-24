@@ -42,7 +42,7 @@
 <script>
 import VueDraggableResizable from 'vue-draggable-resizable';
 import { select } from 'd3-selection';
-import { EventBus } from '@/services/PubSub';
+import EventBus from '@/services/EventBus';
 
 export default {
   name: 'Cards',

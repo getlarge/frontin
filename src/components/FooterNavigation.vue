@@ -1,7 +1,7 @@
 <template>
   <div id="bottom-nav">
     <hr class="my-4" />
-    <router-link v-show="prev !== undefined" :to="prev.path" class="prev">
+    <router-link v-if="prev && prev.title" :to="prev.path" class="prev">
       {{ ` ${prev.title} -` }}
     </router-link>
 
@@ -10,7 +10,7 @@
       {{ $route.name }}
     </a>
 
-    <router-link v-show="next !== undefined" :to="next.path" class="next">
+    <router-link v-if="next && next.title" :to="next.path" class="next">
       {{ `- ${next.title} ` }}
     </router-link>
   </div>

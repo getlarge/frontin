@@ -152,12 +152,10 @@
 </template>
 
 <script>
-import { shuffle } from 'd3-array';
-import { select } from 'd3-selection';
-import { interval } from 'd3-timer';
-import { transition } from 'd3-transition';
-import InfoCard from 'vue-info-card';
-import { EventBus } from '@/services/PubSub';
+const d3Array = () => import('d3-array');
+const d3Select = () => import('d3-selection');
+const d3Transition = () => import('d3-transition');
+import EventBus from '@/services/EventBus';
 
 export default {
   data() {
@@ -169,17 +167,20 @@ export default {
       },
       infoIcon: this.$store.state.style.pictures.iconInfo,
       letterIcon: this.$store.state.style.pictures.iconLetter,
+      eventBus: null,
     };
   },
 
   components: {
-    InfoCard,
+    InfoCard: () => import('vue-info-card'),
   },
 
-  mounted() {
+  async mounted() {
+    const { select } = await d3Select();
+    const { shuffle } = await d3Array();
     this.g = select('#guyName').append('g');
     this.updateTitle(this.letters);
-    this.interv = interval(() => {
+    this.interv = setInterval(() => {
       /// Once the counter hits a multiple of 3, show initial title
       this.updateCounter % 3 === 0 ? this.updateTitle(this.letters) : this.updateTitle(shuffle(this.updatedLetters));
     }, this.settings.duration / 2);
@@ -194,7 +195,7 @@ export default {
     if (this.tutorial) {
       EventBus.$emit('stop:tutorial');
     }
-    this.interv.stop();
+    clearInterval(this.interv);
   },
 
   computed: {
@@ -307,8 +308,9 @@ export default {
     //   this.backCard = this.$store.dispatch("home/backCard");
     // },
 
-    updateTitle(data) {
+    async updateTitle(data) {
       this.updateCounter = 1;
+      const { transition } = await d3Transition();
       const t = transition().duration(this.settings.duration / 10);
       const text = this.g.selectAll('text').data(data, (d) => d);
 
@@ -346,5 +348,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/home.scss';
+@import '@/styles/home.scss';
 </style>

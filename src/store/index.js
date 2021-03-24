@@ -68,6 +68,7 @@ export default new Vuex.Store({
         yellow: '#ffc85f',
       },
       pictures: {
+        // logo: require('@/assets/img/aloes-icon.png'),
         logo: `${clientUrl}/icons/aloesicon2.png`,
         logoFont: `${clientUrl}/icons/aloesfont1.png`,
         logoPart1: `${clientUrl}/icons/braille-E.png`,

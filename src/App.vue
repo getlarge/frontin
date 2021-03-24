@@ -7,17 +7,15 @@
 </template>
 
 <script>
-import topNav from '@/components/MenuNavigation';
-import bottomNav from '@/components/FooterNavigation';
-import { EventBus } from '@/services/PubSub';
+import EventBus from '@/services/EventBus';
 // import { localStore } from '@/services/LocalStore';
 
 export default {
   name: 'App',
 
   components: {
-    topNav,
-    bottomNav,
+    topNav: () => import('@/components/MenuNavigation.vue'),
+    bottomNav: () => import('@/components/FooterNavigation.vue'),
   },
 
   data() {

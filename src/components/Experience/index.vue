@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { EventBus } from '@/services/PubSub';
+import EventBus from '@/services/EventBus';
 
 export default {
   data() {

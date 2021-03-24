@@ -42,9 +42,7 @@
 // todo : image resizing and cropping after upload ( 300 x 300px square )
 import { rgb } from 'd3-color';
 import { interpolateHclLong } from 'd3-interpolate';
-import { EventBus } from '@/services/PubSub';
-import column from './Column';
-import fileUploader from './FileUploader';
+import EventBus from '@/services/EventBus';
 
 export default {
   data() {
@@ -69,8 +67,8 @@ export default {
   },
 
   components: {
-    column,
-    fileUploader,
+    column: () => import('@/components/Ambience/Column.vue'),
+    fileUploader: () => import('@/components/Ambience/FileUploader.vue'),
   },
 
   computed: {

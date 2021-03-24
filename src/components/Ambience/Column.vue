@@ -18,6 +18,7 @@
           ko: !canDrag,
         }"
         :key="element.id"
+        :id="element.id"
         :icon="element.iconFile"
         :sources="element.audioSource"
         :draggable="true"
@@ -30,11 +31,6 @@
 </template>
 
 <script>
-import { rgb } from 'd3-color';
-import { interpolateHclLong } from 'd3-interpolate';
-import draggable from 'vuedraggable';
-import audioSlider from './AudioSlider';
-
 export default {
   props: {
     widgets: {
@@ -76,15 +72,14 @@ export default {
   },
 
   components: {
-    draggable,
-    audioSlider,
+    draggable: () => import('vuedraggable'),
+    audioSlider: () => import('@/components/Ambience/AudioSlider'),
   },
 
   computed: {},
 
   created() {
     this.widgetsClone = JSON.parse(JSON.stringify(this.$props.widgets));
-    this.color = interpolateHclLong(rgb(this.colorSet[0].color1), rgb(this.colorSet[0].color2));
   },
 
   methods: {

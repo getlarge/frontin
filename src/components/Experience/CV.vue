@@ -331,9 +331,8 @@
 </template>
 
 <script>
-import { select } from 'd3-selection';
-import * as html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
+const html2canvas = () => import('html2canvas');
+const jsPDFClass = () => import('jspdf');
 
 export default {
   name: 'cv',
@@ -362,48 +361,48 @@ export default {
   methods: {
     /// todo : chose methods below to transform SVG to PDF
     // Get the string representation of a DOM node (removes the node)
-    domNodeToString(domNode) {
-      const element = document.createElement('div');
-      element.appendChild(domNode);
-      return element.innerHTML;
-    },
+    // domNodeToString(domNode) {
+    //   const element = document.createElement('div');
+    //   element.appendChild(domNode);
+    //   return element.innerHTML;
+    // },
 
-    serialize() {
-      const xmlns = 'http://www.w3.org/2000/xmlns/';
-      const xlinkns = 'http://www.w3.org/1999/xlink';
-      const svgns = 'http://www.w3.org/2000/svg';
-      return function serialize(svg) {
-        svg = svg.cloneNode(true);
-        svg.setAttributeNS(xmlns, 'xmlns', svgns);
-        svg.setAttributeNS(xmlns, 'xmlns:xlink', xlinkns);
-        const serializer = new window.XMLSerializer();
-        const string = serializer.serializeToString(svg);
-        return new Blob([string], { type: 'image/svg+xml' });
-      };
-    },
+    // serializer() {
+    //   const xmlns = 'http://www.w3.org/2000/xmlns/';
+    //   const xlinkns = 'http://www.w3.org/1999/xlink';
+    //   const svgns = 'http://www.w3.org/2000/svg';
+    //   return function serialize(svg) {
+    //     svg = svg.cloneNode(true);
+    //     svg.setAttributeNS(xmlns, 'xmlns', svgns);
+    //     svg.setAttributeNS(xmlns, 'xmlns:xlink', xlinkns);
+    //     const serializer = new window.XMLSerializer();
+    //     const string = serializer.serializeToString(svg);
+    //     return new Blob([string], { type: 'image/svg+xml' });
+    //   };
+    // },
 
-    svgToCanvas(className) {
-      const canvas = select('.container')
-        .append('canvas')
-        .attr('class', 'screenShotTempCanvas');
-      const svg = select('.container').select(className);
-      const context = canvas.node().getContext('2d');
-      //  const svgElems = document.getElementsByTagName("svg");
-      // Convert SVG to Canvas
-      // see: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_DOM_objects_into_a_canvas
-      const DOMURL = window.URL || window.webkitURL || window;
-      const svgString = this.domNodeToString(svg.node());
-      const image = new Image();
-      const svgBlob = new Blob([svgString], {
-        type: 'image/svg+xml;charset=utf-8',
-      });
-      const url = DOMURL.createObjectURL(svgBlob);
-      image.onload = () => {
-        context.drawImage(image, 0, 0);
-        DOMURL.revokeObjectURL(url);
-      };
-      image.src = url;
-    },
+    // svgToCanvas(className) {
+    //   const canvas = select('.container')
+    //     .append('canvas')
+    //     .attr('class', 'screenShotTempCanvas');
+    //   const svg = select('.container').select(className);
+    //   const context = canvas.node().getContext('2d');
+    //   //  const svgElems = document.getElementsByTagName("svg");
+    //   // Convert SVG to Canvas
+    //   // see: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_DOM_objects_into_a_canvas
+    //   const DOMURL = window.URL || window.webkitURL || window;
+    //   const svgString = this.domNodeToString(svg.node());
+    //   const image = new Image();
+    //   const svgBlob = new Blob([svgString], {
+    //     type: 'image/svg+xml;charset=utf-8',
+    //   });
+    //   const url = DOMURL.createObjectURL(svgBlob);
+    //   image.onload = () => {
+    //     context.drawImage(image, 0, 0);
+    //     DOMURL.revokeObjectURL(url);
+    //   };
+    //   image.src = url;
+    // },
 
     async transformPdf() {
       // for each svg .icons =>
@@ -418,17 +417,18 @@ export default {
       const pdfPageFormat = [pdfPageWidth, pdfPageHeight];
       const totalPDFPages = Math.ceil(containerHeight / pdfPageHeight) - 1;
 
-      html2canvas(cvContainer, {
-        logging: false,
-        useCORS: true,
-        allowTaint: false,
-      })
-        .then((canvas) => {
-          const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      html2canvas()
+        .then(async ({ default: toCanvas }) => {
+          const canvas = await toCanvas(cvContainer, {
+            logging: false,
+            useCORS: true,
+            allowTaint: false,
+          });
+          const imgData = canvas.toDataURL('image/jpeg', 1);
+          const { jsPDF } = await jsPDFClass();
           const pdf = new jsPDF('p', 'pt', pdfPageFormat, true);
           pdf.addImage(imgData, 'JPEG', topLeftMargin, topLeftMargin, containerWidth, containerHeight);
-
-          for (let i = 1; i <= totalPDFPages; i++) {
+          for (let i = 1; i <= totalPDFPages; i += 1) {
             pdf.addPage(pdfPageFormat, 'p');
             pdf.addImage(
               imgData,
@@ -439,7 +439,6 @@ export default {
               containerHeight,
             );
           }
-
           return pdf.save('edouard_maleix_cv.pdf', { returnPromise: true });
         })
         .catch((e) => {

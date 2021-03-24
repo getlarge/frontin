@@ -31,7 +31,7 @@ import { forceSimulation, forceCenter, forceCollide, forceLink, forceManyBody } 
 import { hierarchy } from 'd3-hierarchy';
 import { scaleOrdinal } from 'd3-scale';
 import { select } from 'd3-selection';
-import { EventBus } from '@/services/PubSub';
+import EventBus from '@/services/EventBus';
 
 export default {
   data() {
