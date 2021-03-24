@@ -38,8 +38,8 @@ http {
   error_log /var/log/nginx/http-error.log warn;
 
   server {
-    listen $PROXY_HTTP_SERVER_PORT;
-    listen [::]:$PROXY_HTTP_SERVER_PORT ipv6only=on;
+    listen $PROXY_HTTP_SERVER_PORT http2;
+    listen [::]:$PROXY_HTTP_SERVER_PORT http2 ipv6only=on;
     server_name $PROXY_SERVER_HOST;
 
     location / {
@@ -52,8 +52,8 @@ http {
   }
 
   server {
-    listen $PROXY_HTTPS_SERVER_PORT ssl;
-    listen [::]:$PROXY_HTTPS_SERVER_PORT ssl ipv6only=on;
+    listen $PROXY_HTTPS_SERVER_PORT ssl http2;
+    listen [::]:$PROXY_HTTPS_SERVER_PORT ssl http2 ipv6only=on;
     server_name $PROXY_SERVER_HOST;
 
     # following statements will be valid after running ./helpers/letsencrypt-init.sh

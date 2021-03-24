@@ -38,8 +38,8 @@ http {
   error_log /var/log/nginx/http-error.log warn;
 
   server {
-    listen $PROXY_HTTP_SERVER_PORT;
-    listen [::]:$PROXY_HTTP_SERVER_PORT ipv6only=on;
+    listen $PROXY_HTTP_SERVER_PORT http2;
+    listen [::]:$PROXY_HTTP_SERVER_PORT http2 ipv6only=on;
     server_name $PROXY_SERVER_HOST;
 
     real_ip_header X-Forwarded-For;
