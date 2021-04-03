@@ -32,7 +32,7 @@ services:
         - VUE_APP_DOMAIN=${VUE_APP_DOMAIN}
     restart: always
     volumes:
-      - ./deploy/nginx/nignx-production.template:/etc/nginx/nginx.template
+      - ./deploy/nginx/nginx-production.template:/etc/nginx/nginx.template
       - ./deploy/certbot/www:/var/www/certbot
       - ./deploy/certbot/conf:/etc/letsencrypt
       # - ./log/nginx:/var/log/nginx
